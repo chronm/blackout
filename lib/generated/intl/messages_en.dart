@@ -21,6 +21,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "_locale" : MessageLookupByLibrary.simpleMessage("en")
+    "_locale" : MessageLookupByLibrary.simpleMessage("en"),
+    "create" : MessageLookupByLibrary.simpleMessage("Create"),
+    "createHome" : MessageLookupByLibrary.simpleMessage("What should be the name of your household?"),
+    "finish" : MessageLookupByLibrary.simpleMessage("Finish"),
+    "join" : MessageLookupByLibrary.simpleMessage("Join"),
+    "joinHome" : MessageLookupByLibrary.simpleMessage("Simply scan the QR Code on another device to join the household."),
+    "nameOfYourHousehold" : MessageLookupByLibrary.simpleMessage("Name of your household"),
+    "setYourHome" : MessageLookupByLibrary.simpleMessage("Do you want to join an existing household or create a new one?"),
+    "setYourUsername" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be used to identify you in your home."),
+    "setup" : MessageLookupByLibrary.simpleMessage("Setup"),
+    "username" : MessageLookupByLibrary.simpleMessage("Username"),
+    "welcomeMessage" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam")
   };
 }

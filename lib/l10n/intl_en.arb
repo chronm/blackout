@@ -1,3 +1,14 @@
 {
-  "_locale": "en"
+  "_locale": "en",
+  "setup": "Setup",
+  "welcomeMessage": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
+  "setYourUsername": "How do you want do be called. This will be used to identify you in your home.",
+  "setYourHome": "Do you want to join an existing household or create a new one?",
+  "joinHome": "Simply scan the QR Code on another device to join the household.",
+  "createHome": "What should be the name of your household?",
+  "nameOfYourHousehold": "Name of your household",
+  "username": "Username",
+  "create": "Create",
+  "join": "Join",
+  "finish": "Finish"
 }

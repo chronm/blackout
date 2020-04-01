@@ -6,3 +6,8 @@ class InitialMainState extends MainState {
   @override
   List<Object> get props => [];
 }
+
+class SetupAppState extends MainState {
+  @override
+  List<Object> get props => [];
+}

@@ -1,24 +1,46 @@
+import 'dart:io';
+
+import 'package:Blackout/data/database/category_table.dart';
+import 'package:Blackout/data/database/change_table.dart';
+import 'package:Blackout/data/database/database_changelog_table.dart';
+import 'package:Blackout/data/database/home_table.dart';
+import 'package:Blackout/data/database/item_table.dart';
+import 'package:Blackout/data/database/product_table.dart';
+import 'package:Blackout/data/database/sync_table.dart';
+import 'package:Blackout/data/database/user_table.dart';
+import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/change_repository.dart';
+import 'package:Blackout/data/repository/database_changelog_repository.dart';
+import 'package:Blackout/data/repository/home_repository.dart';
+import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/product_repository.dart';
+import 'package:Blackout/data/repository/sync_repository.dart';
+import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:moor/moor.dart';
+import 'package:moor_ffi/moor_ffi.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
 
-class Todos extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get title => text().withLength(min: 6, max: 32)();
-  TextColumn get content => text().named('body')();
-  IntColumn get category => integer().nullable()();
+LazyDatabase _openConnection() {
+  // the LazyDatabase util lets us find the right location for the file async.
+  return LazyDatabase(() async {
+    // put the database file, called db.sqlite here, into the documents folder
+    // for your app.
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    return VmDatabase(file);
+  });
 }
 
-// This will make moor generate a class called "Category" to represent a row in this table.
-// By default, "Categorie" would have been used because it only strips away the trailing "s"
-// in the table name.
-@DataClassName("Category")
-class Categories extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get description => text()();
-}
+@UseMoor(tables: [ItemTable, ProductTable, CategoryTable, ChangeTable, DatabaseChangelogTable, SyncTable, UserTable, HomeTable], daos: [ItemRepository, ProductRepository, CategoryRepository, ChangeRepository, DatabaseChangelogRepository, SyncRepository, UserRepository, HomeRepository])
+class Database<T> extends _$Database {
+  Database() : super(_openConnection());
 
-// this annotation tells moor to prepare a database class that uses both of the
-// tables we just defined. We'll see how to use that database class in a moment.
-@UseMoor(tables: [Todos, Categories])
-class MyDatabase {}
+  Database.forTesting() : super(VmDatabase.memory());
+
+  @override
+  int get schemaVersion => 1;
+}

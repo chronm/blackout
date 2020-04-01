@@ -1,0 +1,17 @@
+import 'package:moor/moor.dart';
+
+@DataClassName("ProductEntry")
+class ProductTable extends Table {
+  TextColumn get id => text()();
+
+  TextColumn get ean => text().nullable()();
+
+  TextColumn get categoryId => text().nullable().customConstraint('null references CategoryTable(id)')();
+
+  TextColumn get description => text()();
+
+  TextColumn get homeId => text().customConstraint('references Home(id)')();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}

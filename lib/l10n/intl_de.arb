@@ -1,0 +1,14 @@
+{
+  "_locale": "de",
+  "setup": "Einrichtung",
+  "welcomeMessage": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
+  "setYourUsername": "Wie möchtest du genannt werden? Dies dient dazu, dich in deinem Haushalt zu identifizieren.",
+  "setYourHome": "Möchtest du einem bestehenden Haushalt beitreten oder einen neuen erstellen?",
+  "joinHome": "Scanne einfach den QR Code auf einem anderen Gerät um dem Haushalt beizutreten.",
+  "createHome": "Wie soll der Name Ihres Haushalts lauten?",
+  "nameOfYourHousehold": "Name deines Haushaltes",
+  "username": "Benutzername",
+  "create": "Erstellen",
+  "join": "Beitreten",
+  "finish": "Fertig"
+}
