@@ -29,11 +29,13 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
       homeRepository.save(home);
 
       User user = User(id: Uuid().v4(), name: event.username);
-      userRepository.save(user);
+      user = await userRepository.save(user);
+      _sharedPreferenceCache.setUser(user);
     }
     if (event is SetupAndJoinEvent) {
       User user = User(id: Uuid().v4(), name: event.username);
-      userRepository.save(user);
+      user = await userRepository.save(user);
+      _sharedPreferenceCache.setUser(user);
     }
   }
 }
