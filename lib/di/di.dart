@@ -28,6 +28,7 @@ void prepareBlocs(GetIt sl) async {
 
 void registerRepositories(GetIt sl) async {
   Database database = Database();
+  sl.registerSingleton<HomeRepository>(database.homeRepository);
   sl.registerSingleton<CategoryRepository>(database.categoryRepository);
   sl.registerSingleton<ChangeRepository>(database.changeRepository);
   sl.registerSingleton<DatabaseChangelogRepository>(database.databaseChangelogRepository);

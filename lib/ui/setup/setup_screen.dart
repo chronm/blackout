@@ -5,11 +5,9 @@ import 'package:Blackout/widget/blackout_header/blackout_header.dart';
 import 'package:Blackout/widget/qr_view_widget/qr_view_widget.dart';
 import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class SetupScreen extends StatefulWidget {
   final SetupBloc _bloc = sl<SetupBloc>();
@@ -94,12 +92,12 @@ class _SetupScreenState extends State<SetupScreen> {
               Radio<SetupHomeAction>(
                 value: SetupHomeAction.join,
                 groupValue: _action,
-                onChanged: (value) {
-                  setState(() {
-                    _action = value;
-                    pageCount = 4;
-                  });
-                },
+//                onChanged: (value) {
+//                  setState(() {
+//                    _action = value;
+//                    pageCount = 4;
+//                  });
+//                },
               ),
               Text(S.of(context).join),
             ],
@@ -140,11 +138,10 @@ class _SetupScreenState extends State<SetupScreen> {
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 5,
-              child: QRViewWidget(
-                callback: (value) => widget._bloc.add(SetupAndJoinEvent(_userController.text, value)),
-              )
-            ),
+                flex: 5,
+                child: QRViewWidget(
+                  callback: (value) => widget._bloc.add(SetupAndJoinEvent(_userController.text, value)),
+                )),
           ],
         ),
       ),
