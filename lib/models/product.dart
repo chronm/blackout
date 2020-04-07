@@ -1,10 +1,11 @@
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/displayable.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
 import 'package:moor/moor.dart';
 
-class Product {
+class Product extends Displayable {
   String id;
   String ean;
   Category category;
@@ -36,4 +37,7 @@ class Product {
       homeId: Value(home.id),
     );
   }
+
+  @override
+  String get title => description;
 }

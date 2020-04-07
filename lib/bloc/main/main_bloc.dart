@@ -26,9 +26,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Stream<MainState> initializeApp(InitializeAppEvent event) async* {
     User user = await _sharedPreferenceCache.getUser();
     if (user == null) {
-      yield SetupAppState();
+      yield GoToSetup();
     } else {
-      _homeBloc.add(LoadOwned());
+      _homeBloc.add(LoadAll());
+      yield GoToHome();
     }
   }
 }

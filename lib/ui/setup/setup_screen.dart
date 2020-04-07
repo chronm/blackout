@@ -1,12 +1,14 @@
 import 'package:Blackout/bloc/setup/setup_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
+import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/blackout_header/blackout_header.dart';
 import 'package:Blackout/widget/qr_view_widget/qr_view_widget.dart';
 import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class SetupScreen extends StatefulWidget {
@@ -176,55 +178,63 @@ class _SetupScreenState extends State<SetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ScrollableContainer(
-        child: Column(
-          children: <Widget>[
-            RelativeHeightContainer(factor: 0.1),
-            BlackoutHeader(),
-            RelativeHeightContainer(factor: 0.1),
-            Flexible(
-              child: Swiper(
-                itemBuilder: (context, index) {
-                  List<Widget> body = <Widget>[];
-                  switch (index) {
-                    case 0:
-                      body = _buildWelcomeWidget();
-                      break;
-                    case 1:
-                      body = _buildSetupUserWidget();
-                      break;
-                    case 2:
-                      body = _buildSetupHomeWidget();
-                      break;
-                    case 3:
-                      if (_action == SetupHomeAction.create) {
-                        body = _buildNewHomePage();
-                      } else if (_action == SetupHomeAction.join) {
-                        body = _buildJoinHomePage();
-                      }
-                      break;
-                  }
+      body: BlocListener<SetupBloc, SetupState>(
+        bloc: widget._bloc,
+        listener: (context, state) {
+          if (state is GoToHome) {
+            Navigator.pushReplacement(context, RouteBuilder.build(Routes.home));
+          }
+        },
+        child: ScrollableContainer(
+          child: Column(
+            children: <Widget>[
+              RelativeHeightContainer(factor: 0.1),
+              BlackoutHeader(),
+              RelativeHeightContainer(factor: 0.1),
+              Flexible(
+                child: Swiper(
+                  itemBuilder: (context, index) {
+                    List<Widget> body = <Widget>[];
+                    switch (index) {
+                      case 0:
+                        body = _buildWelcomeWidget();
+                        break;
+                      case 1:
+                        body = _buildSetupUserWidget();
+                        break;
+                      case 2:
+                        body = _buildSetupHomeWidget();
+                        break;
+                      case 3:
+                        if (_action == SetupHomeAction.create) {
+                          body = _buildNewHomePage();
+                        } else if (_action == SetupHomeAction.join) {
+                          body = _buildJoinHomePage();
+                        }
+                        break;
+                    }
 
-                  return Column(
-                    children: body,
-                  );
-                },
-                itemCount: pageCount,
-                pagination: SwiperPagination(
-                  builder: const DotSwiperPaginationBuilder(
-                    size: 5.0,
-                    activeColor: Colors.redAccent,
-                    color: Colors.white30,
+                    return Column(
+                      children: body,
+                    );
+                  },
+                  itemCount: pageCount,
+                  pagination: SwiperPagination(
+                    builder: const DotSwiperPaginationBuilder(
+                      size: 5.0,
+                      activeColor: Colors.redAccent,
+                      color: Colors.white30,
+                    ),
                   ),
+                  control: SwiperControl(
+                    disableColor: Colors.white30,
+                    color: Colors.redAccent,
+                  ),
+                  loop: false,
                 ),
-                control: SwiperControl(
-                  disableColor: Colors.white30,
-                  color: Colors.redAccent,
-                ),
-                loop: false,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

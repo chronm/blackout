@@ -7,7 +7,12 @@ class InitialMainState extends MainState {
   List<Object> get props => [];
 }
 
-class SetupAppState extends MainState {
+class GoToSetup extends MainState {
+  @override
+  List<Object> get props => [];
+}
+
+class GoToHome extends MainState {
   @override
   List<Object> get props => [];
 }

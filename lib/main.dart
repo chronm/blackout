@@ -70,7 +70,7 @@ class _AppState extends State<App> {
     return BlocListener<MainBloc, MainState>(
       bloc: widget._bloc,
       listener: (context, state) {
-        if (state is SetupAppState) {
+        if (state is GoToSetup) {
           Navigator.pushReplacement(context, RouteBuilder.build(Routes.setup));
         }
       },
