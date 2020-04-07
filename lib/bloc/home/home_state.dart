@@ -6,3 +6,17 @@ class HomeInitialState extends HomeState {
   @override
   List<Object> get props => [];
 }
+
+class Loading extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class LoadedAll extends HomeState {
+  final List<Displayable> cards;
+
+  LoadedAll(this.cards);
+
+  @override
+  List<Object> get props => [cards];
+}

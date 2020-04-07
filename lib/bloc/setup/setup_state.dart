@@ -6,3 +6,8 @@ class InitialSetupState extends SetupState {
   @override
   List<Object> get props => [];
 }
+
+class GoToHome extends SetupState {
+  @override
+  List<Object> get props => [];
+}

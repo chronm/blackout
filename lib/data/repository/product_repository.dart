@@ -42,6 +42,17 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
     return product;
   }
 
+  Future<List<Product>> findAllByHomeIdAndCategoryIsNull(String homeId, {bool recurseItems = true}) async {
+    List<ProductEntry> entries = await (select(productTable)..where((p) => p.homeId.equals(homeId))..where((p) => p.categoryId.equals(null))).get();
+
+    List<Product> products = [];
+    for (ProductEntry entry in entries) {
+      products.add(await createProduct(entry, recurseCategory: false, recurseItems: recurseItems));
+    }
+
+    return products;
+  }
+
   Future<List<Product>> findAllByHomeId(String homeId, {bool recurseItems = true}) async {
     List<ProductEntry> entries = await (select(productTable)..where((p) => p.homeId.equals(homeId))).get();
 

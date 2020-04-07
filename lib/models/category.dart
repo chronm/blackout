@@ -1,11 +1,12 @@
 import 'package:Blackout/data/database/database.dart';
+import 'package:Blackout/models/displayable.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Category {
+class Category extends Displayable {
   String id;
   String name;
   String pluralName;
@@ -37,4 +38,7 @@ class Category {
       homeId: Value(home.id),
     );
   }
+
+  @override
+  String get title => amount > 1 ? pluralName : name;
 }
