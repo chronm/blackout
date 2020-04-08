@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       subtitle: Text(
                         S.of(context).available(displayable.scaledAmount),
                       ),
-                      trailing: Row(
+                      trailing: Column(
                         children: trailing,
                         mainAxisSize: MainAxisSize.min,
                       ),
