@@ -80,8 +80,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is LoadAll) {
       yield Loading();
       Home home = await sharedPreferenceCache.getHome();
-      await createCategory(home);
-      await createProduct(home);
+//      await createCategory(home);
+//      await createProduct(home);
       List<Category> categories = await categoryRepository.findAllByHomeId(home.id);
       List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(home.id);
       List<Displayable> cards = <Displayable>[];
