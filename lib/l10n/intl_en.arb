@@ -10,5 +10,6 @@
   "username": "Username",
   "create": "Create",
   "join": "Join",
-  "finish": "Finish"
+  "finish": "Finish",
+  "available": "Available: {amount}"
 }

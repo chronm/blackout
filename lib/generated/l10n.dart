@@ -152,6 +152,15 @@ class S {
       args: [],
     );
   }
+
+  String available(Object amount) {
+    return Intl.message(
+      'Available: $amount',
+      name: 'available',
+      desc: '',
+      args: [amount],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

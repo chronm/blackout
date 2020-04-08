@@ -1,24 +1,35 @@
 import 'package:Blackout/bloc/home/home_bloc.dart';
-import 'package:Blackout/main.dart';
+import 'package:Blackout/bloc/main/main_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef void SearchBarCallback(String search);
+typedef String TitleResolver(dynamic state);
 
-class LoadingSearchBar extends StatefulWidget implements PreferredSizeWidget {
-  final HomeBloc _bloc = sl<HomeBloc>();
+class LoadingSearchBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implements PreferredSizeWidget {
+  final B bloc;
   final SearchBarCallback callback;
+  final String title;
+  final TitleResolver titleResolver;
+  final VoidCallback titleCallback;
 
-  LoadingSearchBar({Key key, @required this.callback}) : super(key: key);
+  LoadingSearchBar({
+    Key key,
+    @required this.callback,
+    @required this.bloc,
+    this.title,
+    this.titleResolver,
+    this.titleCallback,
+  }) : super(key: key);
 
   @override
-  _LoadingSearchBarState createState() => _LoadingSearchBarState();
+  _LoadingSearchBarState createState() => _LoadingSearchBarState<B, S>();
 
   @override
   Size get preferredSize => Size.fromHeight(56.0);
 }
 
-class _LoadingSearchBarState extends State<LoadingSearchBar> {
+class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingSearchBar> {
   TextEditingController _controller = TextEditingController();
   bool searching = false;
 
@@ -31,8 +42,16 @@ class _LoadingSearchBarState extends State<LoadingSearchBar> {
         onChanged: widget.callback,
       );
 
-  Widget _title() => Text(
-        "Blackout",
+  Widget _title(S state) => InkWell(
+        onTap: widget.titleCallback,
+        child: SizedBox(
+          height: 56,
+          child: Center(
+            child: Text(
+              widget.title ?? widget.titleResolver(state),
+            ),
+          ),
+        ),
       );
 
   Widget _searchButton() => IconButton(
@@ -65,14 +84,19 @@ class _LoadingSearchBarState extends State<LoadingSearchBar> {
   Widget build(BuildContext context) {
     return AppBar(
       leading: searching ? _backButton() : null,
-      title: searching ? _searchingTextField() : _title(),
+      title: BlocBuilder<B, S>(
+        bloc: widget.bloc,
+        builder: (context, state) {
+          return searching ? _searchingTextField() : _title(state);
+        },
+      ),
       centerTitle: true,
       bottom: PreferredSize(
         preferredSize: Size(double.infinity, 5.0),
-        child: BlocBuilder<HomeBloc, HomeState>(
-          bloc: widget._bloc,
+        child: BlocBuilder<B, S>(
+          bloc: widget.bloc,
           builder: (context, state) {
-            if (state is Loading) {
+            if (state is LoadingState) {
               return LinearProgressIndicator();
             }
             if (state is LoadedAll) {

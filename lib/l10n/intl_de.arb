@@ -10,5 +10,6 @@
   "username": "Benutzername",
   "create": "Erstellen",
   "join": "Beitreten",
-  "finish": "Fertig"
+  "finish": "Fertig",
+  "available": "Verfügbar: {amount}"
 }

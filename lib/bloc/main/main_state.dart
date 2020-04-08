@@ -16,3 +16,5 @@ class GoToHome extends MainState {
   @override
   List<Object> get props => [];
 }
+
+class LoadingState {}

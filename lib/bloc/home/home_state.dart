@@ -7,7 +7,7 @@ class HomeInitialState extends HomeState {
   List<Object> get props => [];
 }
 
-class Loading extends HomeState {
+class Loading extends HomeState implements LoadingState {
   @override
   List<Object> get props => [];
 }

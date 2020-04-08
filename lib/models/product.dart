@@ -3,6 +3,7 @@ import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/displayable.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/unit.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -15,9 +16,41 @@ class Product extends Displayable {
   Home home;
   double refillLimit;
 
+  Unit unit;
+
   double get amount => items.map((i) => i.amount).reduce((a, b) => a + b);
 
-  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, @required this.home});
+  String get scaledAmount {
+    if (category != null) {
+      return category.unit.baseUnit.toScientific(amount).toString();
+    }
+
+    return unit.baseUnit.toScientific(amount).toString();
+  }
+
+  @override
+  String get title => description;
+
+  @override
+  bool get expiredOrNotification {
+    bool isExpired = false;
+    if (category != null) {
+      isExpired = items.where((item) => item.expirationDate != null).any((item) => item.expirationDate.subtract(category.warnInterval) < LocalDateTime.now());
+    }
+
+    return isExpired || items.where((item) => item.notificationDate != null).any((item) => item.notificationDate <= LocalDateTime.now());
+  }
+
+  @override
+  bool get tooFewAvailable {
+    if (category == null && refillLimit != null) {
+      return amount <= refillLimit;
+    }
+
+    return false;
+  }
+
+  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, this.unit, @required this.home});
 
   factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items}) {
     return Product(
@@ -40,18 +73,5 @@ class Product extends Displayable {
       categoryId: category != null ? Value(category.id) : Value(null),
       homeId: Value(home.id),
     );
-  }
-
-  @override
-  String get title => description;
-
-  @override
-  bool get expiredOrNotification {
-    return items.where((item) => item.notificationDate != null).any((item) => item.notificationDate <= LocalDateTime.now());
-  }
-
-  @override
-  bool get tooFewAvailable {
-    return amount <= refillLimit;
   }
 }
