@@ -13,16 +13,18 @@ class Category extends Displayable {
   Period warnInterval;
   List<Product> products = <Product>[];
   Home home;
+  double refillLimit;
 
   double get amount => products.map((p) => p.amount).reduce((a, b) => a + b);
 
-  Category({this.id, @required this.name, this.pluralName, this.warnInterval, List<Product> products = const [], @required this.home}) : products = products;
+  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, List<Product> products = const [], @required this.home}) : products = products;
 
   factory Category.fromEntry(CategoryEntry categoryEntry, Home home, {List<Product> products}) {
     return Category(
       id: categoryEntry.id,
       name: categoryEntry.name,
       pluralName: categoryEntry.pluralName,
+      refillLimit: categoryEntry.refillLimit,
       warnInterval: periodFromISO8601String(categoryEntry.warnInterval),
       products: products,
       home: home,
@@ -34,6 +36,7 @@ class Category extends Displayable {
       id: Value(id),
       name: Value(name),
       pluralName: Value(pluralName),
+      refillLimit: Value(refillLimit),
       warnInterval: Value(warnInterval.toString()),
       homeId: Value(home.id),
     );
@@ -41,4 +44,15 @@ class Category extends Displayable {
 
   @override
   String get title => amount > 1 ? pluralName : name;
+
+  @override
+  bool get expiredOrNotification {
+    bool isExpired = products.map((product) => product.items).expand((item) => item).where((item) => item.expirationDate != null).any((item) => item.expirationDate.subtract(warnInterval) < LocalDateTime.now());
+    return isExpired || products.any((product) => product.expiredOrNotification);
+  }
+
+  @override
+  bool get tooFewAvailable {
+    return (amount < refillLimit) || products.any((product) => product.tooFewAvailable);
+  }
 }

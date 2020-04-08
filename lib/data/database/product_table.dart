@@ -12,6 +12,8 @@ class ProductTable extends Table {
 
   TextColumn get homeId => text().customConstraint('references Home(id)')();
 
+  RealColumn get refillLimit => real().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
