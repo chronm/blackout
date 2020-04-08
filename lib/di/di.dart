@@ -1,3 +1,4 @@
+import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart' show MainBloc;
 import 'package:Blackout/bloc/setup/setup_bloc.dart';
@@ -21,7 +22,8 @@ void prepareSharedPreferences(GetIt sl) async {
 }
 
 void prepareBlocs(GetIt sl) async {
-  sl.registerSingleton<HomeBloc>(HomeBloc(sl<SharedPreferenceCache>(), sl<CategoryRepository>(), sl<ProductRepository>()));
+  sl.registerSingleton<CategoryBloc>(CategoryBloc());
+  sl.registerSingleton<HomeBloc>(HomeBloc(sl<SharedPreferenceCache>(), sl<CategoryRepository>(), sl<ProductRepository>(), sl<CategoryBloc>()));
   sl.registerSingleton<SetupBloc>(SetupBloc(sl<SharedPreferenceCache>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>()));
   sl.registerSingleton<MainBloc>(MainBloc(sl<SharedPreferenceCache>(), sl<HomeBloc>()));
 }

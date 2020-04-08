@@ -1,7 +1,9 @@
 import 'package:Blackout/bloc/home/home_bloc.dart';
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
+import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/displayable.dart';
-import 'package:Blackout/util/double_extension.dart';
+import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/loading_search_bar/loading_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,16 +16,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String searchString;
+  String searchString = "";
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: LoadingSearchBar(
+        appBar: LoadingSearchBar<HomeBloc, HomeState>(
+          title: "Blackout",
+          bloc: widget._bloc,
           callback: (search) {
             setState(() {
-              searchString = search;
+              searchString = search.toLowerCase();
             });
           },
         ),
@@ -59,12 +63,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         displayable.title,
                       ),
                       subtitle: Text(
-                        displayable.amount.format(),
+                        S.of(context).available(displayable.scaledAmount),
                       ),
                       trailing: Row(
                         children: trailing,
                         mainAxisSize: MainAxisSize.min,
                       ),
+                      onTap: () {
+                        if (displayable is Category) {
+                          widget._bloc.add(TapOnCategory(displayable));
+                          Navigator.push(context, RouteBuilder.build(Routes.categoryOverview));
+                        }
+                      },
                     ),
                   );
                 },
