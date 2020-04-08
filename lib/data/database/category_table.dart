@@ -6,7 +6,7 @@ class CategoryTable extends Table {
 
   TextColumn get name => text().customConstraint('unique')();
 
-  TextColumn get pluralName => text().nullable()();
+  TextColumn get pluralName => text().nullable().customConstraint('unique')();
 
   TextColumn get warnInterval => text().nullable()();
 
