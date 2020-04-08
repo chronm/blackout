@@ -1,11 +1,17 @@
 import 'package:Blackout/util/double_extension.dart';
 
-class Unit {
-  BaseUnit baseUnit;
-  Unit(this.baseUnit);
+BaseUnit baseUnitfromUnit(Unit unit) {
+  if (unit == Unit.weight) {
+    return Weight.g;
+  }
+  if (unit == Unit.unitless) {
+    return Unitless();
+  }
+}
 
-  static Unit weight = Unit(Weight.g);
-  static Unit unitless = Unit(Unitless());
+enum Unit {
+  weight,
+  unitless,
 }
 
 class ScaledAmount {
@@ -21,11 +27,15 @@ class ScaledAmount {
 
 abstract class BaseUnit {
   String get symbol;
+  Unit get unit;
+
   ScaledAmount toScientific(double amount);
 }
 
 class Unitless extends BaseUnit {
   String symbol = "";
+  Unit get unit => Unit.unitless;
+
   Unitless();
 
   ScaledAmount toScientific(double amount) {
@@ -37,6 +47,7 @@ class Weight extends BaseUnit {
   double factor;
   Weight previous;
   String symbol;
+  Unit get unit => Unit.weight;
 
   Weight(this.factor, this.previous, this.symbol);
 

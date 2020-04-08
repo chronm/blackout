@@ -16,11 +16,9 @@ class Category extends Displayable {
   Home home;
   double refillLimit;
 
-  Unit unit;
-
   double get amount => products.map((p) => p.amount).reduce((a, b) => a + b);
 
-  String get scaledAmount => unit.baseUnit.toScientific(amount).toString();
+  String get scaledAmount => unit.toScientific(amount).toString();
 
   @override
   String get title => amount > 1 ? pluralName : name;
@@ -35,7 +33,9 @@ class Category extends Displayable {
     return (amount < refillLimit) || products.any((product) => product.tooFewAvailable);
   }
 
-  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products = const [], @required this.home}) : products = products;
+  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required Unit unit, List<Product> products = const [], @required this.home})
+      : products = products,
+        super(unit);
 
   factory Category.fromEntry(CategoryEntry categoryEntry, Home home, {List<Product> products}) {
     return Category(
@@ -43,6 +43,7 @@ class Category extends Displayable {
       name: categoryEntry.name,
       pluralName: categoryEntry.pluralName,
       refillLimit: categoryEntry.refillLimit,
+      unit: Unit.values[categoryEntry.unit],
       warnInterval: periodFromISO8601String(categoryEntry.warnInterval),
       products: products,
       home: home,
@@ -57,6 +58,7 @@ class Category extends Displayable {
       refillLimit: Value(refillLimit),
       warnInterval: Value(warnInterval.toString()),
       homeId: Value(home.id),
+      unit: Value(Unit.values.indexOf(unit.unit)),
     );
   }
 }

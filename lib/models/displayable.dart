@@ -12,8 +12,10 @@ abstract class Displayable {
   double get amount;
   bool get expiredOrNotification;
   bool get tooFewAvailable;
-  Unit get unit;
+  BaseUnit unit;
   String get scaledAmount;
 
   DisplayableState get state => DisplayableState(expiredOrNotification, tooFewAvailable);
+
+  Displayable(Unit unit) : unit = baseUnitfromUnit(unit);
 }

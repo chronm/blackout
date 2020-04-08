@@ -14,6 +14,8 @@ class ProductTable extends Table {
 
   RealColumn get refillLimit => real().nullable()();
 
+  IntColumn get unit => integer().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

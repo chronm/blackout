@@ -16,16 +16,14 @@ class Product extends Displayable {
   Home home;
   double refillLimit;
 
-  Unit unit;
-
   double get amount => items.map((i) => i.amount).reduce((a, b) => a + b);
 
   String get scaledAmount {
     if (category != null) {
-      return category.unit.baseUnit.toScientific(amount).toString();
+      return category.unit.toScientific(amount).toString();
     }
 
-    return unit.baseUnit.toScientific(amount).toString();
+    return unit.toScientific(amount).toString();
   }
 
   @override
@@ -50,7 +48,7 @@ class Product extends Displayable {
     return false;
   }
 
-  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, this.unit, @required this.home});
+  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, Unit unit, @required this.home}) : super(unit);
 
   factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items}) {
     return Product(
@@ -58,6 +56,7 @@ class Product extends Displayable {
       ean: entry.ean,
       description: entry.description,
       refillLimit: entry.refillLimit,
+      unit: entry.unit == null ? null : Unit.values[entry.unit],
       category: category,
       items: items,
       home: home,
@@ -70,6 +69,7 @@ class Product extends Displayable {
       ean: Value(ean),
       description: Value(description),
       refillLimit: Value(refillLimit),
+      unit: unit != null ? Value(Unit.values.indexOf(unit.unit)) : Value.absent(),
       categoryId: category != null ? Value(category.id) : Value(null),
       homeId: Value(home.id),
     );

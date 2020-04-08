@@ -1,6 +1,8 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/change_repository.dart';
+import 'package:Blackout/data/repository/item_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/sharedpref/shared_preference_cache.dart';
 import 'package:Blackout/models/category.dart';
@@ -22,15 +24,17 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final CategoryRepository categoryRepository;
   final ProductRepository productRepository;
+  final ItemRepository itemRepository;
+  final ChangeRepository changeRepository;
   final SharedPreferenceCache sharedPreferenceCache;
   final CategoryBloc categoryBloc;
 
-  HomeBloc(this.sharedPreferenceCache, this.categoryRepository, this.productRepository, this.categoryBloc);
+  HomeBloc(this.sharedPreferenceCache, this.categoryRepository, this.productRepository, this.categoryBloc, this.itemRepository, this.changeRepository);
 
   @override
   HomeState get initialState => HomeInitialState();
 
-  Future<Product> createProduct(Home home) async {
+  Future<void> createProduct(Home home) async {
     User user = await sharedPreferenceCache.getUser();
     Product product = Product(id: Uuid().v4(), description: "Marmorkuchen", unit: Unit.weight, home: home, refillLimit: 0.8);
     Item item = Item(id: Uuid().v4(), notificationDate: LocalDateTime.now().subtractMonths(1), product: product, home: home);
@@ -39,16 +43,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     product.items = [item];
     item.changes = [change, change2];
 
-    return product;
+    await productRepository.save(product);
+    await itemRepository.save(item);
+    await changeRepository.save(change);
+    await changeRepository.save(change2);
   }
 
-  Future<Category> createCategory(Home home) async {
+  Future<void> createCategory(Home home) async {
     User user = await sharedPreferenceCache.getUser();
     Category category = Category(id: Uuid().v4(), name: "Ei", pluralName: "Eier", refillLimit: 6, warnInterval: Period(days: 5), unit: Unit.unitless, home: home);
     Product product = Product(id: Uuid().v4(), ean: "lalelu", description: "Freilandeier 10 Stück M", category: category, home: home);
     Product product2 = Product(id: Uuid().v4(), ean: "lalelu", description: "Freilandeier 10 Stück L", category: category, home: home);
     Item item = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addDays(1), product: product, home: home);
-    Item item2 = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addDays(20), product: product, home: home);
+    Item item2 = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addDays(20), product: product2, home: home);
     Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item);
     Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -5, item: item);
     Change change3 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item2);
@@ -58,7 +65,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     item.changes = [change, change2];
     item2.changes = [change3];
 
-    return category;
+    await categoryRepository.save(category);
+    await productRepository.save(product);
+    await productRepository.save(product2);
+    await itemRepository.save(item);
+    await itemRepository.save(item2);
+    await changeRepository.save(change);
+    await changeRepository.save(change2);
+    await changeRepository.save(change3);
   }
 
   @override
@@ -66,10 +80,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is LoadAll) {
       yield Loading();
       Home home = await sharedPreferenceCache.getHome();
+      await createCategory(home);
+      await createProduct(home);
       List<Category> categories = await categoryRepository.findAllByHomeId(home.id);
       List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(home.id);
-      categories = [await createCategory(home)];
-      products = [await createProduct(home)];
       List<Displayable> cards = <Displayable>[];
       cards.addAll(products);
       cards.addAll(categories);
