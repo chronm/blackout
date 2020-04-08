@@ -310,18 +310,21 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
   final String description;
   final String homeId;
   final double refillLimit;
+  final int unit;
   ProductEntry(
       {@required this.id,
       this.ean,
       this.categoryId,
       @required this.description,
       @required this.homeId,
-      this.refillLimit});
+      this.refillLimit,
+      this.unit});
   factory ProductEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final doubleType = db.typeSystem.forDartType<double>();
+    final intType = db.typeSystem.forDartType<int>();
     return ProductEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       ean: stringType.mapFromDatabaseResponse(data['${effectivePrefix}ean']),
@@ -333,6 +336,7 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
       refillLimit: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
+      unit: intType.mapFromDatabaseResponse(data['${effectivePrefix}unit']),
     );
   }
   factory ProductEntry.fromJson(Map<String, dynamic> json,
@@ -345,6 +349,7 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
       description: serializer.fromJson<String>(json['description']),
       homeId: serializer.fromJson<String>(json['homeId']),
       refillLimit: serializer.fromJson<double>(json['refillLimit']),
+      unit: serializer.fromJson<int>(json['unit']),
     );
   }
   @override
@@ -357,6 +362,7 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
       'description': serializer.toJson<String>(description),
       'homeId': serializer.toJson<String>(homeId),
       'refillLimit': serializer.toJson<double>(refillLimit),
+      'unit': serializer.toJson<int>(unit),
     };
   }
 
@@ -376,6 +382,7 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
       refillLimit: refillLimit == null && nullToAbsent
           ? const Value.absent()
           : Value(refillLimit),
+      unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
     );
   }
 
@@ -385,7 +392,8 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
           String categoryId,
           String description,
           String homeId,
-          double refillLimit}) =>
+          double refillLimit,
+          int unit}) =>
       ProductEntry(
         id: id ?? this.id,
         ean: ean ?? this.ean,
@@ -393,6 +401,7 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
         description: description ?? this.description,
         homeId: homeId ?? this.homeId,
         refillLimit: refillLimit ?? this.refillLimit,
+        unit: unit ?? this.unit,
       );
   @override
   String toString() {
@@ -402,7 +411,8 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
           ..write('categoryId: $categoryId, ')
           ..write('description: $description, ')
           ..write('homeId: $homeId, ')
-          ..write('refillLimit: $refillLimit')
+          ..write('refillLimit: $refillLimit, ')
+          ..write('unit: $unit')
           ..write(')'))
         .toString();
   }
@@ -414,8 +424,10 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
           ean.hashCode,
           $mrjc(
               categoryId.hashCode,
-              $mrjc(description.hashCode,
-                  $mrjc(homeId.hashCode, refillLimit.hashCode))))));
+              $mrjc(
+                  description.hashCode,
+                  $mrjc(homeId.hashCode,
+                      $mrjc(refillLimit.hashCode, unit.hashCode)))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -425,7 +437,8 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
           other.categoryId == this.categoryId &&
           other.description == this.description &&
           other.homeId == this.homeId &&
-          other.refillLimit == this.refillLimit);
+          other.refillLimit == this.refillLimit &&
+          other.unit == this.unit);
 }
 
 class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
@@ -435,6 +448,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
   final Value<String> description;
   final Value<String> homeId;
   final Value<double> refillLimit;
+  final Value<int> unit;
   const ProductTableCompanion({
     this.id = const Value.absent(),
     this.ean = const Value.absent(),
@@ -442,6 +456,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
     this.description = const Value.absent(),
     this.homeId = const Value.absent(),
     this.refillLimit = const Value.absent(),
+    this.unit = const Value.absent(),
   });
   ProductTableCompanion.insert({
     @required String id,
@@ -450,6 +465,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
     @required String description,
     @required String homeId,
     this.refillLimit = const Value.absent(),
+    this.unit = const Value.absent(),
   })  : id = Value(id),
         description = Value(description),
         homeId = Value(homeId);
@@ -459,7 +475,8 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
       Value<String> categoryId,
       Value<String> description,
       Value<String> homeId,
-      Value<double> refillLimit}) {
+      Value<double> refillLimit,
+      Value<int> unit}) {
     return ProductTableCompanion(
       id: id ?? this.id,
       ean: ean ?? this.ean,
@@ -467,6 +484,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
       description: description ?? this.description,
       homeId: homeId ?? this.homeId,
       refillLimit: refillLimit ?? this.refillLimit,
+      unit: unit ?? this.unit,
     );
   }
 }
@@ -546,9 +564,21 @@ class $ProductTableTable extends ProductTable
     );
   }
 
+  final VerificationMeta _unitMeta = const VerificationMeta('unit');
+  GeneratedIntColumn _unit;
+  @override
+  GeneratedIntColumn get unit => _unit ??= _constructUnit();
+  GeneratedIntColumn _constructUnit() {
+    return GeneratedIntColumn(
+      'unit',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns =>
-      [id, ean, categoryId, description, homeId, refillLimit];
+      [id, ean, categoryId, description, homeId, refillLimit, unit];
   @override
   $ProductTableTable get asDslTable => this;
   @override
@@ -587,6 +617,10 @@ class $ProductTableTable extends ProductTable
       context.handle(_refillLimitMeta,
           refillLimit.isAcceptableValue(d.refillLimit.value, _refillLimitMeta));
     }
+    if (d.unit.present) {
+      context.handle(
+          _unitMeta, unit.isAcceptableValue(d.unit.value, _unitMeta));
+    }
     return context;
   }
 
@@ -619,6 +653,9 @@ class $ProductTableTable extends ProductTable
     if (d.refillLimit.present) {
       map['refill_limit'] = Variable<double, RealType>(d.refillLimit.value);
     }
+    if (d.unit.present) {
+      map['unit'] = Variable<int, IntType>(d.unit.value);
+    }
     return map;
   }
 
@@ -635,19 +672,22 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
   final String warnInterval;
   final String homeId;
   final double refillLimit;
+  final int unit;
   CategoryEntry(
       {@required this.id,
       @required this.name,
       this.pluralName,
       this.warnInterval,
       @required this.homeId,
-      this.refillLimit});
+      this.refillLimit,
+      @required this.unit});
   factory CategoryEntry.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final doubleType = db.typeSystem.forDartType<double>();
+    final intType = db.typeSystem.forDartType<int>();
     return CategoryEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
@@ -659,6 +699,7 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
       refillLimit: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
+      unit: intType.mapFromDatabaseResponse(data['${effectivePrefix}unit']),
     );
   }
   factory CategoryEntry.fromJson(Map<String, dynamic> json,
@@ -671,6 +712,7 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
       warnInterval: serializer.fromJson<String>(json['warnInterval']),
       homeId: serializer.fromJson<String>(json['homeId']),
       refillLimit: serializer.fromJson<double>(json['refillLimit']),
+      unit: serializer.fromJson<int>(json['unit']),
     );
   }
   @override
@@ -683,6 +725,7 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
       'warnInterval': serializer.toJson<String>(warnInterval),
       'homeId': serializer.toJson<String>(homeId),
       'refillLimit': serializer.toJson<double>(refillLimit),
+      'unit': serializer.toJson<int>(unit),
     };
   }
 
@@ -702,6 +745,7 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
       refillLimit: refillLimit == null && nullToAbsent
           ? const Value.absent()
           : Value(refillLimit),
+      unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
     );
   }
 
@@ -711,7 +755,8 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
           String pluralName,
           String warnInterval,
           String homeId,
-          double refillLimit}) =>
+          double refillLimit,
+          int unit}) =>
       CategoryEntry(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -719,6 +764,7 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
         warnInterval: warnInterval ?? this.warnInterval,
         homeId: homeId ?? this.homeId,
         refillLimit: refillLimit ?? this.refillLimit,
+        unit: unit ?? this.unit,
       );
   @override
   String toString() {
@@ -728,7 +774,8 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
           ..write('pluralName: $pluralName, ')
           ..write('warnInterval: $warnInterval, ')
           ..write('homeId: $homeId, ')
-          ..write('refillLimit: $refillLimit')
+          ..write('refillLimit: $refillLimit, ')
+          ..write('unit: $unit')
           ..write(')'))
         .toString();
   }
@@ -740,8 +787,10 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
           name.hashCode,
           $mrjc(
               pluralName.hashCode,
-              $mrjc(warnInterval.hashCode,
-                  $mrjc(homeId.hashCode, refillLimit.hashCode))))));
+              $mrjc(
+                  warnInterval.hashCode,
+                  $mrjc(homeId.hashCode,
+                      $mrjc(refillLimit.hashCode, unit.hashCode)))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -751,7 +800,8 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
           other.pluralName == this.pluralName &&
           other.warnInterval == this.warnInterval &&
           other.homeId == this.homeId &&
-          other.refillLimit == this.refillLimit);
+          other.refillLimit == this.refillLimit &&
+          other.unit == this.unit);
 }
 
 class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
@@ -761,6 +811,7 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
   final Value<String> warnInterval;
   final Value<String> homeId;
   final Value<double> refillLimit;
+  final Value<int> unit;
   const CategoryTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -768,6 +819,7 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
     this.warnInterval = const Value.absent(),
     this.homeId = const Value.absent(),
     this.refillLimit = const Value.absent(),
+    this.unit = const Value.absent(),
   });
   CategoryTableCompanion.insert({
     @required String id,
@@ -776,16 +828,19 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
     this.warnInterval = const Value.absent(),
     @required String homeId,
     this.refillLimit = const Value.absent(),
+    @required int unit,
   })  : id = Value(id),
         name = Value(name),
-        homeId = Value(homeId);
+        homeId = Value(homeId),
+        unit = Value(unit);
   CategoryTableCompanion copyWith(
       {Value<String> id,
       Value<String> name,
       Value<String> pluralName,
       Value<String> warnInterval,
       Value<String> homeId,
-      Value<double> refillLimit}) {
+      Value<double> refillLimit,
+      Value<int> unit}) {
     return CategoryTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -793,6 +848,7 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
       warnInterval: warnInterval ?? this.warnInterval,
       homeId: homeId ?? this.homeId,
       refillLimit: refillLimit ?? this.refillLimit,
+      unit: unit ?? this.unit,
     );
   }
 }
@@ -872,9 +928,21 @@ class $CategoryTableTable extends CategoryTable
     );
   }
 
+  final VerificationMeta _unitMeta = const VerificationMeta('unit');
+  GeneratedIntColumn _unit;
+  @override
+  GeneratedIntColumn get unit => _unit ??= _constructUnit();
+  GeneratedIntColumn _constructUnit() {
+    return GeneratedIntColumn(
+      'unit',
+      $tableName,
+      false,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, pluralName, warnInterval, homeId, refillLimit];
+      [id, name, pluralName, warnInterval, homeId, refillLimit, unit];
   @override
   $CategoryTableTable get asDslTable => this;
   @override
@@ -916,6 +984,12 @@ class $CategoryTableTable extends CategoryTable
       context.handle(_refillLimitMeta,
           refillLimit.isAcceptableValue(d.refillLimit.value, _refillLimitMeta));
     }
+    if (d.unit.present) {
+      context.handle(
+          _unitMeta, unit.isAcceptableValue(d.unit.value, _unitMeta));
+    } else if (isInserting) {
+      context.missing(_unitMeta);
+    }
     return context;
   }
 
@@ -947,6 +1021,9 @@ class $CategoryTableTable extends CategoryTable
     }
     if (d.refillLimit.present) {
       map['refill_limit'] = Variable<double, RealType>(d.refillLimit.value);
+    }
+    if (d.unit.present) {
+      map['unit'] = Variable<int, IntType>(d.unit.value);
     }
     return map;
   }

@@ -14,6 +14,8 @@ class CategoryTable extends Table {
 
   RealColumn get refillLimit => real().nullable()();
 
+  IntColumn get unit => integer()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

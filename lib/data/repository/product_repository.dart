@@ -43,7 +43,7 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
   }
 
   Future<List<Product>> findAllByHomeIdAndCategoryIsNull(String homeId, {bool recurseItems = true}) async {
-    List<ProductEntry> entries = await (select(productTable)..where((p) => p.homeId.equals(homeId))..where((p) => p.categoryId.equals(null))).get();
+    List<ProductEntry> entries = await (select(productTable)..where((p) => p.homeId.equals(homeId))..where((p) => isNull(p.categoryId))).get();
 
     List<Product> products = [];
     for (ProductEntry entry in entries) {

@@ -21,8 +21,8 @@ class Item {
   factory Item.fromEntry(ItemEntry entry, Home home, {Product product = null, List<Change> changes = null}) {
     return Item(
       id: entry.id,
-      expirationDate: localDateTimeFromDateTime(entry.expirationDate),
-      notificationDate: localDateTimeFromDateTime(entry.notificationDate),
+      expirationDate: entry.expirationDate == null ? null : localDateTimeFromDateTime(entry.expirationDate),
+      notificationDate: entry.notificationDate == null ? null : localDateTimeFromDateTime(entry.notificationDate),
       product: product,
       changes: changes,
       home: home,
@@ -33,8 +33,8 @@ class Item {
     return ItemTableCompanion(
       id: Value(id),
       productId: Value(product.id),
-      expirationDate: Value(expirationDate.toDateTimeLocal()),
-      notificationDate: Value(notificationDate.toDateTimeLocal()),
+      expirationDate: expirationDate == null ? Value.absent() : Value(expirationDate.toDateTimeLocal()),
+      notificationDate: notificationDate == null ? Value.absent() : Value(notificationDate.toDateTimeLocal()),
       homeId: Value(home.id),
     );
   }
