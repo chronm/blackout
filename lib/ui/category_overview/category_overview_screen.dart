@@ -72,7 +72,7 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
                     subtitle: Text(
                       S.of(context).available(product.scaledAmount),
                     ),
-                    trailing: Row(
+                    trailing: Column(
                       children: trailing,
                       mainAxisSize: MainAxisSize.min,
                     ),
