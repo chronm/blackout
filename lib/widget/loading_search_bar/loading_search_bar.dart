@@ -3,11 +3,13 @@ import 'package:Blackout/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+typedef void SearchBarCallback(String search);
+
 class LoadingSearchBar extends StatefulWidget implements PreferredSizeWidget {
   final HomeBloc _bloc = sl<HomeBloc>();
-  final TextEditingController searchController;
+  final SearchBarCallback callback;
 
-  LoadingSearchBar({Key key, @required this.searchController}) : super(key: key);
+  LoadingSearchBar({Key key, @required this.callback}) : super(key: key);
 
   @override
   _LoadingSearchBarState createState() => _LoadingSearchBarState();
@@ -17,6 +19,7 @@ class LoadingSearchBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _LoadingSearchBarState extends State<LoadingSearchBar> {
+  TextEditingController _controller = TextEditingController();
   bool searching = false;
 
   Widget _searchingTextField() => TextField(
@@ -24,18 +27,16 @@ class _LoadingSearchBarState extends State<LoadingSearchBar> {
         decoration: InputDecoration(
           border: InputBorder.none,
         ),
+        controller: _controller,
+        onChanged: widget.callback,
       );
 
   Widget _title() => Text(
         "Blackout",
-        style: TextStyle(
-          color: Colors.redAccent,
-        ),
       );
 
   Widget _searchButton() => IconButton(
         icon: Icon(Icons.search),
-        color: Colors.redAccent,
         onPressed: () {
           setState(() {
             searching = true;
@@ -44,16 +45,15 @@ class _LoadingSearchBarState extends State<LoadingSearchBar> {
       );
 
   Widget _clearButton() => IconButton(
-        icon: Icon(Icons.cancel),
-        color: Colors.redAccent,
+        icon: Icon(Icons.close),
         onPressed: () {
-          setState(() {});
+          _controller.text = "";
+          widget.callback("");
         },
       );
 
   Widget _backButton() => IconButton(
         icon: Icon(Icons.arrow_back),
-        color: Colors.redAccent,
         onPressed: () {
           setState(() {
             searching = false;

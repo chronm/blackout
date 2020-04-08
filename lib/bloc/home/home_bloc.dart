@@ -28,9 +28,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<Product> createProduct(Home home) async {
     User user = await sharedPreferenceCache.getUser();
-    Product product = Product(id: Uuid().v4(), description: "Marmorkuchen", home: home);
-    Item item = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addMonths(1), product: product, home: home);
-    Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 1.0, item: item);
+    Product product = Product(id: Uuid().v4(), description: "Marmorkuchen", home: home, refillLimit: 0.8);
+    Item item = Item(id: Uuid().v4(), notificationDate: LocalDateTime.now().subtractMonths(1), product: product, home: home);
+    Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 1, item: item);
     Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -0.5, item: item);
     product.items = [item];
     item.changes = [change, change2];
@@ -40,13 +40,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<Category> createCategory(Home home) async {
     User user = await sharedPreferenceCache.getUser();
-    Category category = Category(id: Uuid().v4(), name: "Ei", pluralName: "Eier", warnInterval: Period(days: 5), home: home);
+    Category category = Category(id: Uuid().v4(), name: "Ei", pluralName: "Eier", refillLimit: 6, warnInterval: Period(days: 5), home: home);
     Product product = Product(id: Uuid().v4(), ean: "lalelu", description: "Freilandeier 10 Stück M", category: category, home: home);
     Item item = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addMonths(1), product: product, home: home);
-    Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 1.0, item: item);
+    Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item);
+    Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -5, item: item);
     category.products = [product];
     product.items = [item];
-    item.changes = [change];
+    item.changes = [change, change2];
 
     return category;
   }
