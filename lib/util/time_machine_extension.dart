@@ -1,59 +1,34 @@
 import 'dart:core';
 
+import 'package:Blackout/generated/l10n.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:time_machine/time_machine.dart';
 
-//Duration durationFromISO8601(String duration) {
-//  if (!RegExp(r"^P((\d+W)?(\d+D)?)(T(\d+H)?(\d+M)?(\d+S)?)?$").hasMatch(duration)) {
-//    throw ArgumentError("String does not follow correct format");
-//  }
-//  final weeks = _parseTime(duration, "W");
-//  final days = _parseTime(duration, "D");
-//  final hours = _parseTime(duration, "H");
-//  final minutes = _parseTime(duration, "M");
-//  final seconds = _parseTime(duration, "S");
-//  return Duration(
-//    days: days + (weeks * 7),
-//    hours: hours,
-//    minutes: minutes,
-//    seconds: seconds,
-//  );
-//}
-
-/**
- * Private helper method for extracting a time value from the ISO8601 string.
- */
-int _parseTime(String duration, String timeUnit, bool time) {
-  var timeMatch;
-  if (time) {
-    timeMatch = RegExp(r"T(.*)((\d+)" + timeUnit + r"(\.*))").firstMatch(duration);
-  } else {
-    timeMatch = RegExp(r"(\d+" + timeUnit + r")").firstMatch(duration);
-  }
-  if (timeMatch == null) {
-    return 0;
-  }
-  var timeString;
-  if (time) {
-    timeString = timeMatch.group(2);
-  } else {
-    timeString = timeMatch.group(1);
-  }
-  return int.parse(timeString.substring(0, timeString.length - 1));
+int parseFromRegex(RegExpMatch match, int group, String character) {
+  var result = match.group(group);
+  return result != null ? int.parse(result.replaceFirst(character, "")) : 0;
 }
 
 Period periodFromISO8601String(String period) {
-  if (!RegExp(r"^P((\d+Y)?(\d+M)?(\d+D)?)(T(\d+H)?(\d+M)?(\d+S)?)?$").hasMatch(period)) {
-    throw ArgumentError("String does not follow correct format");
+  period = period.toUpperCase();
+  final regexp = RegExp(r"^P(?=\d+[YMWD])(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d+[HMS])(\d+H)?(\d+M)?(\d+S)?)?$");
+  if (!regexp.hasMatch(period)) {
+    return null;
+//    throw ArgumentError("String does not follow correct format");
   }
-  final years = _parseTime(period, "Y", false);
-  final months = _parseTime(period, "M", false);
-  final days = _parseTime(period, "D", false);
-  final hours = _parseTime(period, "H", true);
-  final minutes = _parseTime(period, "M", true);
-  final seconds = _parseTime(period, "S", true);
+  final match = regexp.firstMatch(period);
+
+  final years = parseFromRegex(match, 1, "Y");
+  final months = parseFromRegex(match, 2, "M");
+  final weeks = parseFromRegex(match, 3, "W");
+  final days = parseFromRegex(match, 4, "D");
+  final hours = parseFromRegex(match, 6, "H");
+  final minutes = parseFromRegex(match, 7, "M");
+  final seconds = parseFromRegex(match, 8, "S");
   return Period(
     years: years,
     months: months,
+    weeks: weeks,
     days: days,
     hours: hours,
     minutes: minutes,
@@ -63,4 +38,36 @@ Period periodFromISO8601String(String period) {
 
 LocalDateTime localDateTimeFromDateTime(DateTime dateTime) {
   return LocalDateTime.dateTime(dateTime).add(Period(hours: dateTime.timeZoneOffset.inHours));
+}
+
+extension PeriodExtension on Period {
+  String prettyPrint(BuildContext context) {
+    if (this == null) {
+      return "";
+    }
+    List<String> parts = [];
+    if (this.years != 0) {
+      parts.add(S.of(context).years(this.years));
+    }
+    if (this.months != 0) {
+      parts.add(S.of(context).months(this.months));
+    }
+    if (this.weeks != 0) {
+      parts.add(S.of(context).weeks(this.weeks));
+    }
+    if (this.days != 0) {
+      parts.add(S.of(context).days(this.days));
+    }
+    if (this.hours != 0) {
+      parts.add(S.of(context).hours(this.hours));
+    }
+    if (this.minutes != 0) {
+      parts.add(S.of(context).minutes(this.minutes));
+    }
+    if (this.seconds != 0) {
+      parts.add(S.of(context).seconds(this.seconds));
+    }
+
+    return parts.join(", ");
+  }
 }

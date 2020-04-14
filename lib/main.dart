@@ -4,7 +4,7 @@ import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/generated/l10n_extension.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Brightness, BuildContext, Colors, Locale, MaterialApp, Navigator, State, StatefulWidget, StatelessWidget, ThemeData, Widget, WidgetsBinding, WidgetsFlutterBinding, runApp;
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_is_emulator/flutter_is_emulator.dart';
@@ -71,7 +71,7 @@ class _AppState extends State<App> {
       bloc: widget._bloc,
       listener: (context, state) {
         if (state is GoToSetup) {
-          Navigator.pushReplacement(context, RouteBuilder.build(Routes.setup));
+          Navigator.pushReplacement(context, RouteBuilder.build(Routes.setupRoute()));
         }
       },
       child: HomeScreen(),

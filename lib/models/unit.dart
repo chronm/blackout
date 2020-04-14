@@ -1,11 +1,21 @@
 import 'package:Blackout/util/double_extension.dart';
 
-BaseUnit baseUnitfromUnit(Unit unit) {
+BaseUnit baseUnitFromUnit(Unit unit) {
   if (unit == Unit.weight) {
     return Weight.g;
   }
   if (unit == Unit.unitless) {
     return Unitless();
+  }
+  return null;
+}
+
+Type baseUnitTypeFromUnit(Unit unit) {
+  switch (unit) {
+    case Unit.weight:
+      return Weight;
+    case Unit.unitless:
+      return Unitless;
   }
 }
 
@@ -27,13 +37,17 @@ class ScaledAmount {
 
 abstract class BaseUnit {
   String get symbol;
+
   Unit get unit;
+
+  double toSI(double amount);
 
   ScaledAmount toScientific(double amount);
 }
 
 class Unitless extends BaseUnit {
   String symbol = "";
+
   Unit get unit => Unit.unitless;
 
   Unitless();
@@ -41,12 +55,17 @@ class Unitless extends BaseUnit {
   ScaledAmount toScientific(double amount) {
     return ScaledAmount(amount, this);
   }
+
+  double toSI(double amount) {
+    return amount;
+  }
 }
 
 class Weight extends BaseUnit {
   double factor;
   Weight previous;
   String symbol;
+
   Unit get unit => Unit.weight;
 
   Weight(this.factor, this.previous, this.symbol);
@@ -59,8 +78,8 @@ class Weight extends BaseUnit {
   ScaledAmount toScientific(double amount) {
     Weight weight = t;
     amount = convertTo(amount, t);
-    while (convertTo(toSI(amount, weight), weight.previous) < 1000) {
-      amount = convertTo(toSI(amount, weight), weight.previous);
+    while (convertTo(_toSI(amount, weight), weight.previous) < 1000) {
+      amount = convertTo(_toSI(amount, weight), weight.previous);
       weight = weight.previous;
     }
 
@@ -69,7 +88,9 @@ class Weight extends BaseUnit {
 
   double convertTo(double amount, Weight to) => amount / to.factor;
 
-  double toSI(double amount, Weight from) => amount * from.factor;
+  double _toSI(double amount, Weight from) => amount * from.factor;
+
+  double toSI(double amount) => _toSI(amount, this);
 
   static fromString(String unit) {
     switch (unit) {

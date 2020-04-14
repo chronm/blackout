@@ -11,5 +11,15 @@
   "create": "Erstellen",
   "join": "Beitreten",
   "finish": "Fertig",
-  "available": "Verfügbar: {amount}"
+  "available": "Verfügbar: {amount}",
+  "singular": "Einzahl",
+  "plural": "Mehrzahl",
+  "modifyCategory": "Kategorie bearbeiten",
+  "years": "{years, plural, one{1 Jahr} other {{years} Jahre}}",
+  "months": "{months, plural, one{1 Monat} other {{months} Monate}}",
+  "weeks": "{weeks, plural, one{1 Woche} other {{weeks} Wochen}}",
+  "days": "{days, plural, one{1 Tag} other {{days} Tage}}",
+  "hours": "{hours, plural, one{1 Stunde} other {{hours} Stunden}}",
+  "minutes": "{minutes, plural, one{1 Minute} other {{minutes} Minuten}}",
+  "seconds": "{seconds, plural, one{1 Sekunde} other {{seconds} Sekunden}}"
 }

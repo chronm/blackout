@@ -5,7 +5,7 @@ import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/displayable.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/loading_search_bar/loading_search_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show BuildContext, Card, Column, Container, Icon, Icons, ListTile, ListView, MainAxisSize, Navigator, SafeArea, Scaffold, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: BlocConsumer<HomeBloc, HomeState>(
           bloc: widget._bloc,
-          listener: (context, state) {},
+          listener: (context, state) {
+            print(state);
+            print("HomeScree");
+          },
           builder: (context, state) {
             if (state is LoadedAll) {
               List<Displayable> cards = state.cards.where((card) => card.title.toLowerCase().contains(searchString)).toList();
@@ -72,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         if (displayable is Category) {
                           widget._bloc.add(TapOnCategory(displayable));
-                          Navigator.push(context, RouteBuilder.build(Routes.categoryOverview));
+                          Navigator.push(context, RouteBuilder.build(Routes.categoryOverviewRoute()));
                         }
                       },
                     ),

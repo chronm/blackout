@@ -1,4 +1,5 @@
 import 'package:Blackout/data/database/database.dart';
+import 'package:Blackout/models/cloneable.dart';
 import 'package:Blackout/models/displayable.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/product.dart';
@@ -7,7 +8,7 @@ import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Category extends Displayable {
+class Category extends Displayable implements Cloneable<Category> {
   String id;
   String name;
   String pluralName;
@@ -16,12 +17,25 @@ class Category extends Displayable {
   Home home;
   double refillLimit;
 
+  Category clone() {
+    return Category(
+        id: this.id,
+        name: this.name,
+        pluralName: this.pluralName,
+        warnInterval: this.warnInterval,
+        refillLimit: this.refillLimit,
+        unit: this.unit,
+        products: this.products,
+        home: this.home);
+  }
+
   double get amount => products.map((p) => p.amount).reduce((a, b) => a + b);
 
   String get scaledAmount => unit.toScientific(amount).toString();
 
   @override
-  String get title => amount > 1 ? pluralName : name;
+  String get title =>
+      amount > 1 ? (pluralName != null ? pluralName : name) : name;
 
   @override
   bool get expiredOrNotification {
@@ -30,20 +44,30 @@ class Category extends Displayable {
 
   @override
   bool get tooFewAvailable {
-    return (amount < refillLimit) || products.any((product) => product.tooFewAvailable);
+    return (amount < refillLimit) ||
+        products.any((product) => product.tooFewAvailable);
   }
 
-  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required Unit unit, List<Product> products = const [], @required this.home})
+  Category(
+      {this.id,
+      @required this.name,
+      this.pluralName,
+      this.warnInterval,
+      this.refillLimit,
+      @required BaseUnit unit,
+      List<Product> products = const [],
+      @required this.home})
       : products = products,
         super(unit);
 
-  factory Category.fromEntry(CategoryEntry categoryEntry, Home home, {List<Product> products}) {
+  factory Category.fromEntry(CategoryEntry categoryEntry, Home home,
+      {List<Product> products}) {
     return Category(
       id: categoryEntry.id,
       name: categoryEntry.name,
       pluralName: categoryEntry.pluralName,
       refillLimit: categoryEntry.refillLimit,
-      unit: Unit.values[categoryEntry.unit],
+      unit: baseUnitFromUnit(Unit.values[categoryEntry.unit]),
       warnInterval: periodFromISO8601String(categoryEntry.warnInterval),
       products: products,
       home: home,
@@ -60,5 +84,10 @@ class Category extends Displayable {
       homeId: Value(home.id),
       unit: Value(Unit.values.indexOf(unit.unit)),
     );
+  }
+
+  @override
+  bool isValid() {
+    return unit != null && name != null && name != "";
   }
 }

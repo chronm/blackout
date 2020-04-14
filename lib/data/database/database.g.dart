@@ -511,11 +511,8 @@ class $ProductTableTable extends ProductTable
   @override
   GeneratedTextColumn get ean => _ean ??= _constructEan();
   GeneratedTextColumn _constructEan() {
-    return GeneratedTextColumn(
-      'ean',
-      $tableName,
-      true,
-    );
+    return GeneratedTextColumn('ean', $tableName, true,
+        $customConstraints: 'unique');
   }
 
   final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
@@ -534,11 +531,8 @@ class $ProductTableTable extends ProductTable
   GeneratedTextColumn get description =>
       _description ??= _constructDescription();
   GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn(
-      'description',
-      $tableName,
-      false,
-    );
+    return GeneratedTextColumn('description', $tableName, false,
+        $customConstraints: 'unique');
   }
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
@@ -884,11 +878,8 @@ class $CategoryTableTable extends CategoryTable
   @override
   GeneratedTextColumn get pluralName => _pluralName ??= _constructPluralName();
   GeneratedTextColumn _constructPluralName() {
-    return GeneratedTextColumn(
-      'plural_name',
-      $tableName,
-      true,
-    );
+    return GeneratedTextColumn('plural_name', $tableName, true,
+        $customConstraints: 'unique');
   }
 
   final VerificationMeta _warnIntervalMeta =
@@ -1374,6 +1365,9 @@ class DatabaseChangelogEntry extends DataClass
   final String itemId;
   final int direction;
   final String homeId;
+  final String fieldName;
+  final String from;
+  final String to;
   DatabaseChangelogEntry(
       {@required this.id,
       @required this.modificationDate,
@@ -1382,7 +1376,10 @@ class DatabaseChangelogEntry extends DataClass
       this.productId,
       this.itemId,
       @required this.direction,
-      @required this.homeId});
+      @required this.homeId,
+      this.fieldName,
+      this.from,
+      this.to});
   factory DatabaseChangelogEntry.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -1406,6 +1403,10 @@ class DatabaseChangelogEntry extends DataClass
           intType.mapFromDatabaseResponse(data['${effectivePrefix}direction']),
       homeId:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      fieldName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
+      from: stringType.mapFromDatabaseResponse(data['${effectivePrefix}from']),
+      to: stringType.mapFromDatabaseResponse(data['${effectivePrefix}to']),
     );
   }
   factory DatabaseChangelogEntry.fromJson(Map<String, dynamic> json,
@@ -1420,6 +1421,9 @@ class DatabaseChangelogEntry extends DataClass
       itemId: serializer.fromJson<String>(json['itemId']),
       direction: serializer.fromJson<int>(json['direction']),
       homeId: serializer.fromJson<String>(json['homeId']),
+      fieldName: serializer.fromJson<String>(json['fieldName']),
+      from: serializer.fromJson<String>(json['from']),
+      to: serializer.fromJson<String>(json['to']),
     );
   }
   @override
@@ -1434,6 +1438,9 @@ class DatabaseChangelogEntry extends DataClass
       'itemId': serializer.toJson<String>(itemId),
       'direction': serializer.toJson<int>(direction),
       'homeId': serializer.toJson<String>(homeId),
+      'fieldName': serializer.toJson<String>(fieldName),
+      'from': serializer.toJson<String>(from),
+      'to': serializer.toJson<String>(to),
     };
   }
 
@@ -1459,6 +1466,11 @@ class DatabaseChangelogEntry extends DataClass
           : Value(direction),
       homeId:
           homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      fieldName: fieldName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fieldName),
+      from: from == null && nullToAbsent ? const Value.absent() : Value(from),
+      to: to == null && nullToAbsent ? const Value.absent() : Value(to),
     );
   }
 
@@ -1470,7 +1482,10 @@ class DatabaseChangelogEntry extends DataClass
           String productId,
           String itemId,
           int direction,
-          String homeId}) =>
+          String homeId,
+          String fieldName,
+          String from,
+          String to}) =>
       DatabaseChangelogEntry(
         id: id ?? this.id,
         modificationDate: modificationDate ?? this.modificationDate,
@@ -1480,6 +1495,9 @@ class DatabaseChangelogEntry extends DataClass
         itemId: itemId ?? this.itemId,
         direction: direction ?? this.direction,
         homeId: homeId ?? this.homeId,
+        fieldName: fieldName ?? this.fieldName,
+        from: from ?? this.from,
+        to: to ?? this.to,
       );
   @override
   String toString() {
@@ -1491,7 +1509,10 @@ class DatabaseChangelogEntry extends DataClass
           ..write('productId: $productId, ')
           ..write('itemId: $itemId, ')
           ..write('direction: $direction, ')
-          ..write('homeId: $homeId')
+          ..write('homeId: $homeId, ')
+          ..write('fieldName: $fieldName, ')
+          ..write('from: $from, ')
+          ..write('to: $to')
           ..write(')'))
         .toString();
   }
@@ -1507,8 +1528,16 @@ class DatabaseChangelogEntry extends DataClass
                   categoryId.hashCode,
                   $mrjc(
                       productId.hashCode,
-                      $mrjc(itemId.hashCode,
-                          $mrjc(direction.hashCode, homeId.hashCode))))))));
+                      $mrjc(
+                          itemId.hashCode,
+                          $mrjc(
+                              direction.hashCode,
+                              $mrjc(
+                                  homeId.hashCode,
+                                  $mrjc(
+                                      fieldName.hashCode,
+                                      $mrjc(
+                                          from.hashCode, to.hashCode)))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1520,7 +1549,10 @@ class DatabaseChangelogEntry extends DataClass
           other.productId == this.productId &&
           other.itemId == this.itemId &&
           other.direction == this.direction &&
-          other.homeId == this.homeId);
+          other.homeId == this.homeId &&
+          other.fieldName == this.fieldName &&
+          other.from == this.from &&
+          other.to == this.to);
 }
 
 class DatabaseChangelogTableCompanion
@@ -1533,6 +1565,9 @@ class DatabaseChangelogTableCompanion
   final Value<String> itemId;
   final Value<int> direction;
   final Value<String> homeId;
+  final Value<String> fieldName;
+  final Value<String> from;
+  final Value<String> to;
   const DatabaseChangelogTableCompanion({
     this.id = const Value.absent(),
     this.modificationDate = const Value.absent(),
@@ -1542,6 +1577,9 @@ class DatabaseChangelogTableCompanion
     this.itemId = const Value.absent(),
     this.direction = const Value.absent(),
     this.homeId = const Value.absent(),
+    this.fieldName = const Value.absent(),
+    this.from = const Value.absent(),
+    this.to = const Value.absent(),
   });
   DatabaseChangelogTableCompanion.insert({
     @required String id,
@@ -1552,6 +1590,9 @@ class DatabaseChangelogTableCompanion
     this.itemId = const Value.absent(),
     @required int direction,
     @required String homeId,
+    this.fieldName = const Value.absent(),
+    this.from = const Value.absent(),
+    this.to = const Value.absent(),
   })  : id = Value(id),
         modificationDate = Value(modificationDate),
         userId = Value(userId),
@@ -1565,7 +1606,10 @@ class DatabaseChangelogTableCompanion
       Value<String> productId,
       Value<String> itemId,
       Value<int> direction,
-      Value<String> homeId}) {
+      Value<String> homeId,
+      Value<String> fieldName,
+      Value<String> from,
+      Value<String> to}) {
     return DatabaseChangelogTableCompanion(
       id: id ?? this.id,
       modificationDate: modificationDate ?? this.modificationDate,
@@ -1575,6 +1619,9 @@ class DatabaseChangelogTableCompanion
       itemId: itemId ?? this.itemId,
       direction: direction ?? this.direction,
       homeId: homeId ?? this.homeId,
+      fieldName: fieldName ?? this.fieldName,
+      from: from ?? this.from,
+      to: to ?? this.to,
     );
   }
 }
@@ -1670,6 +1717,42 @@ class $DatabaseChangelogTableTable extends DatabaseChangelogTable
         $customConstraints: 'references Home(id)');
   }
 
+  final VerificationMeta _fieldNameMeta = const VerificationMeta('fieldName');
+  GeneratedTextColumn _fieldName;
+  @override
+  GeneratedTextColumn get fieldName => _fieldName ??= _constructFieldName();
+  GeneratedTextColumn _constructFieldName() {
+    return GeneratedTextColumn(
+      'field_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _fromMeta = const VerificationMeta('from');
+  GeneratedTextColumn _from;
+  @override
+  GeneratedTextColumn get from => _from ??= _constructFrom();
+  GeneratedTextColumn _constructFrom() {
+    return GeneratedTextColumn(
+      'from',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _toMeta = const VerificationMeta('to');
+  GeneratedTextColumn _to;
+  @override
+  GeneratedTextColumn get to => _to ??= _constructTo();
+  GeneratedTextColumn _constructTo() {
+    return GeneratedTextColumn(
+      'to',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1679,7 +1762,10 @@ class $DatabaseChangelogTableTable extends DatabaseChangelogTable
         productId,
         itemId,
         direction,
-        homeId
+        homeId,
+        fieldName,
+        from,
+        to
       ];
   @override
   $DatabaseChangelogTableTable get asDslTable => this;
@@ -1734,6 +1820,17 @@ class $DatabaseChangelogTableTable extends DatabaseChangelogTable
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
+    if (d.fieldName.present) {
+      context.handle(_fieldNameMeta,
+          fieldName.isAcceptableValue(d.fieldName.value, _fieldNameMeta));
+    }
+    if (d.from.present) {
+      context.handle(
+          _fromMeta, from.isAcceptableValue(d.from.value, _fromMeta));
+    }
+    if (d.to.present) {
+      context.handle(_toMeta, to.isAcceptableValue(d.to.value, _toMeta));
+    }
     return context;
   }
 
@@ -1772,6 +1869,15 @@ class $DatabaseChangelogTableTable extends DatabaseChangelogTable
     }
     if (d.homeId.present) {
       map['home_id'] = Variable<String, StringType>(d.homeId.value);
+    }
+    if (d.fieldName.present) {
+      map['field_name'] = Variable<String, StringType>(d.fieldName.value);
+    }
+    if (d.from.present) {
+      map['from'] = Variable<String, StringType>(d.from.value);
+    }
+    if (d.to.present) {
+      map['to'] = Variable<String, StringType>(d.to.value);
     }
     return map;
   }

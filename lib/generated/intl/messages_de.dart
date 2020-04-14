@@ -21,20 +21,44 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(amount) => "Verfügbar: ${amount}";
 
+  static m1(days) => "${Intl.plural(days, one: '1 Tag', other: '${days} Tage')}";
+
+  static m2(hours) => "${Intl.plural(hours, one: '1 Stunde', other: '${hours} Stunden')}";
+
+  static m3(minutes) => "${Intl.plural(minutes, one: '1 Minute', other: '${minutes} Minuten')}";
+
+  static m4(months) => "${Intl.plural(months, one: '1 Monat', other: '${months} Monate')}";
+
+  static m5(seconds) => "${Intl.plural(seconds, one: '1 Sekunde', other: '${seconds} Sekunden')}";
+
+  static m6(weeks) => "${Intl.plural(weeks, one: '1 Woche', other: '${weeks} Wochen')}";
+
+  static m7(years) => "${Intl.plural(years, one: '1 Jahr', other: '${years} Jahre')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "_locale" : MessageLookupByLibrary.simpleMessage("de"),
     "available" : m0,
     "create" : MessageLookupByLibrary.simpleMessage("Erstellen"),
     "createHome" : MessageLookupByLibrary.simpleMessage("Wie soll der Name Ihres Haushalts lauten?"),
+    "days" : m1,
     "finish" : MessageLookupByLibrary.simpleMessage("Fertig"),
+    "hours" : m2,
     "join" : MessageLookupByLibrary.simpleMessage("Beitreten"),
     "joinHome" : MessageLookupByLibrary.simpleMessage("Scanne einfach den QR Code auf einem anderen Gerät um dem Haushalt beizutreten."),
+    "minutes" : m3,
+    "modifyCategory" : MessageLookupByLibrary.simpleMessage("Kategorie bearbeiten"),
+    "months" : m4,
     "nameOfYourHousehold" : MessageLookupByLibrary.simpleMessage("Name deines Haushaltes"),
+    "plural" : MessageLookupByLibrary.simpleMessage("Mehrzahl"),
+    "seconds" : m5,
     "setYourHome" : MessageLookupByLibrary.simpleMessage("Möchtest du einem bestehenden Haushalt beitreten oder einen neuen erstellen?"),
     "setYourUsername" : MessageLookupByLibrary.simpleMessage("Wie möchtest du genannt werden? Dies dient dazu, dich in deinem Haushalt zu identifizieren."),
     "setup" : MessageLookupByLibrary.simpleMessage("Einrichtung"),
+    "singular" : MessageLookupByLibrary.simpleMessage("Einzahl"),
     "username" : MessageLookupByLibrary.simpleMessage("Benutzername"),
-    "welcomeMessage" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam")
+    "weeks" : m6,
+    "welcomeMessage" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
+    "years" : m7
   };
 }

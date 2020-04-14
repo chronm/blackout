@@ -143,6 +143,110 @@ class S {
       args: [amount],
     );
   }
+
+  String get singular {
+    return Intl.message(
+      'Singular',
+      name: 'singular',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get plural {
+    return Intl.message(
+      'Plural',
+      name: 'plural',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get modifyCategory {
+    return Intl.message(
+      'Modify Category',
+      name: 'modifyCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String years(num years) {
+    return Intl.plural(
+      years,
+      one: '1 year',
+      other: '$years years',
+      name: 'years',
+      desc: '',
+      args: [years],
+    );
+  }
+
+  String months(num months) {
+    return Intl.plural(
+      months,
+      one: '1 month',
+      other: '$months months',
+      name: 'months',
+      desc: '',
+      args: [months],
+    );
+  }
+
+  String weeks(num weeks) {
+    return Intl.plural(
+      weeks,
+      one: '1 week',
+      other: '$weeks weeks',
+      name: 'weeks',
+      desc: '',
+      args: [weeks],
+    );
+  }
+
+  String days(num days) {
+    return Intl.plural(
+      days,
+      one: '1 day',
+      other: '$days days',
+      name: 'days',
+      desc: '',
+      args: [days],
+    );
+  }
+
+  String hours(num hours) {
+    return Intl.plural(
+      hours,
+      one: '1 hour',
+      other: '$hours hours',
+      name: 'hours',
+      desc: '',
+      args: [hours],
+    );
+  }
+
+  String minutes(num minutes) {
+    return Intl.plural(
+      minutes,
+      one: '1 minute',
+      other: '$minutes minutes',
+      name: 'minutes',
+      desc: '',
+      args: [minutes],
+    );
+  }
+
+  String seconds(num seconds) {
+    return Intl.plural(
+      seconds,
+      one: '1 second',
+      other: '$seconds seconds',
+      name: 'seconds',
+      desc: '',
+      args: [seconds],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

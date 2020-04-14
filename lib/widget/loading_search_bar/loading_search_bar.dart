@@ -5,13 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef void SearchBarCallback(String search);
 typedef String TitleResolver(dynamic state);
+typedef void TitleCallback(dynamic state);
 
 class LoadingSearchBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implements PreferredSizeWidget {
   final B bloc;
   final SearchBarCallback callback;
   final String title;
   final TitleResolver titleResolver;
-  final VoidCallback titleCallback;
+  final TitleCallback titleCallback;
 
   LoadingSearchBar({
     Key key,
@@ -43,7 +44,7 @@ class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<Loadin
       );
 
   Widget _title(S state) => InkWell(
-        onTap: widget.titleCallback,
+        onTap: () => widget.titleCallback(state),
         child: SizedBox(
           height: 56,
           child: Center(

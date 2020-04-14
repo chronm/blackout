@@ -2,8 +2,9 @@ import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/loading_search_bar/loading_search_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show BuildContext, Card, Column, Container, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoryOverviewScreen extends StatefulWidget {
@@ -28,8 +29,11 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
           }
           return "";
         },
-        titleCallback: () {
-          print("asdf");
+        titleCallback: (state) {
+          if (state is ShowCategory) {
+            widget._bloc.add(TapOnCategoryDetails(state.category));
+            Navigator.push(context, RouteBuilder.build(Routes.categoryDetailsRoute(category: state.category, changes: state.changes)));
+          }
         },
         bloc: widget._bloc,
         callback: (search) {
