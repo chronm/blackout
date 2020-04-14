@@ -10,11 +10,14 @@ import 'package:uuid/uuid.dart';
 part 'database_changelog_repository.g.dart';
 
 @UseDao(tables: [DatabaseChangelogTable])
-class DatabaseChangelogRepository extends DatabaseAccessor<Database> with _$DatabaseChangelogRepositoryMixin {
+class DatabaseChangelogRepository extends DatabaseAccessor<Database>
+    with _$DatabaseChangelogRepositoryMixin {
   DatabaseChangelogRepository(Database db) : super(db);
 
   Future<List<DatabaseChangelog>> findAllByHomeId(String homeId) async {
-    List<DatabaseChangelogEntry> entries = await (select(databaseChangelogTable)..where((d) => d.homeId.equals(homeId))).get();
+    List<DatabaseChangelogEntry> entries = await (select(databaseChangelogTable)
+          ..where((d) => d.homeId.equals(homeId)))
+        .get();
 
     List<DatabaseChangelog> changes = [];
     for (DatabaseChangelogEntry entry in entries) {
@@ -26,8 +29,10 @@ class DatabaseChangelogRepository extends DatabaseAccessor<Database> with _$Data
     return changes;
   }
 
-  Future<List<DatabaseChangelog>> findAllByModificationDateAfterAndHomeId(LocalDateTime modificationDate, String homeId) async {
-    var query = select(databaseChangelogTable)..where((c) => c.modificationDate.isBiggerThanValue(modificationDate.toDateTimeLocal()))..where((c) => c.homeId.equals(homeId));
+  Future<List<DatabaseChangelog>> findAllByCategoryIdAndHomeId(
+      String categoryId, String homeId) async {
+    var query = select(databaseChangelogTable)
+      ..where((c) => c.categoryId.equals(categoryId) & c.homeId.equals(homeId));
     List<DatabaseChangelogEntry> entries = await query.get();
 
     List<DatabaseChangelog> changes = [];
@@ -40,8 +45,29 @@ class DatabaseChangelogRepository extends DatabaseAccessor<Database> with _$Data
     return changes;
   }
 
-  Future<DatabaseChangelog> getOneByChangeIdHomeId(String changeId, String homeId) async {
-    var query = select(databaseChangelogTable)..where((c) => c.id.equals(changeId))..where((c) => c.homeId.equals(homeId));
+  Future<List<DatabaseChangelog>> findAllByModificationDateAfterAndHomeId(
+      LocalDateTime modificationDate, String homeId) async {
+    var query = select(databaseChangelogTable)
+      ..where((c) => c.modificationDate
+          .isBiggerThanValue(modificationDate.toDateTimeLocal()))
+      ..where((c) => c.homeId.equals(homeId));
+    List<DatabaseChangelogEntry> entries = await query.get();
+
+    List<DatabaseChangelog> changes = [];
+    for (DatabaseChangelogEntry entry in entries) {
+      User user = await db.userRepository.getOneByUserId(entry.userId);
+      Home home = await db.homeRepository.getHomeById(entry.homeId);
+      changes.add(DatabaseChangelog.fromEntry(entry, user, home));
+    }
+
+    return changes;
+  }
+
+  Future<DatabaseChangelog> getOneByChangeIdHomeId(
+      String changeId, String homeId) async {
+    var query = select(databaseChangelogTable)
+      ..where((c) => c.id.equals(changeId))
+      ..where((c) => c.homeId.equals(homeId));
     DatabaseChangelogEntry changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;
 
@@ -55,7 +81,8 @@ class DatabaseChangelogRepository extends DatabaseAccessor<Database> with _$Data
   Future<DatabaseChangelog> save(DatabaseChangelog change) async {
     change.id ??= Uuid().v4();
 
-    await into(databaseChangelogTable).insert(change.toCompanion(), mode: InsertMode.insertOrReplace);
+    await into(databaseChangelogTable)
+        .insert(change.toCompanion(), mode: InsertMode.insertOrReplace);
 
     return getOneByChangeIdHomeId(change.id, change.home.id);
   }

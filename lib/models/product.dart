@@ -32,11 +32,17 @@ class Product extends Displayable {
   @override
   bool get expiredOrNotification {
     bool isExpired = false;
-    if (category != null) {
-      isExpired = items.where((item) => item.expirationDate != null).any((item) => item.expirationDate.subtract(category.warnInterval) < LocalDateTime.now());
+    if (category?.warnInterval != null) {
+      isExpired = items.where((item) => item.expirationDate != null).any(
+          (item) =>
+              item.expirationDate.subtract(category.warnInterval) <
+              LocalDateTime.now());
     }
 
-    return isExpired || items.where((item) => item.notificationDate != null).any((item) => item.notificationDate <= LocalDateTime.now());
+    return isExpired ||
+        items
+            .where((item) => item.notificationDate != null)
+            .any((item) => item.notificationDate <= LocalDateTime.now());
   }
 
   @override
@@ -48,15 +54,26 @@ class Product extends Displayable {
     return false;
   }
 
-  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, Unit unit, @required this.home}) : super(unit);
+  Product(
+      {this.id,
+      this.ean,
+      @required this.description,
+      this.category,
+      this.items,
+      this.refillLimit,
+      BaseUnit unit,
+      @required this.home})
+      : super(unit);
 
-  factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items}) {
+  factory Product.fromEntry(ProductEntry entry, Home home,
+      {Category category, List<Item> items}) {
     return Product(
       id: entry.id,
       ean: entry.ean,
       description: entry.description,
       refillLimit: entry.refillLimit,
-      unit: entry.unit == null ? null : Unit.values[entry.unit],
+      unit:
+          entry.unit == null ? null : baseUnitFromUnit(Unit.values[entry.unit]),
       category: category,
       items: items,
       home: home,
@@ -69,9 +86,15 @@ class Product extends Displayable {
       ean: Value(ean),
       description: Value(description),
       refillLimit: Value(refillLimit),
-      unit: unit != null ? Value(Unit.values.indexOf(unit.unit)) : Value.absent(),
+      unit:
+          unit != null ? Value(Unit.values.indexOf(unit.unit)) : Value.absent(),
       categoryId: category != null ? Value(category.id) : Value(null),
       homeId: Value(home.id),
     );
+  }
+
+  @override
+  bool isValid() {
+    return description != null && description != "";
   }
 }

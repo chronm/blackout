@@ -6,7 +6,8 @@ import 'package:Blackout/widget/blackout_header/blackout_header.dart';
 import 'package:Blackout/widget/qr_view_widget/qr_view_widget.dart';
 import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show Align, Alignment, BuildContext, Colors, Column, Container, EdgeInsets, Expanded, FlatButton, Flexible, InputDecoration, Navigator, Padding, Radio, Row, Scaffold, SizedBox, State, StatefulWidget, Text, TextAlign, TextEditingController, TextField, TextStyle, Widget;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -182,7 +183,7 @@ class _SetupScreenState extends State<SetupScreen> {
         bloc: widget._bloc,
         listener: (context, state) {
           if (state is GoToHome) {
-            Navigator.pushReplacement(context, RouteBuilder.build(Routes.home));
+            Navigator.pushReplacement(context, RouteBuilder.build(Routes.homeRoute()));
           }
         },
         child: ScrollableContainer(
