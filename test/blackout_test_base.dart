@@ -1,16 +1,36 @@
+import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/bloc/home/home_bloc.dart';
+import 'package:Blackout/data/preferences/blackout_preferences.dart';
+import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/change_repository.dart';
+import 'package:Blackout/data/repository/home_repository.dart';
+import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/model_change_repository.dart';
+import 'package:Blackout/data/repository/product_repository.dart';
+import 'package:Blackout/data/repository/user_repository.dart';
+import 'package:Blackout/generated/l10n.dart';
+import 'package:Blackout/generated/l10n_extension.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/database_changelog.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/sync.dart';
+import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
+import 'package:Blackout/util/time_machine_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:time_machine/time_machine.dart';
 
 final Period DEFAULT_PERIOD_UNTIL_EXPIRATION = Period(weeks: 1);
 
 final Period DEFAULT_PERIOD_UNTIL_NOTIFICATION = Period(days: 6);
+
+final LocalDateTime NOW = LocalDateTime.now();
 
 // Home
 final String DEFAULT_HOME_ID = "defaultHomeId";
@@ -27,7 +47,7 @@ Home createDefaultHome() {
 final String DEFAULT_CATEGORY_ID = "categoryId";
 final String DEFAULT_CATEGORY_NAME = "categoryName";
 final String DEFAULT_CATEGORY_PLURAL_NAME = "categoryPluralName";
-final Period DEFAULT_CATEGORY_WARN_INTERVAL = Period.zero;
+final Period DEFAULT_CATEGORY_WARN_INTERVAL = periodFromISO8601String("P8D");
 
 Category createDefaultCategory() {
   return Category(
@@ -35,6 +55,7 @@ Category createDefaultCategory() {
     pluralName: DEFAULT_CATEGORY_PLURAL_NAME,
     warnInterval: DEFAULT_CATEGORY_WARN_INTERVAL,
     home: createDefaultHome(),
+    unit: UnitEnum.unitless,
   );
 }
 
@@ -53,8 +74,8 @@ Product createDefaultProduct() {
 
 // Item
 final String DEFAULT_ITEM_ID = "itemid";
-final LocalDateTime DEFAULT_ITEM_EXPIRATION_DATE = LocalDateTime(2020, 3, 25, 12, 49, 00).add(DEFAULT_PERIOD_UNTIL_EXPIRATION);
-final LocalDateTime DEFAULT_ITEM_NOTIFICATION_DATE = LocalDateTime(2020, 3, 25, 12, 49, 00).add(DEFAULT_PERIOD_UNTIL_NOTIFICATION);
+final LocalDateTime DEFAULT_ITEM_EXPIRATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_EXPIRATION);
+final LocalDateTime DEFAULT_ITEM_NOTIFICATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_NOTIFICATION);
 
 Item createDefaultItem() {
   return Item(
@@ -69,7 +90,7 @@ Item createDefaultItem() {
 final String DEFAULT_CHANGE_ID = "changeId";
 final String DEFAULT_CHANGE_OWNER = "changeOwner";
 final double DEFAULT_CHANGE_VALUE = 1.0;
-final LocalDateTime DEFAULT_CHANGE_CHANGE_DATE = LocalDateTime(2020, 3, 25, 12, 49, 00);
+final LocalDateTime DEFAULT_CHANGE_CHANGE_DATE = NOW;
 
 Change createDefaultChange() {
   return Change(
@@ -94,10 +115,10 @@ User createDefaultUser() {
 
 // DatabaseChangelog
 final String DEFAULT_DATABASE_CHANGE_LOG_ID = "databaseChangelogId";
-final LocalDateTime DEFAULT_DATABASE_CHANGELOG_MODIFICATION_DATE = LocalDateTime(2020, 3, 25, 12, 49, 00);
+final LocalDateTime DEFAULT_DATABASE_CHANGELOG_MODIFICATION_DATE = DEFAULT_CHANGE_CHANGE_DATE;
 
-DatabaseChangelog createDefaultDatabaseChangelog(ChangelogModification modification, {Category category, Product product, Item item}) {
-  return DatabaseChangelog(
+ModelChange createDefaultModelChange(ModelChangeType modification, {Category category, Product product, Item item}) {
+  return ModelChange(
     id: DEFAULT_DATABASE_CHANGE_LOG_ID,
     user: createDefaultUser(),
     modificationDate: DEFAULT_DATABASE_CHANGELOG_MODIFICATION_DATE,
@@ -110,7 +131,7 @@ DatabaseChangelog createDefaultDatabaseChangelog(ChangelogModification modificat
 }
 
 // Sync
-final LocalDateTime SYNC_SYNCHRONIZATION_DATE = LocalDateTime(2020, 3, 25, 12, 49, 00);
+final LocalDateTime SYNC_SYNCHRONIZATION_DATE = NOW;
 
 Sync createDefaultSync() {
   return Sync(
@@ -119,3 +140,87 @@ Sync createDefaultSync() {
     home: createDefaultHome(),
   );
 }
+
+MaterialApp wrapMaterial(Widget widget) => MaterialApp(
+      home: Scaffold(
+        body: widget,
+      ),
+    );
+
+typedef void ContextFactory(BuildContext buildContext);
+
+Future<BuildContext> DEFAULT_BUILD_CONTEXT(WidgetTester tester) async {
+  BuildContext context;
+  await tester.pumpWidget(
+    _TestApp(
+      factory: (_context) {
+        context = _context;
+      },
+    ),
+  );
+  await tester.pumpAndSettle();
+
+  return context;
+}
+
+class _TestApp extends StatelessWidget {
+  final ContextFactory factory;
+
+  _TestApp({Key key, this.factory}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Blackout",
+      supportedLocales: S.delegate.supportedLocales,
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      localeResolutionCallback: S.delegate.resolution(fallback: Locale("en", "")),
+      home: _Home(
+        factory: factory,
+      ),
+    );
+  }
+}
+
+class _Home extends StatefulWidget {
+  final ContextFactory factory;
+
+  _Home({Key key, this.factory}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _HomeState();
+}
+
+class _HomeState extends State<_Home> {
+  @override
+  Widget build(BuildContext context) {
+    widget.factory(context);
+    return Container();
+  }
+}
+
+class BlackoutPreferencesMock extends Mock implements BlackoutPreferences {}
+
+class HomeBlocMock extends Mock implements HomeBloc {}
+
+class HomeRepositoryMock extends Mock implements HomeRepository {}
+
+class UserRepositoryMock extends Mock implements UserRepository {}
+
+class ModelChangeRepositoryMock extends Mock implements ModelChangeRepository {}
+
+class CategoryRepositoryMock extends Mock implements CategoryRepository {}
+
+class ProductRepositoryMock extends Mock implements ProductRepository {}
+
+class ItemRepositoryMock extends Mock implements ItemRepository {}
+
+class ChangeRepositoryMock extends Mock implements ChangeRepository {}
+
+class CategoryBlocMock extends Mock implements CategoryBloc {}

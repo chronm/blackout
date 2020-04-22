@@ -14,7 +14,6 @@ Period periodFromISO8601String(String period) {
   final regexp = RegExp(r"^P(?=\d+[YMWD])(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d+[HMS])(\d+H)?(\d+M)?(\d+S)?)?$");
   if (!regexp.hasMatch(period)) {
     return null;
-//    throw ArgumentError("String does not follow correct format");
   }
   final match = regexp.firstMatch(period);
 

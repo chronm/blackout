@@ -33,10 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: BlocConsumer<HomeBloc, HomeState>(
           bloc: widget._bloc,
-          listener: (context, state) {
-            print(state);
-            print("HomeScree");
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             if (state is LoadedAll) {
               List<Displayable> cards = state.cards.where((card) => card.title.toLowerCase().contains(searchString)).toList();
@@ -66,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         displayable.title,
                       ),
                       subtitle: Text(
-                        S.of(context).available(displayable.scaledAmount),
+                        S.of(context).available(displayable.scientificAmount),
                       ),
                       trailing: Column(
                         children: trailing,

@@ -4,6 +4,7 @@ import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:optional/optional.dart';
 
@@ -28,9 +29,10 @@ void main() {
 
   test('(Save) Insert a new category', () async {
     Category category = createDefaultCategory();
+    User user = createDefaultUser();
 
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category);
+    category = await categoryRepository.save(category, user);
 
     expect(category.id, isNotNull);
     expect(category.name, equals(DEFAULT_CATEGORY_NAME));
@@ -40,12 +42,13 @@ void main() {
 
   test('(Save) Update a category', () async {
     Category category = createDefaultCategory();
+    User user = createDefaultUser();
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category);
+    category = await categoryRepository.save(category, user);
     String categoryId = category.id;
 
     category.name = "test";
-    await categoryRepository.save(category);
+    await categoryRepository.save(category, user);
     category = await categoryRepository.getOneByCategoryIdAndHomeId(categoryId, DEFAULT_HOME_ID);
 
     expect(category.id, equals(categoryId));
@@ -65,7 +68,8 @@ void main() {
     Category category = createDefaultCategory();
 
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category);
+    User user = createDefaultUser();
+    category = await categoryRepository.save(category, user);
 
     var result = await categoryRepository.drop(category);
     expect(result, equals(1));
@@ -82,7 +86,7 @@ void main() {
     product.category = category;
 
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category);
+    category = await categoryRepository.save(category, createDefaultUser());
     product = await productRepository.save(product);
 
     category = await categoryRepository.getOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
@@ -102,7 +106,7 @@ void main() {
     product.category = category;
 
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category);
+    category = await categoryRepository.save(category, createDefaultUser());
     product = await productRepository.save(product);
 
     category = await categoryRepository.getOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID, recurseProducts: false);
@@ -130,7 +134,7 @@ void main() {
   test('(FindOneByCategoryId) Optional is present if category found)', () async {
     Category category = createDefaultCategory();
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category);
+    category = await categoryRepository.save(category, createDefaultUser());
 
     Optional<Category> optionalCategory = await categoryRepository.findOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
 
@@ -140,7 +144,7 @@ void main() {
   test('(FindAll) find all categories', () async {
     Category category = createDefaultCategory();
     await homeRepository.save(category.home);
-    await categoryRepository.save(category);
+    await categoryRepository.save(category, createDefaultUser());
 
     List<Category> categories = await categoryRepository.findAllByHomeId(DEFAULT_HOME_ID, recurseProducts: false);
     expect(categories.length, equals(1));

@@ -3,9 +3,11 @@ import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/item_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
+import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/item.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:optional/optional.dart';
 
@@ -17,6 +19,7 @@ void main() {
   ProductRepository productRepository;
   CategoryRepository categoryRepository;
   HomeRepository homeRepository;
+  UserRepository userRepository;
 
   setUp(() {
     _database = Database.forTesting();
@@ -24,6 +27,7 @@ void main() {
     productRepository = _database.productRepository;
     categoryRepository = _database.categoryRepository;
     homeRepository = _database.homeRepository;
+    userRepository = _database.userRepository;
   });
 
   tearDown(() async {
@@ -151,7 +155,7 @@ void main() {
     Product product = createDefaultProduct();
     product.category = category;
     await homeRepository.save(product.home);
-    category = await categoryRepository.save(category);
+    category = await categoryRepository.save(category, createDefaultUser());
     product = await productRepository.save(product);
 
     List<Product> products = await productRepository.getAllByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
@@ -164,11 +168,27 @@ void main() {
     Product product = createDefaultProduct();
     product.category = category;
     await homeRepository.save(product.home);
-    category = await categoryRepository.save(category);
+    category = await categoryRepository.save(category, createDefaultUser());
     product = await productRepository.save(product);
 
     List<Product> products = await productRepository.getAllByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID, recurseCategory: false);
     expect(products.length, equals(1));
     expect(products[0].category, isNull);
+  });
+
+  test('(findAllByHomeIdAndCategoryIsNull) Find all products for category and without a category', () async {
+    Category category = createDefaultCategory();
+    Product product1 = createDefaultProduct();
+    Product product2 = createDefaultProduct();
+    product2.description = "product2";
+    await homeRepository.save(product1.home);
+    User user = await userRepository.save(createDefaultUser());
+    category = await categoryRepository.save(category, user);
+    product1 = await productRepository.save(product1);
+    product2 = await productRepository.save(product2);
+
+    List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(category.home.id);
+    expect(products.length, equals(1));
+    expect(products[0].description, "product2");
   });
 }

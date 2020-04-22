@@ -1355,8 +1355,8 @@ class $ChangeTableTable extends ChangeTable
   }
 }
 
-class DatabaseChangelogEntry extends DataClass
-    implements Insertable<DatabaseChangelogEntry> {
+class ModelChangeEntry extends DataClass
+    implements Insertable<ModelChangeEntry> {
   final String id;
   final DateTime modificationDate;
   final String userId;
@@ -1368,7 +1368,7 @@ class DatabaseChangelogEntry extends DataClass
   final String fieldName;
   final String from;
   final String to;
-  DatabaseChangelogEntry(
+  ModelChangeEntry(
       {@required this.id,
       @required this.modificationDate,
       @required this.userId,
@@ -1380,14 +1380,14 @@ class DatabaseChangelogEntry extends DataClass
       this.fieldName,
       this.from,
       this.to});
-  factory DatabaseChangelogEntry.fromData(
+  factory ModelChangeEntry.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final intType = db.typeSystem.forDartType<int>();
-    return DatabaseChangelogEntry(
+    return ModelChangeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       modificationDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}modification_date']),
@@ -1409,10 +1409,10 @@ class DatabaseChangelogEntry extends DataClass
       to: stringType.mapFromDatabaseResponse(data['${effectivePrefix}to']),
     );
   }
-  factory DatabaseChangelogEntry.fromJson(Map<String, dynamic> json,
+  factory ModelChangeEntry.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return DatabaseChangelogEntry(
+    return ModelChangeEntry(
       id: serializer.fromJson<String>(json['id']),
       modificationDate: serializer.fromJson<DateTime>(json['modificationDate']),
       userId: serializer.fromJson<String>(json['userId']),
@@ -1445,8 +1445,8 @@ class DatabaseChangelogEntry extends DataClass
   }
 
   @override
-  DatabaseChangelogTableCompanion createCompanion(bool nullToAbsent) {
-    return DatabaseChangelogTableCompanion(
+  ModelChangeTableCompanion createCompanion(bool nullToAbsent) {
+    return ModelChangeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       modificationDate: modificationDate == null && nullToAbsent
           ? const Value.absent()
@@ -1474,7 +1474,7 @@ class DatabaseChangelogEntry extends DataClass
     );
   }
 
-  DatabaseChangelogEntry copyWith(
+  ModelChangeEntry copyWith(
           {String id,
           DateTime modificationDate,
           String userId,
@@ -1486,7 +1486,7 @@ class DatabaseChangelogEntry extends DataClass
           String fieldName,
           String from,
           String to}) =>
-      DatabaseChangelogEntry(
+      ModelChangeEntry(
         id: id ?? this.id,
         modificationDate: modificationDate ?? this.modificationDate,
         userId: userId ?? this.userId,
@@ -1501,7 +1501,7 @@ class DatabaseChangelogEntry extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('DatabaseChangelogEntry(')
+    return (StringBuffer('ModelChangeEntry(')
           ..write('id: $id, ')
           ..write('modificationDate: $modificationDate, ')
           ..write('userId: $userId, ')
@@ -1541,7 +1541,7 @@ class DatabaseChangelogEntry extends DataClass
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is DatabaseChangelogEntry &&
+      (other is ModelChangeEntry &&
           other.id == this.id &&
           other.modificationDate == this.modificationDate &&
           other.userId == this.userId &&
@@ -1555,8 +1555,7 @@ class DatabaseChangelogEntry extends DataClass
           other.to == this.to);
 }
 
-class DatabaseChangelogTableCompanion
-    extends UpdateCompanion<DatabaseChangelogEntry> {
+class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
   final Value<String> id;
   final Value<DateTime> modificationDate;
   final Value<String> userId;
@@ -1568,7 +1567,7 @@ class DatabaseChangelogTableCompanion
   final Value<String> fieldName;
   final Value<String> from;
   final Value<String> to;
-  const DatabaseChangelogTableCompanion({
+  const ModelChangeTableCompanion({
     this.id = const Value.absent(),
     this.modificationDate = const Value.absent(),
     this.userId = const Value.absent(),
@@ -1581,7 +1580,7 @@ class DatabaseChangelogTableCompanion
     this.from = const Value.absent(),
     this.to = const Value.absent(),
   });
-  DatabaseChangelogTableCompanion.insert({
+  ModelChangeTableCompanion.insert({
     @required String id,
     @required DateTime modificationDate,
     @required String userId,
@@ -1598,7 +1597,7 @@ class DatabaseChangelogTableCompanion
         userId = Value(userId),
         direction = Value(direction),
         homeId = Value(homeId);
-  DatabaseChangelogTableCompanion copyWith(
+  ModelChangeTableCompanion copyWith(
       {Value<String> id,
       Value<DateTime> modificationDate,
       Value<String> userId,
@@ -1610,7 +1609,7 @@ class DatabaseChangelogTableCompanion
       Value<String> fieldName,
       Value<String> from,
       Value<String> to}) {
-    return DatabaseChangelogTableCompanion(
+    return ModelChangeTableCompanion(
       id: id ?? this.id,
       modificationDate: modificationDate ?? this.modificationDate,
       userId: userId ?? this.userId,
@@ -1626,11 +1625,11 @@ class DatabaseChangelogTableCompanion
   }
 }
 
-class $DatabaseChangelogTableTable extends DatabaseChangelogTable
-    with TableInfo<$DatabaseChangelogTableTable, DatabaseChangelogEntry> {
+class $ModelChangeTableTable extends ModelChangeTable
+    with TableInfo<$ModelChangeTableTable, ModelChangeEntry> {
   final GeneratedDatabase _db;
   final String _alias;
-  $DatabaseChangelogTableTable(this._db, [this._alias]);
+  $ModelChangeTableTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
   @override
@@ -1768,13 +1767,13 @@ class $DatabaseChangelogTableTable extends DatabaseChangelogTable
         to
       ];
   @override
-  $DatabaseChangelogTableTable get asDslTable => this;
+  $ModelChangeTableTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'database_changelog_table';
+  String get $tableName => _alias ?? 'model_change_table';
   @override
-  final String actualTableName = 'database_changelog_table';
+  final String actualTableName = 'model_change_table';
   @override
-  VerificationContext validateIntegrity(DatabaseChangelogTableCompanion d,
+  VerificationContext validateIntegrity(ModelChangeTableCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
@@ -1837,13 +1836,13 @@ class $DatabaseChangelogTableTable extends DatabaseChangelogTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DatabaseChangelogEntry map(Map<String, dynamic> data, {String tablePrefix}) {
+  ModelChangeEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return DatabaseChangelogEntry.fromData(data, _db, prefix: effectivePrefix);
+    return ModelChangeEntry.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  Map<String, Variable> entityToSql(DatabaseChangelogTableCompanion d) {
+  Map<String, Variable> entityToSql(ModelChangeTableCompanion d) {
     final map = <String, Variable>{};
     if (d.id.present) {
       map['id'] = Variable<String, StringType>(d.id.value);
@@ -1883,8 +1882,8 @@ class $DatabaseChangelogTableTable extends DatabaseChangelogTable
   }
 
   @override
-  $DatabaseChangelogTableTable createAlias(String alias) {
-    return $DatabaseChangelogTableTable(_db, alias);
+  $ModelChangeTableTable createAlias(String alias) {
+    return $ModelChangeTableTable(_db, alias);
   }
 }
 
@@ -2425,6 +2424,340 @@ class $HomeTableTable extends HomeTable
   }
 }
 
+class ModificationEntry extends DataClass
+    implements Insertable<ModificationEntry> {
+  final String id;
+  final String modelChangeId;
+  final String fieldName;
+  final String from;
+  final String to;
+  final String homeId;
+  ModificationEntry(
+      {@required this.id,
+      @required this.modelChangeId,
+      @required this.fieldName,
+      @required this.from,
+      @required this.to,
+      @required this.homeId});
+  factory ModificationEntry.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final stringType = db.typeSystem.forDartType<String>();
+    return ModificationEntry(
+      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      modelChangeId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}model_change_id']),
+      fieldName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
+      from: stringType.mapFromDatabaseResponse(data['${effectivePrefix}from']),
+      to: stringType.mapFromDatabaseResponse(data['${effectivePrefix}to']),
+      homeId:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+    );
+  }
+  factory ModificationEntry.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ModificationEntry(
+      id: serializer.fromJson<String>(json['id']),
+      modelChangeId: serializer.fromJson<String>(json['modelChangeId']),
+      fieldName: serializer.fromJson<String>(json['fieldName']),
+      from: serializer.fromJson<String>(json['from']),
+      to: serializer.fromJson<String>(json['to']),
+      homeId: serializer.fromJson<String>(json['homeId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'modelChangeId': serializer.toJson<String>(modelChangeId),
+      'fieldName': serializer.toJson<String>(fieldName),
+      'from': serializer.toJson<String>(from),
+      'to': serializer.toJson<String>(to),
+      'homeId': serializer.toJson<String>(homeId),
+    };
+  }
+
+  @override
+  ModificationTableCompanion createCompanion(bool nullToAbsent) {
+    return ModificationTableCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      modelChangeId: modelChangeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(modelChangeId),
+      fieldName: fieldName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fieldName),
+      from: from == null && nullToAbsent ? const Value.absent() : Value(from),
+      to: to == null && nullToAbsent ? const Value.absent() : Value(to),
+      homeId:
+          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+    );
+  }
+
+  ModificationEntry copyWith(
+          {String id,
+          String modelChangeId,
+          String fieldName,
+          String from,
+          String to,
+          String homeId}) =>
+      ModificationEntry(
+        id: id ?? this.id,
+        modelChangeId: modelChangeId ?? this.modelChangeId,
+        fieldName: fieldName ?? this.fieldName,
+        from: from ?? this.from,
+        to: to ?? this.to,
+        homeId: homeId ?? this.homeId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ModificationEntry(')
+          ..write('id: $id, ')
+          ..write('modelChangeId: $modelChangeId, ')
+          ..write('fieldName: $fieldName, ')
+          ..write('from: $from, ')
+          ..write('to: $to, ')
+          ..write('homeId: $homeId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          modelChangeId.hashCode,
+          $mrjc(fieldName.hashCode,
+              $mrjc(from.hashCode, $mrjc(to.hashCode, homeId.hashCode))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ModificationEntry &&
+          other.id == this.id &&
+          other.modelChangeId == this.modelChangeId &&
+          other.fieldName == this.fieldName &&
+          other.from == this.from &&
+          other.to == this.to &&
+          other.homeId == this.homeId);
+}
+
+class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
+  final Value<String> id;
+  final Value<String> modelChangeId;
+  final Value<String> fieldName;
+  final Value<String> from;
+  final Value<String> to;
+  final Value<String> homeId;
+  const ModificationTableCompanion({
+    this.id = const Value.absent(),
+    this.modelChangeId = const Value.absent(),
+    this.fieldName = const Value.absent(),
+    this.from = const Value.absent(),
+    this.to = const Value.absent(),
+    this.homeId = const Value.absent(),
+  });
+  ModificationTableCompanion.insert({
+    @required String id,
+    @required String modelChangeId,
+    @required String fieldName,
+    @required String from,
+    @required String to,
+    @required String homeId,
+  })  : id = Value(id),
+        modelChangeId = Value(modelChangeId),
+        fieldName = Value(fieldName),
+        from = Value(from),
+        to = Value(to),
+        homeId = Value(homeId);
+  ModificationTableCompanion copyWith(
+      {Value<String> id,
+      Value<String> modelChangeId,
+      Value<String> fieldName,
+      Value<String> from,
+      Value<String> to,
+      Value<String> homeId}) {
+    return ModificationTableCompanion(
+      id: id ?? this.id,
+      modelChangeId: modelChangeId ?? this.modelChangeId,
+      fieldName: fieldName ?? this.fieldName,
+      from: from ?? this.from,
+      to: to ?? this.to,
+      homeId: homeId ?? this.homeId,
+    );
+  }
+}
+
+class $ModificationTableTable extends ModificationTable
+    with TableInfo<$ModificationTableTable, ModificationEntry> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ModificationTableTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedTextColumn _id;
+  @override
+  GeneratedTextColumn get id => _id ??= _constructId();
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _modelChangeIdMeta =
+      const VerificationMeta('modelChangeId');
+  GeneratedTextColumn _modelChangeId;
+  @override
+  GeneratedTextColumn get modelChangeId =>
+      _modelChangeId ??= _constructModelChangeId();
+  GeneratedTextColumn _constructModelChangeId() {
+    return GeneratedTextColumn('model_change_id', $tableName, false,
+        $customConstraints: 'references ModelChangeTable(id)');
+  }
+
+  final VerificationMeta _fieldNameMeta = const VerificationMeta('fieldName');
+  GeneratedTextColumn _fieldName;
+  @override
+  GeneratedTextColumn get fieldName => _fieldName ??= _constructFieldName();
+  GeneratedTextColumn _constructFieldName() {
+    return GeneratedTextColumn(
+      'field_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _fromMeta = const VerificationMeta('from');
+  GeneratedTextColumn _from;
+  @override
+  GeneratedTextColumn get from => _from ??= _constructFrom();
+  GeneratedTextColumn _constructFrom() {
+    return GeneratedTextColumn(
+      'from',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _toMeta = const VerificationMeta('to');
+  GeneratedTextColumn _to;
+  @override
+  GeneratedTextColumn get to => _to ??= _constructTo();
+  GeneratedTextColumn _constructTo() {
+    return GeneratedTextColumn(
+      'to',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
+  GeneratedTextColumn _homeId;
+  @override
+  GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+  GeneratedTextColumn _constructHomeId() {
+    return GeneratedTextColumn(
+      'home_id',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, modelChangeId, fieldName, from, to, homeId];
+  @override
+  $ModificationTableTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'modification_table';
+  @override
+  final String actualTableName = 'modification_table';
+  @override
+  VerificationContext validateIntegrity(ModificationTableCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.modelChangeId.present) {
+      context.handle(
+          _modelChangeIdMeta,
+          modelChangeId.isAcceptableValue(
+              d.modelChangeId.value, _modelChangeIdMeta));
+    } else if (isInserting) {
+      context.missing(_modelChangeIdMeta);
+    }
+    if (d.fieldName.present) {
+      context.handle(_fieldNameMeta,
+          fieldName.isAcceptableValue(d.fieldName.value, _fieldNameMeta));
+    } else if (isInserting) {
+      context.missing(_fieldNameMeta);
+    }
+    if (d.from.present) {
+      context.handle(
+          _fromMeta, from.isAcceptableValue(d.from.value, _fromMeta));
+    } else if (isInserting) {
+      context.missing(_fromMeta);
+    }
+    if (d.to.present) {
+      context.handle(_toMeta, to.isAcceptableValue(d.to.value, _toMeta));
+    } else if (isInserting) {
+      context.missing(_toMeta);
+    }
+    if (d.homeId.present) {
+      context.handle(
+          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+    } else if (isInserting) {
+      context.missing(_homeIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ModificationEntry map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ModificationEntry.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(ModificationTableCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<String, StringType>(d.id.value);
+    }
+    if (d.modelChangeId.present) {
+      map['model_change_id'] =
+          Variable<String, StringType>(d.modelChangeId.value);
+    }
+    if (d.fieldName.present) {
+      map['field_name'] = Variable<String, StringType>(d.fieldName.value);
+    }
+    if (d.from.present) {
+      map['from'] = Variable<String, StringType>(d.from.value);
+    }
+    if (d.to.present) {
+      map['to'] = Variable<String, StringType>(d.to.value);
+    }
+    if (d.homeId.present) {
+      map['home_id'] = Variable<String, StringType>(d.homeId.value);
+    }
+    return map;
+  }
+
+  @override
+  $ModificationTableTable createAlias(String alias) {
+    return $ModificationTableTable(_db, alias);
+  }
+}
+
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $ItemTableTable _itemTable;
@@ -2437,15 +2770,18 @@ abstract class _$Database extends GeneratedDatabase {
       _categoryTable ??= $CategoryTableTable(this);
   $ChangeTableTable _changeTable;
   $ChangeTableTable get changeTable => _changeTable ??= $ChangeTableTable(this);
-  $DatabaseChangelogTableTable _databaseChangelogTable;
-  $DatabaseChangelogTableTable get databaseChangelogTable =>
-      _databaseChangelogTable ??= $DatabaseChangelogTableTable(this);
+  $ModelChangeTableTable _modelChangeTable;
+  $ModelChangeTableTable get modelChangeTable =>
+      _modelChangeTable ??= $ModelChangeTableTable(this);
   $SyncTableTable _syncTable;
   $SyncTableTable get syncTable => _syncTable ??= $SyncTableTable(this);
   $UserTableTable _userTable;
   $UserTableTable get userTable => _userTable ??= $UserTableTable(this);
   $HomeTableTable _homeTable;
   $HomeTableTable get homeTable => _homeTable ??= $HomeTableTable(this);
+  $ModificationTableTable _modificationTable;
+  $ModificationTableTable get modificationTable =>
+      _modificationTable ??= $ModificationTableTable(this);
   ItemRepository _itemRepository;
   ItemRepository get itemRepository =>
       _itemRepository ??= ItemRepository(this as Database);
@@ -2458,10 +2794,9 @@ abstract class _$Database extends GeneratedDatabase {
   ChangeRepository _changeRepository;
   ChangeRepository get changeRepository =>
       _changeRepository ??= ChangeRepository(this as Database);
-  DatabaseChangelogRepository _databaseChangelogRepository;
-  DatabaseChangelogRepository get databaseChangelogRepository =>
-      _databaseChangelogRepository ??=
-          DatabaseChangelogRepository(this as Database);
+  ModelChangeRepository _modelChangeRepository;
+  ModelChangeRepository get modelChangeRepository =>
+      _modelChangeRepository ??= ModelChangeRepository(this as Database);
   SyncRepository _syncRepository;
   SyncRepository get syncRepository =>
       _syncRepository ??= SyncRepository(this as Database);
@@ -2471,6 +2806,9 @@ abstract class _$Database extends GeneratedDatabase {
   HomeRepository _homeRepository;
   HomeRepository get homeRepository =>
       _homeRepository ??= HomeRepository(this as Database);
+  ModificationRepository _modificationRepository;
+  ModificationRepository get modificationRepository =>
+      _modificationRepository ??= ModificationRepository(this as Database);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -2479,9 +2817,10 @@ abstract class _$Database extends GeneratedDatabase {
         productTable,
         categoryTable,
         changeTable,
-        databaseChangelogTable,
+        modelChangeTable,
         syncTable,
         userTable,
-        homeTable
+        homeTable,
+        modificationTable
       ];
 }

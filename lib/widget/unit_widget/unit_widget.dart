@@ -1,30 +1,58 @@
-import 'package:Blackout/models/unit.dart';
-import 'package:Blackout/widget/unit_text_field/unit_text_field.dart';
+import 'package:Blackout/models/unit/unit.dart';
+import 'package:Blackout/widget/checked_text_field/checked_text_field.dart';
 import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:flutter/material.dart';
 
-typedef void UnitCallback(BaseUnit baseUnit);
-typedef void AmountCallback(double amount);
+typedef void UnitCallback(UnitEnum Unit, double amount, bool checked);
 
 class UnitWidget extends StatefulWidget {
-  final BaseUnit initialUnit;
-  final double initialAmount;
+  final UnitEnum initialUnit;
+  final double initialRefillLimit;
   final UnitCallback unitCallback;
-  final AmountCallback amountCallback;
 
-  UnitWidget({Key key, this.initialUnit, this.unitCallback, this.amountCallback, this.initialAmount}) : super(key: key);
+  UnitWidget({Key key, this.initialUnit, this.unitCallback, this.initialRefillLimit}) : super(key: key);
 
   @override
   _UnitWidgetState createState() => _UnitWidgetState();
 }
 
 class _UnitWidgetState extends State<UnitWidget> {
-  BaseUnit _baseUnit;
+  bool error = false;
+  UnitEnum _unit;
+  bool _checked;
+  double _value;
+  String _input;
 
   @override
   void initState() {
     super.initState();
-    _baseUnit = widget.initialUnit;
+    _unit = widget.initialUnit;
+    _value = widget.initialRefillLimit;
+    _checked = widget.initialRefillLimit != null;
+    _input = _checked ? UnitConverter.toScientific(Amount.fromSi(_value, _unit)).toString().trim() : "";
+  }
+
+  invokeCallback() {
+    double value;
+    try {
+      if (_checked && _input == "") {
+        setState(() {
+          error = true;
+        });
+      } else {
+        value = UnitConverter.toSi(Amount.fromInput(_input, _unit)).value;
+        setState(() {
+          error = false;
+        });
+      }
+    } on NoSuchMethodError {
+      value = null;
+      setState(() {
+        error = true;
+      });
+    } finally {
+      widget.unitCallback(_unit, value, _checked);
+    }
   }
 
   @override
@@ -35,31 +63,39 @@ class _UnitWidgetState extends State<UnitWidget> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(right: 4.4),
-            child: UnitTextField(
-              initialValue: widget.initialAmount,
-              callback: widget.amountCallback,
+            child: CheckedTextField(
+              initialChecked: _checked,
+              initialValue: _input,
+              decoration: InputDecoration(
+                labelText: "Initial value",
+                errorText: error ? "Error" : null,
+              ),
+              callback: (input, checked) {
+                _input = input;
+                _checked = checked;
+                invokeCallback();
+              },
             ),
           ),
         ),
-        Expanded(
-          child: Container(
-            width: 2.0,
-            child: VerticalDivider(
-              color: Colors.redAccent,
-            ),
+        Container(
+          height: 50,
+          child: VerticalDivider(
+            width: 20,
+            thickness: 1.5,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 4.4),
-          child: DropdownButton<Unit>(
-            items: Unit.values.map((u) => DropdownMenuItem(value: u, child: Text(describeEnum(u)))).toList(),
-            onChanged: (unit) {
-              setState(() {
-                _baseUnit = baseUnitFromUnit(Unit.values.firstWhere((u) => u == unit));
-              });
-              widget.unitCallback(_baseUnit);
-            },
-            value: _baseUnit.unit,
+        Container(
+          child: Padding(
+            padding: EdgeInsets.only(left: 4.4),
+            child: DropdownButton<UnitEnum>(
+              items: UnitEnum.values.map((u) => DropdownMenuItem(value: u, child: Text(describeEnum(u)))).toList(),
+              onChanged: (unit) {
+                _unit = unit;
+                invokeCallback();
+              },
+              value: _unit,
+            ),
           ),
         ),
       ],

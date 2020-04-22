@@ -33,11 +33,11 @@ class _NameTextFieldState extends State<NameTextField> {
   void initState() {
     super.initState();
     validateInput(widget.initialValue);
-    _controller.text = widget.initialValue;
+    _controller.text = widget.initialValue.trim();
     _controller.addListener(() {
-      validateInput(_controller.text);
+      validateInput(_controller.text.trim());
       if (_validInput) {
-        widget.callback(_controller.text);
+        widget.callback(_controller.text.trim());
       }
     });
   }

@@ -42,13 +42,12 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
+    await userRepository.save(change.user);
     await productRepository.save(product);
     await itemRepository.save(item);
-    await userRepository.save(change.user);
     change = await changeRepository.save(change);
 
     expect(change.id, isNotNull);
-    expect(change.changeDate, equals(DEFAULT_CHANGE_CHANGE_DATE));
     expect(change.user.name, equals(DEFAULT_USER_NAME));
     expect(change.value, equals(DEFAULT_CHANGE_VALUE));
     expect(change.home.name, equals(DEFAULT_HOME_NAME));
@@ -74,7 +73,6 @@ void main() {
     change = await changeRepository.getOneByChangeIdAndHomeId(changeId, DEFAULT_HOME_ID);
 
     expect(change.id, equals(changeId));
-    expect(change.changeDate, equals(DEFAULT_CHANGE_CHANGE_DATE));
     expect(change.user.name, equals("test"));
     expect(change.value, equals(DEFAULT_CHANGE_VALUE));
     expect(change.home.name, equals(DEFAULT_HOME_NAME));
@@ -122,7 +120,6 @@ void main() {
     expect(change.id, isNotNull);
     expect(change.user.name, equals(DEFAULT_USER_NAME));
     expect(change.value, equals(DEFAULT_CHANGE_VALUE));
-    expect(change.changeDate, equals(DEFAULT_CHANGE_CHANGE_DATE));
     expect(change.home.name, equals(DEFAULT_HOME_NAME));
     expect(change.home.id, equals(DEFAULT_HOME_ID));
   });

@@ -3,43 +3,29 @@ import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart' show MainBloc;
 import 'package:Blackout/bloc/setup/setup_bloc.dart';
 import 'package:Blackout/data/database/database.dart';
+import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
-import 'package:Blackout/data/repository/database_changelog_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/sync_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
-import 'package:Blackout/data/sharedpref/shared_preference_cache.dart'
-    show SharedPreferenceCache;
 import 'package:get_it/get_it.dart' show GetIt;
-import 'package:shared_preferences/shared_preferences.dart'
-    show SharedPreferences;
+import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
 
-Future<SharedPreferenceCache> createSharedPreferenceCache() async =>
-    SharedPreferenceCache(SharedPreferences.getInstance());
+Future<BlackoutPreferences> createBlackoutPreferences() async => BlackoutPreferences(await SharedPreferences.getInstance());
 
 void prepareSharedPreferences(GetIt sl) async {
-  sl.registerSingleton<SharedPreferenceCache>(
-      await createSharedPreferenceCache());
+  sl.registerSingleton<BlackoutPreferences>(await createBlackoutPreferences());
 }
 
 void prepareBlocs(GetIt sl) async {
-  sl.registerSingleton<CategoryBloc>(CategoryBloc(
-      sl<CategoryRepository>(), sl<DatabaseChangelogRepository>()));
-  sl.registerSingleton<HomeBloc>(HomeBloc(
-      sl<SharedPreferenceCache>(),
-      sl<CategoryRepository>(),
-      sl<ProductRepository>(),
-      sl<CategoryBloc>(),
-      sl<ItemRepository>(),
-      sl<ChangeRepository>(),
-      sl<DatabaseChangelogRepository>()));
-  sl.registerSingleton<SetupBloc>(SetupBloc(sl<SharedPreferenceCache>(),
-      sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>()));
-  sl.registerSingleton<MainBloc>(
-      MainBloc(sl<SharedPreferenceCache>(), sl<HomeBloc>()));
+  sl.registerSingleton<CategoryBloc>(CategoryBloc(sl<CategoryRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>()));
+  sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<CategoryRepository>(), sl<ProductRepository>(), sl<CategoryBloc>(), sl<ItemRepository>(), sl<ChangeRepository>(), sl<ModelChangeRepository>()));
+  sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>()));
+  sl.registerSingleton<MainBloc>(MainBloc(sl<BlackoutPreferences>(), sl<HomeBloc>()));
 }
 
 void registerRepositories(GetIt sl) async {
@@ -47,8 +33,7 @@ void registerRepositories(GetIt sl) async {
   sl.registerSingleton<HomeRepository>(database.homeRepository);
   sl.registerSingleton<CategoryRepository>(database.categoryRepository);
   sl.registerSingleton<ChangeRepository>(database.changeRepository);
-  sl.registerSingleton<DatabaseChangelogRepository>(
-      database.databaseChangelogRepository);
+  sl.registerSingleton<ModelChangeRepository>(database.modelChangeRepository);
   sl.registerSingleton<ItemRepository>(database.itemRepository);
   sl.registerSingleton<ProductRepository>(database.productRepository);
   sl.registerSingleton<SyncRepository>(database.syncRepository);

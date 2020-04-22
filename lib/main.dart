@@ -17,7 +17,7 @@ bool isEmulator;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterIsEmulator.isDeviceAnEmulatorOrASimulator.then((value) => isEmulator = value);
+  FlutterIsEmulator.isDeviceAnEmulatorOrASimulator.then((value) => isEmulator = value);
   await TimeMachine.initialize({
     'rootBundle': rootBundle,
   });

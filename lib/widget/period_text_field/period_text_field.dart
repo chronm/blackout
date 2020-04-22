@@ -9,43 +9,24 @@ class PeriodTextField extends StatefulWidget {
   final Period initialPeriod;
   final PeriodCallback callback;
 
-  PeriodTextField({Key key, this.initialPeriod, this.callback})
-      : super(key: key);
+  PeriodTextField({Key key, this.initialPeriod, this.callback}) : super(key: key);
 
   @override
   _PeriodTextFieldState createState() => _PeriodTextFieldState();
 }
 
 class _PeriodTextFieldState extends State<PeriodTextField> {
-  TextEditingController _periodController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _periodController.text =
-        widget.initialPeriod != null ? widget.initialPeriod.toString() : "";
-    _periodController.addListener(
-      () {
-        widget.callback(_periodController.text != ""
-            ? periodFromISO8601String(_periodController.text)
-            : null);
-      },
-    );
+  void invokeCallback(String value, bool checked) {
+    widget.callback(checked ? periodFromISO8601String(value) : null);
   }
 
   @override
   Widget build(BuildContext context) {
     return CheckedTextField(
       initialChecked: widget.initialPeriod != null,
-      controller: _periodController,
+      initialValue: (widget.initialPeriod.toString()),
       decoration: InputDecoration(labelText: "Period"),
-      onChanged: (value) {
-        if (value == "") {
-          _periodController.text = "P";
-          _periodController.selection = TextSelection.fromPosition(
-              TextPosition(offset: _periodController.text.length));
-        }
-      },
+      callback: invokeCallback,
     );
   }
 }

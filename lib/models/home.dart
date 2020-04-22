@@ -11,34 +11,21 @@ class Home {
   Home({@required this.id, @required this.name});
 
   factory Home.fromJson(String json) {
+    if (json == null) return null;
     Map<String, dynamic> map = jsonDecode(json);
 
-    return Home(
-      id: map["id"],
-      name: map["name"]
-    );
+    return Home(id: map["id"], name: map["name"]);
   }
 
   String toJson() {
-    return jsonEncode(
-      {
-        "id": id,
-        "name": name
-      }
-    );
+    return jsonEncode({"id": id, "name": name});
   }
 
   factory Home.fromEntry(HomeEntry entry) {
-    return Home(
-      id: entry.id,
-      name: entry.name
-    );
+    return Home(id: entry.id, name: entry.name);
   }
 
   HomeTableCompanion toCompanion() {
-    return HomeTableCompanion(
-      id: Value(id),
-      name: Value(name)
-    );
+    return HomeTableCompanion(id: Value(id), name: Value(name));
   }
 }
