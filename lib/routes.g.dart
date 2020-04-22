@@ -18,7 +18,7 @@ abstract class Routes extends Equatable {
 
   factory Routes.categoryDetailsRoute(
       {@required Category category,
-      @required List<DatabaseChangelog> changes}) = CategoryDetailsRoute;
+      @required List<ModelChange> changes}) = CategoryDetailsRoute;
 
   factory Routes.productRoute() = ProductRoute;
 
@@ -191,7 +191,7 @@ class CategoryDetailsRoute extends Routes {
 
   final Category category;
 
-  final List<DatabaseChangelog> changes;
+  final List<ModelChange> changes;
 
   @override
   String toString() =>

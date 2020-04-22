@@ -2,8 +2,7 @@ import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/category.dart';
-import 'package:Blackout/models/database_changelog.dart';
-import 'package:Blackout/widget/category_changes/category_changes.dart';
+import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/name_text_field/name_text_field.dart';
 import 'package:Blackout/widget/period_widget/period_widget.dart';
@@ -16,7 +15,7 @@ import 'package:flutter/material.dart';
 class CategoryDetailsScreen extends StatefulWidget {
   final CategoryBloc bloc = sl<CategoryBloc>();
   final Category category;
-  final List<DatabaseChangelog> changes;
+  final List<ModelChange> changes;
 
   CategoryDetailsScreen(this.category, this.changes, {Key key}) : super(key: key);
 
@@ -27,13 +26,14 @@ class CategoryDetailsScreen extends StatefulWidget {
 class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   Category category;
   TextEditingController _nameController = TextEditingController();
+  bool valid = true;
 
   @override
   void initState() {
     super.initState();
     category = widget.category.clone();
     _nameController.text = category.name;
-    _nameController.addListener(() => category.name = _nameController.text);
+    _nameController.addListener(() => category.name = _nameController.text.trim());
   }
 
   @override
@@ -45,7 +45,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: category.isValid()
+            onPressed: category.isValid() && valid && category != widget.category
                 ? () {
                     widget.bloc.add(SaveCategory(category));
                     Navigator.pop(context);
@@ -84,7 +84,18 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 padding: EdgeInsets.all(8.8),
                 child: PeriodWidget(
                   initialPeriod: category.warnInterval,
-                  callback: (period) => category.warnInterval = period,
+                  callback: (period) {
+                    if (period != null) {
+                      category.warnInterval = period;
+                      setState(() {
+                        valid = true;
+                      });
+                    } else {
+                      setState(() {
+                        valid = false;
+                      });
+                    }
+                  },
                 ),
               ),
             ),
@@ -93,19 +104,37 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 padding: EdgeInsets.all(8.8),
                 child: UnitWidget(
                   initialUnit: category.unit,
-                  unitCallback: (unit) {
+                  unitCallback: (unit, amount, checked) {
                     setState(() {
                       category.unit = unit;
+                      category.refillLimit = checked ? amount : null;
+                      if (amount != null || checked == false) {
+                        valid = true;
+                      } else {
+                        valid = false;
+                      }
                     });
                   },
-                  initialAmount: category.amount,
-                  amountCallback: (amount) => category.refillLimit = amount,
+                  initialRefillLimit: category.refillLimit,
                 ),
               ),
             ),
             HorizontalTextDivider(text: "Changes"),
-            CategoryChanges(widget.changes),
-          ],
+          ]..addAll(
+              widget.changes
+                  .map(
+                    (c) => Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.8),
+                        child: ListTile(
+                          title: Text(c.toLocalizedString(context)),
+                          subtitle: Text("${c.modificationDate.toString()} - ${c.user.name}"),
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
         ),
       ),
     );

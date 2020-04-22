@@ -2,9 +2,13 @@ import 'package:Blackout/data/database/category_table.dart';
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/home.dart';
+import 'package:Blackout/models/model_change.dart';
+import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:optional/optional.dart';
+import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
 part 'category_repository.g.dart';
@@ -54,8 +58,23 @@ class CategoryRepository extends DatabaseAccessor<Database> with _$CategoryRepos
     return createCategory(entry, recurseProducts: recurseProducts);
   }
 
-  Future<Category> save(Category category) async {
-    category.id ??= Uuid().v4();
+  Future<Category> save(Category category, User user) async {
+    if (category.id == null) {
+      category.id = Uuid().v4();
+      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: category.home, user: user, modification: ModelChangeType.create, categoryId: category.id);
+      await db.modelChangeRepository.save(change);
+    } else {
+      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: category.home, user: user, modification: ModelChangeType.modify, categoryId: category.id);
+      await db.modelChangeRepository.save(change);
+
+      Category oldCategory = await getOneByCategoryIdAndHomeId(category.id, category.home.id);
+      List<Modification> modifications = oldCategory.getModifications(category);
+      for (Modification modification in modifications) {
+        modification.home = category.home;
+        modification.modelChange = change;
+        db.modificationRepository.save(modification);
+      }
+    }
 
     await into(categoryTable).insert(category.toCompanion(), mode: InsertMode.insertOrReplace);
 

@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
 
+typedef void CheckedTextFieldCallback(String value, bool checked);
+
 class CheckedTextField extends StatefulWidget {
   final bool initialChecked;
-  final TextEditingController controller;
+  final String initialValue;
   final InputDecoration decoration;
-  final ValueChanged onChanged;
+  final CheckedTextFieldCallback callback;
 
-  CheckedTextField(
-      {Key key,
-      this.controller,
-      this.decoration,
-      this.onChanged,
-      this.initialChecked})
-      : super(key: key);
+  CheckedTextField({
+    Key key,
+    this.decoration,
+    this.initialChecked = false,
+    this.initialValue = "",
+    this.callback,
+  }) : super(key: key);
 
   @override
   _CheckedTextFieldState createState() => _CheckedTextFieldState();
 }
 
 class _CheckedTextFieldState extends State<CheckedTextField> {
-  bool enabled = true;
-  String valueBackup;
+  TextEditingController _controller = TextEditingController();
+  bool _checked;
 
   @override
   void initState() {
     super.initState();
-    enabled = widget.initialChecked;
+    _checked = widget.initialChecked;
+    _controller.text = widget.initialValue;
+    _controller.addListener(invokeCallback);
+  }
+
+  invokeCallback() {
+    widget.callback(_controller.text.trim(), _checked);
   }
 
   @override
@@ -34,26 +42,19 @@ class _CheckedTextFieldState extends State<CheckedTextField> {
       children: <Widget>[
         Expanded(
           child: TextField(
-            enabled: enabled,
-            controller: widget.controller,
+            enabled: _checked,
+            controller: _controller,
             decoration: widget.decoration,
-            onChanged: widget.onChanged,
           ),
         ),
         Checkbox(
           onChanged: (value) {
             setState(() {
-              if (value == false) {
-                valueBackup = widget.controller.text;
-                widget.controller.text = "";
-              }
-              if (value == true) {
-                widget.controller.text = valueBackup;
-              }
-              enabled = value;
+              _checked = value;
             });
+            invokeCallback();
           },
-          value: enabled,
+          value: _checked,
         ),
       ],
     );

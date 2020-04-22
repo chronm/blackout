@@ -2,17 +2,19 @@ import 'dart:io';
 
 import 'package:Blackout/data/database/category_table.dart';
 import 'package:Blackout/data/database/change_table.dart';
-import 'package:Blackout/data/database/database_changelog_table.dart';
 import 'package:Blackout/data/database/home_table.dart';
 import 'package:Blackout/data/database/item_table.dart';
+import 'package:Blackout/data/database/model_change_table.dart';
+import 'package:Blackout/data/database/modification_table.dart';
 import 'package:Blackout/data/database/product_table.dart';
 import 'package:Blackout/data/database/sync_table.dart';
 import 'package:Blackout/data/database/user_table.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
-import 'package:Blackout/data/repository/database_changelog_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/model_change_repository.dart';
+import 'package:Blackout/data/repository/modification_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/sync_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
@@ -35,7 +37,9 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [ItemTable, ProductTable, CategoryTable, ChangeTable, DatabaseChangelogTable, SyncTable, UserTable, HomeTable], daos: [ItemRepository, ProductRepository, CategoryRepository, ChangeRepository, DatabaseChangelogRepository, SyncRepository, UserRepository, HomeRepository])
+@UseMoor(
+    tables: [ItemTable, ProductTable, CategoryTable, ChangeTable, ModelChangeTable, SyncTable, UserTable, HomeTable, ModificationTable],
+    daos: [ItemRepository, ProductRepository, CategoryRepository, ChangeRepository, ModelChangeRepository, SyncRepository, UserRepository, HomeRepository, ModificationRepository])
 class Database<T> extends _$Database {
   Database() : super(_openConnection());
 

@@ -1,4 +1,4 @@
-import 'package:Blackout/models/database_changelog.dart';
+import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/ui/category_details/category_details_screen.dart';
 import 'package:Blackout/ui/category_overview/category_overview_screen.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
@@ -20,32 +20,20 @@ class RouteBuilder {
     currentRoute = route;
     return route.when(
       homeRoute: (_) => PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation animation,
-                Animation secondaryAnimation) =>
-            HomeScreen(),
-        transitionsBuilder: (context, animation, _, child) =>
-            FadeTransition(opacity: animation, child: child),
+        pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) => HomeScreen(),
+        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       setupRoute: (_) => PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation animation,
-                Animation secondaryAnimation) =>
-            SetupScreen(),
-        transitionsBuilder: (context, animation, _, child) =>
-            FadeTransition(opacity: animation, child: child),
+        pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) => SetupScreen(),
+        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       categoryOverviewRoute: (_) => PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation animation,
-                Animation secondaryAnimation) =>
-            CategoryOverviewScreen(),
-        transitionsBuilder: (context, animation, _, child) =>
-            FadeTransition(opacity: animation, child: child),
+        pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) => CategoryOverviewScreen(),
+        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       categoryDetailsRoute: (route) => PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation animation,
-                Animation secondaryAnimation) =>
-            CategoryDetailsScreen(route.category, route.changes),
-        transitionsBuilder: (context, animation, _, child) =>
-            FadeTransition(opacity: animation, child: child),
+        pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) => CategoryDetailsScreen(route.category, route.changes),
+        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       productRoute: (_) {},
       itemRoute: (_) {},
@@ -63,7 +51,7 @@ enum _Routes {
   CategoryOverviewRoute,
   @Data(fields: [
     DataField<Category>('category'),
-    DataField<List<DatabaseChangelog>>("changes"),
+    DataField<List<ModelChange>>("changes"),
   ])
   CategoryDetailsRoute,
   @object

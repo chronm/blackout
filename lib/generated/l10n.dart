@@ -247,6 +247,60 @@ class S {
       args: [seconds],
     );
   }
+
+  String get created {
+    return Intl.message(
+      'Created',
+      name: 'created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get deleted {
+    return Intl.message(
+      'Deleted',
+      name: 'deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String modifiedField(Object field, Object from, Object to) {
+    return Intl.message(
+      'Changed $field from $from to $to',
+      name: 'modifiedField',
+      desc: '',
+      args: [field, from, to],
+    );
+  }
+
+  String disabledField(Object field, Object from) {
+    return Intl.message(
+      'Disabled $field from $from',
+      name: 'disabledField',
+      desc: '',
+      args: [field, from],
+    );
+  }
+
+  String enabledField(Object field, Object to) {
+    return Intl.message(
+      'Enabled $field with $to',
+      name: 'enabledField',
+      desc: '',
+      args: [field, to],
+    );
+  }
+
+  String get changes {
+    return Intl.message(
+      'Changes',
+      name: 'changes',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

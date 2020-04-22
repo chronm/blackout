@@ -9,7 +9,7 @@ class InitialCategoryState extends CategoryState {
 
 class ShowCategory extends CategoryState {
   final Category category;
-  final List<DatabaseChangelog> changes;
+  final List<ModelChange> changes;
 
   ShowCategory(this.category, this.changes);
 

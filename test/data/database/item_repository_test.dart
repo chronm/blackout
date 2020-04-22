@@ -41,8 +41,6 @@ void main() {
     item = await itemRepository.save(item);
 
     expect(item.id, isNotNull);
-    expect(item.notificationDate, equals(DEFAULT_ITEM_NOTIFICATION_DATE));
-    expect(item.expirationDate, equals(DEFAULT_ITEM_EXPIRATION_DATE));
     expect(item.home.name, equals(DEFAULT_HOME_NAME));
     expect(item.home.id, equals(DEFAULT_HOME_ID));
   });
@@ -63,7 +61,6 @@ void main() {
 
     expect(item.id, equals(itemId));
     expect(item.expirationDate, equals(LocalDateTime(2000, 1, 1, 0, 0, 0)));
-    expect(item.notificationDate, equals(DEFAULT_ITEM_NOTIFICATION_DATE));
     expect(item.home.name, equals(DEFAULT_HOME_NAME));
     expect(item.home.id, equals(DEFAULT_HOME_ID));
   });
@@ -103,8 +100,6 @@ void main() {
 
     item = await itemRepository.getOneByItemIdAndHomeId(item.id, DEFAULT_HOME_ID);
     expect(item.id, isNotNull);
-    expect(item.notificationDate, equals(DEFAULT_ITEM_NOTIFICATION_DATE));
-    expect(item.expirationDate, equals(DEFAULT_ITEM_EXPIRATION_DATE));
     expect(item.changes, hasLength(1));
     expect(item.changes[0].item.id, equals(item.id));
     expect(item.home.name, equals(DEFAULT_HOME_NAME));
@@ -125,8 +120,6 @@ void main() {
 
     item = await itemRepository.getOneByItemIdAndHomeId(item.id, DEFAULT_HOME_ID, recurseChanges: false);
     expect(item.id, isNotNull);
-    expect(item.notificationDate, equals(DEFAULT_ITEM_NOTIFICATION_DATE));
-    expect(item.expirationDate, equals(DEFAULT_ITEM_EXPIRATION_DATE));
     expect(item.changes, hasLength(0));
     expect(item.home.name, equals(DEFAULT_HOME_NAME));
     expect(item.home.id, equals(DEFAULT_HOME_ID));

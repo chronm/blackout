@@ -21,5 +21,11 @@
   "days": "{days, plural, one{1 day} other {{days} days}}",
   "hours": "{hours, plural, one{1 hour} other {{hours} hours}}",
   "minutes": "{minutes, plural, one{1 minute} other {{minutes} minutes}}",
-  "seconds": "{seconds, plural, one{1 second} other {{seconds} seconds}}"
+  "seconds": "{seconds, plural, one{1 second} other {{seconds} seconds}}",
+  "created": "Created",
+  "deleted": "Deleted",
+  "modifiedField": "Changed {field} from {from} to {to}",
+  "disabledField": "Disabled {field} from {from}",
+  "enabledField": "Enabled {field} with {to}",
+  "changes": "Changes"
 }

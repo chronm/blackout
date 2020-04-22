@@ -1,4 +1,4 @@
-import 'package:Blackout/models/unit.dart';
+import 'package:Blackout/models/unit/unit.dart';
 
 class DisplayableState {
   bool expiredOrNotification;
@@ -12,13 +12,13 @@ abstract class Displayable {
   double get amount;
   bool get expiredOrNotification;
   bool get tooFewAvailable;
-  String get scaledAmount;
-  BaseUnit unit;
+  UnitEnum unit;
 
-  DisplayableState get state =>
-      DisplayableState(expiredOrNotification, tooFewAvailable);
+  String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString().trim();
+
+  DisplayableState get state => DisplayableState(expiredOrNotification, tooFewAvailable);
 
   bool isValid();
 
-  Displayable(BaseUnit unit) : unit = unit;
+  Displayable(UnitEnum unit) : unit = unit;
 }
