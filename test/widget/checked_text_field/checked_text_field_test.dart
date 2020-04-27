@@ -21,6 +21,8 @@ void main() {
       ),
     );
 
+    await tester.pumpAndSettle();
+
     await tester.tap(find.byType(Checkbox));
     await tester.pump();
 
@@ -43,8 +45,11 @@ void main() {
         ),
       ),
     );
+    await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField), "newText");
+
+    await tester.pumpAndSettle();
 
     expect(value, "newText");
     expect(checked, isFalse);

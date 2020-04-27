@@ -29,7 +29,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
     return Column(
       children: <Widget>[
         PeriodTextField(
-          initialPeriod: widget.initialPeriod,
+          initialPeriod: _period,
           callback: (period) {
             widget.callback(period);
             setState(() {

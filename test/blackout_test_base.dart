@@ -6,6 +6,7 @@ import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/item_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
+import 'package:Blackout/data/repository/modification_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/generated/l10n.dart';
@@ -15,11 +16,13 @@ import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
 import 'package:Blackout/models/model_change.dart';
+import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/sync.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -114,14 +117,14 @@ User createDefaultUser() {
 }
 
 // DatabaseChangelog
-final String DEFAULT_DATABASE_CHANGE_LOG_ID = "databaseChangelogId";
-final LocalDateTime DEFAULT_DATABASE_CHANGELOG_MODIFICATION_DATE = DEFAULT_CHANGE_CHANGE_DATE;
+final String DEFAULT_MODEL_CHANGE_ID = "databaseChangelogId";
+final LocalDateTime DEFAULT_MODEL_CHANGE_MODIFICATION_DATE = DEFAULT_CHANGE_CHANGE_DATE;
 
 ModelChange createDefaultModelChange(ModelChangeType modification, {Category category, Product product, Item item}) {
   return ModelChange(
-    id: DEFAULT_DATABASE_CHANGE_LOG_ID,
+    id: DEFAULT_MODEL_CHANGE_ID,
     user: createDefaultUser(),
-    modificationDate: DEFAULT_DATABASE_CHANGELOG_MODIFICATION_DATE,
+    modificationDate: DEFAULT_MODEL_CHANGE_MODIFICATION_DATE,
     modification: modification,
     home: createDefaultHome(),
     categoryId: category != null ? category.id : null,
@@ -141,7 +144,34 @@ Sync createDefaultSync() {
   );
 }
 
+// Modification
+final String DEFAULT_MODIFICATION_ID = "modificationId";
+final String DEFAULT_MODIFICATION_FIELD_NAME = "fieldName";
+final String DEFAULT_MODIFICATION_FROM = "from";
+final String DEFAULT_MODIFICATION_TO = "to";
+
+Modification createDefaultModification() {
+  return Modification(
+    id: DEFAULT_MODIFICATION_ID,
+    fieldName: DEFAULT_MODIFICATION_FIELD_NAME,
+    from: DEFAULT_MODIFICATION_FROM,
+    to: DEFAULT_MODIFICATION_TO,
+    home: createDefaultHome(),
+    modelChange: createDefaultModelChange(ModelChangeType.create, category: createDefaultCategory()..id = DEFAULT_CATEGORY_ID),
+  );
+}
+
 MaterialApp wrapMaterial(Widget widget) => MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Blackout",
+      supportedLocales: S.delegate.supportedLocales,
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      localeResolutionCallback: S.delegate.resolution(fallback: Locale("en", "")),
       home: Scaffold(
         body: widget,
       ),
@@ -207,20 +237,22 @@ class _HomeState extends State<_Home> {
 
 class BlackoutPreferencesMock extends Mock implements BlackoutPreferences {}
 
-class HomeBlocMock extends Mock implements HomeBloc {}
-
-class HomeRepositoryMock extends Mock implements HomeRepository {}
-
-class UserRepositoryMock extends Mock implements UserRepository {}
-
-class ModelChangeRepositoryMock extends Mock implements ModelChangeRepository {}
+class CategoryBlocMock extends MockBloc<CategoryEvent, CategoryState> implements CategoryBloc {}
 
 class CategoryRepositoryMock extends Mock implements CategoryRepository {}
 
-class ProductRepositoryMock extends Mock implements ProductRepository {}
+class ChangeRepositoryMock extends Mock implements ChangeRepository {}
+
+class HomeBlocMock extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
+
+class HomeRepositoryMock extends Mock implements HomeRepository {}
 
 class ItemRepositoryMock extends Mock implements ItemRepository {}
 
-class ChangeRepositoryMock extends Mock implements ChangeRepository {}
+class ModelChangeRepositoryMock extends Mock implements ModelChangeRepository {}
 
-class CategoryBlocMock extends Mock implements CategoryBloc {}
+class ModificationRepositoryMock extends Mock implements ModificationRepository {}
+
+class ProductRepositoryMock extends Mock implements ProductRepository {}
+
+class UserRepositoryMock extends Mock implements UserRepository {}

@@ -48,7 +48,7 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
   }
 
   Future<List<Change>> findAllByChangeDateAfterAndHomeId(LocalDateTime changeDate, String homeId) async {
-    var query = select(db.changeTable)..where((c) => c.changeDate.isBiggerThanValue(changeDate.toDateTimeLocal()))..where((c) => c.homeId.equals(homeId));
+    var query = select(changeTable)..where((c) => c.changeDate.isBiggerThanValue(changeDate.toDateTimeLocal()))..where((c) => c.homeId.equals(homeId));
     List<String> ids = await query.map((c) => c.id).get();
 
     List<Change> changes = [];
@@ -64,7 +64,6 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
   }
 
   Future<Change> getOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseItem = true}) async {
-
     var query = select(changeTable)..where((c) => c.id.equals(changeId));
     ChangeEntry changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;

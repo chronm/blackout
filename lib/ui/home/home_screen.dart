@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: LoadingSearchBar<HomeBloc, HomeState>(
           title: "Blackout",
           bloc: widget._bloc,
-          callback: (search) {
+          searchCallback: (search) {
             setState(() {
               searchString = search.toLowerCase();
             });
