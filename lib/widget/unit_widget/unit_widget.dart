@@ -3,7 +3,7 @@ import 'package:Blackout/widget/checked_text_field/checked_text_field.dart';
 import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:flutter/material.dart';
 
-typedef void UnitCallback(UnitEnum Unit, double amount, bool checked);
+typedef void UnitCallback(UnitEnum unit, double amount, bool checked);
 
 class UnitWidget extends StatefulWidget {
   final UnitEnum initialUnit;
@@ -89,7 +89,14 @@ class _UnitWidgetState extends State<UnitWidget> {
           child: Padding(
             padding: EdgeInsets.only(left: 4.4),
             child: DropdownButton<UnitEnum>(
-              items: UnitEnum.values.map((u) => DropdownMenuItem(value: u, child: Text(describeEnum(u)))).toList(),
+              items: UnitEnum.values
+                  .map(
+                    (u) => DropdownMenuItem(
+                      value: u,
+                      child: Text(describeEnum(u)),
+                    ),
+                  )
+                  .toList(),
               onChanged: (unit) {
                 _unit = unit;
                 invokeCallback();

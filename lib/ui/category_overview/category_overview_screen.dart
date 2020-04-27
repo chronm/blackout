@@ -36,7 +36,7 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
           }
         },
         bloc: widget._bloc,
-        callback: (search) {
+        searchCallback: (search) {
           setState(() {
             searchString = search.toLowerCase();
           });

@@ -7,7 +7,8 @@ class NameTextField extends StatefulWidget {
   final String initialValue;
   final NameCallback callback;
 
-  NameTextField({Key key, this.initialValue, this.callback}) : super(key: key);
+  NameTextField({Key key, @required this.initialValue, @required this.callback})
+      : super(key: key);
 
   @override
   _NameTextFieldState createState() => _NameTextFieldState();
@@ -17,28 +18,27 @@ class _NameTextFieldState extends State<NameTextField> {
   TextEditingController _controller = TextEditingController();
   bool _validInput;
 
-  void validateInput(String value) {
+  void callCallback(String value) {
     if (value == "") {
       setState(() {
         _validInput = false;
       });
+      widget.callback(null);
     } else {
       setState(() {
         _validInput = true;
       });
+      widget.callback(value);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    validateInput(widget.initialValue);
     _controller.text = widget.initialValue.trim();
+    _validInput = _controller.text != null;
     _controller.addListener(() {
-      validateInput(_controller.text.trim());
-      if (_validInput) {
-        widget.callback(_controller.text.trim());
-      }
+      callCallback(_controller.text.trim());
     });
   }
 

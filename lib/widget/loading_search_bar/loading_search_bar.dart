@@ -1,27 +1,27 @@
-import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-typedef void SearchBarCallback(String search);
-typedef String TitleResolver(dynamic state);
-typedef void TitleCallback(dynamic state);
+typedef SearchCallback = void Function(String search);
+typedef TitleResolver<S> = String Function(S state);
+typedef TitleCallback<S> = void Function(S state);
 
 class LoadingSearchBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implements PreferredSizeWidget {
   final B bloc;
-  final SearchBarCallback callback;
+  final SearchCallback searchCallback;
   final String title;
-  final TitleResolver titleResolver;
-  final TitleCallback titleCallback;
+  final TitleResolver<S> titleResolver;
+  final TitleCallback<S> titleCallback;
 
   LoadingSearchBar({
     Key key,
-    @required this.callback,
+    @required this.searchCallback,
     @required this.bloc,
     this.title,
     this.titleResolver,
     this.titleCallback,
-  }) : super(key: key);
+  })  : assert((title != null && titleResolver == null) || (title == null && titleResolver != null)),
+        super(key: key);
 
   @override
   _LoadingSearchBarState createState() => _LoadingSearchBarState<B, S>();
@@ -30,7 +30,7 @@ class LoadingSearchBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget imp
   Size get preferredSize => Size.fromHeight(56.0);
 }
 
-class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingSearchBar> {
+class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingSearchBar<B, S>> {
   TextEditingController _controller = TextEditingController();
   bool searching = false;
 
@@ -40,7 +40,7 @@ class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<Loadin
           border: InputBorder.none,
         ),
         controller: _controller,
-        onChanged: widget.callback,
+        onChanged: widget.searchCallback,
       );
 
   Widget _title(S state) => InkWell(
@@ -68,7 +68,7 @@ class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<Loadin
         icon: Icon(Icons.close),
         onPressed: () {
           _controller.text = "";
-          widget.callback("");
+          widget.searchCallback("");
         },
       );
 
@@ -99,9 +99,6 @@ class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<Loadin
           builder: (context, state) {
             if (state is LoadingState) {
               return LinearProgressIndicator();
-            }
-            if (state is LoadedAll) {
-              return Container();
             }
             return Container();
           },
