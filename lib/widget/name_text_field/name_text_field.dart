@@ -7,8 +7,7 @@ class NameTextField extends StatefulWidget {
   final String initialValue;
   final NameCallback callback;
 
-  NameTextField({Key key, @required this.initialValue, @required this.callback})
-      : super(key: key);
+  NameTextField({Key key, @required this.initialValue, @required this.callback}) : super(key: key);
 
   @override
   _NameTextFieldState createState() => _NameTextFieldState();
@@ -16,17 +15,17 @@ class NameTextField extends StatefulWidget {
 
 class _NameTextFieldState extends State<NameTextField> {
   TextEditingController _controller = TextEditingController();
-  bool _validInput;
+  bool _error;
 
   void callCallback(String value) {
     if (value == "") {
       setState(() {
-        _validInput = false;
+        _error = false;
       });
       widget.callback(null);
     } else {
       setState(() {
-        _validInput = true;
+        _error = true;
       });
       widget.callback(value);
     }
@@ -36,7 +35,7 @@ class _NameTextFieldState extends State<NameTextField> {
   void initState() {
     super.initState();
     _controller.text = widget.initialValue.trim();
-    _validInput = _controller.text != null;
+    _error = _controller.text != null;
     _controller.addListener(() {
       callCallback(_controller.text.trim());
     });
@@ -48,7 +47,7 @@ class _NameTextFieldState extends State<NameTextField> {
       controller: _controller,
       decoration: InputDecoration(
         labelText: S.of(context).singular,
-        errorText: _validInput ? null : "Must not be empty",
+        errorText: _error ? S.of(context).nameMustNotBeEmpty : null,
       ),
     );
   }

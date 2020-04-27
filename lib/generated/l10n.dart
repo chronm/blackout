@@ -66,7 +66,7 @@ class S {
   /// `How do you want do be called. This will be used to identify you in your home.`
   String get setYourUsername {
     return Intl.message(
-      'How do you want do be called. This will be used to identify you in your home.',
+      'How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove items. You can change this later.',
       name: 'setYourUsername',
       desc: '',
       args: [],
@@ -96,7 +96,7 @@ class S {
   /// `What should be the name of your household?`
   String get createHome {
     return Intl.message(
-      'What should be the name of your household?',
+      'How do you want to call your household? You can change it later',
       name: 'createHome',
       desc: '',
       args: [],
@@ -164,7 +164,7 @@ class S {
 
   String get singular {
     return Intl.message(
-      'Singular',
+      'What is the name of this category?',
       name: 'singular',
       desc: '',
       args: [],
@@ -173,7 +173,7 @@ class S {
 
   String get plural {
     return Intl.message(
-      'Plural',
+      'If it has a plural form, enter here',
       name: 'plural',
       desc: '',
       args: [],
@@ -295,7 +295,7 @@ class S {
 
   String disabledField(Object field, Object from) {
     return Intl.message(
-      'Disabled $field from $from',
+      'Disabled $field ($from)',
       name: 'disabledField',
       desc: '',
       args: [field, from],
@@ -304,7 +304,7 @@ class S {
 
   String enabledField(Object field, Object to) {
     return Intl.message(
-      'Enabled $field with $to',
+      'Enabled $field ($to)',
       name: 'enabledField',
       desc: '',
       args: [field, to],
@@ -317,6 +317,42 @@ class S {
       name: 'changes',
       desc: '',
       args: [],
+    );
+  }
+
+  String get nameMustNotBeEmpty {
+    return Intl.message(
+      'Name must not be empty',
+      name: 'nameMustNotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get warnMe {
+    return Intl.message(
+      'Warn me before expiration',
+      name: 'warnMe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get minimumAmount {
+    return Intl.message(
+      'Minimum amount',
+      name: 'minimumAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String amountCouldNotBeParsed(Object amount) {
+    return Intl.message(
+      '$amount is not valid',
+      name: 'amountCouldNotBeParsed',
+      desc: '',
+      args: [amount],
     );
   }
 }

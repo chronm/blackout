@@ -1,3 +1,4 @@
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:Blackout/widget/checked_text_field/checked_text_field.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _PeriodTextFieldState extends State<PeriodTextField> {
     return CheckedTextField(
       initialChecked: widget.initialPeriod != null,
       initialValue: (widget.initialPeriod.toString()),
-      decoration: InputDecoration(labelText: "Period"),
+      decoration: InputDecoration(labelText: S.of(context).warnMe),
       callback: invokeCallback,
     );
   }

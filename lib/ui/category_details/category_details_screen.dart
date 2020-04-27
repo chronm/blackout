@@ -17,8 +17,7 @@ class CategoryDetailsScreen extends StatefulWidget {
   final Category category;
   final List<ModelChange> changes;
 
-  CategoryDetailsScreen(this.category, this.changes, {Key key})
-      : super(key: key);
+  CategoryDetailsScreen(this.category, this.changes, {Key key}) : super(key: key);
 
   @override
   _CategoryDetailsScreenState createState() => _CategoryDetailsScreenState();
@@ -34,8 +33,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     super.initState();
     category = widget.category.clone();
     _nameController.text = category.name;
-    _nameController
-        .addListener(() => category.name = _nameController.text.trim());
+    _nameController.addListener(() => category.name = _nameController.text.trim());
   }
 
   @override
@@ -47,13 +45,12 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed:
-                category.isValid() && valid && category != widget.category
-                    ? () {
-                        widget.bloc.add(SaveCategory(category));
-                        Navigator.pop(context);
-                      }
-                    : null,
+            onPressed: category.isValid() && valid && category != widget.category
+                ? () {
+                    widget.bloc.add(SaveCategory(category));
+                    Navigator.pop(context);
+                  }
+                : null,
           )
         ],
       ),
@@ -78,8 +75,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 padding: EdgeInsets.all(8.8),
                 child: PluralNameWidget(
                   initialValue: category.pluralName,
-                  callback: (pluralName, checked) =>
-                      category.pluralName = checked ? pluralName : null,
+                  callback: (pluralName, checked) => category.pluralName = checked ? pluralName : null,
                 ),
               ),
             ),
@@ -123,7 +119,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 ),
               ),
             ),
-            HorizontalTextDivider(text: "Changes"),
+            HorizontalTextDivider(text: S.of(context).changes),
           ]..addAll(
               widget.changes
                   .map(
@@ -132,8 +128,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                         padding: EdgeInsets.all(8.8),
                         child: ListTile(
                           title: Text(c.toLocalizedString(context)),
-                          subtitle: Text(
-                              "${c.modificationDate.toString()} - ${c.user.name}"),
+                          subtitle: Text("${c.modificationDate.toString()} - ${c.user.name}"),
                         ),
                       ),
                     ),
