@@ -19,58 +19,64 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(amount) => "Available: ${amount}";
+  static m0(amount) => "${amount} is not valid";
 
-  static m1(days) => "${Intl.plural(days, one: '1 day', other: '${days} days')}";
+  static m1(amount) => "Available: ${amount}";
 
-  static m2(field, from) => "Disabled ${field} from ${from}";
+  static m2(days) => "${Intl.plural(days, one: '1 day', other: '${days} days')}";
 
-  static m3(field, to) => "Enabled ${field} with ${to}";
+  static m3(field, from) => "Disabled ${field} (${from})";
 
-  static m4(hours) => "${Intl.plural(hours, one: '1 hour', other: '${hours} hours')}";
+  static m4(field, to) => "Enabled ${field} (${to})";
 
-  static m5(minutes) => "${Intl.plural(minutes, one: '1 minute', other: '${minutes} minutes')}";
+  static m5(hours) => "${Intl.plural(hours, one: '1 hour', other: '${hours} hours')}";
 
-  static m6(field, from, to) => "Changed ${field} from ${from} to ${to}";
+  static m6(minutes) => "${Intl.plural(minutes, one: '1 minute', other: '${minutes} minutes')}";
 
-  static m7(months) => "${Intl.plural(months, one: '1 month', other: '${months} months')}";
+  static m7(field, from, to) => "Changed ${field} from ${from} to ${to}";
 
-  static m8(seconds) => "${Intl.plural(seconds, one: '1 second', other: '${seconds} seconds')}";
+  static m8(months) => "${Intl.plural(months, one: '1 month', other: '${months} months')}";
 
-  static m9(weeks) => "${Intl.plural(weeks, one: '1 week', other: '${weeks} weeks')}";
+  static m9(seconds) => "${Intl.plural(seconds, one: '1 second', other: '${seconds} seconds')}";
 
-  static m10(years) => "${Intl.plural(years, one: '1 year', other: '${years} years')}";
+  static m10(weeks) => "${Intl.plural(weeks, one: '1 week', other: '${weeks} weeks')}";
+
+  static m11(years) => "${Intl.plural(years, one: '1 year', other: '${years} years')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "_locale" : MessageLookupByLibrary.simpleMessage("en"),
-    "available" : m0,
+    "amountCouldNotBeParsed" : m0,
+    "available" : m1,
     "changes" : MessageLookupByLibrary.simpleMessage("Changes"),
     "create" : MessageLookupByLibrary.simpleMessage("Create"),
-    "createHome" : MessageLookupByLibrary.simpleMessage("What should be the name of your household?"),
+    "createHome" : MessageLookupByLibrary.simpleMessage("How do you want to call your household? You can change it later"),
     "created" : MessageLookupByLibrary.simpleMessage("Created"),
-    "days" : m1,
+    "days" : m2,
     "deleted" : MessageLookupByLibrary.simpleMessage("Deleted"),
-    "disabledField" : m2,
-    "enabledField" : m3,
+    "disabledField" : m3,
+    "enabledField" : m4,
     "finish" : MessageLookupByLibrary.simpleMessage("Finish"),
-    "hours" : m4,
+    "hours" : m5,
     "join" : MessageLookupByLibrary.simpleMessage("Join"),
     "joinHome" : MessageLookupByLibrary.simpleMessage("Simply scan the QR Code on another device to join the household."),
-    "minutes" : m5,
-    "modifiedField" : m6,
+    "minimumAmount" : MessageLookupByLibrary.simpleMessage("Minimum amount"),
+    "minutes" : m6,
+    "modifiedField" : m7,
     "modifyCategory" : MessageLookupByLibrary.simpleMessage("Modify Category"),
-    "months" : m7,
+    "months" : m8,
+    "nameMustNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Name must not be empty"),
     "nameOfYourHousehold" : MessageLookupByLibrary.simpleMessage("Name of your household"),
-    "plural" : MessageLookupByLibrary.simpleMessage("Plural"),
-    "seconds" : m8,
+    "plural" : MessageLookupByLibrary.simpleMessage("If it has a plural form, enter here"),
+    "seconds" : m9,
     "setYourHome" : MessageLookupByLibrary.simpleMessage("Do you want to join an existing household or create a new one?"),
-    "setYourUsername" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be used to identify you in your home."),
+    "setYourUsername" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove items. You can change this later."),
     "setup" : MessageLookupByLibrary.simpleMessage("Setup"),
-    "singular" : MessageLookupByLibrary.simpleMessage("Singular"),
+    "singular" : MessageLookupByLibrary.simpleMessage("What is the name of this category?"),
     "username" : MessageLookupByLibrary.simpleMessage("Username"),
-    "weeks" : m9,
+    "warnMe" : MessageLookupByLibrary.simpleMessage("Warn me before expiration"),
+    "weeks" : m10,
     "welcomeMessage" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
-    "years" : m10
+    "years" : m11
   };
 }

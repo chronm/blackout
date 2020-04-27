@@ -1,3 +1,4 @@
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/widget/checked_text_field/checked_text_field.dart';
 import 'package:flutter/foundation.dart' show describeEnum;
@@ -17,7 +18,7 @@ class UnitWidget extends StatefulWidget {
 }
 
 class _UnitWidgetState extends State<UnitWidget> {
-  bool error = false;
+  bool _error = false;
   UnitEnum _unit;
   bool _checked;
   double _value;
@@ -37,18 +38,18 @@ class _UnitWidgetState extends State<UnitWidget> {
     try {
       if (_checked && _input == "") {
         setState(() {
-          error = true;
+          _error = true;
         });
       } else {
         value = UnitConverter.toSi(Amount.fromInput(_input, _unit)).value;
         setState(() {
-          error = false;
+          _error = false;
         });
       }
     } on NoSuchMethodError {
       value = null;
       setState(() {
-        error = true;
+        _error = true;
       });
     } finally {
       widget.unitCallback(_unit, value, _checked);
@@ -67,8 +68,8 @@ class _UnitWidgetState extends State<UnitWidget> {
               initialChecked: _checked,
               initialValue: _input,
               decoration: InputDecoration(
-                labelText: "Initial value",
-                errorText: error ? "Error" : null,
+                labelText: S.of(context).minimumAmount,
+                errorText: _error ? S.of(context).amountCouldNotBeParsed(_input) : null,
               ),
               callback: (input, checked) {
                 _input = input;
