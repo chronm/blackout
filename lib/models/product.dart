@@ -3,7 +3,9 @@ import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/displayable.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/unit/unit.dart';
+import 'package:Blackout/util/double_extension.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -82,5 +84,25 @@ class Product extends Displayable {
   @override
   bool isValid() {
     return description != null && description != "";
+  }
+
+  List<Modification> getModifications(Product product) {
+    List<Modification> modifications = [];
+    if (ean != product.ean) {
+      modifications.add(Modification(fieldName: "ean", from: ean, to: product.ean));
+    }
+    if (description != product.description) {
+      modifications.add(Modification(fieldName: "description", from: description, to: product.description));
+    }
+    if (refillLimit != product.refillLimit) {
+      modifications.add(Modification(fieldName: "refillLimit", from: refillLimit.format(), to: product.refillLimit.format()));
+    }
+
+    return modifications;
+  }
+
+  @override
+  bool operator ==(other) {
+    return ean == other.ean && description == other.description && refillLimit == other.refillLimit;
   }
 }

@@ -15,3 +15,12 @@ class TapOnCategory extends HomeEvent {
   @override
   List<Object> get props => [category];
 }
+
+class TapOnProduct extends HomeEvent {
+  final Product product;
+
+  TapOnProduct(this.product);
+
+  @override
+  List<Object> get props => [product];
+}

@@ -3,7 +3,7 @@ import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
-import 'package:Blackout/widget/loading_search_bar/loading_search_bar.dart';
+import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
 import 'package:flutter/material.dart' show BuildContext, Card, Column, Container, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +22,7 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LoadingSearchBar<CategoryBloc, CategoryState>(
+      appBar: LoadingAppBar<CategoryBloc, CategoryState>(
         titleResolver: (state) {
           if (state is ShowCategory) {
             return state.category.title;
@@ -31,7 +31,6 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
         },
         titleCallback: (state) {
           if (state is ShowCategory) {
-            widget._bloc.add(TapOnCategoryDetails(state.category));
             Navigator.push(context, RouteBuilder.build(Routes.categoryDetailsRoute(category: state.category, changes: state.changes)));
           }
         },
@@ -70,6 +69,10 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
 
                 return Card(
                   child: ListTile(
+                    onTap: () {
+                      widget._bloc.add(TapOnProduct(product));
+                      Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
+                    },
                     title: Text(
                       product.title,
                     ),

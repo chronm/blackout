@@ -1,4 +1,5 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
@@ -15,12 +16,13 @@ void main() {
   ModelChangeRepository modelChangeRepository;
   BlackoutPreferences blackoutPreferences;
   CategoryBloc categoryBloc;
+  ProductBloc productBloc;
 
   setUp(() {
     categoryRepository = CategoryRepositoryMock();
     modelChangeRepository = ModelChangeRepositoryMock();
     blackoutPreferences = BlackoutPreferencesMock();
-    categoryBloc = CategoryBloc(categoryRepository, modelChangeRepository, blackoutPreferences);
+    categoryBloc = CategoryBloc(categoryRepository, modelChangeRepository, blackoutPreferences, productBloc);
   });
 
   test('Save category emits ShowCategory', () {

@@ -13,31 +13,23 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
   final DateTime expirationDate;
   final DateTime notificationDate;
   final String homeId;
-  ItemEntry(
-      {@required this.id,
-      @required this.productId,
-      this.expirationDate,
-      this.notificationDate,
-      @required this.homeId});
-  factory ItemEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  ItemEntry({@required this.id, @required this.productId, this.expirationDate, this.notificationDate, @required this.homeId});
+
+  factory ItemEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return ItemEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      productId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
-      expirationDate: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}expiration_date']),
-      notificationDate: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}notification_date']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      productId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
+      expirationDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}expiration_date']),
+      notificationDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}notification_date']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
-  factory ItemEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory ItemEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ItemEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -47,6 +39,7 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
       homeId: serializer.fromJson<String>(json['homeId']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -63,61 +56,31 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
   ItemTableCompanion createCompanion(bool nullToAbsent) {
     return ItemTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      productId: productId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(productId),
-      expirationDate: expirationDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(expirationDate),
-      notificationDate: notificationDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(notificationDate),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      productId: productId == null && nullToAbsent ? const Value.absent() : Value(productId),
+      expirationDate: expirationDate == null && nullToAbsent ? const Value.absent() : Value(expirationDate),
+      notificationDate: notificationDate == null && nullToAbsent ? const Value.absent() : Value(notificationDate),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
-  ItemEntry copyWith(
-          {String id,
-          String productId,
-          DateTime expirationDate,
-          DateTime notificationDate,
-          String homeId}) =>
-      ItemEntry(
+  ItemEntry copyWith({String id, String productId, DateTime expirationDate, DateTime notificationDate, String homeId}) => ItemEntry(
         id: id ?? this.id,
         productId: productId ?? this.productId,
         expirationDate: expirationDate ?? this.expirationDate,
         notificationDate: notificationDate ?? this.notificationDate,
         homeId: homeId ?? this.homeId,
       );
+
   @override
   String toString() {
-    return (StringBuffer('ItemEntry(')
-          ..write('id: $id, ')
-          ..write('productId: $productId, ')
-          ..write('expirationDate: $expirationDate, ')
-          ..write('notificationDate: $notificationDate, ')
-          ..write('homeId: $homeId')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('ItemEntry(')..write('id: $id, ')..write('productId: $productId, ')..write('expirationDate: $expirationDate, ')..write('notificationDate: $notificationDate, ')..write('homeId: $homeId')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          productId.hashCode,
-          $mrjc(expirationDate.hashCode,
-              $mrjc(notificationDate.hashCode, homeId.hashCode)))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(productId.hashCode, $mrjc(expirationDate.hashCode, $mrjc(notificationDate.hashCode, homeId.hashCode)))));
+
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is ItemEntry &&
-          other.id == this.id &&
-          other.productId == this.productId &&
-          other.expirationDate == this.expirationDate &&
-          other.notificationDate == this.notificationDate &&
-          other.homeId == this.homeId);
+  bool operator ==(dynamic other) => identical(this, other) || (other is ItemEntry && other.id == this.id && other.productId == this.productId && other.expirationDate == this.expirationDate && other.notificationDate == this.notificationDate && other.homeId == this.homeId);
 }
 
 class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
@@ -126,6 +89,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
   final Value<DateTime> expirationDate;
   final Value<DateTime> notificationDate;
   final Value<String> homeId;
+
   const ItemTableCompanion({
     this.id = const Value.absent(),
     this.productId = const Value.absent(),
@@ -133,6 +97,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
     this.notificationDate = const Value.absent(),
     this.homeId = const Value.absent(),
   });
+
   ItemTableCompanion.insert({
     @required String id,
     @required String productId,
@@ -142,12 +107,8 @@ class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
   })  : id = Value(id),
         productId = Value(productId),
         homeId = Value(homeId);
-  ItemTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> productId,
-      Value<DateTime> expirationDate,
-      Value<DateTime> notificationDate,
-      Value<String> homeId}) {
+
+  ItemTableCompanion copyWith({Value<String> id, Value<String> productId, Value<DateTime> expirationDate, Value<DateTime> notificationDate, Value<String> homeId}) {
     return ItemTableCompanion(
       id: id ?? this.id,
       productId: productId ?? this.productId,
@@ -158,15 +119,18 @@ class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
   }
 }
 
-class $ItemTableTable extends ItemTable
-    with TableInfo<$ItemTableTable, ItemEntry> {
+class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, ItemEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $ItemTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -177,19 +141,20 @@ class $ItemTableTable extends ItemTable
 
   final VerificationMeta _productIdMeta = const VerificationMeta('productId');
   GeneratedTextColumn _productId;
+
   @override
   GeneratedTextColumn get productId => _productId ??= _constructProductId();
+
   GeneratedTextColumn _constructProductId() {
-    return GeneratedTextColumn('product_id', $tableName, false,
-        $customConstraints: 'references ProductTable(id)');
+    return GeneratedTextColumn('product_id', $tableName, false, $customConstraints: 'references ProductTable(id)');
   }
 
-  final VerificationMeta _expirationDateMeta =
-      const VerificationMeta('expirationDate');
+  final VerificationMeta _expirationDateMeta = const VerificationMeta('expirationDate');
   GeneratedDateTimeColumn _expirationDate;
+
   @override
-  GeneratedDateTimeColumn get expirationDate =>
-      _expirationDate ??= _constructExpirationDate();
+  GeneratedDateTimeColumn get expirationDate => _expirationDate ??= _constructExpirationDate();
+
   GeneratedDateTimeColumn _constructExpirationDate() {
     return GeneratedDateTimeColumn(
       'expiration_date',
@@ -198,12 +163,12 @@ class $ItemTableTable extends ItemTable
     );
   }
 
-  final VerificationMeta _notificationDateMeta =
-      const VerificationMeta('notificationDate');
+  final VerificationMeta _notificationDateMeta = const VerificationMeta('notificationDate');
   GeneratedDateTimeColumn _notificationDate;
+
   @override
-  GeneratedDateTimeColumn get notificationDate =>
-      _notificationDate ??= _constructNotificationDate();
+  GeneratedDateTimeColumn get notificationDate => _notificationDate ??= _constructNotificationDate();
+
   GeneratedDateTimeColumn _constructNotificationDate() {
     return GeneratedDateTimeColumn(
       'notification_date',
@@ -214,25 +179,27 @@ class $ItemTableTable extends ItemTable
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
   GeneratedTextColumn _homeId;
+
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, productId, expirationDate, notificationDate, homeId];
+  List<GeneratedColumn> get $columns => [id, productId, expirationDate, notificationDate, homeId];
+
   @override
   $ItemTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'item_table';
   @override
   final String actualTableName = 'item_table';
+
   @override
-  VerificationContext validateIntegrity(ItemTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(ItemTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
@@ -240,26 +207,18 @@ class $ItemTableTable extends ItemTable
       context.missing(_idMeta);
     }
     if (d.productId.present) {
-      context.handle(_productIdMeta,
-          productId.isAcceptableValue(d.productId.value, _productIdMeta));
+      context.handle(_productIdMeta, productId.isAcceptableValue(d.productId.value, _productIdMeta));
     } else if (isInserting) {
       context.missing(_productIdMeta);
     }
     if (d.expirationDate.present) {
-      context.handle(
-          _expirationDateMeta,
-          expirationDate.isAcceptableValue(
-              d.expirationDate.value, _expirationDateMeta));
+      context.handle(_expirationDateMeta, expirationDate.isAcceptableValue(d.expirationDate.value, _expirationDateMeta));
     }
     if (d.notificationDate.present) {
-      context.handle(
-          _notificationDateMeta,
-          notificationDate.isAcceptableValue(
-              d.notificationDate.value, _notificationDateMeta));
+      context.handle(_notificationDateMeta, notificationDate.isAcceptableValue(d.notificationDate.value, _notificationDateMeta));
     }
     if (d.homeId.present) {
-      context.handle(
-          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
@@ -268,6 +227,7 @@ class $ItemTableTable extends ItemTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   ItemEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -284,12 +244,10 @@ class $ItemTableTable extends ItemTable
       map['product_id'] = Variable<String, StringType>(d.productId.value);
     }
     if (d.expirationDate.present) {
-      map['expiration_date'] =
-          Variable<DateTime, DateTimeType>(d.expirationDate.value);
+      map['expiration_date'] = Variable<DateTime, DateTimeType>(d.expirationDate.value);
     }
     if (d.notificationDate.present) {
-      map['notification_date'] =
-          Variable<DateTime, DateTimeType>(d.notificationDate.value);
+      map['notification_date'] = Variable<DateTime, DateTimeType>(d.notificationDate.value);
     }
     if (d.homeId.present) {
       map['home_id'] = Variable<String, StringType>(d.homeId.value);
@@ -311,16 +269,10 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
   final String homeId;
   final double refillLimit;
   final int unit;
-  ProductEntry(
-      {@required this.id,
-      this.ean,
-      this.categoryId,
-      @required this.description,
-      @required this.homeId,
-      this.refillLimit,
-      this.unit});
-  factory ProductEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  ProductEntry({@required this.id, this.ean, this.categoryId, @required this.description, @required this.homeId, this.refillLimit, this.unit});
+
+  factory ProductEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final doubleType = db.typeSystem.forDartType<double>();
@@ -328,19 +280,15 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
     return ProductEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       ean: stringType.mapFromDatabaseResponse(data['${effectivePrefix}ean']),
-      categoryId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
-      description: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
-      refillLimit: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
+      categoryId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
+      description: stringType.mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      refillLimit: doubleType.mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
       unit: intType.mapFromDatabaseResponse(data['${effectivePrefix}unit']),
     );
   }
-  factory ProductEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory ProductEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ProductEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -352,6 +300,7 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
       unit: serializer.fromJson<int>(json['unit']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -371,30 +320,15 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
     return ProductTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       ean: ean == null && nullToAbsent ? const Value.absent() : Value(ean),
-      categoryId: categoryId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(categoryId),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
-      refillLimit: refillLimit == null && nullToAbsent
-          ? const Value.absent()
-          : Value(refillLimit),
+      categoryId: categoryId == null && nullToAbsent ? const Value.absent() : Value(categoryId),
+      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      refillLimit: refillLimit == null && nullToAbsent ? const Value.absent() : Value(refillLimit),
       unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
     );
   }
 
-  ProductEntry copyWith(
-          {String id,
-          String ean,
-          String categoryId,
-          String description,
-          String homeId,
-          double refillLimit,
-          int unit}) =>
-      ProductEntry(
+  ProductEntry copyWith({String id, String ean, String categoryId, String description, String homeId, double refillLimit, int unit}) => ProductEntry(
         id: id ?? this.id,
         ean: ean ?? this.ean,
         categoryId: categoryId ?? this.categoryId,
@@ -403,42 +337,18 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
         refillLimit: refillLimit ?? this.refillLimit,
         unit: unit ?? this.unit,
       );
+
   @override
   String toString() {
-    return (StringBuffer('ProductEntry(')
-          ..write('id: $id, ')
-          ..write('ean: $ean, ')
-          ..write('categoryId: $categoryId, ')
-          ..write('description: $description, ')
-          ..write('homeId: $homeId, ')
-          ..write('refillLimit: $refillLimit, ')
-          ..write('unit: $unit')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('ProductEntry(')..write('id: $id, ')..write('ean: $ean, ')..write('categoryId: $categoryId, ')..write('description: $description, ')..write('homeId: $homeId, ')..write('refillLimit: $refillLimit, ')..write('unit: $unit')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          ean.hashCode,
-          $mrjc(
-              categoryId.hashCode,
-              $mrjc(
-                  description.hashCode,
-                  $mrjc(homeId.hashCode,
-                      $mrjc(refillLimit.hashCode, unit.hashCode)))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(ean.hashCode, $mrjc(categoryId.hashCode, $mrjc(description.hashCode, $mrjc(homeId.hashCode, $mrjc(refillLimit.hashCode, unit.hashCode)))))));
+
   @override
   bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is ProductEntry &&
-          other.id == this.id &&
-          other.ean == this.ean &&
-          other.categoryId == this.categoryId &&
-          other.description == this.description &&
-          other.homeId == this.homeId &&
-          other.refillLimit == this.refillLimit &&
-          other.unit == this.unit);
+      identical(this, other) || (other is ProductEntry && other.id == this.id && other.ean == this.ean && other.categoryId == this.categoryId && other.description == this.description && other.homeId == this.homeId && other.refillLimit == this.refillLimit && other.unit == this.unit);
 }
 
 class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
@@ -449,6 +359,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
   final Value<String> homeId;
   final Value<double> refillLimit;
   final Value<int> unit;
+
   const ProductTableCompanion({
     this.id = const Value.absent(),
     this.ean = const Value.absent(),
@@ -458,6 +369,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
     this.refillLimit = const Value.absent(),
     this.unit = const Value.absent(),
   });
+
   ProductTableCompanion.insert({
     @required String id,
     this.ean = const Value.absent(),
@@ -469,14 +381,8 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
   })  : id = Value(id),
         description = Value(description),
         homeId = Value(homeId);
-  ProductTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> ean,
-      Value<String> categoryId,
-      Value<String> description,
-      Value<String> homeId,
-      Value<double> refillLimit,
-      Value<int> unit}) {
+
+  ProductTableCompanion copyWith({Value<String> id, Value<String> ean, Value<String> categoryId, Value<String> description, Value<String> homeId, Value<double> refillLimit, Value<int> unit}) {
     return ProductTableCompanion(
       id: id ?? this.id,
       ean: ean ?? this.ean,
@@ -489,15 +395,18 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
   }
 }
 
-class $ProductTableTable extends ProductTable
-    with TableInfo<$ProductTableTable, ProductEntry> {
+class $ProductTableTable extends ProductTable with TableInfo<$ProductTableTable, ProductEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $ProductTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -508,48 +417,50 @@ class $ProductTableTable extends ProductTable
 
   final VerificationMeta _eanMeta = const VerificationMeta('ean');
   GeneratedTextColumn _ean;
+
   @override
   GeneratedTextColumn get ean => _ean ??= _constructEan();
+
   GeneratedTextColumn _constructEan() {
-    return GeneratedTextColumn('ean', $tableName, true,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('ean', $tableName, true, $customConstraints: 'unique');
   }
 
   final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
   GeneratedTextColumn _categoryId;
+
   @override
   GeneratedTextColumn get categoryId => _categoryId ??= _constructCategoryId();
+
   GeneratedTextColumn _constructCategoryId() {
-    return GeneratedTextColumn('category_id', $tableName, true,
-        $customConstraints: 'null references CategoryTable(id)');
+    return GeneratedTextColumn('category_id', $tableName, true, $customConstraints: 'null references CategoryTable(id)');
   }
 
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+  final VerificationMeta _descriptionMeta = const VerificationMeta('description');
   GeneratedTextColumn _description;
+
   @override
-  GeneratedTextColumn get description =>
-      _description ??= _constructDescription();
+  GeneratedTextColumn get description => _description ??= _constructDescription();
+
   GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn('description', $tableName, false,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('description', $tableName, false, $customConstraints: 'unique');
   }
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
   GeneratedTextColumn _homeId;
+
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
-  final VerificationMeta _refillLimitMeta =
-      const VerificationMeta('refillLimit');
+  final VerificationMeta _refillLimitMeta = const VerificationMeta('refillLimit');
   GeneratedRealColumn _refillLimit;
+
   @override
-  GeneratedRealColumn get refillLimit =>
-      _refillLimit ??= _constructRefillLimit();
+  GeneratedRealColumn get refillLimit => _refillLimit ??= _constructRefillLimit();
+
   GeneratedRealColumn _constructRefillLimit() {
     return GeneratedRealColumn(
       'refill_limit',
@@ -560,8 +471,10 @@ class $ProductTableTable extends ProductTable
 
   final VerificationMeta _unitMeta = const VerificationMeta('unit');
   GeneratedIntColumn _unit;
+
   @override
   GeneratedIntColumn get unit => _unit ??= _constructUnit();
+
   GeneratedIntColumn _constructUnit() {
     return GeneratedIntColumn(
       'unit',
@@ -571,17 +484,18 @@ class $ProductTableTable extends ProductTable
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, ean, categoryId, description, homeId, refillLimit, unit];
+  List<GeneratedColumn> get $columns => [id, ean, categoryId, description, homeId, refillLimit, unit];
+
   @override
   $ProductTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'product_table';
   @override
   final String actualTableName = 'product_table';
+
   @override
-  VerificationContext validateIntegrity(ProductTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(ProductTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
@@ -592,34 +506,30 @@ class $ProductTableTable extends ProductTable
       context.handle(_eanMeta, ean.isAcceptableValue(d.ean.value, _eanMeta));
     }
     if (d.categoryId.present) {
-      context.handle(_categoryIdMeta,
-          categoryId.isAcceptableValue(d.categoryId.value, _categoryIdMeta));
+      context.handle(_categoryIdMeta, categoryId.isAcceptableValue(d.categoryId.value, _categoryIdMeta));
     }
     if (d.description.present) {
-      context.handle(_descriptionMeta,
-          description.isAcceptableValue(d.description.value, _descriptionMeta));
+      context.handle(_descriptionMeta, description.isAcceptableValue(d.description.value, _descriptionMeta));
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
     if (d.homeId.present) {
-      context.handle(
-          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
     if (d.refillLimit.present) {
-      context.handle(_refillLimitMeta,
-          refillLimit.isAcceptableValue(d.refillLimit.value, _refillLimitMeta));
+      context.handle(_refillLimitMeta, refillLimit.isAcceptableValue(d.refillLimit.value, _refillLimitMeta));
     }
     if (d.unit.present) {
-      context.handle(
-          _unitMeta, unit.isAcceptableValue(d.unit.value, _unitMeta));
+      context.handle(_unitMeta, unit.isAcceptableValue(d.unit.value, _unitMeta));
     }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   ProductEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -667,17 +577,10 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
   final String homeId;
   final double refillLimit;
   final int unit;
-  CategoryEntry(
-      {@required this.id,
-      @required this.name,
-      this.pluralName,
-      this.warnInterval,
-      @required this.homeId,
-      this.refillLimit,
-      @required this.unit});
-  factory CategoryEntry.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  CategoryEntry({@required this.id, @required this.name, this.pluralName, this.warnInterval, @required this.homeId, this.refillLimit, @required this.unit});
+
+  factory CategoryEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final doubleType = db.typeSystem.forDartType<double>();
@@ -685,19 +588,15 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
     return CategoryEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
-      pluralName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}plural_name']),
-      warnInterval: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}warn_interval']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
-      refillLimit: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
+      pluralName: stringType.mapFromDatabaseResponse(data['${effectivePrefix}plural_name']),
+      warnInterval: stringType.mapFromDatabaseResponse(data['${effectivePrefix}warn_interval']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      refillLimit: doubleType.mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
       unit: intType.mapFromDatabaseResponse(data['${effectivePrefix}unit']),
     );
   }
-  factory CategoryEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory CategoryEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return CategoryEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -709,6 +608,7 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
       unit: serializer.fromJson<int>(json['unit']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -728,30 +628,15 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
     return CategoryTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      pluralName: pluralName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(pluralName),
-      warnInterval: warnInterval == null && nullToAbsent
-          ? const Value.absent()
-          : Value(warnInterval),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
-      refillLimit: refillLimit == null && nullToAbsent
-          ? const Value.absent()
-          : Value(refillLimit),
+      pluralName: pluralName == null && nullToAbsent ? const Value.absent() : Value(pluralName),
+      warnInterval: warnInterval == null && nullToAbsent ? const Value.absent() : Value(warnInterval),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      refillLimit: refillLimit == null && nullToAbsent ? const Value.absent() : Value(refillLimit),
       unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
     );
   }
 
-  CategoryEntry copyWith(
-          {String id,
-          String name,
-          String pluralName,
-          String warnInterval,
-          String homeId,
-          double refillLimit,
-          int unit}) =>
-      CategoryEntry(
+  CategoryEntry copyWith({String id, String name, String pluralName, String warnInterval, String homeId, double refillLimit, int unit}) => CategoryEntry(
         id: id ?? this.id,
         name: name ?? this.name,
         pluralName: pluralName ?? this.pluralName,
@@ -760,42 +645,18 @@ class CategoryEntry extends DataClass implements Insertable<CategoryEntry> {
         refillLimit: refillLimit ?? this.refillLimit,
         unit: unit ?? this.unit,
       );
+
   @override
   String toString() {
-    return (StringBuffer('CategoryEntry(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('pluralName: $pluralName, ')
-          ..write('warnInterval: $warnInterval, ')
-          ..write('homeId: $homeId, ')
-          ..write('refillLimit: $refillLimit, ')
-          ..write('unit: $unit')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('CategoryEntry(')..write('id: $id, ')..write('name: $name, ')..write('pluralName: $pluralName, ')..write('warnInterval: $warnInterval, ')..write('homeId: $homeId, ')..write('refillLimit: $refillLimit, ')..write('unit: $unit')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          name.hashCode,
-          $mrjc(
-              pluralName.hashCode,
-              $mrjc(
-                  warnInterval.hashCode,
-                  $mrjc(homeId.hashCode,
-                      $mrjc(refillLimit.hashCode, unit.hashCode)))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, $mrjc(pluralName.hashCode, $mrjc(warnInterval.hashCode, $mrjc(homeId.hashCode, $mrjc(refillLimit.hashCode, unit.hashCode)))))));
+
   @override
   bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is CategoryEntry &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.pluralName == this.pluralName &&
-          other.warnInterval == this.warnInterval &&
-          other.homeId == this.homeId &&
-          other.refillLimit == this.refillLimit &&
-          other.unit == this.unit);
+      identical(this, other) || (other is CategoryEntry && other.id == this.id && other.name == this.name && other.pluralName == this.pluralName && other.warnInterval == this.warnInterval && other.homeId == this.homeId && other.refillLimit == this.refillLimit && other.unit == this.unit);
 }
 
 class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
@@ -806,6 +667,7 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
   final Value<String> homeId;
   final Value<double> refillLimit;
   final Value<int> unit;
+
   const CategoryTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -815,6 +677,7 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
     this.refillLimit = const Value.absent(),
     this.unit = const Value.absent(),
   });
+
   CategoryTableCompanion.insert({
     @required String id,
     @required String name,
@@ -827,14 +690,8 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
         name = Value(name),
         homeId = Value(homeId),
         unit = Value(unit);
-  CategoryTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> name,
-      Value<String> pluralName,
-      Value<String> warnInterval,
-      Value<String> homeId,
-      Value<double> refillLimit,
-      Value<int> unit}) {
+
+  CategoryTableCompanion copyWith({Value<String> id, Value<String> name, Value<String> pluralName, Value<String> warnInterval, Value<String> homeId, Value<double> refillLimit, Value<int> unit}) {
     return CategoryTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -847,15 +704,18 @@ class CategoryTableCompanion extends UpdateCompanion<CategoryEntry> {
   }
 }
 
-class $CategoryTableTable extends CategoryTable
-    with TableInfo<$CategoryTableTable, CategoryEntry> {
+class $CategoryTableTable extends CategoryTable with TableInfo<$CategoryTableTable, CategoryEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $CategoryTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -866,28 +726,30 @@ class $CategoryTableTable extends CategoryTable
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
+
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
+
   GeneratedTextColumn _constructName() {
-    return GeneratedTextColumn('name', $tableName, false,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('name', $tableName, false, $customConstraints: 'unique');
   }
 
   final VerificationMeta _pluralNameMeta = const VerificationMeta('pluralName');
   GeneratedTextColumn _pluralName;
+
   @override
   GeneratedTextColumn get pluralName => _pluralName ??= _constructPluralName();
+
   GeneratedTextColumn _constructPluralName() {
-    return GeneratedTextColumn('plural_name', $tableName, true,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('plural_name', $tableName, true, $customConstraints: 'unique');
   }
 
-  final VerificationMeta _warnIntervalMeta =
-      const VerificationMeta('warnInterval');
+  final VerificationMeta _warnIntervalMeta = const VerificationMeta('warnInterval');
   GeneratedTextColumn _warnInterval;
+
   @override
-  GeneratedTextColumn get warnInterval =>
-      _warnInterval ??= _constructWarnInterval();
+  GeneratedTextColumn get warnInterval => _warnInterval ??= _constructWarnInterval();
+
   GeneratedTextColumn _constructWarnInterval() {
     return GeneratedTextColumn(
       'warn_interval',
@@ -898,19 +760,20 @@ class $CategoryTableTable extends CategoryTable
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
   GeneratedTextColumn _homeId;
+
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
-  final VerificationMeta _refillLimitMeta =
-      const VerificationMeta('refillLimit');
+  final VerificationMeta _refillLimitMeta = const VerificationMeta('refillLimit');
   GeneratedRealColumn _refillLimit;
+
   @override
-  GeneratedRealColumn get refillLimit =>
-      _refillLimit ??= _constructRefillLimit();
+  GeneratedRealColumn get refillLimit => _refillLimit ??= _constructRefillLimit();
+
   GeneratedRealColumn _constructRefillLimit() {
     return GeneratedRealColumn(
       'refill_limit',
@@ -921,8 +784,10 @@ class $CategoryTableTable extends CategoryTable
 
   final VerificationMeta _unitMeta = const VerificationMeta('unit');
   GeneratedIntColumn _unit;
+
   @override
   GeneratedIntColumn get unit => _unit ??= _constructUnit();
+
   GeneratedIntColumn _constructUnit() {
     return GeneratedIntColumn(
       'unit',
@@ -932,17 +797,18 @@ class $CategoryTableTable extends CategoryTable
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, name, pluralName, warnInterval, homeId, refillLimit, unit];
+  List<GeneratedColumn> get $columns => [id, name, pluralName, warnInterval, homeId, refillLimit, unit];
+
   @override
   $CategoryTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'category_table';
   @override
   final String actualTableName = 'category_table';
+
   @override
-  VerificationContext validateIntegrity(CategoryTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(CategoryTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
@@ -950,34 +816,26 @@ class $CategoryTableTable extends CategoryTable
       context.missing(_idMeta);
     }
     if (d.name.present) {
-      context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+      context.handle(_nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (d.pluralName.present) {
-      context.handle(_pluralNameMeta,
-          pluralName.isAcceptableValue(d.pluralName.value, _pluralNameMeta));
+      context.handle(_pluralNameMeta, pluralName.isAcceptableValue(d.pluralName.value, _pluralNameMeta));
     }
     if (d.warnInterval.present) {
-      context.handle(
-          _warnIntervalMeta,
-          warnInterval.isAcceptableValue(
-              d.warnInterval.value, _warnIntervalMeta));
+      context.handle(_warnIntervalMeta, warnInterval.isAcceptableValue(d.warnInterval.value, _warnIntervalMeta));
     }
     if (d.homeId.present) {
-      context.handle(
-          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
     if (d.refillLimit.present) {
-      context.handle(_refillLimitMeta,
-          refillLimit.isAcceptableValue(d.refillLimit.value, _refillLimitMeta));
+      context.handle(_refillLimitMeta, refillLimit.isAcceptableValue(d.refillLimit.value, _refillLimitMeta));
     }
     if (d.unit.present) {
-      context.handle(
-          _unitMeta, unit.isAcceptableValue(d.unit.value, _unitMeta));
+      context.handle(_unitMeta, unit.isAcceptableValue(d.unit.value, _unitMeta));
     } else if (isInserting) {
       context.missing(_unitMeta);
     }
@@ -986,6 +844,7 @@ class $CategoryTableTable extends CategoryTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   CategoryEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1032,35 +891,25 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
   final DateTime changeDate;
   final String itemId;
   final String homeId;
-  ChangeEntry(
-      {@required this.id,
-      @required this.userId,
-      @required this.value,
-      @required this.changeDate,
-      @required this.itemId,
-      @required this.homeId});
-  factory ChangeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  ChangeEntry({@required this.id, @required this.userId, @required this.value, @required this.changeDate, @required this.itemId, @required this.homeId});
+
+  factory ChangeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final doubleType = db.typeSystem.forDartType<double>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return ChangeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      userId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      value:
-          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
-      changeDate: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}change_date']),
-      itemId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      userId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      value: doubleType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
+      changeDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}change_date']),
+      itemId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
-  factory ChangeEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory ChangeEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ChangeEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -1071,6 +920,7 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
       homeId: serializer.fromJson<String>(json['homeId']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -1088,28 +938,15 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
   ChangeTableCompanion createCompanion(bool nullToAbsent) {
     return ChangeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      value:
-          value == null && nullToAbsent ? const Value.absent() : Value(value),
-      changeDate: changeDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(changeDate),
-      itemId:
-          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      userId: userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      value: value == null && nullToAbsent ? const Value.absent() : Value(value),
+      changeDate: changeDate == null && nullToAbsent ? const Value.absent() : Value(changeDate),
+      itemId: itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
-  ChangeEntry copyWith(
-          {String id,
-          String userId,
-          double value,
-          DateTime changeDate,
-          String itemId,
-          String homeId}) =>
-      ChangeEntry(
+  ChangeEntry copyWith({String id, String userId, double value, DateTime changeDate, String itemId, String homeId}) => ChangeEntry(
         id: id ?? this.id,
         userId: userId ?? this.userId,
         value: value ?? this.value,
@@ -1117,38 +954,17 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
         itemId: itemId ?? this.itemId,
         homeId: homeId ?? this.homeId,
       );
+
   @override
   String toString() {
-    return (StringBuffer('ChangeEntry(')
-          ..write('id: $id, ')
-          ..write('userId: $userId, ')
-          ..write('value: $value, ')
-          ..write('changeDate: $changeDate, ')
-          ..write('itemId: $itemId, ')
-          ..write('homeId: $homeId')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('ChangeEntry(')..write('id: $id, ')..write('userId: $userId, ')..write('value: $value, ')..write('changeDate: $changeDate, ')..write('itemId: $itemId, ')..write('homeId: $homeId')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          userId.hashCode,
-          $mrjc(
-              value.hashCode,
-              $mrjc(changeDate.hashCode,
-                  $mrjc(itemId.hashCode, homeId.hashCode))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(userId.hashCode, $mrjc(value.hashCode, $mrjc(changeDate.hashCode, $mrjc(itemId.hashCode, homeId.hashCode))))));
+
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is ChangeEntry &&
-          other.id == this.id &&
-          other.userId == this.userId &&
-          other.value == this.value &&
-          other.changeDate == this.changeDate &&
-          other.itemId == this.itemId &&
-          other.homeId == this.homeId);
+  bool operator ==(dynamic other) => identical(this, other) || (other is ChangeEntry && other.id == this.id && other.userId == this.userId && other.value == this.value && other.changeDate == this.changeDate && other.itemId == this.itemId && other.homeId == this.homeId);
 }
 
 class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
@@ -1158,6 +974,7 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
   final Value<DateTime> changeDate;
   final Value<String> itemId;
   final Value<String> homeId;
+
   const ChangeTableCompanion({
     this.id = const Value.absent(),
     this.userId = const Value.absent(),
@@ -1166,6 +983,7 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
     this.itemId = const Value.absent(),
     this.homeId = const Value.absent(),
   });
+
   ChangeTableCompanion.insert({
     this.id = const Value.absent(),
     @required String userId,
@@ -1178,13 +996,8 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
         changeDate = Value(changeDate),
         itemId = Value(itemId),
         homeId = Value(homeId);
-  ChangeTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> userId,
-      Value<double> value,
-      Value<DateTime> changeDate,
-      Value<String> itemId,
-      Value<String> homeId}) {
+
+  ChangeTableCompanion copyWith({Value<String> id, Value<String> userId, Value<double> value, Value<DateTime> changeDate, Value<String> itemId, Value<String> homeId}) {
     return ChangeTableCompanion(
       id: id ?? this.id,
       userId: userId ?? this.userId,
@@ -1196,15 +1009,18 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
   }
 }
 
-class $ChangeTableTable extends ChangeTable
-    with TableInfo<$ChangeTableTable, ChangeEntry> {
+class $ChangeTableTable extends ChangeTable with TableInfo<$ChangeTableTable, ChangeEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $ChangeTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -1215,8 +1031,10 @@ class $ChangeTableTable extends ChangeTable
 
   final VerificationMeta _userIdMeta = const VerificationMeta('userId');
   GeneratedTextColumn _userId;
+
   @override
   GeneratedTextColumn get userId => _userId ??= _constructUserId();
+
   GeneratedTextColumn _constructUserId() {
     return GeneratedTextColumn(
       'user_id',
@@ -1227,8 +1045,10 @@ class $ChangeTableTable extends ChangeTable
 
   final VerificationMeta _valueMeta = const VerificationMeta('value');
   GeneratedRealColumn _value;
+
   @override
   GeneratedRealColumn get value => _value ??= _constructValue();
+
   GeneratedRealColumn _constructValue() {
     return GeneratedRealColumn(
       'value',
@@ -1239,9 +1059,10 @@ class $ChangeTableTable extends ChangeTable
 
   final VerificationMeta _changeDateMeta = const VerificationMeta('changeDate');
   GeneratedDateTimeColumn _changeDate;
+
   @override
-  GeneratedDateTimeColumn get changeDate =>
-      _changeDate ??= _constructChangeDate();
+  GeneratedDateTimeColumn get changeDate => _changeDate ??= _constructChangeDate();
+
   GeneratedDateTimeColumn _constructChangeDate() {
     return GeneratedDateTimeColumn(
       'change_date',
@@ -1252,65 +1073,63 @@ class $ChangeTableTable extends ChangeTable
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
   GeneratedTextColumn _itemId;
+
   @override
   GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+
   GeneratedTextColumn _constructItemId() {
-    return GeneratedTextColumn('item_id', $tableName, false,
-        $customConstraints: 'references ItemTable(id)');
+    return GeneratedTextColumn('item_id', $tableName, false, $customConstraints: 'references ItemTable(id)');
   }
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
   GeneratedTextColumn _homeId;
+
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, userId, value, changeDate, itemId, homeId];
+  List<GeneratedColumn> get $columns => [id, userId, value, changeDate, itemId, homeId];
+
   @override
   $ChangeTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'change_table';
   @override
   final String actualTableName = 'change_table';
+
   @override
-  VerificationContext validateIntegrity(ChangeTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(ChangeTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     }
     if (d.userId.present) {
-      context.handle(
-          _userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
+      context.handle(_userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (d.value.present) {
-      context.handle(
-          _valueMeta, value.isAcceptableValue(d.value.value, _valueMeta));
+      context.handle(_valueMeta, value.isAcceptableValue(d.value.value, _valueMeta));
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
     if (d.changeDate.present) {
-      context.handle(_changeDateMeta,
-          changeDate.isAcceptableValue(d.changeDate.value, _changeDateMeta));
+      context.handle(_changeDateMeta, changeDate.isAcceptableValue(d.changeDate.value, _changeDateMeta));
     } else if (isInserting) {
       context.missing(_changeDateMeta);
     }
     if (d.itemId.present) {
-      context.handle(
-          _itemIdMeta, itemId.isAcceptableValue(d.itemId.value, _itemIdMeta));
+      context.handle(_itemIdMeta, itemId.isAcceptableValue(d.itemId.value, _itemIdMeta));
     } else if (isInserting) {
       context.missing(_itemIdMeta);
     }
     if (d.homeId.present) {
-      context.handle(
-          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
@@ -1319,6 +1138,7 @@ class $ChangeTableTable extends ChangeTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   ChangeEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1355,8 +1175,7 @@ class $ChangeTableTable extends ChangeTable
   }
 }
 
-class ModelChangeEntry extends DataClass
-    implements Insertable<ModelChangeEntry> {
+class ModelChangeEntry extends DataClass implements Insertable<ModelChangeEntry> {
   final String id;
   final DateTime modificationDate;
   final String userId;
@@ -1365,52 +1184,27 @@ class ModelChangeEntry extends DataClass
   final String itemId;
   final int direction;
   final String homeId;
-  final String fieldName;
-  final String from;
-  final String to;
-  ModelChangeEntry(
-      {@required this.id,
-      @required this.modificationDate,
-      @required this.userId,
-      this.categoryId,
-      this.productId,
-      this.itemId,
-      @required this.direction,
-      @required this.homeId,
-      this.fieldName,
-      this.from,
-      this.to});
-  factory ModelChangeEntry.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  ModelChangeEntry({@required this.id, @required this.modificationDate, @required this.userId, this.categoryId, this.productId, this.itemId, @required this.direction, @required this.homeId});
+
+  factory ModelChangeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final intType = db.typeSystem.forDartType<int>();
     return ModelChangeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      modificationDate: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}modification_date']),
-      userId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      categoryId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
-      productId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
-      itemId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
-      direction:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}direction']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
-      fieldName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
-      from: stringType.mapFromDatabaseResponse(data['${effectivePrefix}from']),
-      to: stringType.mapFromDatabaseResponse(data['${effectivePrefix}to']),
+      modificationDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}modification_date']),
+      userId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      categoryId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
+      productId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
+      itemId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      direction: intType.mapFromDatabaseResponse(data['${effectivePrefix}direction']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
-  factory ModelChangeEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory ModelChangeEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ModelChangeEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -1421,11 +1215,9 @@ class ModelChangeEntry extends DataClass
       itemId: serializer.fromJson<String>(json['itemId']),
       direction: serializer.fromJson<int>(json['direction']),
       homeId: serializer.fromJson<String>(json['homeId']),
-      fieldName: serializer.fromJson<String>(json['fieldName']),
-      from: serializer.fromJson<String>(json['from']),
-      to: serializer.fromJson<String>(json['to']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -1438,9 +1230,6 @@ class ModelChangeEntry extends DataClass
       'itemId': serializer.toJson<String>(itemId),
       'direction': serializer.toJson<int>(direction),
       'homeId': serializer.toJson<String>(homeId),
-      'fieldName': serializer.toJson<String>(fieldName),
-      'from': serializer.toJson<String>(from),
-      'to': serializer.toJson<String>(to),
     };
   }
 
@@ -1448,45 +1237,17 @@ class ModelChangeEntry extends DataClass
   ModelChangeTableCompanion createCompanion(bool nullToAbsent) {
     return ModelChangeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      modificationDate: modificationDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(modificationDate),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      categoryId: categoryId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(categoryId),
-      productId: productId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(productId),
-      itemId:
-          itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
-      direction: direction == null && nullToAbsent
-          ? const Value.absent()
-          : Value(direction),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
-      fieldName: fieldName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(fieldName),
-      from: from == null && nullToAbsent ? const Value.absent() : Value(from),
-      to: to == null && nullToAbsent ? const Value.absent() : Value(to),
+      modificationDate: modificationDate == null && nullToAbsent ? const Value.absent() : Value(modificationDate),
+      userId: userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      categoryId: categoryId == null && nullToAbsent ? const Value.absent() : Value(categoryId),
+      productId: productId == null && nullToAbsent ? const Value.absent() : Value(productId),
+      itemId: itemId == null && nullToAbsent ? const Value.absent() : Value(itemId),
+      direction: direction == null && nullToAbsent ? const Value.absent() : Value(direction),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
-  ModelChangeEntry copyWith(
-          {String id,
-          DateTime modificationDate,
-          String userId,
-          String categoryId,
-          String productId,
-          String itemId,
-          int direction,
-          String homeId,
-          String fieldName,
-          String from,
-          String to}) =>
-      ModelChangeEntry(
+  ModelChangeEntry copyWith({String id, DateTime modificationDate, String userId, String categoryId, String productId, String itemId, int direction, String homeId}) => ModelChangeEntry(
         id: id ?? this.id,
         modificationDate: modificationDate ?? this.modificationDate,
         userId: userId ?? this.userId,
@@ -1495,10 +1256,8 @@ class ModelChangeEntry extends DataClass
         itemId: itemId ?? this.itemId,
         direction: direction ?? this.direction,
         homeId: homeId ?? this.homeId,
-        fieldName: fieldName ?? this.fieldName,
-        from: from ?? this.from,
-        to: to ?? this.to,
       );
+
   @override
   String toString() {
     return (StringBuffer('ModelChangeEntry(')
@@ -1509,35 +1268,14 @@ class ModelChangeEntry extends DataClass
           ..write('productId: $productId, ')
           ..write('itemId: $itemId, ')
           ..write('direction: $direction, ')
-          ..write('homeId: $homeId, ')
-          ..write('fieldName: $fieldName, ')
-          ..write('from: $from, ')
-          ..write('to: $to')
+          ..write('homeId: $homeId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          modificationDate.hashCode,
-          $mrjc(
-              userId.hashCode,
-              $mrjc(
-                  categoryId.hashCode,
-                  $mrjc(
-                      productId.hashCode,
-                      $mrjc(
-                          itemId.hashCode,
-                          $mrjc(
-                              direction.hashCode,
-                              $mrjc(
-                                  homeId.hashCode,
-                                  $mrjc(
-                                      fieldName.hashCode,
-                                      $mrjc(
-                                          from.hashCode, to.hashCode)))))))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(modificationDate.hashCode, $mrjc(userId.hashCode, $mrjc(categoryId.hashCode, $mrjc(productId.hashCode, $mrjc(itemId.hashCode, $mrjc(direction.hashCode, homeId.hashCode))))))));
+
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1549,10 +1287,7 @@ class ModelChangeEntry extends DataClass
           other.productId == this.productId &&
           other.itemId == this.itemId &&
           other.direction == this.direction &&
-          other.homeId == this.homeId &&
-          other.fieldName == this.fieldName &&
-          other.from == this.from &&
-          other.to == this.to);
+          other.homeId == this.homeId);
 }
 
 class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
@@ -1564,9 +1299,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
   final Value<String> itemId;
   final Value<int> direction;
   final Value<String> homeId;
-  final Value<String> fieldName;
-  final Value<String> from;
-  final Value<String> to;
+
   const ModelChangeTableCompanion({
     this.id = const Value.absent(),
     this.modificationDate = const Value.absent(),
@@ -1576,10 +1309,8 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
     this.itemId = const Value.absent(),
     this.direction = const Value.absent(),
     this.homeId = const Value.absent(),
-    this.fieldName = const Value.absent(),
-    this.from = const Value.absent(),
-    this.to = const Value.absent(),
   });
+
   ModelChangeTableCompanion.insert({
     @required String id,
     @required DateTime modificationDate,
@@ -1589,26 +1320,13 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
     this.itemId = const Value.absent(),
     @required int direction,
     @required String homeId,
-    this.fieldName = const Value.absent(),
-    this.from = const Value.absent(),
-    this.to = const Value.absent(),
   })  : id = Value(id),
         modificationDate = Value(modificationDate),
         userId = Value(userId),
         direction = Value(direction),
         homeId = Value(homeId);
-  ModelChangeTableCompanion copyWith(
-      {Value<String> id,
-      Value<DateTime> modificationDate,
-      Value<String> userId,
-      Value<String> categoryId,
-      Value<String> productId,
-      Value<String> itemId,
-      Value<int> direction,
-      Value<String> homeId,
-      Value<String> fieldName,
-      Value<String> from,
-      Value<String> to}) {
+
+  ModelChangeTableCompanion copyWith({Value<String> id, Value<DateTime> modificationDate, Value<String> userId, Value<String> categoryId, Value<String> productId, Value<String> itemId, Value<int> direction, Value<String> homeId}) {
     return ModelChangeTableCompanion(
       id: id ?? this.id,
       modificationDate: modificationDate ?? this.modificationDate,
@@ -1618,22 +1336,22 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
       itemId: itemId ?? this.itemId,
       direction: direction ?? this.direction,
       homeId: homeId ?? this.homeId,
-      fieldName: fieldName ?? this.fieldName,
-      from: from ?? this.from,
-      to: to ?? this.to,
     );
   }
 }
 
-class $ModelChangeTableTable extends ModelChangeTable
-    with TableInfo<$ModelChangeTableTable, ModelChangeEntry> {
+class $ModelChangeTableTable extends ModelChangeTable with TableInfo<$ModelChangeTableTable, ModelChangeEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $ModelChangeTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -1642,12 +1360,12 @@ class $ModelChangeTableTable extends ModelChangeTable
     );
   }
 
-  final VerificationMeta _modificationDateMeta =
-      const VerificationMeta('modificationDate');
+  final VerificationMeta _modificationDateMeta = const VerificationMeta('modificationDate');
   GeneratedDateTimeColumn _modificationDate;
+
   @override
-  GeneratedDateTimeColumn get modificationDate =>
-      _modificationDate ??= _constructModificationDate();
+  GeneratedDateTimeColumn get modificationDate => _modificationDate ??= _constructModificationDate();
+
   GeneratedDateTimeColumn _constructModificationDate() {
     return GeneratedDateTimeColumn(
       'modification_date',
@@ -1658,8 +1376,10 @@ class $ModelChangeTableTable extends ModelChangeTable
 
   final VerificationMeta _userIdMeta = const VerificationMeta('userId');
   GeneratedTextColumn _userId;
+
   @override
   GeneratedTextColumn get userId => _userId ??= _constructUserId();
+
   GeneratedTextColumn _constructUserId() {
     return GeneratedTextColumn(
       'user_id',
@@ -1670,35 +1390,40 @@ class $ModelChangeTableTable extends ModelChangeTable
 
   final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
   GeneratedTextColumn _categoryId;
+
   @override
   GeneratedTextColumn get categoryId => _categoryId ??= _constructCategoryId();
+
   GeneratedTextColumn _constructCategoryId() {
-    return GeneratedTextColumn('category_id', $tableName, true,
-        $customConstraints: 'null references CategoryTable(id)');
+    return GeneratedTextColumn('category_id', $tableName, true, $customConstraints: 'null references CategoryTable(id)');
   }
 
   final VerificationMeta _productIdMeta = const VerificationMeta('productId');
   GeneratedTextColumn _productId;
+
   @override
   GeneratedTextColumn get productId => _productId ??= _constructProductId();
+
   GeneratedTextColumn _constructProductId() {
-    return GeneratedTextColumn('product_id', $tableName, true,
-        $customConstraints: 'null references ProductTable(id)');
+    return GeneratedTextColumn('product_id', $tableName, true, $customConstraints: 'null references ProductTable(id)');
   }
 
   final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
   GeneratedTextColumn _itemId;
+
   @override
   GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
+
   GeneratedTextColumn _constructItemId() {
-    return GeneratedTextColumn('item_id', $tableName, true,
-        $customConstraints: 'null references ItemTable(id)');
+    return GeneratedTextColumn('item_id', $tableName, true, $customConstraints: 'null references ItemTable(id)');
   }
 
   final VerificationMeta _directionMeta = const VerificationMeta('direction');
   GeneratedIntColumn _direction;
+
   @override
   GeneratedIntColumn get direction => _direction ??= _constructDirection();
+
   GeneratedIntColumn _constructDirection() {
     return GeneratedIntColumn(
       'direction',
@@ -1709,72 +1434,27 @@ class $ModelChangeTableTable extends ModelChangeTable
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
   GeneratedTextColumn _homeId;
+
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
-  }
-
-  final VerificationMeta _fieldNameMeta = const VerificationMeta('fieldName');
-  GeneratedTextColumn _fieldName;
-  @override
-  GeneratedTextColumn get fieldName => _fieldName ??= _constructFieldName();
-  GeneratedTextColumn _constructFieldName() {
-    return GeneratedTextColumn(
-      'field_name',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _fromMeta = const VerificationMeta('from');
-  GeneratedTextColumn _from;
-  @override
-  GeneratedTextColumn get from => _from ??= _constructFrom();
-  GeneratedTextColumn _constructFrom() {
-    return GeneratedTextColumn(
-      'from',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _toMeta = const VerificationMeta('to');
-  GeneratedTextColumn _to;
-  @override
-  GeneratedTextColumn get to => _to ??= _constructTo();
-  GeneratedTextColumn _constructTo() {
-    return GeneratedTextColumn(
-      'to',
-      $tableName,
-      true,
-    );
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        modificationDate,
-        userId,
-        categoryId,
-        productId,
-        itemId,
-        direction,
-        homeId,
-        fieldName,
-        from,
-        to
-      ];
+  List<GeneratedColumn> get $columns => [id, modificationDate, userId, categoryId, productId, itemId, direction, homeId];
+
   @override
   $ModelChangeTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'model_change_table';
   @override
   final String actualTableName = 'model_change_table';
+
   @override
-  VerificationContext validateIntegrity(ModelChangeTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(ModelChangeTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
@@ -1782,59 +1462,40 @@ class $ModelChangeTableTable extends ModelChangeTable
       context.missing(_idMeta);
     }
     if (d.modificationDate.present) {
-      context.handle(
-          _modificationDateMeta,
-          modificationDate.isAcceptableValue(
-              d.modificationDate.value, _modificationDateMeta));
+      context.handle(_modificationDateMeta, modificationDate.isAcceptableValue(d.modificationDate.value, _modificationDateMeta));
     } else if (isInserting) {
       context.missing(_modificationDateMeta);
     }
     if (d.userId.present) {
-      context.handle(
-          _userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
+      context.handle(_userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (d.categoryId.present) {
-      context.handle(_categoryIdMeta,
-          categoryId.isAcceptableValue(d.categoryId.value, _categoryIdMeta));
+      context.handle(_categoryIdMeta, categoryId.isAcceptableValue(d.categoryId.value, _categoryIdMeta));
     }
     if (d.productId.present) {
-      context.handle(_productIdMeta,
-          productId.isAcceptableValue(d.productId.value, _productIdMeta));
+      context.handle(_productIdMeta, productId.isAcceptableValue(d.productId.value, _productIdMeta));
     }
     if (d.itemId.present) {
-      context.handle(
-          _itemIdMeta, itemId.isAcceptableValue(d.itemId.value, _itemIdMeta));
+      context.handle(_itemIdMeta, itemId.isAcceptableValue(d.itemId.value, _itemIdMeta));
     }
     if (d.direction.present) {
-      context.handle(_directionMeta,
-          direction.isAcceptableValue(d.direction.value, _directionMeta));
+      context.handle(_directionMeta, direction.isAcceptableValue(d.direction.value, _directionMeta));
     } else if (isInserting) {
       context.missing(_directionMeta);
     }
     if (d.homeId.present) {
-      context.handle(
-          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
-    }
-    if (d.fieldName.present) {
-      context.handle(_fieldNameMeta,
-          fieldName.isAcceptableValue(d.fieldName.value, _fieldNameMeta));
-    }
-    if (d.from.present) {
-      context.handle(
-          _fromMeta, from.isAcceptableValue(d.from.value, _fromMeta));
-    }
-    if (d.to.present) {
-      context.handle(_toMeta, to.isAcceptableValue(d.to.value, _toMeta));
     }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   ModelChangeEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1848,8 +1509,7 @@ class $ModelChangeTableTable extends ModelChangeTable
       map['id'] = Variable<String, StringType>(d.id.value);
     }
     if (d.modificationDate.present) {
-      map['modification_date'] =
-          Variable<DateTime, DateTimeType>(d.modificationDate.value);
+      map['modification_date'] = Variable<DateTime, DateTimeType>(d.modificationDate.value);
     }
     if (d.userId.present) {
       map['user_id'] = Variable<String, StringType>(d.userId.value);
@@ -1869,15 +1529,6 @@ class $ModelChangeTableTable extends ModelChangeTable
     if (d.homeId.present) {
       map['home_id'] = Variable<String, StringType>(d.homeId.value);
     }
-    if (d.fieldName.present) {
-      map['field_name'] = Variable<String, StringType>(d.fieldName.value);
-    }
-    if (d.from.present) {
-      map['from'] = Variable<String, StringType>(d.from.value);
-    }
-    if (d.to.present) {
-      map['to'] = Variable<String, StringType>(d.to.value);
-    }
     return map;
   }
 
@@ -1891,34 +1542,29 @@ class SyncEntry extends DataClass implements Insertable<SyncEntry> {
   final DateTime synchronizationDate;
   final String userId;
   final String homeId;
-  SyncEntry(
-      {@required this.synchronizationDate,
-      @required this.userId,
-      @required this.homeId});
-  factory SyncEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  SyncEntry({@required this.synchronizationDate, @required this.userId, @required this.homeId});
+
+  factory SyncEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
     return SyncEntry(
-      synchronizationDate: dateTimeType.mapFromDatabaseResponse(
-          data['${effectivePrefix}synchronization_date']),
-      userId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      synchronizationDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}synchronization_date']),
+      userId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
-  factory SyncEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory SyncEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return SyncEntry(
-      synchronizationDate:
-          serializer.fromJson<DateTime>(json['synchronizationDate']),
+      synchronizationDate: serializer.fromJson<DateTime>(json['synchronizationDate']),
       userId: serializer.fromJson<String>(json['userId']),
       homeId: serializer.fromJson<String>(json['homeId']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -1932,54 +1578,41 @@ class SyncEntry extends DataClass implements Insertable<SyncEntry> {
   @override
   SyncTableCompanion createCompanion(bool nullToAbsent) {
     return SyncTableCompanion(
-      synchronizationDate: synchronizationDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(synchronizationDate),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      synchronizationDate: synchronizationDate == null && nullToAbsent ? const Value.absent() : Value(synchronizationDate),
+      userId: userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
-  SyncEntry copyWith(
-          {DateTime synchronizationDate, String userId, String homeId}) =>
-      SyncEntry(
+  SyncEntry copyWith({DateTime synchronizationDate, String userId, String homeId}) => SyncEntry(
         synchronizationDate: synchronizationDate ?? this.synchronizationDate,
         userId: userId ?? this.userId,
         homeId: homeId ?? this.homeId,
       );
+
   @override
   String toString() {
-    return (StringBuffer('SyncEntry(')
-          ..write('synchronizationDate: $synchronizationDate, ')
-          ..write('userId: $userId, ')
-          ..write('homeId: $homeId')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('SyncEntry(')..write('synchronizationDate: $synchronizationDate, ')..write('userId: $userId, ')..write('homeId: $homeId')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      synchronizationDate.hashCode, $mrjc(userId.hashCode, homeId.hashCode)));
+  int get hashCode => $mrjf($mrjc(synchronizationDate.hashCode, $mrjc(userId.hashCode, homeId.hashCode)));
+
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is SyncEntry &&
-          other.synchronizationDate == this.synchronizationDate &&
-          other.userId == this.userId &&
-          other.homeId == this.homeId);
+  bool operator ==(dynamic other) => identical(this, other) || (other is SyncEntry && other.synchronizationDate == this.synchronizationDate && other.userId == this.userId && other.homeId == this.homeId);
 }
 
 class SyncTableCompanion extends UpdateCompanion<SyncEntry> {
   final Value<DateTime> synchronizationDate;
   final Value<String> userId;
   final Value<String> homeId;
+
   const SyncTableCompanion({
     this.synchronizationDate = const Value.absent(),
     this.userId = const Value.absent(),
     this.homeId = const Value.absent(),
   });
+
   SyncTableCompanion.insert({
     @required DateTime synchronizationDate,
     @required String userId,
@@ -1987,10 +1620,8 @@ class SyncTableCompanion extends UpdateCompanion<SyncEntry> {
   })  : synchronizationDate = Value(synchronizationDate),
         userId = Value(userId),
         homeId = Value(homeId);
-  SyncTableCompanion copyWith(
-      {Value<DateTime> synchronizationDate,
-      Value<String> userId,
-      Value<String> homeId}) {
+
+  SyncTableCompanion copyWith({Value<DateTime> synchronizationDate, Value<String> userId, Value<String> homeId}) {
     return SyncTableCompanion(
       synchronizationDate: synchronizationDate ?? this.synchronizationDate,
       userId: userId ?? this.userId,
@@ -1999,17 +1630,18 @@ class SyncTableCompanion extends UpdateCompanion<SyncEntry> {
   }
 }
 
-class $SyncTableTable extends SyncTable
-    with TableInfo<$SyncTableTable, SyncEntry> {
+class $SyncTableTable extends SyncTable with TableInfo<$SyncTableTable, SyncEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $SyncTableTable(this._db, [this._alias]);
-  final VerificationMeta _synchronizationDateMeta =
-      const VerificationMeta('synchronizationDate');
+
+  final VerificationMeta _synchronizationDateMeta = const VerificationMeta('synchronizationDate');
   GeneratedDateTimeColumn _synchronizationDate;
+
   @override
-  GeneratedDateTimeColumn get synchronizationDate =>
-      _synchronizationDate ??= _constructSynchronizationDate();
+  GeneratedDateTimeColumn get synchronizationDate => _synchronizationDate ??= _constructSynchronizationDate();
+
   GeneratedDateTimeColumn _constructSynchronizationDate() {
     return GeneratedDateTimeColumn(
       'synchronization_date',
@@ -2020,8 +1652,10 @@ class $SyncTableTable extends SyncTable
 
   final VerificationMeta _userIdMeta = const VerificationMeta('userId');
   GeneratedTextColumn _userId;
+
   @override
   GeneratedTextColumn get userId => _userId ??= _constructUserId();
+
   GeneratedTextColumn _constructUserId() {
     return GeneratedTextColumn(
       'user_id',
@@ -2032,42 +1666,40 @@ class $SyncTableTable extends SyncTable
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
   GeneratedTextColumn _homeId;
+
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
   @override
   List<GeneratedColumn> get $columns => [synchronizationDate, userId, homeId];
+
   @override
   $SyncTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'sync_table';
   @override
   final String actualTableName = 'sync_table';
+
   @override
-  VerificationContext validateIntegrity(SyncTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(SyncTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.synchronizationDate.present) {
-      context.handle(
-          _synchronizationDateMeta,
-          synchronizationDate.isAcceptableValue(
-              d.synchronizationDate.value, _synchronizationDateMeta));
+      context.handle(_synchronizationDateMeta, synchronizationDate.isAcceptableValue(d.synchronizationDate.value, _synchronizationDateMeta));
     } else if (isInserting) {
       context.missing(_synchronizationDateMeta);
     }
     if (d.userId.present) {
-      context.handle(
-          _userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
+      context.handle(_userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (d.homeId.present) {
-      context.handle(
-          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
@@ -2076,6 +1708,7 @@ class $SyncTableTable extends SyncTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {userId};
+
   @override
   SyncEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -2086,8 +1719,7 @@ class $SyncTableTable extends SyncTable
   Map<String, Variable> entityToSql(SyncTableCompanion d) {
     final map = <String, Variable>{};
     if (d.synchronizationDate.present) {
-      map['synchronization_date'] =
-          Variable<DateTime, DateTimeType>(d.synchronizationDate.value);
+      map['synchronization_date'] = Variable<DateTime, DateTimeType>(d.synchronizationDate.value);
     }
     if (d.userId.present) {
       map['user_id'] = Variable<String, StringType>(d.userId.value);
@@ -2107,9 +1739,10 @@ class $SyncTableTable extends SyncTable
 class UserEntry extends DataClass implements Insertable<UserEntry> {
   final String id;
   final String name;
+
   UserEntry({@required this.id, @required this.name});
-  factory UserEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  factory UserEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     return UserEntry(
@@ -2117,14 +1750,15 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
-  factory UserEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory UserEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UserEntry(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -2146,35 +1780,34 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
         id: id ?? this.id,
         name: name ?? this.name,
       );
+
   @override
   String toString() {
-    return (StringBuffer('UserEntry(')
-          ..write('id: $id, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('UserEntry(')..write('id: $id, ')..write('name: $name')..write(')')).toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is UserEntry && other.id == this.id && other.name == this.name);
+  bool operator ==(dynamic other) => identical(this, other) || (other is UserEntry && other.id == this.id && other.name == this.name);
 }
 
 class UserTableCompanion extends UpdateCompanion<UserEntry> {
   final Value<String> id;
   final Value<String> name;
+
   const UserTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
   });
+
   UserTableCompanion.insert({
     @required String id,
     @required String name,
   })  : id = Value(id),
         name = Value(name);
+
   UserTableCompanion copyWith({Value<String> id, Value<String> name}) {
     return UserTableCompanion(
       id: id ?? this.id,
@@ -2183,15 +1816,18 @@ class UserTableCompanion extends UpdateCompanion<UserEntry> {
   }
 }
 
-class $UserTableTable extends UserTable
-    with TableInfo<$UserTableTable, UserEntry> {
+class $UserTableTable extends UserTable with TableInfo<$UserTableTable, UserEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $UserTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -2202,8 +1838,10 @@ class $UserTableTable extends UserTable
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
+
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
+
   GeneratedTextColumn _constructName() {
     return GeneratedTextColumn(
       'name',
@@ -2214,15 +1852,17 @@ class $UserTableTable extends UserTable
 
   @override
   List<GeneratedColumn> get $columns => [id, name];
+
   @override
   $UserTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'user_table';
   @override
   final String actualTableName = 'user_table';
+
   @override
-  VerificationContext validateIntegrity(UserTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(UserTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
@@ -2230,8 +1870,7 @@ class $UserTableTable extends UserTable
       context.missing(_idMeta);
     }
     if (d.name.present) {
-      context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+      context.handle(_nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -2240,6 +1879,7 @@ class $UserTableTable extends UserTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   UserEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -2267,9 +1907,10 @@ class $UserTableTable extends UserTable
 class HomeEntry extends DataClass implements Insertable<HomeEntry> {
   final String id;
   final String name;
+
   HomeEntry({@required this.id, @required this.name});
-  factory HomeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  factory HomeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     return HomeEntry(
@@ -2277,14 +1918,15 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
-  factory HomeEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory HomeEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return HomeEntry(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -2306,35 +1948,34 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
         id: id ?? this.id,
         name: name ?? this.name,
       );
+
   @override
   String toString() {
-    return (StringBuffer('HomeEntry(')
-          ..write('id: $id, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('HomeEntry(')..write('id: $id, ')..write('name: $name')..write(')')).toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is HomeEntry && other.id == this.id && other.name == this.name);
+  bool operator ==(dynamic other) => identical(this, other) || (other is HomeEntry && other.id == this.id && other.name == this.name);
 }
 
 class HomeTableCompanion extends UpdateCompanion<HomeEntry> {
   final Value<String> id;
   final Value<String> name;
+
   const HomeTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
   });
+
   HomeTableCompanion.insert({
     @required String id,
     @required String name,
   })  : id = Value(id),
         name = Value(name);
+
   HomeTableCompanion copyWith({Value<String> id, Value<String> name}) {
     return HomeTableCompanion(
       id: id ?? this.id,
@@ -2343,15 +1984,18 @@ class HomeTableCompanion extends UpdateCompanion<HomeEntry> {
   }
 }
 
-class $HomeTableTable extends HomeTable
-    with TableInfo<$HomeTableTable, HomeEntry> {
+class $HomeTableTable extends HomeTable with TableInfo<$HomeTableTable, HomeEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $HomeTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -2362,8 +2006,10 @@ class $HomeTableTable extends HomeTable
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
+
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
+
   GeneratedTextColumn _constructName() {
     return GeneratedTextColumn(
       'name',
@@ -2374,15 +2020,17 @@ class $HomeTableTable extends HomeTable
 
   @override
   List<GeneratedColumn> get $columns => [id, name];
+
   @override
   $HomeTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'home_table';
   @override
   final String actualTableName = 'home_table';
+
   @override
-  VerificationContext validateIntegrity(HomeTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(HomeTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
@@ -2390,8 +2038,7 @@ class $HomeTableTable extends HomeTable
       context.missing(_idMeta);
     }
     if (d.name.present) {
-      context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+      context.handle(_nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -2400,6 +2047,7 @@ class $HomeTableTable extends HomeTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   HomeEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -2424,40 +2072,30 @@ class $HomeTableTable extends HomeTable
   }
 }
 
-class ModificationEntry extends DataClass
-    implements Insertable<ModificationEntry> {
+class ModificationEntry extends DataClass implements Insertable<ModificationEntry> {
   final String id;
   final String modelChangeId;
   final String fieldName;
   final String from;
   final String to;
   final String homeId;
-  ModificationEntry(
-      {@required this.id,
-      @required this.modelChangeId,
-      @required this.fieldName,
-      @required this.from,
-      @required this.to,
-      @required this.homeId});
-  factory ModificationEntry.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+
+  ModificationEntry({@required this.id, @required this.modelChangeId, @required this.fieldName, @required this.from, @required this.to, @required this.homeId});
+
+  factory ModificationEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     return ModificationEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      modelChangeId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}model_change_id']),
-      fieldName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
+      modelChangeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}model_change_id']),
+      fieldName: stringType.mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
       from: stringType.mapFromDatabaseResponse(data['${effectivePrefix}from']),
       to: stringType.mapFromDatabaseResponse(data['${effectivePrefix}to']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
-  factory ModificationEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+
+  factory ModificationEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ModificationEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -2468,6 +2106,7 @@ class ModificationEntry extends DataClass
       homeId: serializer.fromJson<String>(json['homeId']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -2485,27 +2124,15 @@ class ModificationEntry extends DataClass
   ModificationTableCompanion createCompanion(bool nullToAbsent) {
     return ModificationTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      modelChangeId: modelChangeId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(modelChangeId),
-      fieldName: fieldName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(fieldName),
+      modelChangeId: modelChangeId == null && nullToAbsent ? const Value.absent() : Value(modelChangeId),
+      fieldName: fieldName == null && nullToAbsent ? const Value.absent() : Value(fieldName),
       from: from == null && nullToAbsent ? const Value.absent() : Value(from),
       to: to == null && nullToAbsent ? const Value.absent() : Value(to),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
-  ModificationEntry copyWith(
-          {String id,
-          String modelChangeId,
-          String fieldName,
-          String from,
-          String to,
-          String homeId}) =>
-      ModificationEntry(
+  ModificationEntry copyWith({String id, String modelChangeId, String fieldName, String from, String to, String homeId}) => ModificationEntry(
         id: id ?? this.id,
         modelChangeId: modelChangeId ?? this.modelChangeId,
         fieldName: fieldName ?? this.fieldName,
@@ -2513,36 +2140,17 @@ class ModificationEntry extends DataClass
         to: to ?? this.to,
         homeId: homeId ?? this.homeId,
       );
+
   @override
   String toString() {
-    return (StringBuffer('ModificationEntry(')
-          ..write('id: $id, ')
-          ..write('modelChangeId: $modelChangeId, ')
-          ..write('fieldName: $fieldName, ')
-          ..write('from: $from, ')
-          ..write('to: $to, ')
-          ..write('homeId: $homeId')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('ModificationEntry(')..write('id: $id, ')..write('modelChangeId: $modelChangeId, ')..write('fieldName: $fieldName, ')..write('from: $from, ')..write('to: $to, ')..write('homeId: $homeId')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          modelChangeId.hashCode,
-          $mrjc(fieldName.hashCode,
-              $mrjc(from.hashCode, $mrjc(to.hashCode, homeId.hashCode))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(modelChangeId.hashCode, $mrjc(fieldName.hashCode, $mrjc(from.hashCode, $mrjc(to.hashCode, homeId.hashCode))))));
+
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is ModificationEntry &&
-          other.id == this.id &&
-          other.modelChangeId == this.modelChangeId &&
-          other.fieldName == this.fieldName &&
-          other.from == this.from &&
-          other.to == this.to &&
-          other.homeId == this.homeId);
+  bool operator ==(dynamic other) => identical(this, other) || (other is ModificationEntry && other.id == this.id && other.modelChangeId == this.modelChangeId && other.fieldName == this.fieldName && other.from == this.from && other.to == this.to && other.homeId == this.homeId);
 }
 
 class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
@@ -2552,6 +2160,7 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
   final Value<String> from;
   final Value<String> to;
   final Value<String> homeId;
+
   const ModificationTableCompanion({
     this.id = const Value.absent(),
     this.modelChangeId = const Value.absent(),
@@ -2560,6 +2169,7 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
     this.to = const Value.absent(),
     this.homeId = const Value.absent(),
   });
+
   ModificationTableCompanion.insert({
     @required String id,
     @required String modelChangeId,
@@ -2573,13 +2183,8 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
         from = Value(from),
         to = Value(to),
         homeId = Value(homeId);
-  ModificationTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> modelChangeId,
-      Value<String> fieldName,
-      Value<String> from,
-      Value<String> to,
-      Value<String> homeId}) {
+
+  ModificationTableCompanion copyWith({Value<String> id, Value<String> modelChangeId, Value<String> fieldName, Value<String> from, Value<String> to, Value<String> homeId}) {
     return ModificationTableCompanion(
       id: id ?? this.id,
       modelChangeId: modelChangeId ?? this.modelChangeId,
@@ -2591,15 +2196,18 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
   }
 }
 
-class $ModificationTableTable extends ModificationTable
-    with TableInfo<$ModificationTableTable, ModificationEntry> {
+class $ModificationTableTable extends ModificationTable with TableInfo<$ModificationTableTable, ModificationEntry> {
   final GeneratedDatabase _db;
   final String _alias;
+
   $ModificationTableTable(this._db, [this._alias]);
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
+
   @override
   GeneratedTextColumn get id => _id ??= _constructId();
+
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn(
       'id',
@@ -2608,21 +2216,22 @@ class $ModificationTableTable extends ModificationTable
     );
   }
 
-  final VerificationMeta _modelChangeIdMeta =
-      const VerificationMeta('modelChangeId');
+  final VerificationMeta _modelChangeIdMeta = const VerificationMeta('modelChangeId');
   GeneratedTextColumn _modelChangeId;
+
   @override
-  GeneratedTextColumn get modelChangeId =>
-      _modelChangeId ??= _constructModelChangeId();
+  GeneratedTextColumn get modelChangeId => _modelChangeId ??= _constructModelChangeId();
+
   GeneratedTextColumn _constructModelChangeId() {
-    return GeneratedTextColumn('model_change_id', $tableName, false,
-        $customConstraints: 'references ModelChangeTable(id)');
+    return GeneratedTextColumn('model_change_id', $tableName, false, $customConstraints: 'references ModelChangeTable(id)');
   }
 
   final VerificationMeta _fieldNameMeta = const VerificationMeta('fieldName');
   GeneratedTextColumn _fieldName;
+
   @override
   GeneratedTextColumn get fieldName => _fieldName ??= _constructFieldName();
+
   GeneratedTextColumn _constructFieldName() {
     return GeneratedTextColumn(
       'field_name',
@@ -2633,8 +2242,10 @@ class $ModificationTableTable extends ModificationTable
 
   final VerificationMeta _fromMeta = const VerificationMeta('from');
   GeneratedTextColumn _from;
+
   @override
   GeneratedTextColumn get from => _from ??= _constructFrom();
+
   GeneratedTextColumn _constructFrom() {
     return GeneratedTextColumn(
       'from',
@@ -2645,8 +2256,10 @@ class $ModificationTableTable extends ModificationTable
 
   final VerificationMeta _toMeta = const VerificationMeta('to');
   GeneratedTextColumn _to;
+
   @override
   GeneratedTextColumn get to => _to ??= _constructTo();
+
   GeneratedTextColumn _constructTo() {
     return GeneratedTextColumn(
       'to',
@@ -2657,8 +2270,10 @@ class $ModificationTableTable extends ModificationTable
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
   GeneratedTextColumn _homeId;
+
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
+
   GeneratedTextColumn _constructHomeId() {
     return GeneratedTextColumn(
       'home_id',
@@ -2668,17 +2283,18 @@ class $ModificationTableTable extends ModificationTable
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, modelChangeId, fieldName, from, to, homeId];
+  List<GeneratedColumn> get $columns => [id, modelChangeId, fieldName, from, to, homeId];
+
   @override
   $ModificationTableTable get asDslTable => this;
+
   @override
   String get $tableName => _alias ?? 'modification_table';
   @override
   final String actualTableName = 'modification_table';
+
   @override
-  VerificationContext validateIntegrity(ModificationTableCompanion d,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(ModificationTableCompanion d, {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
@@ -2686,22 +2302,17 @@ class $ModificationTableTable extends ModificationTable
       context.missing(_idMeta);
     }
     if (d.modelChangeId.present) {
-      context.handle(
-          _modelChangeIdMeta,
-          modelChangeId.isAcceptableValue(
-              d.modelChangeId.value, _modelChangeIdMeta));
+      context.handle(_modelChangeIdMeta, modelChangeId.isAcceptableValue(d.modelChangeId.value, _modelChangeIdMeta));
     } else if (isInserting) {
       context.missing(_modelChangeIdMeta);
     }
     if (d.fieldName.present) {
-      context.handle(_fieldNameMeta,
-          fieldName.isAcceptableValue(d.fieldName.value, _fieldNameMeta));
+      context.handle(_fieldNameMeta, fieldName.isAcceptableValue(d.fieldName.value, _fieldNameMeta));
     } else if (isInserting) {
       context.missing(_fieldNameMeta);
     }
     if (d.from.present) {
-      context.handle(
-          _fromMeta, from.isAcceptableValue(d.from.value, _fromMeta));
+      context.handle(_fromMeta, from.isAcceptableValue(d.from.value, _fromMeta));
     } else if (isInserting) {
       context.missing(_fromMeta);
     }
@@ -2711,8 +2322,7 @@ class $ModificationTableTable extends ModificationTable
       context.missing(_toMeta);
     }
     if (d.homeId.present) {
-      context.handle(
-          _homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableValue(d.homeId.value, _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
@@ -2721,6 +2331,7 @@ class $ModificationTableTable extends ModificationTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   ModificationEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -2734,8 +2345,7 @@ class $ModificationTableTable extends ModificationTable
       map['id'] = Variable<String, StringType>(d.id.value);
     }
     if (d.modelChangeId.present) {
-      map['model_change_id'] =
-          Variable<String, StringType>(d.modelChangeId.value);
+      map['model_change_id'] = Variable<String, StringType>(d.modelChangeId.value);
     }
     if (d.fieldName.present) {
       map['field_name'] = Variable<String, StringType>(d.fieldName.value);
@@ -2761,66 +2371,63 @@ class $ModificationTableTable extends ModificationTable
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $ItemTableTable _itemTable;
+
   $ItemTableTable get itemTable => _itemTable ??= $ItemTableTable(this);
   $ProductTableTable _productTable;
-  $ProductTableTable get productTable =>
-      _productTable ??= $ProductTableTable(this);
+
+  $ProductTableTable get productTable => _productTable ??= $ProductTableTable(this);
   $CategoryTableTable _categoryTable;
-  $CategoryTableTable get categoryTable =>
-      _categoryTable ??= $CategoryTableTable(this);
+
+  $CategoryTableTable get categoryTable => _categoryTable ??= $CategoryTableTable(this);
   $ChangeTableTable _changeTable;
+
   $ChangeTableTable get changeTable => _changeTable ??= $ChangeTableTable(this);
   $ModelChangeTableTable _modelChangeTable;
-  $ModelChangeTableTable get modelChangeTable =>
-      _modelChangeTable ??= $ModelChangeTableTable(this);
+
+  $ModelChangeTableTable get modelChangeTable => _modelChangeTable ??= $ModelChangeTableTable(this);
   $SyncTableTable _syncTable;
+
   $SyncTableTable get syncTable => _syncTable ??= $SyncTableTable(this);
   $UserTableTable _userTable;
+
   $UserTableTable get userTable => _userTable ??= $UserTableTable(this);
   $HomeTableTable _homeTable;
+
   $HomeTableTable get homeTable => _homeTable ??= $HomeTableTable(this);
   $ModificationTableTable _modificationTable;
-  $ModificationTableTable get modificationTable =>
-      _modificationTable ??= $ModificationTableTable(this);
+
+  $ModificationTableTable get modificationTable => _modificationTable ??= $ModificationTableTable(this);
   ItemRepository _itemRepository;
-  ItemRepository get itemRepository =>
-      _itemRepository ??= ItemRepository(this as Database);
+
+  ItemRepository get itemRepository => _itemRepository ??= ItemRepository(this as Database);
   ProductRepository _productRepository;
-  ProductRepository get productRepository =>
-      _productRepository ??= ProductRepository(this as Database);
+
+  ProductRepository get productRepository => _productRepository ??= ProductRepository(this as Database);
   CategoryRepository _categoryRepository;
-  CategoryRepository get categoryRepository =>
-      _categoryRepository ??= CategoryRepository(this as Database);
+
+  CategoryRepository get categoryRepository => _categoryRepository ??= CategoryRepository(this as Database);
   ChangeRepository _changeRepository;
-  ChangeRepository get changeRepository =>
-      _changeRepository ??= ChangeRepository(this as Database);
+
+  ChangeRepository get changeRepository => _changeRepository ??= ChangeRepository(this as Database);
   ModelChangeRepository _modelChangeRepository;
-  ModelChangeRepository get modelChangeRepository =>
-      _modelChangeRepository ??= ModelChangeRepository(this as Database);
+
+  ModelChangeRepository get modelChangeRepository => _modelChangeRepository ??= ModelChangeRepository(this as Database);
   SyncRepository _syncRepository;
-  SyncRepository get syncRepository =>
-      _syncRepository ??= SyncRepository(this as Database);
+
+  SyncRepository get syncRepository => _syncRepository ??= SyncRepository(this as Database);
   UserRepository _userRepository;
-  UserRepository get userRepository =>
-      _userRepository ??= UserRepository(this as Database);
+
+  UserRepository get userRepository => _userRepository ??= UserRepository(this as Database);
   HomeRepository _homeRepository;
-  HomeRepository get homeRepository =>
-      _homeRepository ??= HomeRepository(this as Database);
+
+  HomeRepository get homeRepository => _homeRepository ??= HomeRepository(this as Database);
   ModificationRepository _modificationRepository;
-  ModificationRepository get modificationRepository =>
-      _modificationRepository ??= ModificationRepository(this as Database);
+
+  ModificationRepository get modificationRepository => _modificationRepository ??= ModificationRepository(this as Database);
+
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
+
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [
-        itemTable,
-        productTable,
-        categoryTable,
-        changeTable,
-        modelChangeTable,
-        syncTable,
-        userTable,
-        homeTable,
-        modificationTable
-      ];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [itemTable, productTable, categoryTable, changeTable, modelChangeTable, syncTable, userTable, homeTable, modificationTable];
 }

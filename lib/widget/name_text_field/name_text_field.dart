@@ -35,7 +35,7 @@ class _NameTextFieldState extends State<NameTextField> {
   void initState() {
     super.initState();
     _controller.text = widget.initialValue.trim();
-    _error = _controller.text != null;
+    _error = _controller.text == null;
     _controller.addListener(() {
       callCallback(_controller.text.trim());
     });

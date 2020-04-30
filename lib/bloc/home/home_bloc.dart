@@ -1,5 +1,6 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart';
+import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
@@ -30,22 +31,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ChangeRepository changeRepository;
   final BlackoutPreferences blackoutPreferences;
   final CategoryBloc categoryBloc;
+  final ProductBloc productBloc;
 
-  HomeBloc(this.blackoutPreferences, this.categoryRepository, this.productRepository, this.categoryBloc, this.itemRepository, this.changeRepository, this.modelChangeRepository);
+  HomeBloc(this.blackoutPreferences, this.categoryRepository, this.productRepository, this.categoryBloc, this.itemRepository, this.changeRepository, this.modelChangeRepository, this.productBloc);
 
   @override
   HomeState get initialState => HomeInitialState();
 
   Future<void> createProduct(Home home) async {
     User user = await blackoutPreferences.getUser();
-    Product product = Product(id: Uuid().v4(), description: "Marmorkuchen", unit: UnitEnum.weight, home: home, refillLimit: 0.8);
+    Product product = Product(description: "Marmorkuchen", unit: UnitEnum.weight, home: home, refillLimit: 0.8);
+    await productRepository.save(product, user);
     Item item = Item(id: Uuid().v4(), notificationDate: LocalDateTime.now().subtractMonths(1), product: product, home: home);
     Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 1, item: item);
     Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -0.50505, item: item);
     product.items = [item];
     item.changes = [change, change2];
 
-    await productRepository.save(product);
     await itemRepository.save(item);
     await changeRepository.save(change);
     await changeRepository.save(change2);
@@ -57,8 +59,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await categoryRepository.save(category, user);
     category.warnInterval = Period(days: 5);
     await categoryRepository.save(category, user);
-    Product product = Product(id: Uuid().v4(), ean: "lalelu", description: "Freilandeier 10 Stück M", category: category, home: home);
-    Product product2 = Product(id: Uuid().v4(), ean: "lalelu2", description: "Freilandeier 10 Stück L", category: category, home: home);
+    Product product = Product(ean: "lalelu", description: "Freilandeier 10 Stück M", category: category, home: home);
+    await productRepository.save(product, user);
+    Product product2 = Product(ean: "lalelu2", description: "Freilandeier 10 Stück L", category: category, home: home);
+    await productRepository.save(product2, user);
     Item item = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addDays(1), product: product, home: home);
     Item item2 = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addDays(20), product: product2, home: home);
     Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item);
@@ -70,8 +74,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     item.changes = [change, change2];
     item2.changes = [change3];
 
-    await productRepository.save(product);
-    await productRepository.save(product2);
     await itemRepository.save(item);
     await itemRepository.save(item2);
     await changeRepository.save(change);
@@ -95,6 +97,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield LoadedAll(cards);
     } else if (event is TapOnCategory) {
       categoryBloc.add(LoadCategory(event.category));
+    } else if (event is TapOnProduct) {
+      productBloc.add(LoadProduct(event.product));
     }
   }
 }

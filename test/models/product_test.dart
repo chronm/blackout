@@ -87,4 +87,42 @@ void main() {
 
     expect(product.scientificAmount, equals("1"));
   });
+
+  test('(GetModifications) get all modifications between two products', () async {
+    Product product = createDefaultProduct();
+    product.refillLimit = 2.0;
+    Product product2 = createDefaultProduct();
+    product2.refillLimit = 2.0;
+
+    expect(product.getModifications(product2).length, equals(0));
+
+    product2.ean = "test";
+    expect(product.getModifications(product2).length, equals(1));
+    product2.ean = DEFAULT_PRODUCT_EAN;
+
+    product2.description = "test";
+    expect(product.getModifications(product2).length, equals(1));
+    product2.description = DEFAULT_PRODUCT_DESCRIPTION;
+
+    product2.refillLimit = 0;
+    expect(product.getModifications(product2).length, equals(1));
+  });
+
+  test('(==) Check if two products are equal', () async {
+    Product product = createDefaultProduct();
+    Product product2 = createDefaultProduct();
+
+    expect(product == product2, isTrue);
+
+    product2.ean = "test";
+    expect(product == product2, isFalse);
+    product2.ean = DEFAULT_PRODUCT_EAN;
+
+    product2.description = "test";
+    expect(product == product2, isFalse);
+    product2.description = DEFAULT_PRODUCT_DESCRIPTION;
+
+    product2.refillLimit = 0;
+    expect(product == product2, isFalse);
+  });
 }

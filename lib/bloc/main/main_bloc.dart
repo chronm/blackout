@@ -27,7 +27,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Stream<MainState> initializeApp(InitializeAppEvent event) async* {
     User user = await _blackoutPreferences.getUser();
     Home home = await _blackoutPreferences.getHome();
-    if (user == null || home != null) {
+    if (user == null || home == null) {
       yield GoToSetup();
     } else {
       _homeBloc.add(LoadAll());

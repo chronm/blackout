@@ -2,9 +2,11 @@ import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
+import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/model_change.dart';
+import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:time_machine/time_machine.dart';
@@ -16,6 +18,7 @@ void main() {
   ModelChangeRepository modelChangeRepository;
   UserRepository userRepository;
   CategoryRepository categoryRepository;
+  ProductRepository productRepository;
   HomeRepository homeRepository;
 
   setUp(() {
@@ -23,6 +26,7 @@ void main() {
     modelChangeRepository = _database.modelChangeRepository;
     userRepository = _database.userRepository;
     categoryRepository = _database.categoryRepository;
+    productRepository = _database.productRepository;
     homeRepository = _database.homeRepository;
   });
 
@@ -82,6 +86,17 @@ void main() {
     await categoryRepository.save(category, user);
 
     List<ModelChange> changes = await modelChangeRepository.findAllByCategoryIdAndHomeId(category.id, category.home.id);
+
+    expect(changes.length, equals(1));
+  });
+
+  test('(FindAllByProductIdAndHomeId)', () async {
+    Product product = createDefaultProduct();
+    await homeRepository.save(product.home);
+    User user = await userRepository.save(createDefaultUser());
+    await productRepository.save(product, user);
+
+    List<ModelChange> changes = await modelChangeRepository.findAllByProductIdAndHomeId(product.id, product.home.id);
 
     expect(changes.length, equals(1));
   });

@@ -43,7 +43,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await userRepository.save(change.user);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     change = await changeRepository.save(change);
 
@@ -63,7 +63,7 @@ void main() {
     change.user.name = "test";
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     await userRepository.save(change.user);
     change = await changeRepository.save(change);
@@ -92,7 +92,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     change = await changeRepository.save(change);
 
@@ -111,7 +111,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     await userRepository.save(change.user);
     change = await changeRepository.save(change);
@@ -144,7 +144,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     change = await changeRepository.save(change);
 
@@ -161,7 +161,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     change = await changeRepository.save(change);
 
@@ -177,7 +177,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     item = await itemRepository.save(item);
     change = await changeRepository.save(change);
 
@@ -194,7 +194,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     item = await itemRepository.save(item);
     change = await changeRepository.save(change);
 
@@ -211,7 +211,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     await changeRepository.save(change);
 
@@ -227,7 +227,7 @@ void main() {
     change.item = item;
 
     await homeRepository.save(change.home);
-    await productRepository.save(product);
+    await productRepository.save(product, createDefaultUser());
     await itemRepository.save(item);
     await changeRepository.save(change);
 

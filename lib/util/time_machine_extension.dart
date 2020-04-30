@@ -2,6 +2,8 @@ import 'dart:core';
 
 import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:time_machine/time_machine.dart';
 
 int parseFromRegex(RegExpMatch match, int group, String character) {
@@ -11,7 +13,8 @@ int parseFromRegex(RegExpMatch match, int group, String character) {
 
 Period periodFromISO8601String(String period) {
   period = period.toUpperCase();
-  final regexp = RegExp(r"^P(?=\d+[YMWD])(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d+[HMS])(\d+H)?(\d+M)?(\d+S)?)?$");
+  final regexp = RegExp(
+      r"^P(?=\d+[YMWD])(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d+[HMS])(\d+H)?(\d+M)?(\d+S)?)?$");
   if (!regexp.hasMatch(period)) {
     return null;
   }
@@ -36,10 +39,53 @@ Period periodFromISO8601String(String period) {
 }
 
 LocalDateTime localDateTimeFromDateTime(DateTime dateTime) {
-  return LocalDateTime.dateTime(dateTime).add(Period(hours: dateTime.timeZoneOffset.inHours));
+  return LocalDateTime.dateTime(dateTime)
+      .add(Period(hours: dateTime.timeZoneOffset.inHours));
+}
+
+extension LocalDateTimeExtension on LocalDateTime {
+  String prettyPrintShortDifference(BuildContext context) {
+    String languageCode = Localizations.localeOf(context).languageCode;
+
+    DateTime now = LocalDateTime.now().toDateTimeLocal();
+    DateTime other = this.toDateTimeLocal();
+
+    if (Jiffy(now).diff(other, "days") == 0) {
+      return S.of(context).today;
+    }
+
+    if (Jiffy(now).diff(other, "days") == 1) {
+      return S.of(context).yesterday;
+    }
+    if (Jiffy(now).diff(other, "weeks") == 0) {
+      return DateFormat('EEEE', languageCode).format(other);
+    }
+    if (Jiffy(now).diff(other, "months") == 0) {
+      return S.of(context).thisMonth;
+    }
+    if (Jiffy(now).diff(other, "years") == 0) {
+      return S.of(context).thisYear;
+    }
+    return S.of(context).longAgo;
+  }
 }
 
 extension PeriodExtension on Period {
+  Duration toDuration() {
+    int days = this.years * 365;
+    days += this.months * 30;
+    days += this.weeks * 7;
+    days += this.days;
+
+    return Duration(
+        days: days,
+        hours: this.hours,
+        minutes: this.minutes,
+        seconds: this.seconds,
+        milliseconds: this.milliseconds,
+        microseconds: this.microseconds);
+  }
+
   String prettyPrint(BuildContext context) {
     if (this == null) {
       return "";

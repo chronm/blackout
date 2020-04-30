@@ -1,5 +1,6 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/bloc/home/home_bloc.dart';
+import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
@@ -66,6 +67,7 @@ Category createDefaultCategory() {
 final String DEFAULT_PRODUCT_ID = "productId";
 final String DEFAULT_PRODUCT_EAN = "productEan";
 final String DEFAULT_PRODUCT_DESCRIPTION = "productCategory";
+final double DEFAULT_PRODUCT_REFILL_LIMIT = 2.0;
 
 Product createDefaultProduct() {
   return Product(
@@ -252,6 +254,8 @@ class ItemRepositoryMock extends Mock implements ItemRepository {}
 class ModelChangeRepositoryMock extends Mock implements ModelChangeRepository {}
 
 class ModificationRepositoryMock extends Mock implements ModificationRepository {}
+
+class ProductBlocMock extends MockBloc<ProductEvent, ProductState> implements ProductBloc {}
 
 class ProductRepositoryMock extends Mock implements ProductRepository {}
 

@@ -32,13 +32,13 @@ void main() {
     ModelChange change = ModelChange(user: createDefaultUser(), modificationDate: LocalDateTime.now(), modification: ModelChangeType.modify, home: createDefaultHome(), categoryId: DEFAULT_CATEGORY_ID, modifications: [Modification(fieldName: "field", from: "from", to: "")]);
     BuildContext context = await DEFAULT_BUILD_CONTEXT(tester);
 
-    expect(change.toLocalizedString(context), equals("Disabled field from from"));
+    expect(change.toLocalizedString(context), equals("Disabled field (from)"));
   });
 
   testWidgets('(toLocalizedString) localized textrepresentation of a "modify" modelchange with enabled field', (WidgetTester tester) async {
     ModelChange change = ModelChange(user: createDefaultUser(), modificationDate: LocalDateTime.now(), modification: ModelChangeType.modify, home: createDefaultHome(), categoryId: DEFAULT_CATEGORY_ID, modifications: [Modification(fieldName: "field", from: "", to: "to")]);
     BuildContext context = await DEFAULT_BUILD_CONTEXT(tester);
 
-    expect(change.toLocalizedString(context), equals("Enabled field with to"));
+    expect(change.toLocalizedString(context), equals("Enabled field (to)"));
   });
 }

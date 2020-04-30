@@ -1,9 +1,11 @@
 import 'package:Blackout/bloc/main/main_bloc.dart';
+import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/model_change.dart';
+import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,8 +17,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryRepository categoryRepository;
   final ModelChangeRepository modelChangeRepository;
   final BlackoutPreferences blackoutPreferences;
+  final ProductBloc productBloc;
 
-  CategoryBloc(this.categoryRepository, this.modelChangeRepository, this.blackoutPreferences);
+  CategoryBloc(this.categoryRepository, this.modelChangeRepository, this.blackoutPreferences, this.productBloc);
 
   @override
   CategoryState get initialState => InitialCategoryState();
@@ -34,6 +37,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       List<ModelChange> changes = await modelChangeRepository.findAllByCategoryIdAndHomeId(event.category.id, event.category.home.id)
         ..sort((a, b) => a.modificationDate.compareTo(b.modificationDate));
       yield ShowCategory(event.category, changes);
+    }
+    if (event is TapOnProduct) {
+      productBloc.add(LoadProduct(event.product));
     }
   }
 }

@@ -43,6 +43,21 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
     return changes;
   }
 
+  Future<List<ModelChange>> findAllByProductIdAndHomeId(String productId, String homeId) async {
+    var query = select(modelChangeTable)..where((c) => c.productId.equals(productId) & c.homeId.equals(homeId));
+    List<ModelChangeEntry> entries = await query.get();
+
+    List<ModelChange> changes = [];
+    for (ModelChangeEntry entry in entries) {
+      User user = await db.userRepository.getOneByUserId(entry.userId);
+      Home home = await db.homeRepository.getHomeById(entry.homeId);
+      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeIdAndHomeId(entry.id, home.id);
+      changes.add(ModelChange.fromEntry(entry, user, home, modifications));
+    }
+
+    return changes;
+  }
+
   Future<List<ModelChange>> findAllByModificationDateAfterAndHomeId(LocalDateTime modificationDate, String homeId) async {
     var query = select(modelChangeTable)..where((c) => c.modificationDate.isBiggerThanValue(modificationDate.toDateTimeLocal()) & c.homeId.equals(homeId));
     List<ModelChangeEntry> entries = await query.get();
