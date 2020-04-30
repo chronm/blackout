@@ -1,6 +1,7 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart' show MainBloc;
+import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/bloc/setup/setup_bloc.dart';
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
@@ -22,8 +23,9 @@ void prepareSharedPreferences(GetIt sl) async {
 }
 
 void prepareBlocs(GetIt sl) async {
-  sl.registerSingleton<CategoryBloc>(CategoryBloc(sl<CategoryRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>()));
-  sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<CategoryRepository>(), sl<ProductRepository>(), sl<CategoryBloc>(), sl<ItemRepository>(), sl<ChangeRepository>(), sl<ModelChangeRepository>()));
+  sl.registerSingleton<ProductBloc>(ProductBloc(sl<ModelChangeRepository>()));
+  sl.registerSingleton<CategoryBloc>(CategoryBloc(sl<CategoryRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>(), sl<ProductBloc>()));
+  sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<CategoryRepository>(), sl<ProductRepository>(), sl<CategoryBloc>(), sl<ItemRepository>(), sl<ChangeRepository>(), sl<ModelChangeRepository>(), sl<ProductBloc>()));
   sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>()));
   sl.registerSingleton<MainBloc>(MainBloc(sl<BlackoutPreferences>(), sl<HomeBloc>()));
 }

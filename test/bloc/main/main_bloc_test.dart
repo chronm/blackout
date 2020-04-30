@@ -19,6 +19,7 @@ void main() {
 
   test('Emit GoToHome when user and home already exists', () {
     when(blackoutPreferences.getUser()).thenAnswer((_) => Future.value(createDefaultUser()));
+    when(blackoutPreferences.getHome()).thenAnswer((_) => Future.value(createDefaultHome()));
 
     expectLater(mainBloc, emitsInOrder([InitialMainState(), GoToHome()]));
 

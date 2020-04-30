@@ -38,4 +38,34 @@ void main() {
 
     expect(period.prettyPrint(context), equals("1 year, 2 months, 3 weeks, 4 days, 5 hours, 6 minutes, 7 seconds"));
   });
+
+  test('Period to duration', () {
+    Period period = Period(years: 1, months: 2, weeks: 3, days: 4, hours: 5, minutes: 6, seconds: 7);
+
+    Duration duration = period.toDuration();
+
+    expect(duration, equals(Duration(days: 450, hours: 5, minutes: 6, seconds: 7)));
+  });
+
+  testWidgets('Pretty print short difference between LocalDateTime and now', (WidgetTester tester) async {
+    BuildContext context = await DEFAULT_BUILD_CONTEXT(tester);
+
+    LocalDateTime then = LocalDateTime.now();
+    expect(then.prettyPrintShortDifference(context), "today");
+
+    then = LocalDateTime.now().subtractDays(1);
+    expect(then.prettyPrintShortDifference(context), "yesterday");
+
+    then = LocalDateTime.now().subtractDays(2);
+    expect(then.prettyPrintShortDifference(context), then.dayOfWeek.toString());
+
+    then = LocalDateTime.now().subtractWeeks(1);
+    expect(then.prettyPrintShortDifference(context), "this month");
+
+    then = LocalDateTime.now().subtractMonths(1);
+    expect(then.prettyPrintShortDifference(context), "this year");
+
+    then = LocalDateTime.now().subtractYears(1);
+    expect(then.prettyPrintShortDifference(context), "very long ago");
+  });
 }

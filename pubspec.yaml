@@ -36,6 +36,7 @@ dependencies:
   super_enum: 0.4.2
   mockito: 4.1.1
   bloc_test: 5.0.0
+  jiffy: 2.2.0
 
 dev_dependencies:
   flutter_test:

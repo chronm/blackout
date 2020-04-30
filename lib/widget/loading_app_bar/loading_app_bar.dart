@@ -6,17 +6,17 @@ typedef SearchCallback = void Function(String search);
 typedef TitleResolver<S> = String Function(S state);
 typedef TitleCallback<S> = void Function(S state);
 
-class LoadingSearchBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implements PreferredSizeWidget {
+class LoadingAppBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implements PreferredSizeWidget {
   final B bloc;
   final SearchCallback searchCallback;
   final String title;
   final TitleResolver<S> titleResolver;
   final TitleCallback<S> titleCallback;
 
-  LoadingSearchBar({
+  LoadingAppBar({
     Key key,
-    @required this.searchCallback,
     @required this.bloc,
+    this.searchCallback,
     this.title,
     this.titleResolver,
     this.titleCallback,
@@ -24,13 +24,13 @@ class LoadingSearchBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget imp
         super(key: key);
 
   @override
-  _LoadingSearchBarState createState() => _LoadingSearchBarState<B, S>();
+  _LoadingAppBarState createState() => _LoadingAppBarState<B, S>();
 
   @override
   Size get preferredSize => Size.fromHeight(56.0);
 }
 
-class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingSearchBar<B, S>> {
+class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAppBar<B, S>> {
   TextEditingController _controller = TextEditingController();
   bool searching = false;
 
@@ -84,11 +84,11 @@ class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<Loadin
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: searching ? _backButton() : null,
+      leading: searching && widget.searchCallback != null ? _backButton() : null,
       title: BlocBuilder<B, S>(
         bloc: widget.bloc,
         builder: (context, state) {
-          return searching ? _searchingTextField() : _title(state);
+          return searching && widget.searchCallback != null ? _searchingTextField() : _title(state);
         },
       ),
       centerTitle: true,
@@ -104,9 +104,11 @@ class _LoadingSearchBarState<B extends Bloc<dynamic, S>, S> extends State<Loadin
           },
         ),
       ),
-      actions: <Widget>[
-        searching ? _clearButton() : _searchButton(),
-      ],
+      actions: widget.searchCallback != null
+          ? <Widget>[
+              searching ? _clearButton() : _searchButton(),
+            ]
+          : null,
     );
   }
 }

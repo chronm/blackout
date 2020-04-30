@@ -3,9 +3,13 @@ import 'package:Blackout/data/database/product_table.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/model_change.dart';
+import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:optional/optional.dart';
+import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
 part 'product_repository.g.dart';
@@ -99,8 +103,23 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
     return products;
   }
 
-  Future<Product> save(Product product) async {
-    product.id ??= Uuid().v4();
+  Future<Product> save(Product product, User user) async {
+    if (product.id == null) {
+      product.id ??= Uuid().v4();
+      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: product.home, user: user, modification: ModelChangeType.create, productId: product.id);
+      await db.modelChangeRepository.save(change);
+    } else {
+      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: product.home, user: user, modification: ModelChangeType.modify, productId: product.id);
+      await db.modelChangeRepository.save(change);
+
+      Product oldProduct = await getOneByProductIdAndHomeId(product.id, product.home.id);
+      List<Modification> modifications = oldProduct.getModifications(product);
+      for (Modification modification in modifications) {
+        modification.home = product.home;
+        modification.modelChange = change;
+        db.modificationRepository.save(modification);
+      }
+    }
 
     await into(productTable).insert(product.toCompanion(), mode: InsertMode.insertOrReplace);
 

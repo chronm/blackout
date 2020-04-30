@@ -1,5 +1,5 @@
 import 'package:Blackout/bloc/home/home_bloc.dart';
-import 'package:Blackout/widget/loading_search_bar/loading_search_bar.dart';
+import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,13 +13,12 @@ void main() {
     homeBloc = HomeBlocMock();
   });
 
-  testWidgets('Throw AssertionError when title and titleResolver null',
-      (WidgetTester tester) async {
+  testWidgets('Throw AssertionError when title and titleResolver null', (WidgetTester tester) async {
     expectLater(
         () async => await tester.pumpWidget(
               MaterialApp(
                 home: Scaffold(
-                  appBar: LoadingSearchBar<HomeBloc, HomeState>(
+                  appBar: LoadingAppBar<HomeBloc, HomeState>(
                     bloc: homeBloc,
                     searchCallback: (_) {},
                   ),
@@ -33,7 +32,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          appBar: LoadingSearchBar<HomeBloc, HomeState>(
+          appBar: LoadingAppBar<HomeBloc, HomeState>(
             bloc: homeBloc,
             searchCallback: (_) {},
             title: "title",
@@ -42,17 +41,14 @@ void main() {
       ),
     );
 
-    expect(
-        find.byWidgetPredicate(
-            (widget) => widget is Text && widget.data == "title"),
-        findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is Text && widget.data == "title"), findsOneWidget);
   });
 
   testWidgets('Get title from callback', (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          appBar: LoadingSearchBar<HomeBloc, HomeState>(
+          appBar: LoadingAppBar<HomeBloc, HomeState>(
             bloc: homeBloc,
             searchCallback: (_) {},
             titleResolver: (_) {
@@ -63,10 +59,7 @@ void main() {
       ),
     );
 
-    expect(
-        find.byWidgetPredicate(
-            (widget) => widget is Text && widget.data == "title"),
-        findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is Text && widget.data == "title"), findsOneWidget);
   });
 
   testWidgets('Tap on title', (WidgetTester tester) async {
@@ -75,7 +68,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          appBar: LoadingSearchBar<HomeBloc, HomeState>(
+          appBar: LoadingAppBar<HomeBloc, HomeState>(
             bloc: homeBloc,
             searchCallback: (_) {},
             title: "title",
@@ -91,13 +84,12 @@ void main() {
   });
 
   testWidgets('Switch state to loading', (WidgetTester tester) async {
-    whenListen<HomeEvent, HomeState>(homeBloc,
-        Stream<HomeState>.fromIterable(([HomeInitialState(), Loading()])));
+    whenListen<HomeEvent, HomeState>(homeBloc, Stream<HomeState>.fromIterable(([HomeInitialState(), Loading()])));
 
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          appBar: LoadingSearchBar<HomeBloc, HomeState>(
+          appBar: LoadingAppBar<HomeBloc, HomeState>(
             bloc: homeBloc,
             searchCallback: (_) {},
             title: "title",
@@ -111,14 +103,13 @@ void main() {
     expect(find.byType(LinearProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('Change to searching, enter text and change back',
-      (WidgetTester tester) async {
+  testWidgets('Change to searching, enter text and change back', (WidgetTester tester) async {
     String searchString;
 
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          appBar: LoadingSearchBar<HomeBloc, HomeState>(
+          appBar: LoadingAppBar<HomeBloc, HomeState>(
             bloc: homeBloc,
             searchCallback: (value) => searchString = value,
             title: "title",

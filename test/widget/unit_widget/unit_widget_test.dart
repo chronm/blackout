@@ -36,26 +36,11 @@ void main() {
       return widget is TextField && widget.controller.text == "2";
     }), findsOneWidget);
 
-    expect(find.byWidgetPredicate((widget) {
-      return widget is Text && widget.data == "Error";
-    }), findsOneWidget);
-//
-//    var test = await find.byWidgetPredicate((widget) => widget is DropdownMenuItem && widget.value == UnitEnum.weight);
-//    var test2 = await find.byWidgetPredicate((widget) => widget is DropdownMenuItem && widget.value == UnitEnum.unitless);
-//
-//    await tester.tap(find.byWidgetPredicate((widget) => widget is DropdownButton));
-//    await tester.pump();
-//    await tester.press(test);
-//    await tester.pump();
-//
-//    expect(unit, equals(UnitEnum.unitless));
-//    expect(amount, equals(2));
+    expect(find.byWidgetPredicate((widget) => widget is Text && widget.data == "2 is not valid"), findsOneWidget);
 
     await tester.enterText(find.byType(TextField), "");
     await tester.pumpAndSettle();
 
-    expect(find.byWidgetPredicate((widget) {
-      return widget is Text && widget.data == "Error";
-    }), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is Text && widget.data == " is not valid"), findsOneWidget);
   });
 }

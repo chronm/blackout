@@ -11,15 +11,6 @@ class LoadCategory extends CategoryEvent {
   List<Object> get props => [category];
 }
 
-class TapOnCategoryDetails extends CategoryEvent {
-  final Category category;
-
-  TapOnCategoryDetails(this.category);
-
-  @override
-  List<Object> get props => [category];
-}
-
 class SaveCategory extends CategoryEvent {
   final Category category;
 
@@ -27,4 +18,13 @@ class SaveCategory extends CategoryEvent {
 
   @override
   List<Object> get props => [category];
+}
+
+class TapOnProduct extends CategoryEvent {
+  final Product product;
+
+  TapOnProduct(this.product);
+
+  @override
+  List<Object> get props => [product];
 }

@@ -38,7 +38,7 @@ void main() {
     Product product = createDefaultProduct();
 
     await homeRepository.save(product.home);
-    product = await productRepository.save(product);
+    product = await productRepository.save(product, createDefaultUser());
 
     expect(product.id, isNotNull);
     expect(product.description, equals(DEFAULT_PRODUCT_DESCRIPTION));
@@ -46,13 +46,14 @@ void main() {
   });
 
   test('(Save) Update a Product', () async {
+    User user = createDefaultUser();
     Product product = createDefaultProduct();
     await homeRepository.save(product.home);
-    product = await productRepository.save(product);
+    product = await productRepository.save(product, user);
     String productId = product.id;
 
     product.description = "test";
-    await productRepository.save(product);
+    await productRepository.save(product, user);
     product = await productRepository.getOneByProductIdAndHomeId(productId, DEFAULT_HOME_ID);
 
     expect(product.id, equals(productId));
@@ -71,7 +72,7 @@ void main() {
     Product product = createDefaultProduct();
 
     await homeRepository.save(product.home);
-    product = await productRepository.save(product);
+    product = await productRepository.save(product, createDefaultUser());
 
     var result = await productRepository.drop(product);
     expect(result, equals(1));
@@ -88,7 +89,7 @@ void main() {
     item.product = product;
 
     await homeRepository.save(product.home);
-    product = await productRepository.save(product);
+    product = await productRepository.save(product, createDefaultUser());
     item = await itemRepository.save(item);
 
     product = await productRepository.getOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
@@ -107,7 +108,7 @@ void main() {
     item.product = product;
 
     await homeRepository.save(product.home);
-    product = await productRepository.save(product);
+    product = await productRepository.save(product, createDefaultUser());
     item = await itemRepository.save(item);
 
     product = await productRepository.getOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseItems: false);
@@ -134,7 +135,7 @@ void main() {
   test('(FindOneByProductId) Optional is present if product found)', () async {
     Product product = createDefaultProduct();
     await homeRepository.save(product.home);
-    product = await productRepository.save(createDefaultProduct());
+    product = await productRepository.save(createDefaultProduct(), createDefaultUser());
 
     Optional<Product> optionalProduct = await productRepository.findOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
 
@@ -144,7 +145,7 @@ void main() {
   test('(FindAll) find all products', () async {
     Product product = createDefaultProduct();
     await homeRepository.save(product.home);
-    product = await productRepository.save(createDefaultProduct());
+    product = await productRepository.save(createDefaultProduct(), createDefaultUser());
 
     List<Product> products = await productRepository.findAllByHomeId(DEFAULT_HOME_ID, recurseItems: false);
     expect(products.length, equals(1));
@@ -156,7 +157,7 @@ void main() {
     product.category = category;
     await homeRepository.save(product.home);
     category = await categoryRepository.save(category, createDefaultUser());
-    product = await productRepository.save(product);
+    product = await productRepository.save(product, createDefaultUser());
 
     List<Product> products = await productRepository.getAllByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
     expect(products.length, equals(1));
@@ -169,7 +170,7 @@ void main() {
     product.category = category;
     await homeRepository.save(product.home);
     category = await categoryRepository.save(category, createDefaultUser());
-    product = await productRepository.save(product);
+    product = await productRepository.save(product, createDefaultUser());
 
     List<Product> products = await productRepository.getAllByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID, recurseCategory: false);
     expect(products.length, equals(1));
@@ -184,8 +185,8 @@ void main() {
     await homeRepository.save(product1.home);
     User user = await userRepository.save(createDefaultUser());
     category = await categoryRepository.save(category, user);
-    product1 = await productRepository.save(product1);
-    product2 = await productRepository.save(product2);
+    product1 = await productRepository.save(product1, user);
+    product2 = await productRepository.save(product2, user);
 
     List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(category.home.id);
     expect(products.length, equals(1));

@@ -31,5 +31,16 @@
   "nameMustNotBeEmpty": "Name must not be empty",
   "warnMe": "Warn me before expiration",
   "minimumAmount": "Minimum amount",
-  "amountCouldNotBeParsed": "{amount} is not valid"
+  "amountCouldNotBeParsed": "{amount} is not valid",
+  "createdAt": "{create} created",
+  "expired": "expired {time}",
+  "expires": "expires {time}",
+  "thisMonth": "this month",
+  "thisYear": "this year",
+  "longAgo": "very long ago",
+  "today": "today",
+  "yesterday": "yesterday",
+  "tomorrow": "tomorrow",
+  "future": "far in the future",
+  "notify": "notify {time}"
 }

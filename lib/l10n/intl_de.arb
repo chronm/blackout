@@ -31,5 +31,16 @@
   "nameMustNotBeEmpty": "Name darf nicht leer sein",
   "warnMe": "Warne mich vor Ablauf",
   "minimumAmount": "Mindestmenge",
-  "amountCouldNotBeParsed": "{amount} ist kein gültiger Wert"
+  "amountCouldNotBeParsed": "{amount} ist kein gültiger Wert",
+  "createdAt": "{create} erstellt",
+  "expired": "lief {time} ab",
+  "expires": "läuft {time} ab",
+  "thisMonth": "diesen Monat",
+  "thisYear": "dieses Jahr",
+  "longAgo": "Vor einiger Zeit",
+  "today": "heute",
+  "yesterday": "gestern",
+  "tomorrow": "morgen",
+  "future": "weit in der Zukunft",
+  "notify": "benachrichtige {time}"
 }

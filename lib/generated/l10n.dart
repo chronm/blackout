@@ -355,6 +355,105 @@ class S {
       args: [amount],
     );
   }
+
+  String createdAt(Object create) {
+    return Intl.message(
+      '$create created',
+      name: 'createdAt',
+      desc: '',
+      args: [create],
+    );
+  }
+
+  String expired(Object time) {
+    return Intl.message(
+      'expired $time',
+      name: 'expired',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  String expires(Object time) {
+    return Intl.message(
+      'expires $time',
+      name: 'expires',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  String get thisMonth {
+    return Intl.message(
+      'this month',
+      name: 'thisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get thisYear {
+    return Intl.message(
+      'this year',
+      name: 'thisYear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get longAgo {
+    return Intl.message(
+      'very long ago',
+      name: 'longAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get today {
+    return Intl.message(
+      'today',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get yesterday {
+    return Intl.message(
+      'yesterday',
+      name: 'yesterday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tomorrow {
+    return Intl.message(
+      'tomorrow',
+      name: 'tomorrow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get future {
+    return Intl.message(
+      'far in the future',
+      name: 'future',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String notify(Object time) {
+    return Intl.message(
+      'notify $time',
+      name: 'notify',
+      desc: '',
+      args: [time],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

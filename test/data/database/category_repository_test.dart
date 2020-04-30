@@ -81,13 +81,14 @@ void main() {
   });
 
   test('(GetOneByCategoryId) Category contains Syncs if recurseSyncs=true', () async {
+    User user = createDefaultUser();
     Category category = createDefaultCategory();
     Product product = createDefaultProduct();
     product.category = category;
 
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category, createDefaultUser());
-    product = await productRepository.save(product);
+    category = await categoryRepository.save(category, user);
+    product = await productRepository.save(product, user);
 
     category = await categoryRepository.getOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
     expect(category.id, isNotNull);
@@ -101,13 +102,14 @@ void main() {
   });
 
   test('(GetOneByCategoryId) Category does not contain products if recurseProducts=false', () async {
+    User user = createDefaultUser();
     Category category = createDefaultCategory();
     Product product = createDefaultProduct();
     product.category = category;
 
     await homeRepository.save(category.home);
-    category = await categoryRepository.save(category, createDefaultUser());
-    product = await productRepository.save(product);
+    category = await categoryRepository.save(category, user);
+    product = await productRepository.save(product, user);
 
     category = await categoryRepository.getOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID, recurseProducts: false);
     expect(category.id, isNotNull);
