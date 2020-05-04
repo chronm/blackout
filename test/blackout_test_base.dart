@@ -66,7 +66,7 @@ Category createDefaultCategory() {
 // Product
 final String DEFAULT_PRODUCT_ID = "productId";
 final String DEFAULT_PRODUCT_EAN = "productEan";
-final String DEFAULT_PRODUCT_DESCRIPTION = "productCategory";
+final String DEFAULT_PRODUCT_DESCRIPTION = "productDescription";
 final double DEFAULT_PRODUCT_REFILL_LIMIT = 2.0;
 
 Product createDefaultProduct() {
@@ -74,6 +74,7 @@ Product createDefaultProduct() {
     ean: DEFAULT_PRODUCT_EAN,
     description: DEFAULT_PRODUCT_DESCRIPTION,
     home: createDefaultHome(),
+    unit: UnitEnum.unitless,
   );
 }
 
@@ -163,21 +164,45 @@ Modification createDefaultModification() {
   );
 }
 
-MaterialApp wrapMaterial(Widget widget) => MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Blackout",
-      supportedLocales: S.delegate.supportedLocales,
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      localeResolutionCallback: S.delegate.resolution(fallback: Locale("en", "")),
-      home: Scaffold(
-        body: widget,
-      ),
-    );
+typedef Widget WidgetBuilder(BuildContext context);
+
+class WidgetBuilderWidget extends StatelessWidget {
+  final WidgetBuilder builder;
+  final ContextFactory contextFactory;
+
+  WidgetBuilderWidget({Key key, this.builder, this.contextFactory}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (contextFactory != null) {
+      contextFactory(context);
+    }
+    return builder(context);
+  }
+}
+
+MaterialApp wrapMaterial({Widget widget, WidgetBuilder builder, ContextFactory contextCallback}) {
+  assert((widget != null && builder == null) || (widget == null && builder != null));
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: "Blackout",
+    supportedLocales: S.delegate.supportedLocales,
+    localizationsDelegates: [
+      S.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    localeResolutionCallback: S.delegate.resolution(fallback: Locale("en", "")),
+    home: Scaffold(
+      body: widget ??
+          WidgetBuilderWidget(
+            builder: builder,
+            contextFactory: contextCallback,
+          ),
+    ),
+  );
+}
 
 typedef void ContextFactory(BuildContext buildContext);
 

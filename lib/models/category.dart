@@ -1,16 +1,18 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/cloneable.dart';
-import 'package:Blackout/models/displayable.dart';
+import 'package:Blackout/models/detailable.dart';
 import 'package:Blackout/models/home.dart';
+import 'package:Blackout/models/listable.dart';
 import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/product.dart';
+import 'package:Blackout/models/product.dart' show Product;
+import 'package:Blackout/models/storageable.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Category extends Displayable implements Cloneable<Category> {
+class Category implements Listable, Detailable<Category>, Storageable<Category, CategoryTableCompanion> {
   String id;
   String name;
   String pluralName;
@@ -18,14 +20,13 @@ class Category extends Displayable implements Cloneable<Category> {
   List<Product> products = [];
   Home home;
   double refillLimit;
+  UnitEnum unit;
 
-  Category clone() {
-    return Category(id: this.id, name: this.name, pluralName: this.pluralName, warnInterval: this.warnInterval, refillLimit: this.refillLimit, unit: this.unit, products: this.products, home: this.home);
-  }
+  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products = const [], @required this.home}) : products = products;
 
+  String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString().trim();
   double get amount => products.map((p) => p.amount).reduce((a, b) => a + b);
 
-  @override
   String get title => amount > 1 ? (pluralName != null ? pluralName : name) : name;
 
   @override
@@ -38,9 +39,20 @@ class Category extends Displayable implements Cloneable<Category> {
     return (amount <= refillLimit) || products.any((product) => product.tooFewAvailable);
   }
 
-  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required UnitEnum unit, List<Product> products = const [], @required this.home})
-      : products = products,
-        super(unit);
+  @override
+  Category clone() {
+    return Category(id: this.id, name: this.name, pluralName: this.pluralName, warnInterval: this.warnInterval, refillLimit: this.refillLimit, unit: this.unit, products: this.products, home: this.home);
+  }
+
+  @override
+  bool isValid() {
+    return unit != null && name != null && name != "";
+  }
+
+  @override
+  bool operator ==(other) {
+    return name == other.name && pluralName == other.pluralName && warnInterval == other.warnInterval && unit == other.unit && refillLimit == other.refillLimit;
+  }
 
   factory Category.fromEntry(CategoryEntry categoryEntry, Home home, {List<Product> products}) {
     return Category(
@@ -55,6 +67,7 @@ class Category extends Displayable implements Cloneable<Category> {
     );
   }
 
+  @override
   CategoryTableCompanion toCompanion() {
     return CategoryTableCompanion(
       id: Value(id),
@@ -68,10 +81,6 @@ class Category extends Displayable implements Cloneable<Category> {
   }
 
   @override
-  bool isValid() {
-    return unit != null && name != null && name != "";
-  }
-
   List<Modification> getModifications(Category category) {
     List<Modification> modifications = [];
     if (unit != category.unit) {
@@ -90,10 +99,5 @@ class Category extends Displayable implements Cloneable<Category> {
       modifications.add(Modification(fieldName: "refillLimit", from: UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString().trim(), to: UnitConverter.toScientific(Amount.fromSi(category.refillLimit, category.unit)).toString().trim()));
     }
     return modifications;
-  }
-
-  @override
-  bool operator ==(other) {
-    return name == other.name && pluralName == other.pluralName && warnInterval == other.warnInterval && unit == other.unit && refillLimit == other.refillLimit;
   }
 }

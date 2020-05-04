@@ -10,7 +10,7 @@ void main() {
     Period period;
     await tester.pumpWidget(
       wrapMaterial(
-        PeriodTextField(
+        widget: PeriodTextField(
           initialPeriod: Period.zero,
           callback: (_period) => period = _period,
         ),
@@ -25,7 +25,7 @@ void main() {
     Period period;
     await tester.pumpWidget(
       wrapMaterial(
-        PeriodTextField(
+        widget: PeriodTextField(
           initialPeriod: Period.zero,
           callback: (_period) => period = _period,
         ),

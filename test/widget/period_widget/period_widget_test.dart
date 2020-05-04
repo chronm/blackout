@@ -10,7 +10,7 @@ void main() {
     Period period;
     await tester.pumpWidget(
       wrapMaterial(
-        PeriodWidget(
+        widget: PeriodWidget(
           callback: (p) => period = p,
           initialPeriod: Period.zero,
         ),

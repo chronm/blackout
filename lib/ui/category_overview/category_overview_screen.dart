@@ -1,8 +1,8 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
-import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
+import 'package:Blackout/util/listable_utils.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
 import 'package:flutter/material.dart' show BuildContext, Card, Column, Container, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,39 +51,13 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
               itemBuilder: (context, index) {
                 Product product = products[index];
 
-                List<Widget> trailing = <Widget>[];
-                if (product.state.expiredOrNotification) {
-                  trailing.add(
-                    Icon(
-                      Icons.event,
-                    ),
-                  );
-                }
-                if (product.state.tooFewAvailable) {
-                  trailing.add(
-                    Icon(
-                      Icons.trending_down,
-                    ),
-                  );
-                }
-
-                return Card(
-                  child: ListTile(
-                    onTap: () {
-                      widget._bloc.add(TapOnProduct(product));
-                      Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
-                    },
-                    title: Text(
-                      product.title,
-                    ),
-                    subtitle: Text(
-                      S.of(context).available(product.scientificAmount),
-                    ),
-                    trailing: Column(
-                      children: trailing,
-                      mainAxisSize: MainAxisSize.min,
-                    ),
-                  ),
+                return buildProductListItem(
+                  context,
+                  product,
+                  () {
+                    widget._bloc.add(TapOnProduct(product));
+                    Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
+                  },
                 );
               },
             );

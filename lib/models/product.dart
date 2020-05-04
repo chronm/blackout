@@ -1,15 +1,18 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/category.dart';
-import 'package:Blackout/models/displayable.dart';
+import 'package:Blackout/models/category.dart' show Category;
+import 'package:Blackout/models/detailable.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/item.dart' show Item;
+import 'package:Blackout/models/listable.dart';
 import 'package:Blackout/models/modification.dart';
+import 'package:Blackout/models/storageable.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/util/double_extension.dart';
+import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Product extends Displayable {
+class Product extends Listable implements Detailable<Product>, Storageable<Product, ProductTableCompanion> {
   String id;
   String ean;
   Category category;
@@ -17,20 +20,17 @@ class Product extends Displayable {
   List<Item> items = [];
   Home home;
   double refillLimit;
+  UnitEnum _unit;
 
-  Product clone() {
-    return Product(id: id, ean: ean, category: category, description: description, items: items, home: home, refillLimit: refillLimit);
-  }
+  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, UnitEnum unit, @required this.home}) : _unit = unit;
+
+  void set unit(UnitEnum unit) => _unit = unit;
+
+  UnitEnum get unit => _unit != null ? _unit : category.unit;
 
   double get amount => items.map((i) => i.amount).reduce((a, b) => a + b);
 
-  String get scientificAmount {
-    if (category != null) {
-      return UnitConverter.toScientific(Amount(amount, Unit.fromSi(category.unit))).toString().trim();
-    }
-
-    return super.scientificAmount;
-  }
+  String get scientificAmount => category != null ? UnitConverter.toScientific(Amount(amount, Unit.fromSi(category.unit))).toString().trim() : UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString().trim();
 
   @override
   String get title => description;
@@ -54,7 +54,20 @@ class Product extends Displayable {
     return false;
   }
 
-  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, UnitEnum unit, @required this.home}) : super(unit);
+  @override
+  Product clone() {
+    return Product(id: id, ean: ean, category: category, description: description, items: items, home: home, refillLimit: refillLimit);
+  }
+
+  @override
+  bool isValid() {
+    return description != null && description != "";
+  }
+
+  @override
+  bool operator ==(other) {
+    return ean == other.ean && description == other.description && refillLimit == other.refillLimit;
+  }
 
   factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items}) {
     return Product(
@@ -81,11 +94,6 @@ class Product extends Displayable {
     );
   }
 
-  @override
-  bool isValid() {
-    return description != null && description != "";
-  }
-
   List<Modification> getModifications(Product product) {
     List<Modification> modifications = [];
     if (ean != product.ean) {
@@ -99,10 +107,5 @@ class Product extends Displayable {
     }
 
     return modifications;
-  }
-
-  @override
-  bool operator ==(other) {
-    return ean == other.ean && description == other.description && refillLimit == other.refillLimit;
   }
 }
