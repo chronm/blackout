@@ -7,19 +7,12 @@ import '../../blackout_test_base.dart';
 
 void main() {
   testWidgets('initial conversion into scientific', (WidgetTester tester) async {
-    UnitEnum unit;
-    double amount;
-    bool checked;
     await tester.pumpWidget(
       wrapMaterial(
-        UnitWidget(
+        widget: UnitWidget(
           initialUnit: UnitEnum.weight,
           initialRefillLimit: 0.002,
-          unitCallback: (u, a, c) {
-            unit = u;
-            amount = a;
-            checked = c;
-          },
+          unitCallback: (u, a, c) {},
         ),
       ),
     );

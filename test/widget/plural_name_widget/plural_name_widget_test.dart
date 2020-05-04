@@ -10,7 +10,7 @@ void main() {
     bool checked;
     await tester.pumpWidget(
       wrapMaterial(
-        PluralNameWidget(
+        widget: PluralNameWidget(
           callback: (p, c) {
             pluralName = p;
             checked = c;

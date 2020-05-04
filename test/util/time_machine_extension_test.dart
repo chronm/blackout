@@ -60,10 +60,10 @@ void main() {
     expect(then.prettyPrintShortDifference(context), then.dayOfWeek.toString());
 
     then = LocalDateTime.now().subtractWeeks(1);
-    expect(then.prettyPrintShortDifference(context), "this month");
+    expect(then.prettyPrintShortDifference(context), "in 1 week");
 
     then = LocalDateTime.now().subtractMonths(1);
-    expect(then.prettyPrintShortDifference(context), "this year");
+    expect(then.prettyPrintShortDifference(context), "in 1 month");
 
     then = LocalDateTime.now().subtractYears(1);
     expect(then.prettyPrintShortDifference(context), "very long ago");

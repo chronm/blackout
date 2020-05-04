@@ -9,7 +9,7 @@ void main() {
     String name;
     await tester.pumpWidget(
       wrapMaterial(
-        NameTextField(
+        widget: NameTextField(
           initialValue: "text",
           callback: (value) => name = value,
         ),
@@ -27,7 +27,7 @@ void main() {
     String name;
     await tester.pumpWidget(
       wrapMaterial(
-        NameTextField(
+        widget: NameTextField(
           initialValue: "name",
           callback: (value) => name = value,
         ),

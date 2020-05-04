@@ -9,9 +9,9 @@ import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/displayable.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/listable.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
@@ -90,7 +90,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       await createProduct(home);
       List<Category> categories = await categoryRepository.findAllByHomeId(home.id);
       List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(home.id);
-      List<Displayable> cards = <Displayable>[]
+      List<Listable> cards = <Listable>[]
         ..addAll(products)
         ..addAll(categories)
         ..sort((a, b) => a.title.compareTo(b.title));

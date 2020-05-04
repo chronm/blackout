@@ -37,19 +37,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m8(hours) => "${Intl.plural(hours, one: '1 hour', other: '${hours} hours')}";
 
-  static m9(minutes) => "${Intl.plural(minutes, one: '1 minute', other: '${minutes} minutes')}";
+  static m9(months) => "${Intl.plural(months, one: 'in ${months} month', other: 'in ${months} months')}";
 
-  static m10(field, from, to) => "Changed ${field} from ${from} to ${to}";
+  static m10(weeks) => "${Intl.plural(weeks, one: 'in ${weeks} week', other: 'in ${weeks} weeks')}";
 
-  static m11(months) => "${Intl.plural(months, one: '1 month', other: '${months} months')}";
+  static m11(minutes) => "${Intl.plural(minutes, one: '1 minute', other: '${minutes} minutes')}";
 
-  static m12(time) => "notify ${time}";
+  static m12(field, from, to) => "Changed ${field} from ${from} to ${to}";
 
-  static m13(seconds) => "${Intl.plural(seconds, one: '1 second', other: '${seconds} seconds')}";
+  static m13(months) => "${Intl.plural(months, one: '1 month', other: '${months} months')}";
 
-  static m14(weeks) => "${Intl.plural(weeks, one: '1 week', other: '${weeks} weeks')}";
+  static m14(time) => "notify ${time}";
 
-  static m15(years) => "${Intl.plural(years, one: '1 year', other: '${years} years')}";
+  static m15(seconds) => "${Intl.plural(seconds, one: '1 second', other: '${seconds} seconds')}";
+
+  static m16(weeks) => "${Intl.plural(weeks, one: '1 week', other: '${weeks} weeks')}";
+
+  static m17(years) => "${Intl.plural(years, one: '1 year', other: '${years} years')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -70,32 +74,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "finish" : MessageLookupByLibrary.simpleMessage("Finish"),
     "future" : MessageLookupByLibrary.simpleMessage("far in the future"),
     "hours" : m8,
+    "inMonths" : m9,
+    "inWeeks" : m10,
     "join" : MessageLookupByLibrary.simpleMessage("Join"),
     "joinHome" : MessageLookupByLibrary.simpleMessage("Simply scan the QR Code on another device to join the household."),
     "longAgo" : MessageLookupByLibrary.simpleMessage("very long ago"),
     "minimumAmount" : MessageLookupByLibrary.simpleMessage("Minimum amount"),
-    "minutes" : m9,
-    "modifiedField" : m10,
+    "minutes" : m11,
+    "modifiedField" : m12,
     "modifyCategory" : MessageLookupByLibrary.simpleMessage("Modify Category"),
-    "months" : m11,
+    "months" : m13,
     "nameMustNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Name must not be empty"),
     "nameOfYourHousehold" : MessageLookupByLibrary.simpleMessage("Name of your household"),
-    "notify" : m12,
+    "notify" : m14,
     "plural" : MessageLookupByLibrary.simpleMessage("If it has a plural form, enter here"),
-    "seconds" : m13,
+    "seconds" : m15,
     "setYourHome" : MessageLookupByLibrary.simpleMessage("Do you want to join an existing household or create a new one?"),
     "setYourUsername" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove items. You can change this later."),
     "setup" : MessageLookupByLibrary.simpleMessage("Setup"),
     "singular" : MessageLookupByLibrary.simpleMessage("What is the name of this category?"),
-    "thisMonth" : MessageLookupByLibrary.simpleMessage("this month"),
-    "thisYear" : MessageLookupByLibrary.simpleMessage("this year"),
     "today" : MessageLookupByLibrary.simpleMessage("today"),
     "tomorrow" : MessageLookupByLibrary.simpleMessage("tomorrow"),
     "username" : MessageLookupByLibrary.simpleMessage("Username"),
     "warnMe" : MessageLookupByLibrary.simpleMessage("Warn me before expiration"),
-    "weeks" : m14,
+    "weeks" : m16,
     "welcomeMessage" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
-    "years" : m15,
+    "years" : m17,
     "yesterday" : MessageLookupByLibrary.simpleMessage("yesterday")
   };
 }

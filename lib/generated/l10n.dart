@@ -365,21 +365,25 @@ class S {
     );
   }
 
-  String get thisMonth {
-    return Intl.message(
-      'this month',
-      name: 'thisMonth',
+  String inWeeks(num weeks) {
+    return Intl.plural(
+      weeks,
+      one: 'in $weeks week',
+      other: 'in $weeks weeks',
+      name: 'inWeeks',
       desc: '',
-      args: [],
+      args: [weeks],
     );
   }
 
-  String get thisYear {
-    return Intl.message(
-      'this year',
-      name: 'thisYear',
+  String inMonths(num months) {
+    return Intl.plural(
+      months,
+      one: 'in $months month',
+      other: 'in $months months',
+      name: 'inMonths',
       desc: '',
-      args: [],
+      args: [months],
     );
   }
 

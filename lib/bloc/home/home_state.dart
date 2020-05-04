@@ -13,7 +13,7 @@ class Loading extends HomeState implements LoadingState {
 }
 
 class LoadedAll extends HomeState {
-  final List<Displayable> cards;
+  final List<Listable> cards;
 
   LoadedAll(this.cards);
 

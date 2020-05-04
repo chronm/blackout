@@ -10,7 +10,7 @@ void main() {
     bool checked = false;
     await tester.pumpWidget(
       wrapMaterial(
-        CheckedTextField(
+        widget: CheckedTextField(
           initialValue: value,
           initialChecked: checked,
           callback: (_value, _checked) {
@@ -35,7 +35,7 @@ void main() {
     bool checked = false;
     await tester.pumpWidget(
       wrapMaterial(
-        CheckedTextField(
+        widget: CheckedTextField(
           initialValue: value,
           initialChecked: checked,
           callback: (_value, _checked) {
