@@ -171,6 +171,15 @@ class S {
     );
   }
 
+  String get modifyProduct {
+    return Intl.message(
+      'Modify Product',
+      name: 'modifyProduct',
+      desc: '',
+      args: [],
+    );
+  }
+
   String years(num years) {
     return Intl.plural(
       years,
@@ -440,6 +449,33 @@ class S {
       args: [time],
     );
   }
+
+  String get description {
+    return Intl.message(
+      'Description',
+      name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get descriptionMustNotBeEmpty {
+    return Intl.message(
+      'Description must not be empty',
+      name: 'descriptionMustNotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get ean {
+    return Intl.message(
+      'Product code (ean)',
+      name: 'ean',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -447,7 +483,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'), Locale.fromSubtags(languageCode: 'de'),
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'de'),
     ];
   }
 

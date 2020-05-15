@@ -7,5 +7,5 @@ part of 'item_repository.dart';
 // **************************************************************************
 
 mixin _$ItemRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $ItemTableTable get itemTable => db.itemTable;
+  $ItemTableTable get itemTable => attachedDatabase.itemTable;
 }

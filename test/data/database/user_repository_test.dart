@@ -2,6 +2,7 @@ import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 import 'package:optional/optional_internal.dart';
 
 import '../../blackout_test_base.dart';
@@ -11,7 +12,7 @@ void main() {
   UserRepository userRepository;
 
   setUp(() {
-    _database = Database.forTesting();
+    _database = Database.forTesting(VmDatabase.memory());
     userRepository = _database.userRepository;
   });
 

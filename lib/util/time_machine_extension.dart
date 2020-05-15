@@ -48,26 +48,26 @@ extension LocalDateTimeExtension on LocalDateTime {
     DateTime now = LocalDateTime.now().toDateTimeLocal();
     DateTime other = this.toDateTimeLocal();
 
-    if (Jiffy(now).diff(other, "days") == 0) {
+    if (Jiffy(now).diff(other, Units.DAY) == 0) {
       return S.of(context).today;
     }
 
-    if (Jiffy(now).diff(other, "days") == 1) {
+    if (Jiffy(now).diff(other, Units.DAY) == 1) {
       return S.of(context).yesterday;
     }
-    if (Jiffy(now).diff(other, "days") == -1) {
+    if (Jiffy(now).diff(other, Units.DAY) == -1) {
       return S.of(context).tomorrow;
     }
-    if (Jiffy(now).diff(other, "weeks") == 0) {
+    if (Jiffy(now).diff(other, Units.WEEK) == 0) {
       return DateFormat('EEEE', languageCode).format(other);
     }
-    if (Jiffy(now).diff(other, "months") == 0) {
-      return S.of(context).inWeeks(Jiffy(now).diff(other, "weeks").abs());
+    if (Jiffy(now).diff(other, Units.MONTH) == 0) {
+      return S.of(context).inWeeks(Jiffy(now).diff(other, Units.WEEK).abs());
     }
-    if (Jiffy(now).diff(other, "years") == 0) {
-      return S.of(context).inMonths(Jiffy(now).diff(other, "months").abs());
+    if (Jiffy(now).diff(other, Units.YEAR) == 0) {
+      return S.of(context).inMonths(Jiffy(now).diff(other, Units.MONTH).abs());
     }
-    if (Jiffy(now).diff(other, "years") < 0) {
+    if (Jiffy(now).diff(other, Units.YEAR) < 0) {
       return S.of(context).future;
     } else {
       return S.of(context).longAgo;

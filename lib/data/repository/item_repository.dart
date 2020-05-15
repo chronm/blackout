@@ -91,7 +91,7 @@ class ItemRepository extends DatabaseAccessor<Database> with _$ItemRepositoryMix
   Future<Item> save(Item item) async {
     item.id ??= Uuid().v4();
 
-    await into(itemTable).insert(item.toCompanion(), mode: InsertMode.insertOrReplace);
+    await into(itemTable).insertOnConflictUpdate(item.toCompanion());
 
     return await getOneByItemIdAndHomeId(item.id, item.home.id);
   }

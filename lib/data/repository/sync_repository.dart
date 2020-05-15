@@ -26,7 +26,7 @@ class SyncRepository extends DatabaseAccessor<Database> with _$SyncRepositoryMix
   }
 
   Future<Sync> save(Sync sync) async {
-    await into(syncTable).insert(sync.toCompanion(), mode: InsertMode.insertOrReplace);
+    await into(syncTable).insertOnConflictUpdate(sync.toCompanion());
 
     return sync;
   }

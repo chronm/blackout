@@ -37,9 +37,10 @@ void main() {
 
   test('Load category, coming from HomeScreen emits ShowCategory', () {
     when(modelChangeRepository.findAllByCategoryIdAndHomeId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, category: createDefaultCategory()..id = DEFAULT_CATEGORY_ID)]));
+    when(blackoutPreferences.getHome()).thenAnswer((realInvocation) => Future.value(createDefaultHome()));
 
     expectLater(categoryBloc, emitsInOrder([InitialCategoryState(), isA<ShowCategory>()]));
 
-    categoryBloc.add(LoadCategory(createDefaultCategory()..id = DEFAULT_CATEGORY_ID));
+    categoryBloc.add(LoadCategory(DEFAULT_CATEGORY_ID));
   });
 }

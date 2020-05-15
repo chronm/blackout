@@ -187,6 +187,7 @@ class _SetupScreenState extends State<SetupScreen> {
           }
         },
         child: ScrollableContainer(
+          fullscreen: true,
           child: Column(
             children: <Widget>[
               RelativeHeightContainer(factor: 0.1),

@@ -6,7 +6,7 @@ import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/util/listable_utils.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Column, Container, Icon, Icons, ListTile, ListView, MainAxisSize, Navigator, SafeArea, Scaffold, State, StatefulWidget, Text, Widget;
+import 'package:flutter/material.dart' show BuildContext, Container, ListView, Navigator, SafeArea, Scaffold, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -46,13 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   return buildListableListItem(
                     context,
                     listable,
-                    () {
+                    () async {
                       if (listable is Category) {
                         widget._bloc.add(TapOnCategory(listable));
-                        Navigator.push(context, RouteBuilder.build(Routes.categoryOverviewRoute()));
+                        await Navigator.push(context, RouteBuilder.build(Routes.categoryOverviewRoute()));
+                        widget._bloc.add(LoadAll());
                       } else if (listable is Product) {
                         widget._bloc.add(TapOnProduct(listable));
-                        Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
+                        await Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
+                        widget._bloc.add(LoadAll());
                       }
                     },
                   );

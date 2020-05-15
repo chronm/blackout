@@ -81,22 +81,22 @@ class Category implements Listable, Detailable<Category>, Storageable<Category, 
   }
 
   @override
-  List<Modification> getModifications(Category category) {
+  List<Modification> getModifications(Category other) {
     List<Modification> modifications = [];
-    if (unit != category.unit) {
-      modifications.add(Modification(fieldName: "unit", from: describeEnum(unit), to: describeEnum(category.unit)));
+    if (unit != other.unit) {
+      modifications.add(Modification(fieldName: "unit", from: describeEnum(unit), to: describeEnum(other.unit)));
     }
-    if (name != category.name) {
-      modifications.add(Modification(fieldName: "name", from: name, to: category.name));
+    if (name != other.name) {
+      modifications.add(Modification(fieldName: "name", from: name, to: other.name));
     }
-    if (pluralName != category.pluralName) {
-      modifications.add(Modification(fieldName: "pluralName", from: pluralName, to: category.pluralName));
+    if (pluralName != other.pluralName) {
+      modifications.add(Modification(fieldName: "pluralName", from: pluralName, to: other.pluralName));
     }
-    if (warnInterval != category.warnInterval) {
-      modifications.add(Modification(fieldName: "warnInterval", from: warnInterval.toString(), to: category.warnInterval.toString()));
+    if (warnInterval != other.warnInterval) {
+      modifications.add(Modification(fieldName: "warnInterval", from: warnInterval.toString(), to: other.warnInterval.toString()));
     }
-    if (refillLimit != category.refillLimit) {
-      modifications.add(Modification(fieldName: "refillLimit", from: UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString().trim(), to: UnitConverter.toScientific(Amount.fromSi(category.refillLimit, category.unit)).toString().trim()));
+    if (refillLimit != other.refillLimit) {
+      modifications.add(Modification(fieldName: "refillLimit", from: UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString().trim(), to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString().trim()));
     }
     return modifications;
   }

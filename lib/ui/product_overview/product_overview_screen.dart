@@ -1,9 +1,10 @@
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/item.dart';
+import 'package:Blackout/routes.dart';
 import 'package:Blackout/util/listable_utils.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show BuildContext, Container, Key, ListView, Navigator, Scaffold, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductOverviewScreen extends StatefulWidget {
@@ -26,6 +27,11 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
             return state.product.description;
           }
           return "";
+        },
+        titleCallback: (state) {
+          if (state is ShowProduct) {
+            Navigator.push(context, RouteBuilder.build(Routes.productDetailsRoute(product: state.product, changes: state.changes, categories: state.categories)));
+          }
         },
       ),
       body: BlocBuilder<ProductBloc, ProductState>(

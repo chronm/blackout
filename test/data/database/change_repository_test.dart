@@ -8,6 +8,7 @@ import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/item.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 import 'package:optional/optional.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -22,7 +23,7 @@ void main() {
   HomeRepository homeRepository;
 
   setUp(() {
-    _database = Database.forTesting();
+    _database = Database.forTesting(VmDatabase.memory());
     productRepository = _database.productRepository;
     itemRepository = _database.itemRepository;
     changeRepository = _database.changeRepository;
@@ -80,6 +81,7 @@ void main() {
   });
 
   test('(Drop) Throw exception if change to drop is no database object', () async {
+    await changeRepository.findAllByHomeId(DEFAULT_HOME_ID);
     Change change = createDefaultChange();
     expect(() => changeRepository.drop(change), throwsAssertionError);
   });

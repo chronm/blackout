@@ -7,5 +7,5 @@ part of 'product_repository.dart';
 // **************************************************************************
 
 mixin _$ProductRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $ProductTableTable get productTable => db.productTable;
+  $ProductTableTable get productTable => attachedDatabase.productTable;
 }

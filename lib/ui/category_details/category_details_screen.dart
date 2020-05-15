@@ -7,9 +7,9 @@ import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.
 import 'package:Blackout/widget/name_text_field/name_text_field.dart';
 import 'package:Blackout/widget/period_widget/period_widget.dart';
 import 'package:Blackout/widget/plural_name_widget/plural_name_widget.dart';
+import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/unit_widget/unit_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CategoryDetailsScreen extends StatefulWidget {
@@ -24,16 +24,16 @@ class CategoryDetailsScreen extends StatefulWidget {
 }
 
 class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
-  Category category;
-  TextEditingController _nameController = TextEditingController();
-  bool valid = true;
+  Category _category;
+  Key _refillLimitKey;
+  bool _errorInPeriod = false;
+  bool _errorInRefillLimit = false;
 
   @override
   void initState() {
     super.initState();
-    category = widget.category.clone();
-    _nameController.text = category.name;
-    _nameController.addListener(() => category.name = _nameController.text.trim());
+    _refillLimitKey = GlobalKey();
+    _category = widget.category.clone();
   }
 
   @override
@@ -45,9 +45,9 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: category.isValid() && valid && category != widget.category
+            onPressed: _category.isValid() && !_errorInPeriod && !_errorInRefillLimit && _category != widget.category
                 ? () {
-                    widget.bloc.add(SaveCategory(category));
+                    widget.bloc.add(SaveCategory(_category));
                     Navigator.pop(context);
                   }
                 : null,
@@ -61,10 +61,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.all(8.8),
                 child: NameTextField(
-                  initialValue: category.name,
-                  callback: (name) {
+                  initialValue: _category.name,
+                  callback: (value) {
                     setState(() {
-                      category.name = name;
+                      _category.name = value;
                     });
                   },
                 ),
@@ -74,8 +74,12 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.all(8.8),
                 child: PluralNameWidget(
-                  initialValue: category.pluralName,
-                  callback: (pluralName, checked) => category.pluralName = checked ? pluralName : null,
+                  initialValue: _category.pluralName,
+                  callback: (value) {
+                    setState(() {
+                      _category.pluralName = value;
+                    });
+                  },
                 ),
               ),
             ),
@@ -83,40 +87,53 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.all(8.8),
                 child: PeriodWidget(
-                  initialPeriod: category.warnInterval,
-                  callback: (period) {
-                    if (period != null) {
-                      category.warnInterval = period;
-                      setState(() {
-                        valid = true;
-                      });
-                    } else {
-                      setState(() {
-                        valid = false;
-                      });
-                    }
+                  initialPeriod: _category.warnInterval,
+                  callback: (period, error) {
+                    setState(() {
+                      _category.warnInterval = period;
+                      _errorInPeriod = error;
+                    });
                   },
                 ),
               ),
             ),
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(8.8),
-                child: UnitWidget(
-                  initialUnit: category.unit,
-                  unitCallback: (unit, amount, checked) {
-                    setState(() {
-                      category.unit = unit;
-                      category.refillLimit = checked ? amount : null;
-                      if (amount != null || checked == false) {
-                        valid = true;
-                      } else {
-                        valid = false;
-                      }
-                    });
-                  },
-                  initialRefillLimit: category.refillLimit,
-                ),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.8),
+                      child: UnitWidget(
+                        initialUnit: _category.unit,
+                        callback: (unit) {
+                          setState(() {
+                            _category.unit = unit;
+                            _refillLimitKey = GlobalKey();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.8),
+                        child: RefillLimitWidget(
+                          key: _refillLimitKey,
+                          initialUnit: _category.unit,
+                          initialRefillLimit: _category.refillLimit,
+                          callback: (amount, error) {
+                            setState(() {
+                              _category.refillLimit = amount;
+                              _errorInRefillLimit = error;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             HorizontalTextDivider(text: S.of(context).changes),

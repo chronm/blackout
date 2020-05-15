@@ -6,29 +6,52 @@ import 'package:time_machine/time_machine.dart';
 import '../../blackout_test_base.dart';
 
 void main() {
-  testWidgets('description', (WidgetTester tester) async {
-    Period period;
+  testWidgets('Initialize with null', (WidgetTester tester) async {
+    Period period = null;
+    bool error;
     await tester.pumpWidget(
       wrapMaterial(
         widget: PeriodWidget(
-          callback: (p) => period = p,
-          initialPeriod: Period.zero,
+          initialPeriod: period,
+          callback: (p, e) {
+            period = p;
+            error = e;
+          },
         ),
       ),
     );
-    await tester.pump();
-
-    await tester.enterText(find.byType(TextField), "P1D");
     await tester.pumpAndSettle();
 
-    expect(period.days, equals(1));
+    expect(find.text('Warn me before expiration'), findsOneWidget);
 
-    expect(find.byWidgetPredicate((widget) {
-      return widget is Text && widget.data == "1 day";
-    }), findsOneWidget);
+    await tester.tap(find.byType(Checkbox));
+    await tester.pumpAndSettle();
 
-    expect(find.byWidgetPredicate((widget) {
-      return widget is TextField && widget.controller.text == "P1D";
-    }), findsOneWidget);
+    expect(error, isTrue);
+  });
+
+  testWidgets('Initialize with period', (WidgetTester tester) async {
+    Period period = DEFAULT_PERIOD_UNTIL_EXPIRATION;
+    bool error;
+    await tester.pumpWidget(
+      wrapMaterial(
+        widget: PeriodWidget(
+          initialPeriod: period,
+          callback: (p, e) {
+            period = p;
+            error = e;
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('1 week'), findsOneWidget);
+  
+    await tester.enterText(find.byType(TextField), 'P1');
+    await tester.pumpAndSettle();
+
+    expect(error, isTrue);
+    expect(find.text('Error'), findsOneWidget);
   });
 }

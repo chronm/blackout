@@ -23,10 +23,10 @@ void prepareSharedPreferences(GetIt sl) async {
 }
 
 void prepareBlocs(GetIt sl) async {
-  sl.registerSingleton<ProductBloc>(ProductBloc(sl<ModelChangeRepository>()));
+  sl.registerSingleton<ProductBloc>(ProductBloc(sl<ModelChangeRepository>(), sl<CategoryRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
   sl.registerSingleton<CategoryBloc>(CategoryBloc(sl<CategoryRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>(), sl<ProductBloc>()));
-  sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<CategoryRepository>(), sl<ProductRepository>(), sl<CategoryBloc>(), sl<ItemRepository>(), sl<ChangeRepository>(), sl<ModelChangeRepository>(), sl<ProductBloc>()));
-  sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>()));
+  sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<CategoryRepository>(), sl<ProductRepository>(), sl<CategoryBloc>(),sl<ModelChangeRepository>(), sl<ProductBloc>()));
+  sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<CategoryRepository>(), sl<ProductRepository>(), sl<ItemRepository>(), sl<ChangeRepository>()));
   sl.registerSingleton<MainBloc>(MainBloc(sl<BlackoutPreferences>(), sl<HomeBloc>()));
 }
 

@@ -4,6 +4,7 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
@@ -34,12 +35,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       yield ShowCategory(category, changes);
     }
     if (event is LoadCategory) {
-      List<ModelChange> changes = await modelChangeRepository.findAllByCategoryIdAndHomeId(event.category.id, event.category.home.id)
+      Home home = await blackoutPreferences.getHome();
+      Category category = await categoryRepository.getOneByCategoryIdAndHomeId(event.categoryId, home.id);
+      List<ModelChange> changes = await modelChangeRepository.findAllByCategoryIdAndHomeId(event.categoryId, home.id)
         ..sort((a, b) => a.modificationDate.compareTo(b.modificationDate));
-      yield ShowCategory(event.category, changes);
+      yield ShowCategory(category, changes);
     }
     if (event is TapOnProduct) {
-      productBloc.add(LoadProduct(event.product));
+      productBloc.add(LoadProduct(event.product.id));
     }
   }
 }

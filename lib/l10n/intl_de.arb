@@ -15,6 +15,7 @@
   "singular": "Wie lautet der Name dieser Kategorie?",
   "plural": "Wenn es eine Pluralform hat, geben Sie hier ein",
   "modifyCategory": "Kategorie bearbeiten",
+  "modifyProduct": "Produkt bearbeiten",
   "years": "{years, plural, one{1 Jahr} other {{years} Jahre}}",
   "months": "{months, plural, one{1 Monat} other {{months} Monate}}",
   "weeks": "{weeks, plural, one{1 Woche} other {{weeks} Wochen}}",
@@ -42,5 +43,8 @@
   "yesterday": "gestern",
   "tomorrow": "morgen",
   "future": "weit in der Zukunft",
-  "notify": "benachrichtige {time}"
+  "notify": "benachrichtige {time}",
+  "description": "Beschreibung",
+  "descriptionMustNotBeEmpty": "Beschreibung darf nicht leer sein",
+  "ean": "Produktcode (ean)"
 }

@@ -9,6 +9,7 @@ import 'package:Blackout/models/item.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 import 'package:optional/optional.dart';
 
 import '../../blackout_test_base.dart';
@@ -22,7 +23,7 @@ void main() {
   UserRepository userRepository;
 
   setUp(() {
-    _database = Database.forTesting();
+    _database = Database.forTesting(VmDatabase.memory());
     itemRepository = _database.itemRepository;
     productRepository = _database.productRepository;
     categoryRepository = _database.categoryRepository;
@@ -64,6 +65,7 @@ void main() {
   });
 
   test('(Drop) Throw exception if product to drop is no database object', () async {
+    await productRepository.findAllByHomeId(DEFAULT_HOME_ID);
     Product product = createDefaultProduct();
     expect(() => productRepository.drop(product), throwsAssertionError);
   });
@@ -180,7 +182,7 @@ void main() {
   test('(findAllByHomeIdAndCategoryIsNull) Find all products for category and without a category', () async {
     Category category = createDefaultCategory();
     Product product1 = createDefaultProduct();
-    Product product2 = createDefaultProduct();
+    Product product2 = createDefaultProduct()..ean = "otherEan";
     product2.description = "product2";
     await homeRepository.save(product1.home);
     User user = await userRepository.save(createDefaultUser());
@@ -189,7 +191,8 @@ void main() {
     product2 = await productRepository.save(product2, user);
 
     List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(category.home.id);
-    expect(products.length, equals(1));
-    expect(products[0].description, "product2");
+    expect(products.length, equals(2));
+    expect(products[0].description, DEFAULT_PRODUCT_DESCRIPTION);
+    expect(products[1].description, "product2");
   });
 }

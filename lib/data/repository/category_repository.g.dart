@@ -7,5 +7,5 @@ part of 'category_repository.dart';
 // **************************************************************************
 
 mixin _$CategoryRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $CategoryTableTable get categoryTable => db.categoryTable;
+  $CategoryTableTable get categoryTable => attachedDatabase.categoryTable;
 }

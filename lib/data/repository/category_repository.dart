@@ -76,7 +76,7 @@ class CategoryRepository extends DatabaseAccessor<Database> with _$CategoryRepos
       }
     }
 
-    await into(categoryTable).insert(category.toCompanion(), mode: InsertMode.insertOrReplace);
+    await into(categoryTable).insertOnConflictUpdate(category.toCompanion());
 
     return await getOneByCategoryIdAndHomeId(category.id, category.home.id);
   }
