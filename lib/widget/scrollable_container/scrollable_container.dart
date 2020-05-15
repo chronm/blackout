@@ -2,16 +2,17 @@ import 'package:flutter/material.dart' show AlwaysScrollableScrollPhysics, Build
 
 class ScrollableContainer extends StatelessWidget {
   final Widget child;
+  final bool fullscreen;
 
-  const ScrollableContainer({Key key, this.child}) : super(key: key);
+  ScrollableContainer({Key key, this.child, this.fullscreen = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: AlwaysScrollableScrollPhysics(),
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        height: fullscreen ? MediaQuery.of(context).size.height : null,
+        width: fullscreen ? MediaQuery.of(context).size.width : null,
         child: child,
       ),
     );

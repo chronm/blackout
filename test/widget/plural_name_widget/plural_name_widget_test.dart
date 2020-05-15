@@ -7,13 +7,11 @@ import '../../blackout_test_base.dart';
 void main() {
   testWidgets('enter text', (WidgetTester tester) async {
     String pluralName;
-    bool checked;
     await tester.pumpWidget(
       wrapMaterial(
         widget: PluralNameWidget(
-          callback: (p, c) {
+          callback: (p) {
             pluralName = p;
-            checked = c;
           },
           initialValue: "",
         ),
@@ -24,6 +22,23 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(pluralName, equals("pluralName"));
-    expect(checked, isTrue);
+  });
+
+  testWidgets('Uncheck', (WidgetTester tester) async {
+    String pluralName;
+    await tester.pumpWidget(
+      wrapMaterial(
+        widget: PluralNameWidget(
+          callback: (p) {
+            pluralName = p;
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(Checkbox));
+
+    expect(pluralName, equals(""));
   });
 }

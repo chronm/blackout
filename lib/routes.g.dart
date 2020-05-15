@@ -24,14 +24,54 @@ abstract class Routes extends Equatable {
 
   factory Routes.productDetailsRoute(
       {@required Product product,
-      @required List<ModelChange> changes}) = ProductDetailsRoute;
+      @required List<ModelChange> changes,
+      @required List<Category> categories}) = ProductDetailsRoute;
 
   factory Routes.itemRoute() = ItemRoute;
 
   final _Routes _type;
 
 //ignore: missing_return
-  FutureOr<R> when<R>(
+  R when<R>(
+      {@required R Function(HomeRoute) homeRoute,
+      @required R Function(SetupRoute) setupRoute,
+      @required R Function(CategoryOverviewRoute) categoryOverviewRoute,
+      @required R Function(CategoryDetailsRoute) categoryDetailsRoute,
+      @required R Function(ProductOverviewRoute) productOverviewRoute,
+      @required R Function(ProductDetailsRoute) productDetailsRoute,
+      @required R Function(ItemRoute) itemRoute}) {
+    assert(() {
+      if (homeRoute == null ||
+          setupRoute == null ||
+          categoryOverviewRoute == null ||
+          categoryDetailsRoute == null ||
+          productOverviewRoute == null ||
+          productDetailsRoute == null ||
+          itemRoute == null) {
+        throw 'check for all possible cases';
+      }
+      return true;
+    }());
+    switch (this._type) {
+      case _Routes.HomeRoute:
+        return homeRoute(this as HomeRoute);
+      case _Routes.SetupRoute:
+        return setupRoute(this as SetupRoute);
+      case _Routes.CategoryOverviewRoute:
+        return categoryOverviewRoute(this as CategoryOverviewRoute);
+      case _Routes.CategoryDetailsRoute:
+        return categoryDetailsRoute(this as CategoryDetailsRoute);
+      case _Routes.ProductOverviewRoute:
+        return productOverviewRoute(this as ProductOverviewRoute);
+      case _Routes.ProductDetailsRoute:
+        return productDetailsRoute(this as ProductDetailsRoute);
+      case _Routes.ItemRoute:
+        return itemRoute(this as ItemRoute);
+    }
+  }
+
+//ignore: missing_return
+  Future<R> asyncWhen<R>(
       {@required
           FutureOr<R> Function(HomeRoute) homeRoute,
       @required
@@ -76,7 +116,48 @@ abstract class Routes extends Equatable {
     }
   }
 
-  FutureOr<R> whenOrElse<R>(
+  R whenOrElse<R>(
+      {R Function(HomeRoute) homeRoute,
+      R Function(SetupRoute) setupRoute,
+      R Function(CategoryOverviewRoute) categoryOverviewRoute,
+      R Function(CategoryDetailsRoute) categoryDetailsRoute,
+      R Function(ProductOverviewRoute) productOverviewRoute,
+      R Function(ProductDetailsRoute) productDetailsRoute,
+      R Function(ItemRoute) itemRoute,
+      @required R Function(Routes) orElse}) {
+    assert(() {
+      if (orElse == null) {
+        throw 'Missing orElse case';
+      }
+      return true;
+    }());
+    switch (this._type) {
+      case _Routes.HomeRoute:
+        if (homeRoute == null) break;
+        return homeRoute(this as HomeRoute);
+      case _Routes.SetupRoute:
+        if (setupRoute == null) break;
+        return setupRoute(this as SetupRoute);
+      case _Routes.CategoryOverviewRoute:
+        if (categoryOverviewRoute == null) break;
+        return categoryOverviewRoute(this as CategoryOverviewRoute);
+      case _Routes.CategoryDetailsRoute:
+        if (categoryDetailsRoute == null) break;
+        return categoryDetailsRoute(this as CategoryDetailsRoute);
+      case _Routes.ProductOverviewRoute:
+        if (productOverviewRoute == null) break;
+        return productOverviewRoute(this as ProductOverviewRoute);
+      case _Routes.ProductDetailsRoute:
+        if (productDetailsRoute == null) break;
+        return productDetailsRoute(this as ProductDetailsRoute);
+      case _Routes.ItemRoute:
+        if (itemRoute == null) break;
+        return itemRoute(this as ItemRoute);
+    }
+    return orElse(this);
+  }
+
+  Future<R> asyncWhenOrElse<R>(
       {FutureOr<R> Function(HomeRoute) homeRoute,
       FutureOr<R> Function(SetupRoute) setupRoute,
       FutureOr<R> Function(CategoryOverviewRoute) categoryOverviewRoute,
@@ -117,7 +198,8 @@ abstract class Routes extends Equatable {
     return orElse(this);
   }
 
-  FutureOr<void> whenPartial(
+//ignore: missing_return
+  Future<void> whenPartial(
       {FutureOr<void> Function(HomeRoute) homeRoute,
       FutureOr<void> Function(SetupRoute) setupRoute,
       FutureOr<void> Function(CategoryOverviewRoute) categoryOverviewRoute,
@@ -171,7 +253,7 @@ class HomeRoute extends Routes {
   const HomeRoute._() : super(_Routes.HomeRoute);
 
   factory HomeRoute() {
-    _instance ??= HomeRoute._();
+    _instance ??= const HomeRoute._();
     return _instance;
   }
 
@@ -183,7 +265,7 @@ class SetupRoute extends Routes {
   const SetupRoute._() : super(_Routes.SetupRoute);
 
   factory SetupRoute() {
-    _instance ??= SetupRoute._();
+    _instance ??= const SetupRoute._();
     return _instance;
   }
 
@@ -195,7 +277,7 @@ class CategoryOverviewRoute extends Routes {
   const CategoryOverviewRoute._() : super(_Routes.CategoryOverviewRoute);
 
   factory CategoryOverviewRoute() {
-    _instance ??= CategoryOverviewRoute._();
+    _instance ??= const CategoryOverviewRoute._();
     return _instance;
   }
 
@@ -223,7 +305,7 @@ class ProductOverviewRoute extends Routes {
   const ProductOverviewRoute._() : super(_Routes.ProductOverviewRoute);
 
   factory ProductOverviewRoute() {
-    _instance ??= ProductOverviewRoute._();
+    _instance ??= const ProductOverviewRoute._();
     return _instance;
   }
 
@@ -232,18 +314,23 @@ class ProductOverviewRoute extends Routes {
 
 @immutable
 class ProductDetailsRoute extends Routes {
-  const ProductDetailsRoute({@required this.product, @required this.changes})
+  const ProductDetailsRoute(
+      {@required this.product,
+      @required this.changes,
+      @required this.categories})
       : super(_Routes.ProductDetailsRoute);
 
   final Product product;
 
   final List<ModelChange> changes;
 
+  final List<Category> categories;
+
   @override
   String toString() =>
-      'ProductDetailsRoute(product:${this.product},changes:${this.changes})';
+      'ProductDetailsRoute(product:${this.product},changes:${this.changes},categories:${this.categories})';
   @override
-  List get props => [product, changes];
+  List get props => [product, changes, categories];
 }
 
 @immutable
@@ -251,7 +338,7 @@ class ItemRoute extends Routes {
   const ItemRoute._() : super(_Routes.ItemRoute);
 
   factory ItemRoute() {
-    _instance ??= ItemRoute._();
+    _instance ??= const ItemRoute._();
     return _instance;
   }
 

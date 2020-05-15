@@ -43,7 +43,7 @@ LazyDatabase _openConnection() {
 class Database<T> extends _$Database {
   Database() : super(_openConnection());
 
-  Database.forTesting() : super(VmDatabase.memory());
+  Database.forTesting(QueryExecutor e) : super(e);
 
   @override
   int get schemaVersion => 1;

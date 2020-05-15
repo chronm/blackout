@@ -3,12 +3,12 @@ part of 'category_bloc.dart';
 abstract class CategoryEvent extends Equatable {}
 
 class LoadCategory extends CategoryEvent {
-  final Category category;
+  final String categoryId;
 
-  LoadCategory(this.category);
+  LoadCategory(this.categoryId);
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [categoryId];
 }
 
 class SaveCategory extends CategoryEvent {

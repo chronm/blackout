@@ -1,4 +1,4 @@
-import 'package:Blackout/bloc/category/category_bloc.dart' show CategoryBloc, LoadCategory;
+import 'package:Blackout/bloc/category/category_bloc.dart' show CategoryBloc;
 import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
@@ -20,8 +20,6 @@ void main() {
   ModelChangeRepository modelChangeRepository;
   CategoryRepository categoryRepository;
   ProductRepository productRepository;
-  ItemRepository itemRepository;
-  ChangeRepository changeRepository;
   BlackoutPreferences blackoutPreferences;
   CategoryBloc categoryBloc;
   ProductBloc productBloc;
@@ -31,12 +29,10 @@ void main() {
     modelChangeRepository = ModelChangeRepositoryMock();
     categoryRepository = CategoryRepositoryMock();
     productRepository = ProductRepositoryMock();
-    itemRepository = ItemRepositoryMock();
-    changeRepository = ChangeRepositoryMock();
     blackoutPreferences = BlackoutPreferencesMock();
     categoryBloc = CategoryBlocMock();
     productBloc = ProductBlocMock();
-    homeBloc = HomeBloc(blackoutPreferences, categoryRepository, productRepository, categoryBloc, itemRepository, changeRepository, modelChangeRepository, productBloc);
+    homeBloc = HomeBloc(blackoutPreferences, categoryRepository, productRepository, categoryBloc, modelChangeRepository, productBloc);
   });
 
   test('Load all on the home screen displayable entries', () {

@@ -6,6 +6,7 @@ import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 import 'package:optional/optional.dart';
 
 import '../../blackout_test_base.dart';
@@ -17,7 +18,7 @@ void main() {
   HomeRepository homeRepository;
 
   setUp(() {
-    _database = Database.forTesting();
+    _database = Database.forTesting(VmDatabase.memory());
     productRepository = _database.productRepository;
     categoryRepository = _database.categoryRepository;
     homeRepository = _database.homeRepository;
@@ -60,6 +61,7 @@ void main() {
   });
 
   test('(Drop) Throw exception if category to drop is no database object', () async {
+    await categoryRepository.findAllByHomeId(DEFAULT_HOME_ID);
     Category category = createDefaultCategory();
     expect(() => categoryRepository.drop(category), throwsAssertionError);
   });

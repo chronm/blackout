@@ -5,8 +5,8 @@ class ModificationTable extends Table {
   TextColumn get id => text()();
   TextColumn get modelChangeId => text().customConstraint('references ModelChangeTable(id)')();
   TextColumn get fieldName => text()();
-  TextColumn get from => text()();
-  TextColumn get to => text()();
+  TextColumn get from => text().nullable()();
+  TextColumn get to => text().nullable()();
   TextColumn get homeId => text()();
 
   @override

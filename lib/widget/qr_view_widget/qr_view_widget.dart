@@ -16,11 +16,11 @@ class QRViewWidget extends StatefulWidget {
 }
 
 class _QRViewWidgetState extends State<QRViewWidget> {
-  QRViewController controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  QRViewController _controller;
+  final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
 
   void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
+    this._controller = controller;
     controller.scannedDataStream.listen((scanData) {
       widget.callback(Home.fromJson(scanData));
     });
@@ -36,14 +36,14 @@ class _QRViewWidgetState extends State<QRViewWidget> {
     } else {
       return QRView(
         onQRViewCreated: _onQRViewCreated,
-        key: qrKey,
+        key: _qrKey,
       );
     }
   }
 
   @override
   void dispose() {
-    controller?.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 

@@ -76,10 +76,10 @@ class ModelChange {
         return S.of(context).deleted;
       case ModelChangeType.modify:
         return modifications.map((m) {
-          if (m.from != "" && m.to == "") {
+          if (m.from != "" && (m.to == "" || m.to == null)) {
             return S.of(context).disabledField(m.fieldName, m.from);
           }
-          if (m.from == "" && m.to != "") {
+          if ((m.from == "" || m.from == null) && m.to != "") {
             return S.of(context).enabledField(m.fieldName, m.to);
           }
           return S.of(context).modifiedField(m.fieldName, m.from, m.to);

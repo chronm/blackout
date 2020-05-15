@@ -3,6 +3,7 @@ import 'package:Blackout/models/product.dart';
 import 'package:Blackout/ui/category_details/category_details_screen.dart';
 import 'package:Blackout/ui/category_overview/category_overview_screen.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
+import 'package:Blackout/ui/product_details/product_details_screen.dart';
 import 'package:Blackout/ui/product_overview/product_overview_screen.dart';
 import 'package:Blackout/ui/setup/setup_screen.dart';
 import 'package:equatable/equatable.dart';
@@ -41,7 +42,10 @@ class RouteBuilder {
         pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) => ProductOverviewScreen(),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
-      productDetailsRoute: (ProductDetailsRoute) {},
+      productDetailsRoute: (route) => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ProductDetailsScreen(route.product, route.changes, route.categories),
+        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child)
+      ),
       itemRoute: (_) {},
     );
   }
@@ -65,6 +69,7 @@ enum _Routes {
   @Data(fields: [
     DataField<Product>('product'),
     DataField<List<ModelChange>>("changes"),
+    DataField<List<Category>>("categories"),
   ])
   ProductDetailsRoute,
   @object

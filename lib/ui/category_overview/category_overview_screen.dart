@@ -4,7 +4,7 @@ import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/util/listable_utils.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Column, Container, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
+import 'package:flutter/material.dart' show BuildContext, Container, Key, ListView, Navigator, Scaffold, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoryOverviewScreen extends StatefulWidget {
@@ -54,9 +54,10 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
                 return buildProductListItem(
                   context,
                   product,
-                  () {
+                  () async {
                     widget._bloc.add(TapOnProduct(product));
-                    Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
+                    await Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
+                    widget._bloc.add(LoadCategory(state.category.id));
                   },
                 );
               },

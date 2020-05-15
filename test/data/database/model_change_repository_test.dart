@@ -9,6 +9,7 @@ import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 import 'package:time_machine/time_machine.dart';
 
 import '../../blackout_test_base.dart';
@@ -22,7 +23,7 @@ void main() {
   HomeRepository homeRepository;
 
   setUp(() {
-    _database = Database.forTesting();
+    _database = Database.forTesting(VmDatabase.memory());
     modelChangeRepository = _database.modelChangeRepository;
     userRepository = _database.userRepository;
     categoryRepository = _database.categoryRepository;

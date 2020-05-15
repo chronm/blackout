@@ -4,6 +4,7 @@ import 'package:Blackout/data/repository/sync_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/models/sync.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 
 import '../../blackout_test_base.dart';
 
@@ -14,7 +15,7 @@ void main() {
   HomeRepository homeRepository;
 
   setUp(() {
-    _database = Database.forTesting();
+    _database = Database.forTesting(VmDatabase.memory());
     syncRepository = _database.syncRepository;
     userRepository = _database.userRepository;
     homeRepository = _database.homeRepository;

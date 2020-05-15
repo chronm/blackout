@@ -7,5 +7,6 @@ part of 'model_change_repository.dart';
 // **************************************************************************
 
 mixin _$ModelChangeRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $ModelChangeTableTable get modelChangeTable => db.modelChangeTable;
+  $ModelChangeTableTable get modelChangeTable =>
+      attachedDatabase.modelChangeTable;
 }

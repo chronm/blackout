@@ -32,7 +32,7 @@ class LoadingAppBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implem
 
 class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAppBar<B, S>> {
   TextEditingController _controller = TextEditingController();
-  bool searching = false;
+  bool _searching = false;
 
   Widget _searchingTextField() => TextField(
         autofocus: true,
@@ -59,7 +59,7 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
         icon: Icon(Icons.search),
         onPressed: () {
           setState(() {
-            searching = true;
+            _searching = true;
           });
         },
       );
@@ -76,7 +76,7 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
         icon: Icon(Icons.arrow_back),
         onPressed: () {
           setState(() {
-            searching = false;
+            _searching = false;
           });
         },
       );
@@ -84,11 +84,11 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: searching && widget.searchCallback != null ? _backButton() : null,
+      leading: _searching && widget.searchCallback != null ? _backButton() : null,
       title: BlocBuilder<B, S>(
         bloc: widget.bloc,
         builder: (context, state) {
-          return searching && widget.searchCallback != null ? _searchingTextField() : _title(state);
+          return _searching && widget.searchCallback != null ? _searchingTextField() : _title(state);
         },
       ),
       centerTitle: true,
@@ -106,7 +106,7 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
       ),
       actions: widget.searchCallback != null
           ? <Widget>[
-              searching ? _clearButton() : _searchButton(),
+              _searching ? _clearButton() : _searchButton(),
             ]
           : null,
     );

@@ -3,7 +3,7 @@ import 'package:Blackout/models/unit/unit.dart';
 class Unitless extends Unit {
   Unitless() : super(1, "");
 
-  static RegExp get regExp => RegExp(r"((\d*[.,])*(\d*))");
+  static RegExp get regExp => RegExp(r"^((\d*[.,])*(\d*))$");
 
   @override
   double parseInput(String input) {

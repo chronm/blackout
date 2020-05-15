@@ -7,7 +7,7 @@ import 'package:Blackout/models/listable.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/storageable.dart';
 import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/util/double_extension.dart';
+import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
@@ -26,7 +26,7 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
 
   void set unit(UnitEnum unit) => _unit = unit;
 
-  UnitEnum get unit => _unit != null ? _unit : category.unit;
+  UnitEnum get unit => category != null ? category.unit : _unit;
 
   double get amount => items.map((i) => i.amount).reduce((a, b) => a + b);
 
@@ -56,7 +56,7 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
 
   @override
   Product clone() {
-    return Product(id: id, ean: ean, category: category, description: description, items: items, home: home, refillLimit: refillLimit);
+    return Product(id: id, ean: ean, category: category, description: description, items: items, home: home, refillLimit: refillLimit, unit: unit);
   }
 
   @override
@@ -66,7 +66,7 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
 
   @override
   bool operator ==(other) {
-    return ean == other.ean && description == other.description && refillLimit == other.refillLimit;
+    return ean == other.ean && description == other.description && refillLimit == other.refillLimit && category == other.category;
   }
 
   factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items}) {
@@ -94,16 +94,19 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
     );
   }
 
-  List<Modification> getModifications(Product product) {
+  List<Modification> getModifications(Product other) {
     List<Modification> modifications = [];
-    if (ean != product.ean) {
-      modifications.add(Modification(fieldName: "ean", from: ean, to: product.ean));
+    if (ean != other.ean) {
+      modifications.add(Modification(fieldName: "ean", from: ean, to: other.ean));
     }
-    if (description != product.description) {
-      modifications.add(Modification(fieldName: "description", from: description, to: product.description));
+    if (description != other.description) {
+      modifications.add(Modification(fieldName: "description", from: description, to: other.description));
     }
-    if (refillLimit != product.refillLimit) {
-      modifications.add(Modification(fieldName: "refillLimit", from: refillLimit.format(), to: product.refillLimit.format()));
+    if (refillLimit != other.refillLimit) {
+      modifications.add(Modification(fieldName: "refillLimit", from: UnitConverter.toScientific(Amount.fromSi(refillLimit, _unit)).toString(), to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
+    }
+    if (unit != other.unit) {
+      modifications.add(Modification(fieldName: "unit", from: describeEnum(unit), to: describeEnum(category.unit)));
     }
 
     return modifications;

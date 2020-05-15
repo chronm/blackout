@@ -7,5 +7,5 @@ part of 'home_repository.dart';
 // **************************************************************************
 
 mixin _$HomeRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $HomeTableTable get homeTable => db.homeTable;
+  $HomeTableTable get homeTable => attachedDatabase.homeTable;
 }

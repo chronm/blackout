@@ -121,7 +121,7 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
       }
     }
 
-    await into(productTable).insert(product.toCompanion(), mode: InsertMode.insertOrReplace);
+    await into(productTable).insertOnConflictUpdate(product.toCompanion());
 
     return await getOneByProductIdAndHomeId(product.id, product.home.id);
   }

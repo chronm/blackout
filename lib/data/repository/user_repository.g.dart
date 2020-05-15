@@ -7,5 +7,5 @@ part of 'user_repository.dart';
 // **************************************************************************
 
 mixin _$UserRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $UserTableTable get userTable => db.userTable;
+  $UserTableTable get userTable => attachedDatabase.userTable;
 }

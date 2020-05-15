@@ -7,5 +7,5 @@ part of 'sync_repository.dart';
 // **************************************************************************
 
 mixin _$SyncRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $SyncTableTable get syncTable => db.syncTable;
+  $SyncTableTable get syncTable => attachedDatabase.syncTable;
 }

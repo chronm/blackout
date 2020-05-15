@@ -90,7 +90,7 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
   Future<ModelChange> save(ModelChange change) async {
     change.id ??= Uuid().v4();
 
-    await into(modelChangeTable).insert(change.toCompanion(), mode: InsertMode.insertOrReplace);
+    await into(modelChangeTable).insertOnConflictUpdate(change.toCompanion());
 
     return getOneByChangeIdHomeId(change.id, change.home.id);
   }

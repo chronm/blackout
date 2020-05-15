@@ -189,6 +189,15 @@ class S {
     );
   }
 
+  String get modifyProduct {
+    return Intl.message(
+      'Modify Product',
+      name: 'modifyProduct',
+      desc: '',
+      args: [],
+    );
+  }
+
   String years(num years) {
     return Intl.plural(
       years,
@@ -456,6 +465,33 @@ class S {
       name: 'notify',
       desc: '',
       args: [time],
+    );
+  }
+
+  String get description {
+    return Intl.message(
+      'Description',
+      name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get descriptionMustNotBeEmpty {
+    return Intl.message(
+      'Description must not be empty',
+      name: 'descriptionMustNotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get ean {
+    return Intl.message(
+      'Product code (ean)',
+      name: 'ean',
+      desc: '',
+      args: [],
     );
   }
 }

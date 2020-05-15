@@ -26,7 +26,7 @@ class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMix
   Future<User> save(User user) async {
     user.id ??= Uuid().v4();
 
-    await into(userTable).insert(user.toCompanion(), mode: InsertMode.insertOrReplace);
+    await into(userTable).insertOnConflictUpdate(user.toCompanion());
 
     return await getOneByUserId(user.id);
   }
