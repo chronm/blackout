@@ -32,10 +32,10 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           if (state is ShowProduct) {
             String hierarchy = state.product.hierarchy(context);
             if (hierarchy != null) {
-              return Text(hierarchy);
+              return hierarchy;
             }
           }
-          return Container();
+          return null;
         },
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
