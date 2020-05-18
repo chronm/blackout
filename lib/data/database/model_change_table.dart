@@ -7,7 +7,7 @@ class ModelChangeTable extends Table {
   TextColumn get userId => text()();
   TextColumn get categoryId => text().nullable().customConstraint('null references CategoryTable(id)')();
   TextColumn get productId => text().nullable().customConstraint('null references ProductTable(id)')();
-  TextColumn get itemId => text().nullable().customConstraint('null references ItemTable(id)')();
+  TextColumn get chargeId => text().nullable().customConstraint('null references ChargeTable(id)')();
   IntColumn get direction => integer()();
   TextColumn get homeId => text().customConstraint('references Home(id)')();
 

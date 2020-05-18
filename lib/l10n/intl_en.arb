@@ -2,7 +2,7 @@
   "_locale": "en",
   "setup": "Setup",
   "welcomeMessage": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
-  "setYourUsername": "How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove items. You can change this later.",
+  "setYourUsername": "How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later.",
   "setYourHome": "Do you want to join an existing household or create a new one?",
   "joinHome": "Simply scan the QR Code on another device to join the household.",
   "createHome": "How do you want to call your household? You can change it later",

@@ -1,40 +1,40 @@
-import 'package:Blackout/bloc/item/item_bloc.dart';
+import 'package:Blackout/bloc/charge/charge_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ItemOverviewScreen extends StatefulWidget {
-  final ItemBloc _bloc = sl<ItemBloc>();
+class ChargeOverviewScreen extends StatefulWidget {
+  final ChargeBloc _bloc = sl<ChargeBloc>();
 
-  ItemOverviewScreen({Key key}) : super(key: key);
+  ChargeOverviewScreen({Key key}) : super(key: key);
 
   @override
-  _ItemOverviewScreenState createState() => _ItemOverviewScreenState();
+  _ChargeOverviewScreenState createState() => _ChargeOverviewScreenState();
 }
 
-class _ItemOverviewScreenState extends State<ItemOverviewScreen> {
+class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LoadingAppBar<ItemBloc, ItemState>(
+      appBar: LoadingAppBar<ChargeBloc, ChargeState>(
         bloc: widget._bloc,
-        titleResolver: (state) => state is ShowItem ? state.item.buildTitle(context) : "",
+        titleResolver: (state) => state is ShowCharge ? state.charge.buildTitle(context) : "",
         titleCallback: (state) {
-          if (state is ShowItem) {
+          if (state is ShowCharge) {
 //            Navigator.push(context, RouteBuilder.build(Routes.))
           }
         },
       ),
-      body: BlocBuilder<ItemBloc, ItemState>(
+      body: BlocBuilder<ChargeBloc, ChargeState>(
         bloc: widget._bloc,
         builder: (context, state) {
-          if (state is ShowItem) {
+          if (state is ShowCharge) {
             return ListView.builder(
-              itemCount: state.item.changes.length,
+              itemCount: state.charge.changes.length,
               itemBuilder: (context, index) {
-                Change change = state.item.changes[index];
+                Change change = state.charge.changes[index];
 
                 return Card(
                   child: ListTile(

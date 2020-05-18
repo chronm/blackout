@@ -3,13 +3,13 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
-import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
@@ -28,10 +28,10 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final UserRepository userRepository;
   final CategoryRepository categoryRepository;
   final ProductRepository productRepository;
-  final ItemRepository itemRepository;
+  final ChargeRepository chargeRepository;
   final ChangeRepository changeRepository;
 
-  SetupBloc(this._blackoutPreferences, this._homeBloc, this.homeRepository, this.userRepository, this.categoryRepository, this.productRepository, this.itemRepository, this.changeRepository);
+  SetupBloc(this._blackoutPreferences, this._homeBloc, this.homeRepository, this.userRepository, this.categoryRepository, this.productRepository, this.chargeRepository, this.changeRepository);
 
   @override
   SetupState get initialState => InitialSetupState();
@@ -61,12 +61,12 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     User user = await _blackoutPreferences.getUser();
     Product product = Product(description: "Marmorkuchen", unit: UnitEnum.weight, home: home, refillLimit: 0.8);
     await productRepository.save(product, user);
-    Item item = Item(notificationDate: LocalDateTime.now().subtractMonths(1), product: product, home: home);
-    await itemRepository.save(item, user);
-    Change change = Change(user: user, home: home, changeDate: LocalDateTime.now(), value: 1, item: item);
-    Change change2 = Change(user: user, home: home, changeDate: LocalDateTime.now(), value: -0.50505, item: item);
-    product.items = [item];
-    item.changes = [change, change2];
+    Charge charge = Charge(notificationDate: LocalDateTime.now().subtractMonths(1), product: product, home: home);
+    await chargeRepository.save(charge, user);
+    Change change = Change(user: user, home: home, changeDate: LocalDateTime.now(), value: 1, charge: charge);
+    Change change2 = Change(user: user, home: home, changeDate: LocalDateTime.now(), value: -0.50505, charge: charge);
+    product.charges = [charge];
+    charge.changes = [change, change2];
 
     await changeRepository.save(change);
     await changeRepository.save(change2);
@@ -82,18 +82,18 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     await productRepository.save(product, user);
     Product product2 = Product(ean: "lalelu2", description: "Freilandeier 10 Stück L", category: category, home: home);
     await productRepository.save(product2, user);
-    Item item = Item(expirationDate: LocalDateTime.now().addDays(1), product: product, home: home);
-    await itemRepository.save(item, user);
-    Item item2 = Item(expirationDate: LocalDateTime.now().addDays(20), product: product2, home: home);
-    await itemRepository.save(item2, user);
-    Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item);
-    Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -5, item: item);
-    Change change3 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item2);
+    Charge charge = Charge(expirationDate: LocalDateTime.now().addDays(1), product: product, home: home);
+    await chargeRepository.save(charge, user);
+    Charge charge2 = Charge(expirationDate: LocalDateTime.now().addDays(20), product: product2, home: home);
+    await chargeRepository.save(charge2, user);
+    Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, charge: charge);
+    Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -5, charge: charge);
+    Change change3 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, charge: charge2);
     category.products = [product, product2];
-    product.items = [item];
-    product2.items = [item2];
-    item.changes = [change, change2];
-    item2.changes = [change3];
+    product.charges = [charge];
+    product2.charges = [charge2];
+    charge.changes = [change, change2];
+    charge2.changes = [change3];
 
     await changeRepository.save(change);
     await changeRepository.save(change2);

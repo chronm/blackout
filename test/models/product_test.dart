@@ -1,6 +1,6 @@
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -34,10 +34,10 @@ void main() {
 
   test('(TooFewAvailable) return false if refillLimit not set', () async {
     Change change = createDefaultChange();
-    Item item = createDefaultItem();
-    item.changes = [change];
+    Charge charge = createDefaultCharge();
+    charge.changes = [change];
     Product product = createDefaultProduct();
-    product.items = [item];
+    product.charges = [charge];
     product.refillLimit = null;
 
     expect(product.tooFewAvailable, isFalse);
@@ -45,20 +45,20 @@ void main() {
 
   test('(TooFewAvailable) return amount <= refillLimit = false if refillLimit set', () async {
     Change change = createDefaultChange();
-    Item item = createDefaultItem();
-    item.changes = [change];
+    Charge charge = createDefaultCharge();
+    charge.changes = [change];
     Product product = createDefaultProduct();
-    product.items = [item];
+    product.charges = [charge];
 
     expect(product.tooFewAvailable, isFalse);
   });
 
   test('(TooFewAvailable) return amount <= refillLimit = true if refillLimit set', () async {
     Change change = createDefaultChange();
-    Item item = createDefaultItem();
-    item.changes = [change];
+    Charge charge = createDefaultCharge();
+    charge.changes = [change];
     Product product = createDefaultProduct();
-    product.items = [item];
+    product.charges = [charge];
     product.refillLimit = 10;
 
     expect(product.tooFewAvailable, isTrue);
@@ -66,10 +66,10 @@ void main() {
 
   test('(ScientificAmount) get scientific amount with unit form category', () async {
     Change change = createDefaultChange();
-    Item item = createDefaultItem();
-    item.changes = [change];
+    Charge charge = createDefaultCharge();
+    charge.changes = [change];
     Product product = createDefaultProduct();
-    product.items = [item];
+    product.charges = [charge];
     Category category = createDefaultCategory();
     product.category = category;
 
@@ -78,10 +78,10 @@ void main() {
 
   test('(ScientificAmount) get scientific amount with unit form product', () async {
     Change change = createDefaultChange();
-    Item item = createDefaultItem();
-    item.changes = [change];
+    Charge charge = createDefaultCharge();
+    charge.changes = [change];
     Product product = createDefaultProduct();
-    product.items = [item];
+    product.charges = [charge];
     product.unit = UnitEnum.unitless;
     product.category = null;
 

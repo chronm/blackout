@@ -1,7 +1,7 @@
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
@@ -14,10 +14,10 @@ class Change {
   User user;
   double value;
   LocalDateTime changeDate;
-  Item item;
+  Charge charge;
   Home home;
 
-  Change({this.id, @required this.user, @required this.value, @required this.changeDate, @required this.item, @required this.home});
+  Change({this.id, @required this.user, @required this.value, @required this.changeDate, @required this.charge, @required this.home});
 
   String get scientificAmount => UnitConverter.toScientific(Amount.fromSi(value.abs(), unit)).toString();
 
@@ -31,15 +31,15 @@ class Change {
 
   String get subtitle => user.name;
 
-  UnitEnum get unit => item.unit;
+  UnitEnum get unit => charge.unit;
 
-  factory Change.fromEntry(ChangeEntry entry, User user, Home home, {Item item}) {
+  factory Change.fromEntry(ChangeEntry entry, User user, Home home, {Charge charge}) {
     return Change(
       id: entry.id,
       user: user,
       value: entry.value,
       changeDate: localDateTimeFromDateTime(entry.changeDate),
-      item: item,
+      charge: charge,
       home: home,
     );
   }
@@ -50,7 +50,7 @@ class Change {
       userId: Value(user.id),
       value: Value(value),
       changeDate: Value(changeDate.toDateTimeLocal()),
-      itemId: Value(item.id),
+      chargeId: Value(charge.id),
       homeId: Value(home.id),
     );
   }

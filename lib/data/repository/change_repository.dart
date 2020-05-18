@@ -2,7 +2,7 @@ import 'package:Blackout/data/database/change_table.dart';
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:optional/optional_internal.dart';
@@ -15,22 +15,22 @@ part 'change_repository.g.dart';
 class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositoryMixin {
   ChangeRepository(Database db) : super(db);
 
-  Future<Change> createChange(ChangeEntry changeEntry, {bool recurseItem = true}) async {
+  Future<Change> createChange(ChangeEntry changeEntry, {bool recurseCharge = true}) async {
     Change change;
 
-    Item item;
-    if (recurseItem) {
-      item = await db.itemRepository.getOneByItemIdAndHomeId(changeEntry.itemId, changeEntry.homeId, recurseChanges: false);
+    Charge charge;
+    if (recurseCharge) {
+      charge = await db.chargeRepository.getOneByChargeIdAndHomeId(changeEntry.chargeId, changeEntry.homeId, recurseChanges: false);
     }
 
     User user = await db.userRepository.getOneByUserId(changeEntry.userId);
 
     Home home = await db.homeRepository.getHomeById(changeEntry.homeId);
 
-    change = Change.fromEntry(changeEntry, user, home, item: item);
+    change = Change.fromEntry(changeEntry, user, home, charge: charge);
 
-    if (recurseItem && change.item != null) {
-      change.item.changes = [change];
+    if (recurseCharge && change.charge != null) {
+      change.charge.changes = [change];
     }
 
     return change;
@@ -59,36 +59,36 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
     return changes;
   }
 
-  Future<Optional<Change>> findOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseItem = true}) async {
-    return Optional.ofNullable(await getOneByChangeIdAndHomeId(changeId, homeId, recurseItem: recurseItem));
+  Future<Optional<Change>> findOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseCharge = true}) async {
+    return Optional.ofNullable(await getOneByChangeIdAndHomeId(changeId, homeId, recurseCharge: recurseCharge));
   }
 
-  Future<Change> getOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseItem = true}) async {
+  Future<Change> getOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseCharge = true}) async {
     var query = select(changeTable)..where((c) => c.id.equals(changeId));
     ChangeEntry changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;
 
-    return createChange(changeEntry, recurseItem: recurseItem);
+    return createChange(changeEntry, recurseCharge: recurseCharge);
   }
 
-  Future<List<Change>> getAllByItemIdAndHomeId(String itemId, String homeId, {bool recurseItem = true}) async {
+  Future<List<Change>> getAllByChargeIdAndHomeId(String chargeId, String homeId, {bool recurseCharge = true}) async {
     List<Change> changes = [];
 
-    Item item;
-    if (recurseItem) {
-      item = await db.itemRepository.getOneByItemIdAndHomeId(itemId, homeId, recurseProduct: false, recurseChanges: false);
+    Charge charge;
+    if (recurseCharge) {
+      charge = await db.chargeRepository.getOneByChargeIdAndHomeId(chargeId, homeId, recurseProduct: false, recurseChanges: false);
     }
 
-    var query = select(changeTable)..where((c) => c.itemId.equals(itemId));
+    var query = select(changeTable)..where((c) => c.chargeId.equals(chargeId));
     var result = await query.get();
     for (ChangeEntry changeEntry in result) {
-      Change change = await createChange(changeEntry, recurseItem: false);
-      change.item = item;
+      Change change = await createChange(changeEntry, recurseCharge: false);
+      change.charge = charge;
       changes.add(change);
     }
 
-    if (recurseItem) {
-      item.changes = changes;
+    if (recurseCharge) {
+      charge.changes = changes;
     }
 
     return changes;

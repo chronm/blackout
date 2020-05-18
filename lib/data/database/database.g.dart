@@ -7,24 +7,24 @@ part of 'database.dart';
 // **************************************************************************
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
-class ItemEntry extends DataClass implements Insertable<ItemEntry> {
+class ChargeEntry extends DataClass implements Insertable<ChargeEntry> {
   final String id;
   final String productId;
   final DateTime expirationDate;
   final DateTime notificationDate;
   final String homeId;
-  ItemEntry(
+  ChargeEntry(
       {@required this.id,
       @required this.productId,
       this.expirationDate,
       this.notificationDate,
       @required this.homeId});
-  factory ItemEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+  factory ChargeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    return ItemEntry(
+    return ChargeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       productId: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
@@ -57,10 +57,10 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
     return map;
   }
 
-  factory ItemEntry.fromJson(Map<String, dynamic> json,
+  factory ChargeEntry.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return ItemEntry(
+    return ChargeEntry(
       id: serializer.fromJson<String>(json['id']),
       productId: serializer.fromJson<String>(json['productId']),
       expirationDate: serializer.fromJson<DateTime>(json['expirationDate']),
@@ -80,13 +80,13 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
     };
   }
 
-  ItemEntry copyWith(
+  ChargeEntry copyWith(
           {String id,
           String productId,
           DateTime expirationDate,
           DateTime notificationDate,
           String homeId}) =>
-      ItemEntry(
+      ChargeEntry(
         id: id ?? this.id,
         productId: productId ?? this.productId,
         expirationDate: expirationDate ?? this.expirationDate,
@@ -95,7 +95,7 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
       );
   @override
   String toString() {
-    return (StringBuffer('ItemEntry(')
+    return (StringBuffer('ChargeEntry(')
           ..write('id: $id, ')
           ..write('productId: $productId, ')
           ..write('expirationDate: $expirationDate, ')
@@ -115,7 +115,7 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is ItemEntry &&
+      (other is ChargeEntry &&
           other.id == this.id &&
           other.productId == this.productId &&
           other.expirationDate == this.expirationDate &&
@@ -123,20 +123,20 @@ class ItemEntry extends DataClass implements Insertable<ItemEntry> {
           other.homeId == this.homeId);
 }
 
-class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
+class ChargeTableCompanion extends UpdateCompanion<ChargeEntry> {
   final Value<String> id;
   final Value<String> productId;
   final Value<DateTime> expirationDate;
   final Value<DateTime> notificationDate;
   final Value<String> homeId;
-  const ItemTableCompanion({
+  const ChargeTableCompanion({
     this.id = const Value.absent(),
     this.productId = const Value.absent(),
     this.expirationDate = const Value.absent(),
     this.notificationDate = const Value.absent(),
     this.homeId = const Value.absent(),
   });
-  ItemTableCompanion.insert({
+  ChargeTableCompanion.insert({
     @required String id,
     @required String productId,
     this.expirationDate = const Value.absent(),
@@ -145,7 +145,7 @@ class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
   })  : id = Value(id),
         productId = Value(productId),
         homeId = Value(homeId);
-  static Insertable<ItemEntry> custom({
+  static Insertable<ChargeEntry> custom({
     Expression<String> id,
     Expression<String> productId,
     Expression<DateTime> expirationDate,
@@ -161,13 +161,13 @@ class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
     });
   }
 
-  ItemTableCompanion copyWith(
+  ChargeTableCompanion copyWith(
       {Value<String> id,
       Value<String> productId,
       Value<DateTime> expirationDate,
       Value<DateTime> notificationDate,
       Value<String> homeId}) {
-    return ItemTableCompanion(
+    return ChargeTableCompanion(
       id: id ?? this.id,
       productId: productId ?? this.productId,
       expirationDate: expirationDate ?? this.expirationDate,
@@ -198,11 +198,11 @@ class ItemTableCompanion extends UpdateCompanion<ItemEntry> {
   }
 }
 
-class $ItemTableTable extends ItemTable
-    with TableInfo<$ItemTableTable, ItemEntry> {
+class $ChargeTableTable extends ChargeTable
+    with TableInfo<$ChargeTableTable, ChargeEntry> {
   final GeneratedDatabase _db;
   final String _alias;
-  $ItemTableTable(this._db, [this._alias]);
+  $ChargeTableTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedTextColumn _id;
   @override
@@ -265,13 +265,13 @@ class $ItemTableTable extends ItemTable
   List<GeneratedColumn> get $columns =>
       [id, productId, expirationDate, notificationDate, homeId];
   @override
-  $ItemTableTable get asDslTable => this;
+  $ChargeTableTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'item_table';
+  String get $tableName => _alias ?? 'charge_table';
   @override
-  final String actualTableName = 'item_table';
+  final String actualTableName = 'charge_table';
   @override
-  VerificationContext validateIntegrity(Insertable<ItemEntry> instance,
+  VerificationContext validateIntegrity(Insertable<ChargeEntry> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -310,14 +310,14 @@ class $ItemTableTable extends ItemTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ItemEntry map(Map<String, dynamic> data, {String tablePrefix}) {
+  ChargeEntry map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return ItemEntry.fromData(data, _db, prefix: effectivePrefix);
+    return ChargeEntry.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  $ItemTableTable createAlias(String alias) {
-    return $ItemTableTable(_db, alias);
+  $ChargeTableTable createAlias(String alias) {
+    return $ChargeTableTable(_db, alias);
   }
 }
 
@@ -1115,14 +1115,14 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
   final String userId;
   final double value;
   final DateTime changeDate;
-  final String itemId;
+  final String chargeId;
   final String homeId;
   ChangeEntry(
       {@required this.id,
       @required this.userId,
       @required this.value,
       @required this.changeDate,
-      @required this.itemId,
+      @required this.chargeId,
       @required this.homeId});
   factory ChangeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -1138,8 +1138,8 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
           doubleType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
       changeDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}change_date']),
-      itemId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      chargeId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}charge_id']),
       homeId:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
@@ -1159,8 +1159,8 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
     if (!nullToAbsent || changeDate != null) {
       map['change_date'] = Variable<DateTime>(changeDate);
     }
-    if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<String>(itemId);
+    if (!nullToAbsent || chargeId != null) {
+      map['charge_id'] = Variable<String>(chargeId);
     }
     if (!nullToAbsent || homeId != null) {
       map['home_id'] = Variable<String>(homeId);
@@ -1176,7 +1176,7 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
       userId: serializer.fromJson<String>(json['userId']),
       value: serializer.fromJson<double>(json['value']),
       changeDate: serializer.fromJson<DateTime>(json['changeDate']),
-      itemId: serializer.fromJson<String>(json['itemId']),
+      chargeId: serializer.fromJson<String>(json['chargeId']),
       homeId: serializer.fromJson<String>(json['homeId']),
     );
   }
@@ -1188,7 +1188,7 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
       'userId': serializer.toJson<String>(userId),
       'value': serializer.toJson<double>(value),
       'changeDate': serializer.toJson<DateTime>(changeDate),
-      'itemId': serializer.toJson<String>(itemId),
+      'chargeId': serializer.toJson<String>(chargeId),
       'homeId': serializer.toJson<String>(homeId),
     };
   }
@@ -1198,14 +1198,14 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
           String userId,
           double value,
           DateTime changeDate,
-          String itemId,
+          String chargeId,
           String homeId}) =>
       ChangeEntry(
         id: id ?? this.id,
         userId: userId ?? this.userId,
         value: value ?? this.value,
         changeDate: changeDate ?? this.changeDate,
-        itemId: itemId ?? this.itemId,
+        chargeId: chargeId ?? this.chargeId,
         homeId: homeId ?? this.homeId,
       );
   @override
@@ -1215,7 +1215,7 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
           ..write('userId: $userId, ')
           ..write('value: $value, ')
           ..write('changeDate: $changeDate, ')
-          ..write('itemId: $itemId, ')
+          ..write('chargeId: $chargeId, ')
           ..write('homeId: $homeId')
           ..write(')'))
         .toString();
@@ -1229,7 +1229,7 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
           $mrjc(
               value.hashCode,
               $mrjc(changeDate.hashCode,
-                  $mrjc(itemId.hashCode, homeId.hashCode))))));
+                  $mrjc(chargeId.hashCode, homeId.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1238,7 +1238,7 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
           other.userId == this.userId &&
           other.value == this.value &&
           other.changeDate == this.changeDate &&
-          other.itemId == this.itemId &&
+          other.chargeId == this.chargeId &&
           other.homeId == this.homeId);
 }
 
@@ -1247,14 +1247,14 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
   final Value<String> userId;
   final Value<double> value;
   final Value<DateTime> changeDate;
-  final Value<String> itemId;
+  final Value<String> chargeId;
   final Value<String> homeId;
   const ChangeTableCompanion({
     this.id = const Value.absent(),
     this.userId = const Value.absent(),
     this.value = const Value.absent(),
     this.changeDate = const Value.absent(),
-    this.itemId = const Value.absent(),
+    this.chargeId = const Value.absent(),
     this.homeId = const Value.absent(),
   });
   ChangeTableCompanion.insert({
@@ -1262,19 +1262,19 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
     @required String userId,
     @required double value,
     @required DateTime changeDate,
-    @required String itemId,
+    @required String chargeId,
     @required String homeId,
   })  : userId = Value(userId),
         value = Value(value),
         changeDate = Value(changeDate),
-        itemId = Value(itemId),
+        chargeId = Value(chargeId),
         homeId = Value(homeId);
   static Insertable<ChangeEntry> custom({
     Expression<String> id,
     Expression<String> userId,
     Expression<double> value,
     Expression<DateTime> changeDate,
-    Expression<String> itemId,
+    Expression<String> chargeId,
     Expression<String> homeId,
   }) {
     return RawValuesInsertable({
@@ -1282,7 +1282,7 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
       if (userId != null) 'user_id': userId,
       if (value != null) 'value': value,
       if (changeDate != null) 'change_date': changeDate,
-      if (itemId != null) 'item_id': itemId,
+      if (chargeId != null) 'charge_id': chargeId,
       if (homeId != null) 'home_id': homeId,
     });
   }
@@ -1292,14 +1292,14 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
       Value<String> userId,
       Value<double> value,
       Value<DateTime> changeDate,
-      Value<String> itemId,
+      Value<String> chargeId,
       Value<String> homeId}) {
     return ChangeTableCompanion(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       value: value ?? this.value,
       changeDate: changeDate ?? this.changeDate,
-      itemId: itemId ?? this.itemId,
+      chargeId: chargeId ?? this.chargeId,
       homeId: homeId ?? this.homeId,
     );
   }
@@ -1319,8 +1319,8 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
     if (changeDate.present) {
       map['change_date'] = Variable<DateTime>(changeDate.value);
     }
-    if (itemId.present) {
-      map['item_id'] = Variable<String>(itemId.value);
+    if (chargeId.present) {
+      map['charge_id'] = Variable<String>(chargeId.value);
     }
     if (homeId.present) {
       map['home_id'] = Variable<String>(homeId.value);
@@ -1383,13 +1383,13 @@ class $ChangeTableTable extends ChangeTable
     );
   }
 
-  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedTextColumn _itemId;
+  final VerificationMeta _chargeIdMeta = const VerificationMeta('chargeId');
+  GeneratedTextColumn _chargeId;
   @override
-  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedTextColumn _constructItemId() {
-    return GeneratedTextColumn('item_id', $tableName, false,
-        $customConstraints: 'references ItemTable(id)');
+  GeneratedTextColumn get chargeId => _chargeId ??= _constructChargeId();
+  GeneratedTextColumn _constructChargeId() {
+    return GeneratedTextColumn('charge_id', $tableName, false,
+        $customConstraints: 'references ChargeTable(id)');
   }
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
@@ -1403,7 +1403,7 @@ class $ChangeTableTable extends ChangeTable
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, userId, value, changeDate, itemId, homeId];
+      [id, userId, value, changeDate, chargeId, homeId];
   @override
   $ChangeTableTable get asDslTable => this;
   @override
@@ -1438,11 +1438,11 @@ class $ChangeTableTable extends ChangeTable
     } else if (isInserting) {
       context.missing(_changeDateMeta);
     }
-    if (data.containsKey('item_id')) {
-      context.handle(_itemIdMeta,
-          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    if (data.containsKey('charge_id')) {
+      context.handle(_chargeIdMeta,
+          chargeId.isAcceptableOrUnknown(data['charge_id'], _chargeIdMeta));
     } else if (isInserting) {
-      context.missing(_itemIdMeta);
+      context.missing(_chargeIdMeta);
     }
     if (data.containsKey('home_id')) {
       context.handle(_homeIdMeta,
@@ -1474,7 +1474,7 @@ class ModelChangeEntry extends DataClass
   final String userId;
   final String categoryId;
   final String productId;
-  final String itemId;
+  final String chargeId;
   final int direction;
   final String homeId;
   ModelChangeEntry(
@@ -1483,7 +1483,7 @@ class ModelChangeEntry extends DataClass
       @required this.userId,
       this.categoryId,
       this.productId,
-      this.itemId,
+      this.chargeId,
       @required this.direction,
       @required this.homeId});
   factory ModelChangeEntry.fromData(
@@ -1503,8 +1503,8 @@ class ModelChangeEntry extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
       productId: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
-      itemId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}item_id']),
+      chargeId:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}charge_id']),
       direction:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}direction']),
       homeId:
@@ -1529,8 +1529,8 @@ class ModelChangeEntry extends DataClass
     if (!nullToAbsent || productId != null) {
       map['product_id'] = Variable<String>(productId);
     }
-    if (!nullToAbsent || itemId != null) {
-      map['item_id'] = Variable<String>(itemId);
+    if (!nullToAbsent || chargeId != null) {
+      map['charge_id'] = Variable<String>(chargeId);
     }
     if (!nullToAbsent || direction != null) {
       map['direction'] = Variable<int>(direction);
@@ -1550,7 +1550,7 @@ class ModelChangeEntry extends DataClass
       userId: serializer.fromJson<String>(json['userId']),
       categoryId: serializer.fromJson<String>(json['categoryId']),
       productId: serializer.fromJson<String>(json['productId']),
-      itemId: serializer.fromJson<String>(json['itemId']),
+      chargeId: serializer.fromJson<String>(json['chargeId']),
       direction: serializer.fromJson<int>(json['direction']),
       homeId: serializer.fromJson<String>(json['homeId']),
     );
@@ -1564,7 +1564,7 @@ class ModelChangeEntry extends DataClass
       'userId': serializer.toJson<String>(userId),
       'categoryId': serializer.toJson<String>(categoryId),
       'productId': serializer.toJson<String>(productId),
-      'itemId': serializer.toJson<String>(itemId),
+      'chargeId': serializer.toJson<String>(chargeId),
       'direction': serializer.toJson<int>(direction),
       'homeId': serializer.toJson<String>(homeId),
     };
@@ -1576,7 +1576,7 @@ class ModelChangeEntry extends DataClass
           String userId,
           String categoryId,
           String productId,
-          String itemId,
+          String chargeId,
           int direction,
           String homeId}) =>
       ModelChangeEntry(
@@ -1585,7 +1585,7 @@ class ModelChangeEntry extends DataClass
         userId: userId ?? this.userId,
         categoryId: categoryId ?? this.categoryId,
         productId: productId ?? this.productId,
-        itemId: itemId ?? this.itemId,
+        chargeId: chargeId ?? this.chargeId,
         direction: direction ?? this.direction,
         homeId: homeId ?? this.homeId,
       );
@@ -1597,7 +1597,7 @@ class ModelChangeEntry extends DataClass
           ..write('userId: $userId, ')
           ..write('categoryId: $categoryId, ')
           ..write('productId: $productId, ')
-          ..write('itemId: $itemId, ')
+          ..write('chargeId: $chargeId, ')
           ..write('direction: $direction, ')
           ..write('homeId: $homeId')
           ..write(')'))
@@ -1615,7 +1615,7 @@ class ModelChangeEntry extends DataClass
                   categoryId.hashCode,
                   $mrjc(
                       productId.hashCode,
-                      $mrjc(itemId.hashCode,
+                      $mrjc(chargeId.hashCode,
                           $mrjc(direction.hashCode, homeId.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
@@ -1626,7 +1626,7 @@ class ModelChangeEntry extends DataClass
           other.userId == this.userId &&
           other.categoryId == this.categoryId &&
           other.productId == this.productId &&
-          other.itemId == this.itemId &&
+          other.chargeId == this.chargeId &&
           other.direction == this.direction &&
           other.homeId == this.homeId);
 }
@@ -1637,7 +1637,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
   final Value<String> userId;
   final Value<String> categoryId;
   final Value<String> productId;
-  final Value<String> itemId;
+  final Value<String> chargeId;
   final Value<int> direction;
   final Value<String> homeId;
   const ModelChangeTableCompanion({
@@ -1646,7 +1646,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
     this.userId = const Value.absent(),
     this.categoryId = const Value.absent(),
     this.productId = const Value.absent(),
-    this.itemId = const Value.absent(),
+    this.chargeId = const Value.absent(),
     this.direction = const Value.absent(),
     this.homeId = const Value.absent(),
   });
@@ -1656,7 +1656,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
     @required String userId,
     this.categoryId = const Value.absent(),
     this.productId = const Value.absent(),
-    this.itemId = const Value.absent(),
+    this.chargeId = const Value.absent(),
     @required int direction,
     @required String homeId,
   })  : id = Value(id),
@@ -1670,7 +1670,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
     Expression<String> userId,
     Expression<String> categoryId,
     Expression<String> productId,
-    Expression<String> itemId,
+    Expression<String> chargeId,
     Expression<int> direction,
     Expression<String> homeId,
   }) {
@@ -1680,7 +1680,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
       if (userId != null) 'user_id': userId,
       if (categoryId != null) 'category_id': categoryId,
       if (productId != null) 'product_id': productId,
-      if (itemId != null) 'item_id': itemId,
+      if (chargeId != null) 'charge_id': chargeId,
       if (direction != null) 'direction': direction,
       if (homeId != null) 'home_id': homeId,
     });
@@ -1692,7 +1692,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
       Value<String> userId,
       Value<String> categoryId,
       Value<String> productId,
-      Value<String> itemId,
+      Value<String> chargeId,
       Value<int> direction,
       Value<String> homeId}) {
     return ModelChangeTableCompanion(
@@ -1701,7 +1701,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
       userId: userId ?? this.userId,
       categoryId: categoryId ?? this.categoryId,
       productId: productId ?? this.productId,
-      itemId: itemId ?? this.itemId,
+      chargeId: chargeId ?? this.chargeId,
       direction: direction ?? this.direction,
       homeId: homeId ?? this.homeId,
     );
@@ -1725,8 +1725,8 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
     if (productId.present) {
       map['product_id'] = Variable<String>(productId.value);
     }
-    if (itemId.present) {
-      map['item_id'] = Variable<String>(itemId.value);
+    if (chargeId.present) {
+      map['charge_id'] = Variable<String>(chargeId.value);
     }
     if (direction.present) {
       map['direction'] = Variable<int>(direction.value);
@@ -1799,13 +1799,13 @@ class $ModelChangeTableTable extends ModelChangeTable
         $customConstraints: 'null references ProductTable(id)');
   }
 
-  final VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
-  GeneratedTextColumn _itemId;
+  final VerificationMeta _chargeIdMeta = const VerificationMeta('chargeId');
+  GeneratedTextColumn _chargeId;
   @override
-  GeneratedTextColumn get itemId => _itemId ??= _constructItemId();
-  GeneratedTextColumn _constructItemId() {
-    return GeneratedTextColumn('item_id', $tableName, true,
-        $customConstraints: 'null references ItemTable(id)');
+  GeneratedTextColumn get chargeId => _chargeId ??= _constructChargeId();
+  GeneratedTextColumn _constructChargeId() {
+    return GeneratedTextColumn('charge_id', $tableName, true,
+        $customConstraints: 'null references ChargeTable(id)');
   }
 
   final VerificationMeta _directionMeta = const VerificationMeta('direction');
@@ -1836,7 +1836,7 @@ class $ModelChangeTableTable extends ModelChangeTable
         userId,
         categoryId,
         productId,
-        itemId,
+        chargeId,
         direction,
         homeId
       ];
@@ -1880,9 +1880,9 @@ class $ModelChangeTableTable extends ModelChangeTable
       context.handle(_productIdMeta,
           productId.isAcceptableOrUnknown(data['product_id'], _productIdMeta));
     }
-    if (data.containsKey('item_id')) {
-      context.handle(_itemIdMeta,
-          itemId.isAcceptableOrUnknown(data['item_id'], _itemIdMeta));
+    if (data.containsKey('charge_id')) {
+      context.handle(_chargeIdMeta,
+          chargeId.isAcceptableOrUnknown(data['charge_id'], _chargeIdMeta));
     }
     if (data.containsKey('direction')) {
       context.handle(_directionMeta,
@@ -2851,8 +2851,8 @@ class $ModificationTableTable extends ModificationTable
 
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  $ItemTableTable _itemTable;
-  $ItemTableTable get itemTable => _itemTable ??= $ItemTableTable(this);
+  $ChargeTableTable _chargeTable;
+  $ChargeTableTable get chargeTable => _chargeTable ??= $ChargeTableTable(this);
   $ProductTableTable _productTable;
   $ProductTableTable get productTable =>
       _productTable ??= $ProductTableTable(this);
@@ -2873,9 +2873,9 @@ abstract class _$Database extends GeneratedDatabase {
   $ModificationTableTable _modificationTable;
   $ModificationTableTable get modificationTable =>
       _modificationTable ??= $ModificationTableTable(this);
-  ItemRepository _itemRepository;
-  ItemRepository get itemRepository =>
-      _itemRepository ??= ItemRepository(this as Database);
+  ChargeRepository _chargeRepository;
+  ChargeRepository get chargeRepository =>
+      _chargeRepository ??= ChargeRepository(this as Database);
   ProductRepository _productRepository;
   ProductRepository get productRepository =>
       _productRepository ??= ProductRepository(this as Database);
@@ -2904,7 +2904,7 @@ abstract class _$Database extends GeneratedDatabase {
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-        itemTable,
+        chargeTable,
         productTable,
         categoryTable,
         changeTable,

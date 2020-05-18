@@ -1,7 +1,7 @@
 import 'package:moor/moor.dart';
 
-@DataClassName("ItemEntry")
-class ItemTable extends Table {
+@DataClassName("ChargeEntry")
+class ChargeTable extends Table {
   TextColumn get id => text()();
 
   TextColumn get productId => text().customConstraint('references ProductTable(id)')();

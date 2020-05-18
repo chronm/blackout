@@ -5,7 +5,7 @@ import 'package:Blackout/ui/category_overview/category_overview_screen.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
 import 'package:Blackout/ui/product_details/product_details_screen.dart';
 import 'package:Blackout/ui/product_overview/product_overview_screen.dart';
-import 'package:Blackout/ui/item_overview/item_overview_screen.dart';
+import 'package:Blackout/ui/charge_overview/charge_overview_screen.dart';
 import 'package:Blackout/ui/setup/setup_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +47,8 @@ class RouteBuilder {
         pageBuilder: (context, animation, secondaryAnimation) => ProductDetailsScreen(route.product, route.changes, route.categories),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child)
       ),
-      itemOverviewRoute: (_) => PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => ItemOverviewScreen(),
+      chargeOverviewRoute: (_) => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ChargeOverviewScreen(),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
     );
@@ -77,5 +77,5 @@ enum _Routes {
   ])
   ProductDetailsRoute,
   @object
-  ItemOverviewRoute,
+  ChargeOverviewRoute,
 }

@@ -1,11 +1,11 @@
-import 'package:Blackout/bloc/item/item_bloc.dart';
+import 'package:Blackout/bloc/charge/charge_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
@@ -21,9 +21,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final CategoryRepository categoryRepository;
   final ProductRepository productRepository;
   final BlackoutPreferences blackoutPreferences;
-  final ItemBloc itemBloc;
+  final ChargeBloc chargeBloc;
 
-  ProductBloc(this.modelChangeRepository, this.categoryRepository, this.blackoutPreferences, this.productRepository, this.itemBloc);
+  ProductBloc(this.modelChangeRepository, this.categoryRepository, this.blackoutPreferences, this.productRepository, this.chargeBloc);
 
   @override
   ProductState get initialState => ProductInitialState();
@@ -42,8 +42,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       List<Category> categories = await categoryRepository.findAllByHomeId(home.id);
       yield ShowProduct(product, categories);
     }
-    if (event is TapOnItem) {
-      itemBloc.add(LoadItem(event.item.id));
+    if (event is TapOnCharge) {
+      chargeBloc.add(LoadCharge(event.charge.id));
     }
   }
 }
