@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'item_repository.dart';
+part of 'charge_repository.dart';
 
 // **************************************************************************
 // DaoGenerator
 // **************************************************************************
 
-mixin _$ItemRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $ItemTableTable get itemTable => attachedDatabase.itemTable;
+mixin _$ChargeRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
+  $ChargeTableTable get chargeTable => attachedDatabase.chargeTable;
 }

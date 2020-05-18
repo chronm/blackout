@@ -1,12 +1,12 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/bloc/home/home_bloc.dart';
-import 'package:Blackout/bloc/item/item_bloc.dart';
+import 'package:Blackout/bloc/charge/charge_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
-import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/modification_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
@@ -16,7 +16,7 @@ import 'package:Blackout/generated/l10n_extension.dart';
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart';
@@ -79,13 +79,13 @@ Product createDefaultProduct() {
   );
 }
 
-// Item
-final String DEFAULT_ITEM_ID = "itemid";
+// Charge
+final String DEFAULT_ITEM_ID = "chargeid";
 final LocalDateTime DEFAULT_ITEM_EXPIRATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_EXPIRATION);
 final LocalDateTime DEFAULT_ITEM_NOTIFICATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_NOTIFICATION);
 
-Item createDefaultItem() {
-  return Item(
+Charge createDefaultCharge() {
+  return Charge(
     expirationDate: DEFAULT_ITEM_EXPIRATION_DATE,
     notificationDate: DEFAULT_ITEM_NOTIFICATION_DATE,
     product: createDefaultProduct(),
@@ -104,7 +104,7 @@ Change createDefaultChange() {
     user: createDefaultUser(),
     value: DEFAULT_CHANGE_VALUE,
     changeDate: DEFAULT_CHANGE_CHANGE_DATE,
-    item: createDefaultItem(),
+    charge: createDefaultCharge(),
     home: createDefaultHome(),
   );
 }
@@ -124,7 +124,7 @@ User createDefaultUser() {
 final String DEFAULT_MODEL_CHANGE_ID = "databaseChangelogId";
 final LocalDateTime DEFAULT_MODEL_CHANGE_MODIFICATION_DATE = DEFAULT_CHANGE_CHANGE_DATE;
 
-ModelChange createDefaultModelChange(ModelChangeType modification, {Category category, Product product, Item item}) {
+ModelChange createDefaultModelChange(ModelChangeType modification, {Category category, Product product, Charge charge}) {
   return ModelChange(
     id: DEFAULT_MODEL_CHANGE_ID,
     user: createDefaultUser(),
@@ -133,7 +133,7 @@ ModelChange createDefaultModelChange(ModelChangeType modification, {Category cat
     home: createDefaultHome(),
     categoryId: category != null ? category.id : null,
     productId: product != null ? product.id : null,
-    itemId: item != null ? item.id : null,
+    chargeId: charge != null ? charge.id : null,
   );
 }
 
@@ -275,9 +275,9 @@ class HomeBlocMock extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
 
 class HomeRepositoryMock extends Mock implements HomeRepository {}
 
-class ItemBlocMock extends MockBloc<ItemEvent, ItemState> implements ItemBloc {}
+class ChargeBlocMock extends MockBloc<ChargeEvent, ChargeState> implements ChargeBloc {}
 
-class ItemRepositoryMock extends Mock implements ItemRepository {}
+class ChargeRepositoryMock extends Mock implements ChargeRepository {}
 
 class ModelChangeRepositoryMock extends Mock implements ModelChangeRepository {}
 

@@ -1,6 +1,6 @@
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,15 +12,15 @@ void main() {
   test('(Title) Get the current title depending on amount', () async {
     Category category = createDefaultCategory();
     Product product = createDefaultProduct();
-    Item item = createDefaultItem();
+    Charge charge = createDefaultCharge();
     Change change = createDefaultChange();
     category.products = [product];
-    product.items = [item];
-    item.changes = [change];
+    product.charges = [charge];
+    charge.changes = [change];
 
     expect(category.title, DEFAULT_CATEGORY_NAME);
 
-    item.changes = [change, change];
+    charge.changes = [change, change];
 
     expect(category.title, DEFAULT_CATEGORY_PLURAL_NAME);
   });
@@ -28,11 +28,11 @@ void main() {
   test('(Title) Get current title depending on pluralName', () async {
     Category category = createDefaultCategory();
     Product product = createDefaultProduct();
-    Item item = createDefaultItem();
+    Charge charge = createDefaultCharge();
     Change change = createDefaultChange();
     category.products = [product];
-    product.items = [item];
-    item.changes = [change, change];
+    product.charges = [charge];
+    charge.changes = [change, change];
     category.pluralName = null;
 
     expect(category.title, DEFAULT_CATEGORY_NAME);
@@ -48,15 +48,15 @@ void main() {
   test('(ExpiredOrNotification) Any product is expired or notification should be thrown', () async {
     Category category = createDefaultCategory();
     Product product = createDefaultProduct();
-    Item item = createDefaultItem();
+    Charge charge = createDefaultCharge();
     category.products = [product];
     product.category = category;
-    item.product = product;
-    product.items = [item];
+    charge.product = product;
+    product.charges = [charge];
 
     expect(category.expiredOrNotification, isTrue);
 
-    item.expirationDate = LocalDateTime.now().add(Period(days: 10));
+    charge.expirationDate = LocalDateTime.now().add(Period(days: 10));
 
     expect(category.expiredOrNotification, isFalse);
   });
@@ -65,18 +65,18 @@ void main() {
     Category category = createDefaultCategory();
     category.refillLimit = 2.0;
     Product product = createDefaultProduct();
-    Item item = createDefaultItem();
+    Charge charge = createDefaultCharge();
     Change change = createDefaultChange();
     product.category = category;
-    item.product = product;
+    charge.product = product;
     category.products = [product];
-    product.items = [item];
-    item.changes = [change];
+    product.charges = [charge];
+    charge.changes = [change];
 
     expect(category.tooFewAvailable, isTrue);
 
     category.refillLimit = 1.0;
-    item.changes = [change, change];
+    charge.changes = [change, change];
 
     expect(category.tooFewAvailable, isFalse);
   });

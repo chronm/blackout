@@ -20,11 +20,11 @@ class SaveProduct extends ProductEvent {
   List<Object> get props => [product];
 }
 
-class TapOnItem extends ProductEvent {
-  final Item item;
+class TapOnCharge extends ProductEvent {
+  final Charge charge;
 
-  TapOnItem(this.item);
+  TapOnCharge(this.charge);
 
   @override
-  List<Object> get props => [item];
+  List<Object> get props => [charge];
 }

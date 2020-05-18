@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Item {
+class Charge {
   String id;
   Product product;
   LocalDateTime expirationDate;
@@ -22,7 +22,7 @@ class Item {
   Home home;
   List<ModelChange> modelChanges = [];
 
-  Item({this.id, this.expirationDate, this.notificationDate, @required this.product, this.changes, @required this.home, this.modelChanges});
+  Charge({this.id, this.expirationDate, this.notificationDate, @required this.product, this.changes, @required this.home, this.modelChanges});
 
   String buildTitle(BuildContext context) {
     ModelChange creation = modelChanges.firstWhere((c) => c.modification == ModelChangeType.create);
@@ -65,8 +65,8 @@ class Item {
     return expirationDate ?? notificationDate;
   }
 
-  factory Item.fromEntry(ItemEntry entry, Home home, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
-    return Item(
+  factory Charge.fromEntry(ChargeEntry entry, Home home, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
+    return Charge(
       id: entry.id,
       expirationDate: entry.expirationDate == null ? null : localDateTimeFromDateTime(entry.expirationDate),
       notificationDate: entry.notificationDate == null ? null : localDateTimeFromDateTime(entry.notificationDate),
@@ -77,8 +77,8 @@ class Item {
     );
   }
 
-  ItemTableCompanion toCompanion() {
-    return ItemTableCompanion(
+  ChargeTableCompanion toCompanion() {
+    return ChargeTableCompanion(
       id: Value(id),
       productId: Value(product.id),
       expirationDate: expirationDate == null ? Value.absent() : Value(expirationDate.toDateTimeLocal()),
@@ -87,7 +87,7 @@ class Item {
     );
   }
 
-  List<Modification> getModifications(Item from) {
+  List<Modification> getModifications(Charge from) {
     return [];
   }
 }

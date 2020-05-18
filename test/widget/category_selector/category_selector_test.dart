@@ -1,6 +1,6 @@
 import 'package:Blackout/models/category.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/widget/category_selector/category_selector.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +27,10 @@ void main() {
 
   testWidgets('Initialize with initial category and switch category', (WidgetTester tester) async {
     Change change = createDefaultChange();
-    Item item = createDefaultItem();
-    item.changes = [change];
+    Charge charge = createDefaultCharge();
+    charge.changes = [change];
     Product product = createDefaultProduct();
-    product.items = [item];
+    product.charges = [charge];
     Category category = createDefaultCategory();
     category.products = [product];
     Category category2 = category.clone()..name = "test";
@@ -57,10 +57,10 @@ void main() {
 
   testWidgets('Initialize with category and uncheck', (WidgetTester tester) async {
     Change change = createDefaultChange();
-    Item item = createDefaultItem();
-    item.changes = [change];
+    Charge charge = createDefaultCharge();
+    charge.changes = [change];
     Product product = createDefaultProduct();
-    product.items = [item];
+    product.charges = [charge];
     Category category = createDefaultCategory();
     category.products = [product];
 

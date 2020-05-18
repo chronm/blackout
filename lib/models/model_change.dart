@@ -20,7 +20,7 @@ class ModelChange {
   LocalDateTime modificationDate;
   String categoryId;
   String productId;
-  String itemId;
+  String chargeId;
   ModelChangeType modification;
   Home home;
   List<Modification> modifications;
@@ -33,12 +33,12 @@ class ModelChange {
     @required this.home,
     String categoryId,
     String productId,
-    String itemId,
+    String chargeId,
     this.modifications,
-  })  : assert((categoryId != null && productId == null && itemId == null) || (categoryId == null && productId != null && itemId == null) || (categoryId == null && productId == null && itemId != null)),
+  })  : assert((categoryId != null && productId == null && chargeId == null) || (categoryId == null && productId != null && chargeId == null) || (categoryId == null && productId == null && chargeId != null)),
         this.categoryId = categoryId,
         this.productId = productId,
-        this.itemId = itemId;
+        this.chargeId = chargeId;
 
   factory ModelChange.fromEntry(ModelChangeEntry entry, User user, Home home, List<Modification> modifications) {
     return ModelChange(
@@ -48,7 +48,7 @@ class ModelChange {
       modification: ModelChangeType.values[entry.direction],
       categoryId: entry.categoryId,
       productId: entry.productId,
-      itemId: entry.itemId,
+      chargeId: entry.chargeId,
       home: home,
       modifications: modifications,
     );
@@ -61,7 +61,7 @@ class ModelChange {
       direction: Value(ModelChangeType.values.indexOf(modification)),
       categoryId: Value(categoryId),
       productId: Value(productId),
-      itemId: Value(itemId),
+      chargeId: Value(chargeId),
       modificationDate: Value(modificationDate.toDateTimeLocal()),
       homeId: Value(home.id),
     );

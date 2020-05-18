@@ -4,7 +4,7 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
-import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,7 +19,7 @@ void main() {
   UserRepository userRepository;
   CategoryRepository categoryRepository;
   ProductRepository productRepository;
-  ItemRepository itemRepository;
+  ChargeRepository chargeRepository;
   ChangeRepository changeRepository;
   SetupBloc setupBloc;
 
@@ -30,9 +30,9 @@ void main() {
     userRepository = UserRepositoryMock();
     categoryRepository = CategoryRepositoryMock();
     productRepository = ProductRepositoryMock();
-    itemRepository = ItemRepositoryMock();
+    chargeRepository = ChargeRepositoryMock();
     changeRepository = ChangeRepositoryMock();
-    setupBloc = SetupBloc(blackoutPreferences, homeBloc, homeRepository, userRepository, categoryRepository, productRepository, itemRepository, changeRepository);
+    setupBloc = SetupBloc(blackoutPreferences, homeBloc, homeRepository, userRepository, categoryRepository, productRepository, chargeRepository, changeRepository);
   });
 
   test('Setup and create new home', () {

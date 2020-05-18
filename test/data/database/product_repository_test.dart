@@ -1,11 +1,11 @@
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
-import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/models/category.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,7 +16,7 @@ import '../../blackout_test_base.dart';
 
 void main() {
   Database _database;
-  ItemRepository itemRepository;
+  ChargeRepository chargeRepository;
   ProductRepository productRepository;
   CategoryRepository categoryRepository;
   HomeRepository homeRepository;
@@ -24,7 +24,7 @@ void main() {
 
   setUp(() {
     _database = Database.forTesting(VmDatabase.memory());
-    itemRepository = _database.itemRepository;
+    chargeRepository = _database.chargeRepository;
     productRepository = _database.productRepository;
     categoryRepository = _database.categoryRepository;
     homeRepository = _database.homeRepository;
@@ -85,39 +85,39 @@ void main() {
     expect(product.home.id, equals(DEFAULT_HOME_ID));
   });
 
-  test('(GetOneByProductId) Product contains items if recurseItems=true', () async {
+  test('(GetOneByProductId) Product contains charges if recurseCharges=true', () async {
     Product product = createDefaultProduct();
-    Item item = createDefaultItem();
-    item.product = product;
+    Charge charge = createDefaultCharge();
+    charge.product = product;
 
     await homeRepository.save(product.home);
     product = await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item, createDefaultUser());
+    charge = await chargeRepository.save(charge, createDefaultUser());
 
     product = await productRepository.getOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
     expect(product.id, isNotNull);
     expect(product.description, equals(DEFAULT_PRODUCT_DESCRIPTION));
     expect(product.ean, equals(DEFAULT_PRODUCT_EAN));
-    expect(product.items, hasLength(1));
-    expect(product.items[0].product.id, equals(product.id));
+    expect(product.charges, hasLength(1));
+    expect(product.charges[0].product.id, equals(product.id));
     expect(product.home.name, equals(DEFAULT_HOME_NAME));
     expect(product.home.id, equals(DEFAULT_HOME_ID));
   });
 
-  test('(GetOneByProductId) Product does not contain items if recurseItems=false', () async {
+  test('(GetOneByProductId) Product does not contain charges if recurseCharges=false', () async {
     Product product = createDefaultProduct();
-    Item item = createDefaultItem();
-    item.product = product;
+    Charge charge = createDefaultCharge();
+    charge.product = product;
 
     await homeRepository.save(product.home);
     product = await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item, createDefaultUser());
+    charge = await chargeRepository.save(charge, createDefaultUser());
 
-    product = await productRepository.getOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseItems: false);
+    product = await productRepository.getOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseCharges: false);
     expect(product.id, isNotNull);
     expect(product.description, equals(DEFAULT_PRODUCT_DESCRIPTION));
     expect(product.ean, equals(DEFAULT_PRODUCT_EAN));
-    expect(product.items, hasLength(0));
+    expect(product.charges, hasLength(0));
     expect(product.home.name, equals(DEFAULT_HOME_NAME));
     expect(product.home.id, equals(DEFAULT_HOME_ID));
   });
@@ -149,7 +149,7 @@ void main() {
     await homeRepository.save(product.home);
     product = await productRepository.save(createDefaultProduct(), createDefaultUser());
 
-    List<Product> products = await productRepository.findAllByHomeId(DEFAULT_HOME_ID, recurseItems: false);
+    List<Product> products = await productRepository.findAllByHomeId(DEFAULT_HOME_ID, recurseCharges: false);
     expect(products.length, equals(1));
   });
 

@@ -2,7 +2,7 @@ import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/category.dart' show Category;
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/home_listable.dart';
-import 'package:Blackout/models/item.dart' show Item;
+import 'package:Blackout/models/charge.dart' show Charge;
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/unit/unit.dart';
@@ -16,19 +16,19 @@ class Product extends HomeListable {
   String ean;
   Category category;
   String description;
-  List<Item> items = [];
+  List<Charge> charges = [];
   Home home;
   double refillLimit;
   UnitEnum _unit;
   List<ModelChange> modelChanges = [];
 
-  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
+  Product({this.id, this.ean, @required this.description, this.category, this.charges, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
 
   void set unit(UnitEnum unit) => _unit = unit;
 
   UnitEnum get unit => category != null ? category.unit : _unit;
 
-  double get amount => items.map((i) => i.amount).reduce((a, b) => a + b);
+  double get amount => charges.map((i) => i.amount).reduce((a, b) => a + b);
 
   @override
   String get title => description;
@@ -40,17 +40,17 @@ class Product extends HomeListable {
   bool get expiredOrNotification {
     bool isExpired = false;
     if (category?.warnInterval != null) {
-      isExpired = items.where((item) => item.expirationDate != null).any((item) => item.expirationDate.subtract(category.warnInterval) < LocalDateTime.now());
+      isExpired = charges.where((charge) => charge.expirationDate != null).any((charge) => charge.expirationDate.subtract(category.warnInterval) < LocalDateTime.now());
     }
 
-    return isExpired || items.where((item) => item.notificationDate != null).any((item) => item.notificationDate <= LocalDateTime.now());
+    return isExpired || charges.where((charge) => charge.notificationDate != null).any((charge) => charge.notificationDate <= LocalDateTime.now());
   }
 
   @override
   bool get tooFewAvailable => refillLimit != null ? amount <= refillLimit : false;
 
   Product clone() {
-    return Product(id: id, ean: ean, category: category, description: description, items: items, home: home, refillLimit: refillLimit, unit: unit, modelChanges: modelChanges);
+    return Product(id: id, ean: ean, category: category, description: description, charges: charges, home: home, refillLimit: refillLimit, unit: unit, modelChanges: modelChanges);
   }
 
   bool isValid() {
@@ -61,7 +61,7 @@ class Product extends HomeListable {
     return ean == other.ean && description == other.description && refillLimit == other.refillLimit && category == other.category;
   }
 
-  factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items, List<ModelChange> modelChanges}) {
+  factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Charge> charges, List<ModelChange> modelChanges}) {
     return Product(
       id: entry.id,
       ean: entry.ean,
@@ -69,7 +69,7 @@ class Product extends HomeListable {
       refillLimit: entry.refillLimit,
       unit: entry.unit == null ? null : UnitEnum.values[entry.unit],
       category: category,
-      items: items,
+      charges: charges,
       home: home,
       modelChanges: modelChanges,
     );

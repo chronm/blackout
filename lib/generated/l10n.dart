@@ -66,7 +66,7 @@ class S {
   /// `How do you want do be called. This will be used to identify you in your home.`
   String get setYourUsername {
     return Intl.message(
-      'How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove items. You can change this later.',
+      'How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later.',
       name: 'setYourUsername',
       desc: '',
       args: [],

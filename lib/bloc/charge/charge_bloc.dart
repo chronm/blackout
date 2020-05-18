@@ -2,42 +2,42 @@ import 'dart:async';
 
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
-import 'package:Blackout/data/repository/item_repository.dart';
+import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'item_event.dart';
+part 'charge_event.dart';
 
-part 'item_state.dart';
+part 'charge_state.dart';
 
-class ItemBloc extends Bloc<ItemEvent, ItemState> {
+class ChargeBloc extends Bloc<ChargeEvent, ChargeState> {
   final ModelChangeRepository modelChangeRepository;
   final ChangeRepository changeRepository;
-  final ItemRepository itemRepository;
+  final ChargeRepository chargeRepository;
   final BlackoutPreferences blackoutPreferences;
 
-  ItemBloc(this.changeRepository, this.itemRepository, this.blackoutPreferences, this.modelChangeRepository);
+  ChargeBloc(this.changeRepository, this.chargeRepository, this.blackoutPreferences, this.modelChangeRepository);
 
   @override
-  ItemState get initialState => InitialItemState();
+  ChargeState get initialState => InitialChargeState();
 
   @override
-  Stream<ItemState> mapEventToState(ItemEvent event) async* {
-    if (event is SaveItem) {
+  Stream<ChargeState> mapEventToState(ChargeEvent event) async* {
+    if (event is SaveCharge) {
       User user = await blackoutPreferences.getUser();
-      Item item = await itemRepository.save(event.item, user);
-      yield ShowItem(item);
+      Charge charge = await chargeRepository.save(event.charge, user);
+      yield ShowCharge(charge);
     }
-    if (event is LoadItem) {
+    if (event is LoadCharge) {
       Home home = await blackoutPreferences.getHome();
-      Item item = await itemRepository.getOneByItemIdAndHomeId(event.itemId, home.id);
-      yield ShowItem(item);
+      Charge charge = await chargeRepository.getOneByChargeIdAndHomeId(event.chargeId, home.id);
+      yield ShowCharge(charge);
     }
   }
 }

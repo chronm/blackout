@@ -99,7 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "removed" : m16,
     "seconds" : m17,
     "setYourHome" : MessageLookupByLibrary.simpleMessage("Do you want to join an existing household or create a new one?"),
-    "setYourUsername" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove items. You can change this later."),
+    "setYourUsername" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later."),
     "setup" : MessageLookupByLibrary.simpleMessage("Setup"),
     "singular" : MessageLookupByLibrary.simpleMessage("What is the name of this category?"),
     "today" : MessageLookupByLibrary.simpleMessage("today"),
