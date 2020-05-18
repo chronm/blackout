@@ -34,6 +34,10 @@ class _ChargeDetailsScreenState extends State<ChargeDetailsScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(S.of(context).modifyCharge),
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 5.0),
+          child: Text(widget.charge.hierarchy(context)),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.save),

@@ -5,12 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef SearchCallback = void Function(String search);
 typedef TitleResolver<S> = String Function(S state);
+typedef SubtitleResolver<S> = Widget Function(S state);
 typedef TitleCallback<S> = void Function(S state);
 
 class LoadingAppBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implements PreferredSizeWidget {
   final B bloc;
   final SearchCallback searchCallback;
   final String title;
+  final SubtitleResolver<S> subtitleResolver;
   final TitleResolver<S> titleResolver;
   final TitleCallback<S> titleCallback;
 
@@ -21,6 +23,7 @@ class LoadingAppBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implem
     this.title,
     this.titleResolver,
     this.titleCallback,
+    this.subtitleResolver,
   })  : assert((title != null && titleResolver == null) || (title == null && titleResolver != null)),
         super(key: key);
 
@@ -102,7 +105,7 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
             if (state is LoadingState) {
               return LinearProgressIndicator();
             }
-            return Container();
+            return widget.subtitleResolver != null ? widget.subtitleResolver(state) : Container();
           },
         ),
       ),

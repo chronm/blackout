@@ -1,8 +1,9 @@
 import 'package:Blackout/bloc/charge/charge_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/change.dart';
+import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show BuildContext, Card, Container, Key, ListTile, ListView, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChargeOverviewScreen extends StatefulWidget {
@@ -23,8 +24,14 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
         titleResolver: (state) => state is ShowCharge ? state.charge.buildTitle(context) : "",
         titleCallback: (state) {
           if (state is ShowCharge) {
-//            Navigator.push(context, RouteBuilder.build(Routes.))
+            Navigator.push(context, RouteBuilder.build(Routes.chargeDetailsRoute(charge: state.charge)));
           }
+        },
+        subtitleResolver: (state) {
+          if (state is ShowCharge) {
+            return Text(state.charge.hierarchy(context));
+          }
+          return Container();
         },
       ),
       body: BlocBuilder<ChargeBloc, ChargeState>(

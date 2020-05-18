@@ -29,6 +29,9 @@ abstract class Routes extends Equatable {
 
   factory Routes.chargeOverviewRoute() = ChargeOverviewRoute;
 
+  factory Routes.chargeDetailsRoute({@required Charge charge}) =
+      ChargeDetailsRoute;
+
   final _Routes _type;
 
 //ignore: missing_return
@@ -39,7 +42,8 @@ abstract class Routes extends Equatable {
       @required R Function(CategoryDetailsRoute) categoryDetailsRoute,
       @required R Function(ProductOverviewRoute) productOverviewRoute,
       @required R Function(ProductDetailsRoute) productDetailsRoute,
-      @required R Function(ChargeOverviewRoute) chargeOverviewRoute}) {
+      @required R Function(ChargeOverviewRoute) chargeOverviewRoute,
+      @required R Function(ChargeDetailsRoute) chargeDetailsRoute}) {
     assert(() {
       if (homeRoute == null ||
           setupRoute == null ||
@@ -47,7 +51,8 @@ abstract class Routes extends Equatable {
           categoryDetailsRoute == null ||
           productOverviewRoute == null ||
           productDetailsRoute == null ||
-          chargeOverviewRoute == null) {
+          chargeOverviewRoute == null ||
+          chargeDetailsRoute == null) {
         throw 'check for all possible cases';
       }
       return true;
@@ -67,6 +72,8 @@ abstract class Routes extends Equatable {
         return productDetailsRoute(this as ProductDetailsRoute);
       case _Routes.ChargeOverviewRoute:
         return chargeOverviewRoute(this as ChargeOverviewRoute);
+      case _Routes.ChargeDetailsRoute:
+        return chargeDetailsRoute(this as ChargeDetailsRoute);
     }
   }
 
@@ -85,7 +92,9 @@ abstract class Routes extends Equatable {
       @required
           FutureOr<R> Function(ProductDetailsRoute) productDetailsRoute,
       @required
-          FutureOr<R> Function(ChargeOverviewRoute) chargeOverviewRoute}) {
+          FutureOr<R> Function(ChargeOverviewRoute) chargeOverviewRoute,
+      @required
+          FutureOr<R> Function(ChargeDetailsRoute) chargeDetailsRoute}) {
     assert(() {
       if (homeRoute == null ||
           setupRoute == null ||
@@ -93,7 +102,8 @@ abstract class Routes extends Equatable {
           categoryDetailsRoute == null ||
           productOverviewRoute == null ||
           productDetailsRoute == null ||
-          chargeOverviewRoute == null) {
+          chargeOverviewRoute == null ||
+          chargeDetailsRoute == null) {
         throw 'check for all possible cases';
       }
       return true;
@@ -113,6 +123,8 @@ abstract class Routes extends Equatable {
         return productDetailsRoute(this as ProductDetailsRoute);
       case _Routes.ChargeOverviewRoute:
         return chargeOverviewRoute(this as ChargeOverviewRoute);
+      case _Routes.ChargeDetailsRoute:
+        return chargeDetailsRoute(this as ChargeDetailsRoute);
     }
   }
 
@@ -124,6 +136,7 @@ abstract class Routes extends Equatable {
       R Function(ProductOverviewRoute) productOverviewRoute,
       R Function(ProductDetailsRoute) productDetailsRoute,
       R Function(ChargeOverviewRoute) chargeOverviewRoute,
+      R Function(ChargeDetailsRoute) chargeDetailsRoute,
       @required R Function(Routes) orElse}) {
     assert(() {
       if (orElse == null) {
@@ -153,6 +166,9 @@ abstract class Routes extends Equatable {
       case _Routes.ChargeOverviewRoute:
         if (chargeOverviewRoute == null) break;
         return chargeOverviewRoute(this as ChargeOverviewRoute);
+      case _Routes.ChargeDetailsRoute:
+        if (chargeDetailsRoute == null) break;
+        return chargeDetailsRoute(this as ChargeDetailsRoute);
     }
     return orElse(this);
   }
@@ -165,6 +181,7 @@ abstract class Routes extends Equatable {
       FutureOr<R> Function(ProductOverviewRoute) productOverviewRoute,
       FutureOr<R> Function(ProductDetailsRoute) productDetailsRoute,
       FutureOr<R> Function(ChargeOverviewRoute) chargeOverviewRoute,
+      FutureOr<R> Function(ChargeDetailsRoute) chargeDetailsRoute,
       @required FutureOr<R> Function(Routes) orElse}) {
     assert(() {
       if (orElse == null) {
@@ -194,6 +211,9 @@ abstract class Routes extends Equatable {
       case _Routes.ChargeOverviewRoute:
         if (chargeOverviewRoute == null) break;
         return chargeOverviewRoute(this as ChargeOverviewRoute);
+      case _Routes.ChargeDetailsRoute:
+        if (chargeDetailsRoute == null) break;
+        return chargeDetailsRoute(this as ChargeDetailsRoute);
     }
     return orElse(this);
   }
@@ -206,7 +226,8 @@ abstract class Routes extends Equatable {
       FutureOr<void> Function(CategoryDetailsRoute) categoryDetailsRoute,
       FutureOr<void> Function(ProductOverviewRoute) productOverviewRoute,
       FutureOr<void> Function(ProductDetailsRoute) productDetailsRoute,
-      FutureOr<void> Function(ChargeOverviewRoute) chargeOverviewRoute}) {
+      FutureOr<void> Function(ChargeOverviewRoute) chargeOverviewRoute,
+      FutureOr<void> Function(ChargeDetailsRoute) chargeDetailsRoute}) {
     assert(() {
       if (homeRoute == null &&
           setupRoute == null &&
@@ -214,7 +235,8 @@ abstract class Routes extends Equatable {
           categoryDetailsRoute == null &&
           productOverviewRoute == null &&
           productDetailsRoute == null &&
-          chargeOverviewRoute == null) {
+          chargeOverviewRoute == null &&
+          chargeDetailsRoute == null) {
         throw 'provide at least one branch';
       }
       return true;
@@ -241,6 +263,9 @@ abstract class Routes extends Equatable {
       case _Routes.ChargeOverviewRoute:
         if (chargeOverviewRoute == null) break;
         return chargeOverviewRoute(this as ChargeOverviewRoute);
+      case _Routes.ChargeDetailsRoute:
+        if (chargeDetailsRoute == null) break;
+        return chargeDetailsRoute(this as ChargeDetailsRoute);
     }
   }
 
@@ -343,4 +368,17 @@ class ChargeOverviewRoute extends Routes {
   }
 
   static ChargeOverviewRoute _instance;
+}
+
+@immutable
+class ChargeDetailsRoute extends Routes {
+  const ChargeDetailsRoute({@required this.charge})
+      : super(_Routes.ChargeDetailsRoute);
+
+  final Charge charge;
+
+  @override
+  String toString() => 'ChargeDetailsRoute(charge:${this.charge})';
+  @override
+  List get props => [charge];
 }

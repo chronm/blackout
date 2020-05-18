@@ -42,6 +42,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(S.of(context).modifyCategory),
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 5.0),
+          child: Container(),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),

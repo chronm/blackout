@@ -22,6 +22,11 @@ class Charge {
   Home home;
   List<ModelChange> modelChanges = [];
 
+  String hierarchy(BuildContext context) {
+    List<String> items = [product.hierarchy(context), product.title]..removeWhere((element) => element == null);
+    return items.join(" • ");
+  }
+
   Charge({this.id, this.expirationDate, this.notificationDate, @required this.product, this.changes, @required this.home, this.modelChanges});
 
   String buildTitle(BuildContext context) {

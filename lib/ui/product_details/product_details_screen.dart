@@ -44,6 +44,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(S.of(context).modifyProduct),
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 5.0),
+          child: Text(widget.product.hierarchy(context)),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),

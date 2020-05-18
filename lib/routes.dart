@@ -1,11 +1,13 @@
+import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/ui/category_details/category_details_screen.dart';
 import 'package:Blackout/ui/category_overview/category_overview_screen.dart';
+import 'package:Blackout/ui/charge_details/charge_details_screen.dart';
+import 'package:Blackout/ui/charge_overview/charge_overview_screen.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
 import 'package:Blackout/ui/product_details/product_details_screen.dart';
 import 'package:Blackout/ui/product_overview/product_overview_screen.dart';
-import 'package:Blackout/ui/charge_overview/charge_overview_screen.dart';
 import 'package:Blackout/ui/setup/setup_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +47,14 @@ class RouteBuilder {
       ),
       productDetailsRoute: (route) => PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => ProductDetailsScreen(route.product, route.changes, route.categories),
-        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child)
+        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       chargeOverviewRoute: (_) => PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => ChargeOverviewScreen(),
+        transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
+      ),
+      chargeDetailsRoute: (route) => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ChargeDetailsScreen(route.charge),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
     );
@@ -78,4 +84,8 @@ enum _Routes {
   ProductDetailsRoute,
   @object
   ChargeOverviewRoute,
+  @Data(fields: [
+    DataField<Charge>('charge'),
+  ])
+  ChargeDetailsRoute,
 }
