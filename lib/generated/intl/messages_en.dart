@@ -33,31 +33,35 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m6(field, to) => "Enabled ${field} (${to})";
 
-  static m7(time) => "expired ${time}";
+  static m7(expirationDate) => "${expirationDate} is not valid";
 
-  static m8(time) => "expires ${time}";
+  static m8(time) => "expired ${time}";
 
-  static m9(hours) => "${Intl.plural(hours, one: '1 hour', other: '${hours} hours')}";
+  static m9(time) => "expires ${time}";
 
-  static m10(months) => "${Intl.plural(months, one: 'in ${months} month', other: 'in ${months} months')}";
+  static m10(hours) => "${Intl.plural(hours, one: '1 hour', other: '${hours} hours')}";
 
-  static m11(weeks) => "${Intl.plural(weeks, one: 'in ${weeks} week', other: 'in ${weeks} weeks')}";
+  static m11(months) => "${Intl.plural(months, one: 'in ${months} month', other: 'in ${months} months')}";
 
-  static m12(minutes) => "${Intl.plural(minutes, one: '1 minute', other: '${minutes} minutes')}";
+  static m12(weeks) => "${Intl.plural(weeks, one: 'in ${weeks} week', other: 'in ${weeks} weeks')}";
 
-  static m13(field, from, to) => "Changed ${field} from ${from} to ${to}";
+  static m13(minutes) => "${Intl.plural(minutes, one: '1 minute', other: '${minutes} minutes')}";
 
-  static m14(months) => "${Intl.plural(months, one: '1 month', other: '${months} months')}";
+  static m14(field, from, to) => "Changed ${field} from ${from} to ${to}";
 
-  static m15(time) => "notify ${time}";
+  static m15(months) => "${Intl.plural(months, one: '1 month', other: '${months} months')}";
 
-  static m16(amount, date) => "Took ${amount} ${date}";
+  static m16(notificationDate) => "${notificationDate} is not valid";
 
-  static m17(seconds) => "${Intl.plural(seconds, one: '1 second', other: '${seconds} seconds')}";
+  static m17(time) => "notify ${time}";
 
-  static m18(weeks) => "${Intl.plural(weeks, one: '1 week', other: '${weeks} weeks')}";
+  static m18(amount, date) => "Took ${amount} ${date}";
 
-  static m19(years) => "${Intl.plural(years, one: '1 year', other: '${years} years')}";
+  static m19(seconds) => "${Intl.plural(seconds, one: '1 second', other: '${seconds} seconds')}";
+
+  static m20(weeks) => "${Intl.plural(weeks, one: '1 week', other: '${weeks} weeks')}";
+
+  static m21(years) => "${Intl.plural(years, one: '1 year', other: '${years} years')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -76,28 +80,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "disabledField" : m5,
     "ean" : MessageLookupByLibrary.simpleMessage("Product code (ean)"),
     "enabledField" : m6,
-    "expired" : m7,
-    "expires" : m8,
+    "expirationDate" : MessageLookupByLibrary.simpleMessage("Best before"),
+    "expirationDateCouldNotBeParsed" : m7,
+    "expired" : m8,
+    "expires" : m9,
     "finish" : MessageLookupByLibrary.simpleMessage("Finish"),
     "future" : MessageLookupByLibrary.simpleMessage("far in the future"),
-    "hours" : m9,
-    "inMonths" : m10,
-    "inWeeks" : m11,
+    "hours" : m10,
+    "inMonths" : m11,
+    "inWeeks" : m12,
     "join" : MessageLookupByLibrary.simpleMessage("Join"),
     "joinHome" : MessageLookupByLibrary.simpleMessage("Simply scan the QR Code on another device to join the household."),
     "longAgo" : MessageLookupByLibrary.simpleMessage("very long ago"),
     "minimumAmount" : MessageLookupByLibrary.simpleMessage("Minimum amount"),
-    "minutes" : m12,
-    "modifiedField" : m13,
+    "minutes" : m13,
+    "modifiedField" : m14,
     "modifyCategory" : MessageLookupByLibrary.simpleMessage("Modify Category"),
+    "modifyCharge" : MessageLookupByLibrary.simpleMessage("Modify Charge"),
     "modifyProduct" : MessageLookupByLibrary.simpleMessage("Modify Product"),
-    "months" : m14,
+    "months" : m15,
     "nameMustNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Name must not be empty"),
     "nameOfYourHousehold" : MessageLookupByLibrary.simpleMessage("Name of your household"),
-    "notify" : m15,
+    "notificationDate" : MessageLookupByLibrary.simpleMessage("Notify at"),
+    "notificationDateCouldNotBeParsed" : m16,
+    "notify" : m17,
     "plural" : MessageLookupByLibrary.simpleMessage("If it has a plural form, enter here"),
-    "removed" : m16,
-    "seconds" : m17,
+    "removed" : m18,
+    "seconds" : m19,
     "setYourHome" : MessageLookupByLibrary.simpleMessage("Do you want to join an existing household or create a new one?"),
     "setYourUsername" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later."),
     "setup" : MessageLookupByLibrary.simpleMessage("Setup"),
@@ -106,9 +115,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tomorrow" : MessageLookupByLibrary.simpleMessage("tomorrow"),
     "username" : MessageLookupByLibrary.simpleMessage("Username"),
     "warnMe" : MessageLookupByLibrary.simpleMessage("Warn me before expiration"),
-    "weeks" : m18,
+    "weeks" : m20,
     "welcomeMessage" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
-    "years" : m19,
+    "years" : m21,
     "yesterday" : MessageLookupByLibrary.simpleMessage("yesterday")
   };
 }

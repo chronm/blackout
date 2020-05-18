@@ -65,6 +65,20 @@ class Charge {
     return expirationDate ?? notificationDate;
   }
 
+  Charge clone() {
+    return Charge(id: id,
+        expirationDate: expirationDate,
+        notificationDate: notificationDate,
+        product: product,
+        changes: changes,
+        home: home,
+        modelChanges: modelChanges);
+  }
+
+  bool operator ==(other) {
+    return expirationDate == other.expirationDate && notificationDate == other.notificationDate;
+  }
+
   factory Charge.fromEntry(ChargeEntry entry, Home home, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
     return Charge(
       id: entry.id,
@@ -87,7 +101,14 @@ class Charge {
     );
   }
 
-  List<Modification> getModifications(Charge from) {
-    return [];
+  List<Modification> getModifications(Charge charge) {
+    List<Modification> modifications = [];
+    if (expirationDate != charge.expirationDate) {
+      modifications.add(Modification(fieldName: "expirationDate", from: expirationDate.toString(), to: charge.expirationDate.toString()));
+    }
+    if (notificationDate != charge.notificationDate) {
+      modifications.add(Modification(fieldName: "notificationDate", from: notificationDate.toString(), to: charge.notificationDate.toString()));
+    }
+    return modifications;
   }
 }

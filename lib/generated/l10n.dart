@@ -198,6 +198,15 @@ class S {
     );
   }
 
+  String get modifyCharge {
+    return Intl.message(
+      'Modify Charge',
+      name: 'modifyCharge',
+      desc: '',
+      args: [],
+    );
+  }
+
   String years(num years) {
     return Intl.plural(
       years,
@@ -501,6 +510,42 @@ class S {
       name: 'added',
       desc: '',
       args: [amount, date],
+    );
+  }
+
+  String get expirationDate {
+    return Intl.message(
+      'Best before',
+      name: 'expirationDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get notificationDate {
+    return Intl.message(
+      'Notify at',
+      name: 'notificationDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String expirationDateCouldNotBeParsed(Object expirationDate) {
+    return Intl.message(
+      '$expirationDate is not valid',
+      name: 'expirationDateCouldNotBeParsed',
+      desc: '',
+      args: [expirationDate],
+    );
+  }
+
+  String notificationDateCouldNotBeParsed(Object notificationDate) {
+    return Intl.message(
+      '$notificationDate is not valid',
+      name: 'notificationDateCouldNotBeParsed',
+      desc: '',
+      args: [notificationDate],
     );
   }
 }

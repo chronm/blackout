@@ -16,6 +16,7 @@
   "plural": "If it has a plural form, enter here",
   "modifyCategory": "Modify Category",
   "modifyProduct": "Modify Product",
+  "modifyCharge": "Modify Charge",
   "years": "{years, plural, one{1 year} other {{years} years}}",
   "months": "{months, plural, one{1 month} other {{months} months}}",
   "weeks": "{weeks, plural, one{1 week} other {{weeks} weeks}}",
@@ -47,5 +48,9 @@
   "descriptionMustNotBeEmpty": "Description must not be empty",
   "ean": "Product code (ean)",
   "removed": "Took {amount} {date}",
-  "added": "Added {amount} {date}"
+  "added": "Added {amount} {date}",
+  "expirationDate": "Best before",
+  "notificationDate": "Notify at",
+  "expirationDateCouldNotBeParsed": "{expirationDate} is not valid",
+  "notificationDateCouldNotBeParsed": "{notificationDate} is not valid"
 }

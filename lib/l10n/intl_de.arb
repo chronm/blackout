@@ -16,6 +16,7 @@
   "plural": "Wenn es eine Pluralform hat, geben Sie hier ein",
   "modifyCategory": "Kategorie bearbeiten",
   "modifyProduct": "Produkt bearbeiten",
+  "modifyCharge": "Charge bearbeiten",
   "years": "{years, plural, one{1 Jahr} other {{years} Jahre}}",
   "months": "{months, plural, one{1 Monat} other {{months} Monate}}",
   "weeks": "{weeks, plural, one{1 Woche} other {{weeks} Wochen}}",
@@ -47,5 +48,9 @@
   "descriptionMustNotBeEmpty": "Beschreibung darf nicht leer sein",
   "ean": "Produktcode (ean)",
   "removed": "{date} {amount} entnommen",
-  "added": "{date} {amount} hinzugefügt"
+  "added": "{date} {amount} hinzugefügt",
+  "expirationDate": "Mindesthaltbarkeitsdatum",
+  "notificationDate": "Benachrichtigungsdatum",
+  "expirationDateCouldNotBeParsed": "{expirationDate} ist kein gültiger Wert",
+  "notificationDateCouldNotBeParsed": "{notificationDate} ist kein gültiger Wert"
 }
