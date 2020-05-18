@@ -28,6 +28,15 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
             Navigator.push(context, RouteBuilder.build(Routes.productDetailsRoute(product: state.product, changes: state.product.modelChanges, categories: state.categories)));
           }
         },
+        subtitleResolver: (state) {
+          if (state is ShowProduct) {
+            String hierarchy = state.product.hierarchy(context);
+            if (hierarchy != null) {
+              return Text(hierarchy);
+            }
+          }
+          return Container();
+        },
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
         bloc: widget._bloc,

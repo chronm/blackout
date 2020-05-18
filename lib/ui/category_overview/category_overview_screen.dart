@@ -30,6 +30,9 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
             Navigator.push(context, RouteBuilder.build(Routes.categoryDetailsRoute(category: state.category, changes: state.category.modelChanges)));
           }
         },
+        subtitleResolver: (state) {
+          return Container();
+        },
         bloc: widget._bloc,
         searchCallback: (search) {
           setState(() {

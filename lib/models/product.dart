@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Product extends HomeListable {
+class Product implements HomeListable {
   String id;
   String ean;
   Category category;
@@ -21,6 +21,8 @@ class Product extends HomeListable {
   double refillLimit;
   UnitEnum _unit;
   List<ModelChange> modelChanges = [];
+
+  String hierarchy(BuildContext context) => category != null ? category.title : null;
 
   Product({this.id, this.ean, @required this.description, this.category, this.charges, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
 
