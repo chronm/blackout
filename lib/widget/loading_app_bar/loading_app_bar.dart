@@ -31,7 +31,7 @@ class LoadingAppBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implem
   _LoadingAppBarState createState() => _LoadingAppBarState<B, S>();
 
   @override
-  Size get preferredSize => Size.fromHeight(56.0);
+  Size get preferredSize => Size.fromHeight(61.0);
 }
 
 class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAppBar<B, S>> {
@@ -77,14 +77,16 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
         },
       );
 
-  Widget _backButton() => IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          setState(() {
-            _searching = false;
-          });
-        },
-      );
+  Widget _backButton() => Center(
+    child: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            setState(() {
+              _searching = false;
+            });
+          },
+        ),
+  );
 
   @override
   Widget build(BuildContext context) {
