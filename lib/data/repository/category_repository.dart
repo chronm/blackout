@@ -24,8 +24,12 @@ class CategoryRepository extends DatabaseAccessor<Database> with _$CategoryRepos
       products = await db.productRepository.getAllByCategoryIdAndHomeId(categoryEntry.id, categoryEntry.homeId, recurseCategory: false);
     }
 
+
     Home home = await db.homeRepository.getHomeById(categoryEntry.homeId);
-    category = Category.fromEntry(categoryEntry, home, products: products);
+
+    List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByCategoryIdAndHomeId(categoryEntry.id, home.id);
+
+    category = Category.fromEntry(categoryEntry, home, products: products, modelChanges: modelChanges);
 
     if (recurseProducts) {
       products.forEach((p) => p.category = category);

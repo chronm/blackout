@@ -1,18 +1,17 @@
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/category.dart' show Category;
-import 'package:Blackout/models/detailable.dart';
 import 'package:Blackout/models/home.dart';
+import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/item.dart' show Item;
-import 'package:Blackout/models/listable.dart';
+import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/storageable.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Product extends Listable implements Detailable<Product>, Storageable<Product, ProductTableCompanion> {
+class Product extends HomeListable {
   String id;
   String ean;
   Category category;
@@ -21,8 +20,9 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
   Home home;
   double refillLimit;
   UnitEnum _unit;
+  List<ModelChange> modelChanges = [];
 
-  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, UnitEnum unit, @required this.home}) : _unit = unit;
+  Product({this.id, this.ean, @required this.description, this.category, this.items, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
 
   void set unit(UnitEnum unit) => _unit = unit;
 
@@ -30,10 +30,11 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
 
   double get amount => items.map((i) => i.amount).reduce((a, b) => a + b);
 
-  String get scientificAmount => category != null ? UnitConverter.toScientific(Amount(amount, Unit.fromSi(category.unit))).toString().trim() : UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString().trim();
-
   @override
   String get title => description;
+
+  @override
+  String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(category != null ? category.unit : unit))).toString();
 
   @override
   bool get expiredOrNotification {
@@ -46,30 +47,21 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
   }
 
   @override
-  bool get tooFewAvailable {
-    if (refillLimit != null) {
-      return amount <= refillLimit;
-    }
+  bool get tooFewAvailable => refillLimit != null ? amount <= refillLimit : false;
 
-    return false;
-  }
-
-  @override
   Product clone() {
-    return Product(id: id, ean: ean, category: category, description: description, items: items, home: home, refillLimit: refillLimit, unit: unit);
+    return Product(id: id, ean: ean, category: category, description: description, items: items, home: home, refillLimit: refillLimit, unit: unit, modelChanges: modelChanges);
   }
 
-  @override
   bool isValid() {
     return description != null && description != "";
   }
 
-  @override
-  bool operator ==(other) {
+   bool operator ==(other) {
     return ean == other.ean && description == other.description && refillLimit == other.refillLimit && category == other.category;
   }
 
-  factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items}) {
+  factory Product.fromEntry(ProductEntry entry, Home home, {Category category, List<Item> items, List<ModelChange> modelChanges}) {
     return Product(
       id: entry.id,
       ean: entry.ean,
@@ -79,6 +71,7 @@ class Product extends Listable implements Detailable<Product>, Storageable<Produ
       category: category,
       items: items,
       home: home,
+      modelChanges: modelChanges,
     );
   }
 

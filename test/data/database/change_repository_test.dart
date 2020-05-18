@@ -45,7 +45,7 @@ void main() {
     await homeRepository.save(change.home);
     await userRepository.save(change.user);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     expect(change.id, isNotNull);
@@ -65,7 +65,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     await userRepository.save(change.user);
     change = await changeRepository.save(change);
     String changeId = change.id;
@@ -81,7 +81,7 @@ void main() {
   });
 
   test('(Drop) Throw exception if change to drop is no database object', () async {
-    await changeRepository.findAllByHomeId(DEFAULT_HOME_ID);
+    await changeRepository.getAllByItemIdAndHomeId(DEFAULT_ITEM_ID, DEFAULT_HOME_ID, recurseItem: false);
     Change change = createDefaultChange();
     expect(() => changeRepository.drop(change), throwsAssertionError);
   });
@@ -95,13 +95,13 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     var result = await changeRepository.drop(change);
     expect(result, equals(1));
 
-    List<Change> changes = await changeRepository.findAllByHomeId(DEFAULT_HOME_ID);
+    List<Change> changes = await changeRepository.getAllByItemIdAndHomeId(DEFAULT_ITEM_ID, DEFAULT_HOME_ID, recurseItem: false);
     expect(changes.length, equals(0));
   });
 
@@ -114,7 +114,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     await userRepository.save(change.user);
     change = await changeRepository.save(change);
 
@@ -147,7 +147,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     Optional<Change> optionalChange = await changeRepository.findOneByChangeIdAndHomeId(change.id, DEFAULT_HOME_ID);
@@ -164,7 +164,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     List<Change> changes = await changeRepository.findAllByHomeId(DEFAULT_HOME_ID);
@@ -180,7 +180,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     List<Change> changes = await changeRepository.getAllByItemIdAndHomeId(item.id, DEFAULT_HOME_ID);
@@ -197,7 +197,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     List<Change> changes = await changeRepository.getAllByItemIdAndHomeId(item.id, DEFAULT_HOME_ID, recurseItem: false);
@@ -214,7 +214,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     await changeRepository.save(change);
 
     List<Change> changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDateTime.now(), DEFAULT_HOME_ID);
@@ -230,7 +230,7 @@ void main() {
 
     await homeRepository.save(change.home);
     await productRepository.save(product, createDefaultUser());
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     await changeRepository.save(change);
 
     List<Change> changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDateTime.now().subtractYears(2020), DEFAULT_HOME_ID);

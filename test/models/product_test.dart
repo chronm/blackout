@@ -73,7 +73,7 @@ void main() {
     Category category = createDefaultCategory();
     product.category = category;
 
-    expect(product.scientificAmount, equals("1"));
+    expect(product.subtitle, equals("1"));
   });
 
   test('(ScientificAmount) get scientific amount with unit form product', () async {
@@ -85,7 +85,7 @@ void main() {
     product.unit = UnitEnum.unitless;
     product.category = null;
 
-    expect(product.scientificAmount, equals("1"));
+    expect(product.subtitle, equals("1"));
   });
 
   test('(GetModifications) get all modifications between two products', () async {

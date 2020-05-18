@@ -24,7 +24,6 @@
   "minutes": "{minutes, plural, one{1 minute} other {{minutes} minutes}}",
   "seconds": "{seconds, plural, one{1 second} other {{seconds} seconds}}",
   "created": "Created",
-  "deleted": "Deleted",
   "modifiedField": "Changed {field} from {from} to {to}",
   "disabledField": "Disabled {field} ({from})",
   "enabledField": "Enabled {field} ({to})",
@@ -33,7 +32,7 @@
   "warnMe": "Warn me before expiration",
   "minimumAmount": "Minimum amount",
   "amountCouldNotBeParsed": "{amount} is not valid",
-  "createdAt": "{create} created",
+  "createdAt": "created {create}",
   "expired": "expired {time}",
   "expires": "expires {time}",
   "inWeeks": "{weeks, plural, one{in {weeks} week} other{in {weeks} weeks}}",
@@ -46,5 +45,7 @@
   "notify": "notify {time}",
   "description": "Description",
   "descriptionMustNotBeEmpty": "Description must not be empty",
-  "ean": "Product code (ean)"
+  "ean": "Product code (ean)",
+  "removed": "Took {amount} {date}",
+  "added": "Added {amount} {date}"
 }

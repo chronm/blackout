@@ -92,7 +92,7 @@ void main() {
 
     await homeRepository.save(product.home);
     product = await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     product = await productRepository.getOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
     expect(product.id, isNotNull);
@@ -111,7 +111,7 @@ void main() {
 
     await homeRepository.save(product.home);
     product = await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     product = await productRepository.getOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseItems: false);
     expect(product.id, isNotNull);

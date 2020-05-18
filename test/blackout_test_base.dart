@@ -1,5 +1,6 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
 import 'package:Blackout/bloc/home/home_bloc.dart';
+import 'package:Blackout/bloc/item/item_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
@@ -273,6 +274,8 @@ class ChangeRepositoryMock extends Mock implements ChangeRepository {}
 class HomeBlocMock extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
 
 class HomeRepositoryMock extends Mock implements HomeRepository {}
+
+class ItemBlocMock extends MockBloc<ItemEvent, ItemState> implements ItemBloc {}
 
 class ItemRepositoryMock extends Mock implements ItemRepository {}
 

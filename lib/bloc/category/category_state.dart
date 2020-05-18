@@ -9,12 +9,11 @@ class InitialCategoryState extends CategoryState {
 
 class ShowCategory extends CategoryState {
   final Category category;
-  final List<ModelChange> changes;
 
-  ShowCategory(this.category, this.changes);
+  ShowCategory(this.category);
 
   @override
-  List<Object> get props => [category, changes];
+  List<Object> get props => [category];
 }
 
 class Loading extends CategoryState implements LoadingState {

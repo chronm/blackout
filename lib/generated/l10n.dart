@@ -284,15 +284,6 @@ class S {
     );
   }
 
-  String get deleted {
-    return Intl.message(
-      'Deleted',
-      name: 'deleted',
-      desc: '',
-      args: [],
-    );
-  }
-
   String modifiedField(Object field, Object from, Object to) {
     return Intl.message(
       'Changed $field from $from to $to',
@@ -367,7 +358,7 @@ class S {
 
   String createdAt(Object create) {
     return Intl.message(
-      '$create created',
+      'created $create',
       name: 'createdAt',
       desc: '',
       args: [create],
@@ -492,6 +483,24 @@ class S {
       name: 'ean',
       desc: '',
       args: [],
+    );
+  }
+
+  String removed(Object amount, Object date) {
+    return Intl.message(
+      'Took $amount $date',
+      name: 'removed',
+      desc: '',
+      args: [amount, date],
+    );
+  }
+
+  String added(Object amount, Object date) {
+    return Intl.message(
+      'Added $amount $date',
+      name: 'added',
+      desc: '',
+      args: [amount, date],
     );
   }
 }

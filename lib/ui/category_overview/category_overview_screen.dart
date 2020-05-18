@@ -1,10 +1,11 @@
 import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
-import 'package:Blackout/util/listable_utils.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
-import 'package:flutter/material.dart' show BuildContext, Container, Key, ListView, Navigator, Scaffold, State, StatefulWidget, Widget;
+import 'package:flutter/material.dart' show BuildContext, Card, Container, Icon, Icons, Key, ListTile, ListView, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
+import 'package:flutter/widgets.dart' show BuildContext, Column, Container, Icon, Key, ListView, MainAxisSize, Navigator, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoryOverviewScreen extends StatefulWidget {
@@ -23,15 +24,10 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LoadingAppBar<CategoryBloc, CategoryState>(
-        titleResolver: (state) {
-          if (state is ShowCategory) {
-            return state.category.title;
-          }
-          return "";
-        },
+        titleResolver: (state) => state is ShowCategory ? state.category.title : "",
         titleCallback: (state) {
           if (state is ShowCategory) {
-            Navigator.push(context, RouteBuilder.build(Routes.categoryDetailsRoute(category: state.category, changes: state.changes)));
+            Navigator.push(context, RouteBuilder.build(Routes.categoryDetailsRoute(category: state.category, changes: state.category.modelChanges)));
           }
         },
         bloc: widget._bloc,
@@ -51,14 +47,36 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
               itemBuilder: (context, index) {
                 Product product = products[index];
 
-                return buildProductListItem(
-                  context,
-                  product,
-                  () async {
-                    widget._bloc.add(TapOnProduct(product));
-                    await Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
-                    widget._bloc.add(LoadCategory(state.category.id));
-                  },
+                List<Widget> trailing = <Widget>[];
+                if (product.expiredOrNotification) {
+                  trailing.add(
+                    Icon(
+                      Icons.event,
+                    ),
+                  );
+                }
+                if (product.tooFewAvailable) {
+                  trailing.add(
+                    Icon(
+                      Icons.trending_down,
+                    ),
+                  );
+                }
+
+                return Card(
+                  child: ListTile(
+                    title: Text(product.title),
+                    subtitle: Text(S.of(context).available(product.subtitle)),
+                    trailing: Column(
+                      children: trailing,
+                      mainAxisSize: MainAxisSize.min,
+                    ),
+                    onTap: () async {
+                      widget._bloc.add(TapOnProduct(product));
+                      await Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
+                      widget._bloc.add(LoadCategory(state.category.id));
+                    },
+                  ),
                 );
               },
             );

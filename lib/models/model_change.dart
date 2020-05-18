@@ -11,7 +11,6 @@ import 'package:time_machine/time_machine.dart';
 
 enum ModelChangeType {
   create,
-  delete,
   modify,
 }
 
@@ -72,8 +71,6 @@ class ModelChange {
     switch (modification) {
       case ModelChangeType.create:
         return S.of(context).created;
-      case ModelChangeType.delete:
-        return S.of(context).deleted;
       case ModelChangeType.modify:
         return modifications.map((m) {
           if (m.from != "" && (m.to == "" || m.to == null)) {

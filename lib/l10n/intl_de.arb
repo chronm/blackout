@@ -24,7 +24,6 @@
   "minutes": "{minutes, plural, one{1 Minute} other {{minutes} Minuten}}",
   "seconds": "{seconds, plural, one{1 Sekunde} other {{seconds} Sekunden}}",
   "created": "Erstellt",
-  "deleted": "Gelöscht",
   "modifiedField": "Änderung von {field} von {from} zu {to}",
   "disabledField": "{field} ({from}) deaktiviert",
   "enabledField": "{field} ({to}) aktiviert",
@@ -46,5 +45,7 @@
   "notify": "benachrichtige {time}",
   "description": "Beschreibung",
   "descriptionMustNotBeEmpty": "Beschreibung darf nicht leer sein",
-  "ean": "Produktcode (ean)"
+  "ean": "Produktcode (ean)",
+  "removed": "{date} {amount} entnommen",
+  "added": "{date} {amount} hinzugefügt"
 }

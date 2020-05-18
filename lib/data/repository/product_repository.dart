@@ -33,7 +33,9 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
 
     Home home = await db.homeRepository.getHomeById(productEntry.homeId);
 
-    product = Product.fromEntry(productEntry, home, category: category, items: items);
+    List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByProductIdAndHomeId(productEntry.id, home.id);
+
+    product = Product.fromEntry(productEntry, home, category: category, items: items, modelChanges: modelChanges);
 
     if (recurseItems) {
       product.items.forEach((i) => i.product = product);

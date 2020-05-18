@@ -39,7 +39,7 @@ void main() {
 
     await homeRepository.save(item.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     expect(item.id, isNotNull);
     expect(item.home.name, equals(DEFAULT_HOME_NAME));
@@ -53,11 +53,11 @@ void main() {
 
     await homeRepository.save(item.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
     String itemId = item.id;
 
     item.expirationDate = LocalDateTime(2000, 1, 1, 0, 0, 0);
-    await itemRepository.save(item);
+    await itemRepository.save(item, createDefaultUser());
     item = await itemRepository.getOneByItemIdAndHomeId(itemId, DEFAULT_HOME_ID);
 
     expect(item.id, equals(itemId));
@@ -79,7 +79,7 @@ void main() {
 
     await homeRepository.save(item.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     var result = await itemRepository.drop(item);
     expect(result, equals(1));
@@ -97,7 +97,7 @@ void main() {
 
     await homeRepository.save(item.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     item = await itemRepository.getOneByItemIdAndHomeId(item.id, DEFAULT_HOME_ID);
@@ -117,7 +117,7 @@ void main() {
 
     await homeRepository.save(item.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
     change = await changeRepository.save(change);
 
     item = await itemRepository.getOneByItemIdAndHomeId(item.id, DEFAULT_HOME_ID, recurseChanges: false);
@@ -146,7 +146,7 @@ void main() {
 
     await homeRepository.save(item.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     Optional<Item> optionalItem = await itemRepository.findOneByItemIdAndHomeId(item.id, DEFAULT_HOME_ID);
 
@@ -160,7 +160,7 @@ void main() {
 
     await homeRepository.save(item.home);
     await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     List<Item> items = await itemRepository.findAllByHomeId(DEFAULT_HOME_ID, recurseChanges: false);
     expect(items.length, equals(1));
@@ -172,7 +172,7 @@ void main() {
     item.product = product;
     await homeRepository.save(item.home);
     product = await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     List<Item> items = await itemRepository.getAllByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
     expect(items.length, equals(1));
@@ -185,7 +185,7 @@ void main() {
     item.product = product;
     await homeRepository.save(item.home);
     product = await productRepository.save(product, createDefaultUser());
-    item = await itemRepository.save(item);
+    item = await itemRepository.save(item, createDefaultUser());
 
     List<Item> items = await itemRepository.getAllByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseProduct: false);
     expect(items.length, equals(1));

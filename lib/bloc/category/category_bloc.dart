@@ -30,16 +30,12 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     if (event is SaveCategory) {
       User user = await blackoutPreferences.getUser();
       Category category = await categoryRepository.save(event.category, user);
-      List<ModelChange> changes = await modelChangeRepository.findAllByCategoryIdAndHomeId(category.id, category.home.id)
-        ..sort((a, b) => a.modificationDate.compareTo(b.modificationDate));
-      yield ShowCategory(category, changes);
+      yield ShowCategory(category);
     }
     if (event is LoadCategory) {
       Home home = await blackoutPreferences.getHome();
       Category category = await categoryRepository.getOneByCategoryIdAndHomeId(event.categoryId, home.id);
-      List<ModelChange> changes = await modelChangeRepository.findAllByCategoryIdAndHomeId(event.categoryId, home.id)
-        ..sort((a, b) => a.modificationDate.compareTo(b.modificationDate));
-      yield ShowCategory(category, changes);
+      yield ShowCategory(category);
     }
     if (event is TapOnProduct) {
       productBloc.add(LoadProduct(event.product.id));
