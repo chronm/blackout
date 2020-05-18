@@ -10,6 +10,7 @@ import 'package:Blackout/widget/plural_name_widget/plural_name_widget.dart';
 import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/unit_widget/unit_widget.dart';
+import 'package:flui/flui.dart';
 import 'package:flutter/material.dart';
 
 class CategoryDetailsScreen extends StatefulWidget {
@@ -41,10 +42,12 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(S.of(context).modifyCategory),
-        bottom: PreferredSize(
-          preferredSize: Size(double.infinity, 5.0),
-          child: Container(),
+        title: FLAppBarTitle(
+          title: S.of(context).modifyCategory,
+          titleStyle: TextStyle(
+            fontSize: 20,
+          ),
+          layout: FLAppBarTitleLayout.vertical,
         ),
         actions: <Widget>[
           IconButton(

@@ -31,7 +31,7 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
           }
         },
         subtitleResolver: (state) {
-          return Container();
+          return null;
         },
         bloc: widget._bloc,
         searchCallback: (search) {

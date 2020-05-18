@@ -11,6 +11,7 @@ import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.
 import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/unit_widget/unit_widget.dart';
+import 'package:flui/flui.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -43,10 +44,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(S.of(context).modifyProduct),
-        bottom: PreferredSize(
-          preferredSize: Size(double.infinity, 5.0),
-          child: Text(widget.product.hierarchy(context)),
+        title: FLAppBarTitle(
+          title: S.of(context).modifyProduct,
+          titleStyle: TextStyle(
+            fontSize: 20,
+          ),
+          subtitle: widget.product.hierarchy(context),
+          subtitleStyle: TextStyle(
+            fontSize: 15,
+          ),
+          layout: FLAppBarTitleLayout.vertical,
         ),
         actions: <Widget>[
           IconButton(

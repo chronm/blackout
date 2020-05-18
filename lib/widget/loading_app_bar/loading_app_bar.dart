@@ -1,11 +1,11 @@
 import 'package:Blackout/bloc/main/main_bloc.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flui/flui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef SearchCallback = void Function(String search);
 typedef TitleResolver<S> = String Function(S state);
-typedef SubtitleResolver<S> = Widget Function(S state);
+typedef SubtitleResolver<S> = String Function(S state);
 typedef TitleCallback<S> = void Function(S state);
 
 class LoadingAppBar<B extends Bloc<dynamic, S>, S> extends StatefulWidget implements PreferredSizeWidget {
@@ -47,18 +47,38 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
         onChanged: widget.searchCallback,
       );
 
-  Widget _title(S state) => InkWell(
-        onTap: () => widget.titleCallback(state),
-        child: SizedBox(
-          height: 56,
-          child: Center(
-            child: AutoSizeText(
-              widget.title ?? widget.titleResolver(state),
-              maxLines: 1,
+  Widget _title(S state) {
+    bool loading;
+    if (state is LoadingState) {
+      loading = true;
+    } else {
+      loading = false;
+    }
+
+    return InkWell(
+      onTap: () => widget.titleCallback(state),
+      child: Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: FLAppBarTitle(
+                title: widget.title ?? widget.titleResolver(state),
+                titleStyle: TextStyle(
+                  fontSize: 20,
+                ),
+                subtitle: widget.subtitleResolver != null ? widget.subtitleResolver(state) : null,
+                subtitleStyle: TextStyle(
+                  fontSize: 15,
+                ),
+                layout: FLAppBarTitleLayout.vertical,
+                showLoading: loading,
+              ),
             ),
           ),
-        ),
-      );
+        ],
+      ),
+    );
+  }
 
   Widget _searchButton() => IconButton(
         icon: Icon(Icons.search),
@@ -78,7 +98,7 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
       );
 
   Widget _backButton() => Center(
-    child: IconButton(
+        child: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             setState(() {
@@ -86,7 +106,7 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
             });
           },
         ),
-  );
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -99,18 +119,6 @@ class _LoadingAppBarState<B extends Bloc<dynamic, S>, S> extends State<LoadingAp
         },
       ),
       centerTitle: true,
-      bottom: PreferredSize(
-        preferredSize: Size(double.infinity, 5.0),
-        child: BlocBuilder<B, S>(
-          bloc: widget.bloc,
-          builder: (context, state) {
-            if (state is LoadingState) {
-              return LinearProgressIndicator();
-            }
-            return widget.subtitleResolver != null ? widget.subtitleResolver(state) : Container();
-          },
-        ),
-      ),
       actions: widget.searchCallback != null
           ? <Widget>[
               _searching ? _clearButton() : _searchButton(),

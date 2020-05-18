@@ -5,6 +5,7 @@ import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/widget/expiration_date_picker/expiration_date_picker.dart';
 import 'package:Blackout/widget/notification_date_picker/notification_date_picker.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
+import 'package:flui/flui.dart';
 import 'package:flutter/material.dart';
 
 class ChargeDetailsScreen extends StatefulWidget {
@@ -33,10 +34,16 @@ class _ChargeDetailsScreenState extends State<ChargeDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(S.of(context).modifyCharge),
-        bottom: PreferredSize(
-          preferredSize: Size(double.infinity, 5.0),
-          child: Text(widget.charge.hierarchy(context)),
+        title: FLAppBarTitle(
+          title: S.of(context).modifyCharge,
+          titleStyle: TextStyle(
+            fontSize: 20,
+          ),
+          subtitle: widget.charge.hierarchy(context),
+          subtitleStyle: TextStyle(
+            fontSize: 15,
+          ),
+          layout: FLAppBarTitleLayout.vertical,
         ),
         actions: [
           IconButton(

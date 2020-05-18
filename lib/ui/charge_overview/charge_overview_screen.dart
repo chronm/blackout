@@ -29,9 +29,9 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
         },
         subtitleResolver: (state) {
           if (state is ShowCharge) {
-            return Text(state.charge.hierarchy(context));
+            return state.charge.hierarchy(context);
           }
-          return Container();
+          return "";
         },
       ),
       body: BlocBuilder<ChargeBloc, ChargeState>(
