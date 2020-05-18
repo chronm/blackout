@@ -15,8 +15,8 @@ class S {
     AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final String name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       return S();
@@ -266,15 +266,6 @@ class S {
     );
   }
 
-  String get deleted {
-    return Intl.message(
-      'Deleted',
-      name: 'deleted',
-      desc: '',
-      args: [],
-    );
-  }
-
   String modifiedField(Object field, Object from, Object to) {
     return Intl.message(
       'Changed $field from $from to $to',
@@ -349,7 +340,7 @@ class S {
 
   String createdAt(Object create) {
     return Intl.message(
-      '$create created',
+      'created $create',
       name: 'createdAt',
       desc: '',
       args: [create],
@@ -476,6 +467,24 @@ class S {
       args: [],
     );
   }
+
+  String removed(Object amount, Object date) {
+    return Intl.message(
+      'Took $amount $date',
+      name: 'removed',
+      desc: '',
+      args: [amount, date],
+    );
+  }
+
+  String added(Object amount, Object date) {
+    return Intl.message(
+      'Added $amount $date',
+      name: 'added',
+      desc: '',
+      args: [amount, date],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -497,7 +506,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   bool _isSupported(Locale locale) {
     if (locale != null) {
-      for (Locale supportedLocale in supportedLocales) {
+      for (var supportedLocale in supportedLocales) {
         if (supportedLocale.languageCode == locale.languageCode) {
           return true;
         }

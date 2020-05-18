@@ -1,10 +1,11 @@
 import 'package:Blackout/models/unit/unit.dart';
 
-abstract class Listable {
+abstract class HomeListable {
   String get title;
-  double get amount;
+
+  String get subtitle;
+
   bool get expiredOrNotification;
+
   bool get tooFewAvailable;
-  UnitEnum get unit;
-  String get scientificAmount;
 }

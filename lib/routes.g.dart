@@ -27,7 +27,7 @@ abstract class Routes extends Equatable {
       @required List<ModelChange> changes,
       @required List<Category> categories}) = ProductDetailsRoute;
 
-  factory Routes.itemRoute() = ItemRoute;
+  factory Routes.itemOverviewRoute() = ItemOverviewRoute;
 
   final _Routes _type;
 
@@ -39,7 +39,7 @@ abstract class Routes extends Equatable {
       @required R Function(CategoryDetailsRoute) categoryDetailsRoute,
       @required R Function(ProductOverviewRoute) productOverviewRoute,
       @required R Function(ProductDetailsRoute) productDetailsRoute,
-      @required R Function(ItemRoute) itemRoute}) {
+      @required R Function(ItemOverviewRoute) itemOverviewRoute}) {
     assert(() {
       if (homeRoute == null ||
           setupRoute == null ||
@@ -47,7 +47,7 @@ abstract class Routes extends Equatable {
           categoryDetailsRoute == null ||
           productOverviewRoute == null ||
           productDetailsRoute == null ||
-          itemRoute == null) {
+          itemOverviewRoute == null) {
         throw 'check for all possible cases';
       }
       return true;
@@ -65,8 +65,8 @@ abstract class Routes extends Equatable {
         return productOverviewRoute(this as ProductOverviewRoute);
       case _Routes.ProductDetailsRoute:
         return productDetailsRoute(this as ProductDetailsRoute);
-      case _Routes.ItemRoute:
-        return itemRoute(this as ItemRoute);
+      case _Routes.ItemOverviewRoute:
+        return itemOverviewRoute(this as ItemOverviewRoute);
     }
   }
 
@@ -85,7 +85,7 @@ abstract class Routes extends Equatable {
       @required
           FutureOr<R> Function(ProductDetailsRoute) productDetailsRoute,
       @required
-          FutureOr<R> Function(ItemRoute) itemRoute}) {
+          FutureOr<R> Function(ItemOverviewRoute) itemOverviewRoute}) {
     assert(() {
       if (homeRoute == null ||
           setupRoute == null ||
@@ -93,7 +93,7 @@ abstract class Routes extends Equatable {
           categoryDetailsRoute == null ||
           productOverviewRoute == null ||
           productDetailsRoute == null ||
-          itemRoute == null) {
+          itemOverviewRoute == null) {
         throw 'check for all possible cases';
       }
       return true;
@@ -111,8 +111,8 @@ abstract class Routes extends Equatable {
         return productOverviewRoute(this as ProductOverviewRoute);
       case _Routes.ProductDetailsRoute:
         return productDetailsRoute(this as ProductDetailsRoute);
-      case _Routes.ItemRoute:
-        return itemRoute(this as ItemRoute);
+      case _Routes.ItemOverviewRoute:
+        return itemOverviewRoute(this as ItemOverviewRoute);
     }
   }
 
@@ -123,7 +123,7 @@ abstract class Routes extends Equatable {
       R Function(CategoryDetailsRoute) categoryDetailsRoute,
       R Function(ProductOverviewRoute) productOverviewRoute,
       R Function(ProductDetailsRoute) productDetailsRoute,
-      R Function(ItemRoute) itemRoute,
+      R Function(ItemOverviewRoute) itemOverviewRoute,
       @required R Function(Routes) orElse}) {
     assert(() {
       if (orElse == null) {
@@ -150,9 +150,9 @@ abstract class Routes extends Equatable {
       case _Routes.ProductDetailsRoute:
         if (productDetailsRoute == null) break;
         return productDetailsRoute(this as ProductDetailsRoute);
-      case _Routes.ItemRoute:
-        if (itemRoute == null) break;
-        return itemRoute(this as ItemRoute);
+      case _Routes.ItemOverviewRoute:
+        if (itemOverviewRoute == null) break;
+        return itemOverviewRoute(this as ItemOverviewRoute);
     }
     return orElse(this);
   }
@@ -164,7 +164,7 @@ abstract class Routes extends Equatable {
       FutureOr<R> Function(CategoryDetailsRoute) categoryDetailsRoute,
       FutureOr<R> Function(ProductOverviewRoute) productOverviewRoute,
       FutureOr<R> Function(ProductDetailsRoute) productDetailsRoute,
-      FutureOr<R> Function(ItemRoute) itemRoute,
+      FutureOr<R> Function(ItemOverviewRoute) itemOverviewRoute,
       @required FutureOr<R> Function(Routes) orElse}) {
     assert(() {
       if (orElse == null) {
@@ -191,9 +191,9 @@ abstract class Routes extends Equatable {
       case _Routes.ProductDetailsRoute:
         if (productDetailsRoute == null) break;
         return productDetailsRoute(this as ProductDetailsRoute);
-      case _Routes.ItemRoute:
-        if (itemRoute == null) break;
-        return itemRoute(this as ItemRoute);
+      case _Routes.ItemOverviewRoute:
+        if (itemOverviewRoute == null) break;
+        return itemOverviewRoute(this as ItemOverviewRoute);
     }
     return orElse(this);
   }
@@ -206,7 +206,7 @@ abstract class Routes extends Equatable {
       FutureOr<void> Function(CategoryDetailsRoute) categoryDetailsRoute,
       FutureOr<void> Function(ProductOverviewRoute) productOverviewRoute,
       FutureOr<void> Function(ProductDetailsRoute) productDetailsRoute,
-      FutureOr<void> Function(ItemRoute) itemRoute}) {
+      FutureOr<void> Function(ItemOverviewRoute) itemOverviewRoute}) {
     assert(() {
       if (homeRoute == null &&
           setupRoute == null &&
@@ -214,7 +214,7 @@ abstract class Routes extends Equatable {
           categoryDetailsRoute == null &&
           productOverviewRoute == null &&
           productDetailsRoute == null &&
-          itemRoute == null) {
+          itemOverviewRoute == null) {
         throw 'provide at least one branch';
       }
       return true;
@@ -238,9 +238,9 @@ abstract class Routes extends Equatable {
       case _Routes.ProductDetailsRoute:
         if (productDetailsRoute == null) break;
         return productDetailsRoute(this as ProductDetailsRoute);
-      case _Routes.ItemRoute:
-        if (itemRoute == null) break;
-        return itemRoute(this as ItemRoute);
+      case _Routes.ItemOverviewRoute:
+        if (itemOverviewRoute == null) break;
+        return itemOverviewRoute(this as ItemOverviewRoute);
     }
   }
 
@@ -334,13 +334,13 @@ class ProductDetailsRoute extends Routes {
 }
 
 @immutable
-class ItemRoute extends Routes {
-  const ItemRoute._() : super(_Routes.ItemRoute);
+class ItemOverviewRoute extends Routes {
+  const ItemOverviewRoute._() : super(_Routes.ItemOverviewRoute);
 
-  factory ItemRoute() {
-    _instance ??= const ItemRoute._();
+  factory ItemOverviewRoute() {
+    _instance ??= const ItemOverviewRoute._();
     return _instance;
   }
 
-  static ItemRoute _instance;
+  static ItemOverviewRoute _instance;
 }

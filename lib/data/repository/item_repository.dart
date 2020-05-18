@@ -3,9 +3,13 @@ import 'package:Blackout/data/database/item_table.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/item.dart';
+import 'package:Blackout/models/model_change.dart';
+import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:optional/optional.dart';
+import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
 part 'item_repository.g.dart';
@@ -29,7 +33,9 @@ class ItemRepository extends DatabaseAccessor<Database> with _$ItemRepositoryMix
 
     Home home = await db.homeRepository.getHomeById(itemEntry.homeId);
 
-    item = Item.fromEntry(itemEntry, home, product: product, changes: changes);
+    List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByItemIdAndHomeId(itemEntry.id, home.id);
+
+    item = Item.fromEntry(itemEntry, home, product: product, changes: changes, modelChanges: modelChanges);
 
     if (recurseChanges) {
       item.changes.forEach((c) => c.item = item);
@@ -88,8 +94,23 @@ class ItemRepository extends DatabaseAccessor<Database> with _$ItemRepositoryMix
     return items;
   }
 
-  Future<Item> save(Item item) async {
-    item.id ??= Uuid().v4();
+  Future<Item> save(Item item, User user) async {
+    if (item.id == null) {
+      item.id =Uuid().v4();
+      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: item.home, user: user, modification: ModelChangeType.create, itemId: item.id);
+      await db.modelChangeRepository.save(change);
+    } else {
+      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: item.home, user: user, modification: ModelChangeType.modify, itemId: item.id);
+      await db.modelChangeRepository.save(change);
+
+      Item oldItem = await getOneByItemIdAndHomeId(item.id, item.home.id);
+      List<Modification> modifications = oldItem.getModifications(item);
+      for (Modification modification in modifications) {
+        modification.home = item.home;
+        modification.modelChange = change;
+        db.modificationRepository.save(modification);
+      }
+    }
 
     await into(itemTable).insertOnConflictUpdate(item.toCompanion());
 

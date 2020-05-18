@@ -61,13 +61,13 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     User user = await _blackoutPreferences.getUser();
     Product product = Product(description: "Marmorkuchen", unit: UnitEnum.weight, home: home, refillLimit: 0.8);
     await productRepository.save(product, user);
-    Item item = Item(id: Uuid().v4(), notificationDate: LocalDateTime.now().subtractMonths(1), product: product, home: home);
-    Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 1, item: item);
-    Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -0.50505, item: item);
+    Item item = Item(notificationDate: LocalDateTime.now().subtractMonths(1), product: product, home: home);
+    await itemRepository.save(item, user);
+    Change change = Change(user: user, home: home, changeDate: LocalDateTime.now(), value: 1, item: item);
+    Change change2 = Change(user: user, home: home, changeDate: LocalDateTime.now(), value: -0.50505, item: item);
     product.items = [item];
     item.changes = [change, change2];
 
-    await itemRepository.save(item);
     await changeRepository.save(change);
     await changeRepository.save(change2);
   }
@@ -82,8 +82,10 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     await productRepository.save(product, user);
     Product product2 = Product(ean: "lalelu2", description: "Freilandeier 10 Stück L", category: category, home: home);
     await productRepository.save(product2, user);
-    Item item = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addDays(1), product: product, home: home);
-    Item item2 = Item(id: Uuid().v4(), expirationDate: LocalDateTime.now().addDays(20), product: product2, home: home);
+    Item item = Item(expirationDate: LocalDateTime.now().addDays(1), product: product, home: home);
+    await itemRepository.save(item, user);
+    Item item2 = Item(expirationDate: LocalDateTime.now().addDays(20), product: product2, home: home);
+    await itemRepository.save(item2, user);
     Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item);
     Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -5, item: item);
     Change change3 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, item: item2);
@@ -93,8 +95,6 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     item.changes = [change, change2];
     item2.changes = [change3];
 
-    await itemRepository.save(item);
-    await itemRepository.save(item2);
     await changeRepository.save(change);
     await changeRepository.save(change2);
     await changeRepository.save(change3);

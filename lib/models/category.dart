@@ -1,10 +1,9 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/detailable.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/listable.dart';
+import 'package:Blackout/models/home_listable.dart';
+import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart' show Product;
-import 'package:Blackout/models/storageable.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Category implements Listable, Detailable<Category>, Storageable<Category, CategoryTableCompanion> {
+class Category implements HomeListable {
   String id;
   String name;
   String pluralName;
@@ -21,13 +20,17 @@ class Category implements Listable, Detailable<Category>, Storageable<Category, 
   Home home;
   double refillLimit;
   UnitEnum unit;
+  List<ModelChange> modelChanges = [];
 
-  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products = const [], @required this.home}) : products = products;
+  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products = const [], @required this.home, this.modelChanges}) : products = products;
 
-  String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString().trim();
   double get amount => products.map((p) => p.amount).reduce((a, b) => a + b);
 
+  @override
   String get title => amount > 1 ? (pluralName != null ? pluralName : name) : name;
+
+  @override
+  String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString();
 
   @override
   bool get expiredOrNotification {
@@ -39,22 +42,19 @@ class Category implements Listable, Detailable<Category>, Storageable<Category, 
     return (amount <= refillLimit) || products.any((product) => product.tooFewAvailable);
   }
 
-  @override
   Category clone() {
-    return Category(id: this.id, name: this.name, pluralName: this.pluralName, warnInterval: this.warnInterval, refillLimit: this.refillLimit, unit: this.unit, products: this.products, home: this.home);
+    return Category(id: id, name: name, pluralName: pluralName, warnInterval: warnInterval, refillLimit: refillLimit, unit: unit, products: products, home: home, modelChanges: modelChanges);
   }
 
-  @override
   bool isValid() {
     return unit != null && name != null && name != "";
   }
 
-  @override
   bool operator ==(other) {
     return name == other.name && pluralName == other.pluralName && warnInterval == other.warnInterval && unit == other.unit && refillLimit == other.refillLimit;
   }
 
-  factory Category.fromEntry(CategoryEntry categoryEntry, Home home, {List<Product> products}) {
+  factory Category.fromEntry(CategoryEntry categoryEntry, Home home, {List<Product> products, List<ModelChange> modelChanges}) {
     return Category(
       id: categoryEntry.id,
       name: categoryEntry.name,
@@ -64,10 +64,10 @@ class Category implements Listable, Detailable<Category>, Storageable<Category, 
       warnInterval: periodFromISO8601String(categoryEntry.warnInterval),
       products: products,
       home: home,
+      modelChanges: modelChanges,
     );
   }
 
-  @override
   CategoryTableCompanion toCompanion() {
     return CategoryTableCompanion(
       id: Value(id),
@@ -80,7 +80,6 @@ class Category implements Listable, Detailable<Category>, Storageable<Category, 
     );
   }
 
-  @override
   List<Modification> getModifications(Category other) {
     List<Modification> modifications = [];
     if (unit != other.unit) {

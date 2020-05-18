@@ -1,3 +1,4 @@
+import 'package:Blackout/bloc/item/item_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
@@ -16,6 +17,7 @@ void main() {
   CategoryRepository categoryRepository;
   BlackoutPreferences blackoutPreferences;
   ProductRepository productRepository;
+  ItemBloc itemBloc;
   ProductBloc productBloc;
 
   setUp(() {
@@ -23,7 +25,8 @@ void main() {
     blackoutPreferences = BlackoutPreferencesMock();
     categoryRepository = CategoryRepositoryMock();
     productRepository = ProductRepositoryMock();
-    productBloc = ProductBloc(modelChangeRepository, categoryRepository, blackoutPreferences, productRepository);
+    itemBloc = ItemBlocMock();
+    productBloc = ProductBloc(modelChangeRepository, categoryRepository, blackoutPreferences, productRepository, itemBloc);
   });
 
   test('Save product emits ShowProduct', () {

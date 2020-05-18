@@ -3,24 +3,18 @@ import 'package:Blackout/bloc/main/main_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/category_repository.dart';
-import 'package:Blackout/data/repository/change_repository.dart';
-import 'package:Blackout/data/repository/item_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/models/category.dart';
-import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/item.dart';
-import 'package:Blackout/models/listable.dart';
+import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart' show Bloc;
 import 'package:equatable/equatable.dart' show Equatable;
-import 'package:time_machine/time_machine.dart';
-import 'package:uuid/uuid.dart';
+import 'package:flutter/material.dart';
 
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
@@ -43,7 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       Home home = await blackoutPreferences.getHome();
       List<Category> categories = await categoryRepository.findAllByHomeId(home.id);
       List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(home.id);
-      List<Listable> cards = <Listable>[]
+      List<HomeListable> cards = <HomeListable>[]
         ..addAll(products)
         ..addAll(categories)
         ..sort((a, b) => a.title.compareTo(b.title));

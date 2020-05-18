@@ -19,3 +19,12 @@ class SaveProduct extends ProductEvent {
   @override
   List<Object> get props => [product];
 }
+
+class TapOnItem extends ProductEvent {
+  final Item item;
+
+  TapOnItem(this.item);
+
+  @override
+  List<Object> get props => [item];
+}
