@@ -7,13 +7,13 @@ class LoadAll extends HomeEvent {
   List<Object> get props => [];
 }
 
-class TapOnCategory extends HomeEvent {
-  final Category category;
+class TapOnGroup extends HomeEvent {
+  final Group group;
 
-  TapOnCategory(this.category);
+  TapOnGroup(this.group);
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [group];
 }
 
 class TapOnProduct extends HomeEvent {

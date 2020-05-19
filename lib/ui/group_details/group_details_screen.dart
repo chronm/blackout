@@ -1,7 +1,7 @@
-import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/bloc/group/group_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/name_text_field/name_text_field.dart';
@@ -13,19 +13,19 @@ import 'package:Blackout/widget/unit_widget/unit_widget.dart';
 import 'package:flui/flui.dart';
 import 'package:flutter/material.dart';
 
-class CategoryDetailsScreen extends StatefulWidget {
-  final CategoryBloc bloc = sl<CategoryBloc>();
-  final Category category;
+class GroupDetailsScreen extends StatefulWidget {
+  final GroupBloc bloc = sl<GroupBloc>();
+  final Group group;
   final List<ModelChange> changes;
 
-  CategoryDetailsScreen(this.category, this.changes, {Key key}) : super(key: key);
+  GroupDetailsScreen(this.group, this.changes, {Key key}) : super(key: key);
 
   @override
-  _CategoryDetailsScreenState createState() => _CategoryDetailsScreenState();
+  _GroupDetailsScreenState createState() => _GroupDetailsScreenState();
 }
 
-class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
-  Category _category;
+class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
+  Group _group;
   Key _refillLimitKey;
   bool _errorInPeriod = false;
   bool _errorInRefillLimit = false;
@@ -34,7 +34,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   void initState() {
     super.initState();
     _refillLimitKey = GlobalKey();
-    _category = widget.category.clone();
+    _group = widget.group.clone();
   }
 
   @override
@@ -43,7 +43,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: FLAppBarTitle(
-          title: S.of(context).modifyCategory,
+          title: S.of(context).modifyGroup,
           titleStyle: TextStyle(
             fontSize: 20,
           ),
@@ -52,9 +52,9 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: _category.isValid() && !_errorInPeriod && !_errorInRefillLimit && _category != widget.category
+            onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && _group != widget.group
                 ? () {
-                    widget.bloc.add(SaveCategory(_category));
+                    widget.bloc.add(SaveGroup(_group));
                     Navigator.pop(context);
                   }
                 : null,
@@ -68,10 +68,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.all(8.8),
                 child: NameTextField(
-                  initialValue: _category.name,
+                  initialValue: _group.name,
                   callback: (value) {
                     setState(() {
-                      _category.name = value;
+                      _group.name = value;
                     });
                   },
                 ),
@@ -81,10 +81,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.all(8.8),
                 child: PluralNameWidget(
-                  initialValue: _category.pluralName,
+                  initialValue: _group.pluralName,
                   callback: (value) {
                     setState(() {
-                      _category.pluralName = value;
+                      _group.pluralName = value;
                     });
                   },
                 ),
@@ -94,10 +94,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.all(8.8),
                 child: PeriodWidget(
-                  initialPeriod: _category.warnInterval,
+                  initialPeriod: _group.warnInterval,
                   callback: (period, error) {
                     setState(() {
-                      _category.warnInterval = period;
+                      _group.warnInterval = period;
                       _errorInPeriod = error;
                     });
                   },
@@ -112,10 +112,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                     child: Padding(
                       padding: EdgeInsets.all(8.8),
                       child: UnitWidget(
-                        initialUnit: _category.unit,
+                        initialUnit: _group.unit,
                         callback: (unit) {
                           setState(() {
-                            _category.unit = unit;
+                            _group.unit = unit;
                             _refillLimitKey = GlobalKey();
                           });
                         },
@@ -128,11 +128,11 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                         padding: EdgeInsets.all(8.8),
                         child: RefillLimitWidget(
                           key: _refillLimitKey,
-                          initialUnit: _category.unit,
-                          initialRefillLimit: _category.refillLimit,
+                          initialUnit: _group.unit,
+                          initialRefillLimit: _group.refillLimit,
                           callback: (amount, error) {
                             setState(() {
-                              _category.refillLimit = amount;
+                              _group.refillLimit = amount;
                               _errorInRefillLimit = error;
                             });
                           },

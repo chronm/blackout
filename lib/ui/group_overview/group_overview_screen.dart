@@ -1,4 +1,4 @@
-import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/bloc/group/group_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
@@ -8,26 +8,26 @@ import 'package:flutter/material.dart' show BuildContext, Card, Container, Icon,
 import 'package:flutter/widgets.dart' show BuildContext, Column, Container, Icon, Key, ListView, MainAxisSize, Navigator, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoryOverviewScreen extends StatefulWidget {
-  final CategoryBloc _bloc = sl<CategoryBloc>();
+class GroupOverviewScreen extends StatefulWidget {
+  final GroupBloc _bloc = sl<GroupBloc>();
 
-  CategoryOverviewScreen({Key key}) : super(key: key);
+  GroupOverviewScreen({Key key}) : super(key: key);
 
   @override
-  _CategoryOverviewScreenState createState() => _CategoryOverviewScreenState();
+  _GroupOverviewScreenState createState() => _GroupOverviewScreenState();
 }
 
-class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
+class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
   String searchString = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LoadingAppBar<CategoryBloc, CategoryState>(
-        titleResolver: (state) => state is ShowCategory ? state.category.title : "",
+      appBar: LoadingAppBar<GroupBloc, GroupState>(
+        titleResolver: (state) => state is ShowGroup ? state.group.title : "",
         titleCallback: (state) {
-          if (state is ShowCategory) {
-            Navigator.push(context, RouteBuilder.build(Routes.categoryDetailsRoute(category: state.category, changes: state.category.modelChanges)));
+          if (state is ShowGroup) {
+            Navigator.push(context, RouteBuilder.build(Routes.groupDetailsRoute(group: state.group, changes: state.group.modelChanges)));
           }
         },
         subtitleResolver: (state) {
@@ -40,11 +40,11 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
           });
         },
       ),
-      body: BlocBuilder<CategoryBloc, CategoryState>(
+      body: BlocBuilder<GroupBloc, GroupState>(
         bloc: widget._bloc,
         builder: (context, state) {
-          if (state is ShowCategory) {
-            List<Product> products = state.category.products.where((product) => product.title.toLowerCase().contains(searchString)).toList();
+          if (state is ShowGroup) {
+            List<Product> products = state.group.products.where((product) => product.title.toLowerCase().contains(searchString)).toList();
             return ListView.builder(
               itemCount: products.length,
               itemBuilder: (context, index) {
@@ -77,7 +77,7 @@ class _CategoryOverviewScreenState extends State<CategoryOverviewScreen> {
                     onTap: () async {
                       widget._bloc.add(TapOnProduct(product));
                       await Navigator.push(context, RouteBuilder.build(Routes.productOverviewRoute()));
-                      widget._bloc.add(LoadCategory(state.category.id));
+                      widget._bloc.add(LoadGroup(state.group.id));
                     },
                   ),
                 );

@@ -1,10 +1,10 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
@@ -18,7 +18,7 @@ void main() {
   Database _database;
   ChargeRepository chargeRepository;
   ProductRepository productRepository;
-  CategoryRepository categoryRepository;
+  GroupRepository groupRepository;
   HomeRepository homeRepository;
   UserRepository userRepository;
 
@@ -26,7 +26,7 @@ void main() {
     _database = Database.forTesting(VmDatabase.memory());
     chargeRepository = _database.chargeRepository;
     productRepository = _database.productRepository;
-    categoryRepository = _database.categoryRepository;
+    groupRepository = _database.groupRepository;
     homeRepository = _database.homeRepository;
     userRepository = _database.userRepository;
   });
@@ -153,44 +153,44 @@ void main() {
     expect(products.length, equals(1));
   });
 
-  test('(GetAllByCategoryId) Get all products by categoryId if recurseCategory=true', () async {
-    Category category = createDefaultCategory();
+  test('(GetAllByGroupId) Get all products by groupId if recurseGroup=true', () async {
+    Group group = createDefaultGroup();
     Product product = createDefaultProduct();
-    product.category = category;
+    product.group = group;
     await homeRepository.save(product.home);
-    category = await categoryRepository.save(category, createDefaultUser());
+    group = await groupRepository.save(group, createDefaultUser());
     product = await productRepository.save(product, createDefaultUser());
 
-    List<Product> products = await productRepository.getAllByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
+    List<Product> products = await productRepository.getAllByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
     expect(products.length, equals(1));
-    expect(products[0].category, isNotNull);
+    expect(products[0].group, isNotNull);
   });
 
-  test('(GetAllByCategoryId) Get all producty by categoryId if recurseCategory=false', () async {
-    Category category = createDefaultCategory();
+  test('(GetAllByGroupId) Get all producty by groupId if recurseGroup=false', () async {
+    Group group = createDefaultGroup();
     Product product = createDefaultProduct();
-    product.category = category;
+    product.group = group;
     await homeRepository.save(product.home);
-    category = await categoryRepository.save(category, createDefaultUser());
+    group = await groupRepository.save(group, createDefaultUser());
     product = await productRepository.save(product, createDefaultUser());
 
-    List<Product> products = await productRepository.getAllByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID, recurseCategory: false);
+    List<Product> products = await productRepository.getAllByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID, recurseGroup: false);
     expect(products.length, equals(1));
-    expect(products[0].category, isNull);
+    expect(products[0].group, isNull);
   });
 
-  test('(findAllByHomeIdAndCategoryIsNull) Find all products for category and without a category', () async {
-    Category category = createDefaultCategory();
+  test('(findAllByHomeIdAndGroupIsNull) Find all products for group and without a group', () async {
+    Group group = createDefaultGroup();
     Product product1 = createDefaultProduct();
     Product product2 = createDefaultProduct()..ean = "otherEan";
     product2.description = "product2";
     await homeRepository.save(product1.home);
     User user = await userRepository.save(createDefaultUser());
-    category = await categoryRepository.save(category, user);
+    group = await groupRepository.save(group, user);
     product1 = await productRepository.save(product1, user);
     product2 = await productRepository.save(product2, user);
 
-    List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(category.home.id);
+    List<Product> products = await productRepository.findAllByHomeIdAndGroupIsNull(group.home.id);
     expect(products.length, equals(2));
     expect(products[0].description, DEFAULT_PRODUCT_DESCRIPTION);
     expect(products[1].description, "product2");

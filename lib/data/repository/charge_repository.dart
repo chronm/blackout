@@ -76,7 +76,7 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
 
     Product product;
     if (recurseProduct) {
-      product = await db.productRepository.getOneByProductIdAndHomeId(productId, homeId, recurseCategory: false, recurseCharges: false);
+      product = await db.productRepository.getOneByProductIdAndHomeId(productId, homeId, recurseGroup: false, recurseCharges: false);
     }
 
     var query = select(chargeTable)..where((p) => p.productId.equals(productId));

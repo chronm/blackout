@@ -9,10 +9,10 @@ class ProductInitialState extends ProductState {
 
 class ShowProduct extends ProductState {
   final Product product;
-  final List<Category> categories;
+  final List<Group> groups;
 
-  ShowProduct(this.product, this.categories);
+  ShowProduct(this.product, this.groups);
 
   @override
-  List<Object> get props => [product, categories];
+  List<Object> get props => [product, groups];
 }

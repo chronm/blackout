@@ -1,10 +1,10 @@
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/widget/category_selector/category_selector.dart';
+import 'package:Blackout/widget/group_selector/group_selector.dart';
 import 'package:Blackout/widget/description_text_field/description_text_field.dart';
 import 'package:Blackout/widget/ean_field/ean_field.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
@@ -18,9 +18,9 @@ class ProductDetailsScreen extends StatefulWidget {
   final ProductBloc bloc = sl<ProductBloc>();
   final Product product;
   final List<ModelChange> changes;
-  final List<Category> categories;
+  final List<Group> groups;
 
-  ProductDetailsScreen(this.product, this.changes, this.categories, {Key key}) : super(key: key);
+  ProductDetailsScreen(this.product, this.changes, this.groups, {Key key}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -86,18 +86,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             Card(
               child: Padding(
                 padding: EdgeInsets.all(8.8),
-                child: CategorySelector(
-                  initialCategory: _product.category,
-                  categories: widget.categories,
+                child: GroupSelector(
+                  initialGroup: _product.group,
+                  groups: widget.groups,
                   callback: (value) {
                     setState(() {
-                      _product.category = value;
+                      _product.group = value;
                     });
                   },
                 ),
               ),
             ),
-            _product.category == null
+            _product.group == null
                 ? IntrinsicHeight(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,

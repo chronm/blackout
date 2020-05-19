@@ -1,8 +1,8 @@
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/ui/category_details/category_details_screen.dart';
-import 'package:Blackout/ui/category_overview/category_overview_screen.dart';
+import 'package:Blackout/ui/group_details/group_details_screen.dart';
+import 'package:Blackout/ui/group_overview/group_overview_screen.dart';
 import 'package:Blackout/ui/charge_details/charge_details_screen.dart';
 import 'package:Blackout/ui/charge_overview/charge_overview_screen.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
@@ -13,7 +13,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:super_enum/super_enum.dart';
 
-import 'models/category.dart';
+import 'models/group.dart';
 
 part 'routes.g.dart';
 
@@ -33,12 +33,12 @@ class RouteBuilder {
         pageBuilder: (context, animation, secondaryAnimation) => SetupScreen(),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
-      categoryOverviewRoute: (_) => PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => CategoryOverviewScreen(),
+      groupOverviewRoute: (_) => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => GroupOverviewScreen(),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
-      categoryDetailsRoute: (route) => PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => CategoryDetailsScreen(route.category, route.changes),
+      groupDetailsRoute: (route) => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => GroupDetailsScreen(route.group, route.changes),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       productOverviewRoute: (_) => PageRouteBuilder(
@@ -46,7 +46,7 @@ class RouteBuilder {
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       productDetailsRoute: (route) => PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => ProductDetailsScreen(route.product, route.changes, route.categories),
+        pageBuilder: (context, animation, secondaryAnimation) => ProductDetailsScreen(route.product, route.changes, route.groups),
         transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
       ),
       chargeOverviewRoute: (_) => PageRouteBuilder(
@@ -68,18 +68,18 @@ enum _Routes {
   @object
   SetupRoute,
   @object
-  CategoryOverviewRoute,
+  GroupOverviewRoute,
   @Data(fields: [
-    DataField<Category>('category'),
+    DataField<Group>('group'),
     DataField<List<ModelChange>>("changes"),
   ])
-  CategoryDetailsRoute,
+  GroupDetailsRoute,
   @object
   ProductOverviewRoute,
   @Data(fields: [
     DataField<Product>('product'),
     DataField<List<ModelChange>>("changes"),
-    DataField<List<Category>>("categories"),
+    DataField<List<Group>>("groups"),
   ])
   ProductDetailsRoute,
   @object

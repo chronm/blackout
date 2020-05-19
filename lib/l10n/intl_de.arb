@@ -14,7 +14,7 @@
   "available": "Verfügbar: {amount}",
   "singular": "Wie lautet der Name dieser Kategorie?",
   "plural": "Wenn es eine Pluralform hat, geben Sie hier ein",
-  "modifyCategory": "Kategorie bearbeiten",
+  "modifyGroup": "Kategorie bearbeiten",
   "modifyProduct": "Produkt bearbeiten",
   "modifyCharge": "Charge bearbeiten",
   "years": "{years, plural, one{1 Jahr} other {{years} Jahre}}",

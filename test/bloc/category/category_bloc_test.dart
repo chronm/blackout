@@ -1,9 +1,9 @@
-import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/bloc/group/group_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,35 +12,35 @@ import 'package:mockito/mockito.dart';
 import '../../blackout_test_base.dart';
 
 void main() {
-  CategoryRepository categoryRepository;
+  GroupRepository groupRepository;
   ModelChangeRepository modelChangeRepository;
   BlackoutPreferences blackoutPreferences;
-  CategoryBloc categoryBloc;
+  GroupBloc groupBloc;
   ProductBloc productBloc;
 
   setUp(() {
-    categoryRepository = CategoryRepositoryMock();
+    groupRepository = GroupRepositoryMock();
     modelChangeRepository = ModelChangeRepositoryMock();
     blackoutPreferences = BlackoutPreferencesMock();
-    categoryBloc = CategoryBloc(categoryRepository, modelChangeRepository, blackoutPreferences, productBloc);
+    groupBloc = GroupBloc(groupRepository, modelChangeRepository, blackoutPreferences, productBloc);
   });
 
-  test('Save category emits ShowCategory', () {
+  test('Save group emits ShowGroup', () {
     when(blackoutPreferences.getUser()).thenAnswer((_) => Future.value(createDefaultUser()));
-    when(categoryRepository.save(argThat(isA<Category>()), argThat(isA<User>()))).thenAnswer((_) => Future.value(createDefaultCategory()..id = DEFAULT_CATEGORY_ID));
-    when(modelChangeRepository.findAllByCategoryIdAndHomeId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, category: createDefaultCategory()..id = DEFAULT_CATEGORY_ID)]));
+    when(groupRepository.save(argThat(isA<Group>()), argThat(isA<User>()))).thenAnswer((_) => Future.value(createDefaultGroup()..id = DEFAULT_CATEGORY_ID));
+    when(modelChangeRepository.findAllByGroupIdAndHomeId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, group: createDefaultGroup()..id = DEFAULT_CATEGORY_ID)]));
 
-    expectLater(categoryBloc, emitsInOrder([InitialCategoryState(), isA<ShowCategory>()]));
+    expectLater(groupBloc, emitsInOrder([InitialGroupState(), isA<ShowGroup>()]));
 
-    categoryBloc.add(SaveCategory(createDefaultCategory()));
+    groupBloc.add(SaveGroup(createDefaultGroup()));
   });
 
-  test('Load category, coming from HomeScreen emits ShowCategory', () {
-    when(modelChangeRepository.findAllByCategoryIdAndHomeId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, category: createDefaultCategory()..id = DEFAULT_CATEGORY_ID)]));
+  test('Load group, coming from HomeScreen emits ShowGroup', () {
+    when(modelChangeRepository.findAllByGroupIdAndHomeId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, group: createDefaultGroup()..id = DEFAULT_CATEGORY_ID)]));
     when(blackoutPreferences.getHome()).thenAnswer((realInvocation) => Future.value(createDefaultHome()));
 
-    expectLater(categoryBloc, emitsInOrder([InitialCategoryState(), isA<ShowCategory>()]));
+    expectLater(groupBloc, emitsInOrder([InitialGroupState(), isA<ShowGroup>()]));
 
-    categoryBloc.add(LoadCategory(DEFAULT_CATEGORY_ID));
+    groupBloc.add(LoadGroup(DEFAULT_CATEGORY_ID));
   });
 }

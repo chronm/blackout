@@ -1,11 +1,11 @@
-import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/bloc/group/group_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
@@ -19,13 +19,13 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ModelChangeRepository modelChangeRepository;
-  final CategoryRepository categoryRepository;
+  final GroupRepository groupRepository;
   final ProductRepository productRepository;
   final BlackoutPreferences blackoutPreferences;
-  final CategoryBloc categoryBloc;
+  final GroupBloc groupBloc;
   final ProductBloc productBloc;
 
-  HomeBloc(this.blackoutPreferences, this.categoryRepository, this.productRepository, this.categoryBloc, this.modelChangeRepository, this.productBloc);
+  HomeBloc(this.blackoutPreferences, this.groupRepository, this.productRepository, this.groupBloc, this.modelChangeRepository, this.productBloc);
 
   @override
   HomeState get initialState => HomeInitialState();
@@ -35,15 +35,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is LoadAll) {
       yield Loading();
       Home home = await blackoutPreferences.getHome();
-      List<Category> categories = await categoryRepository.findAllByHomeId(home.id);
-      List<Product> products = await productRepository.findAllByHomeIdAndCategoryIsNull(home.id);
+      List<Group> groups = await groupRepository.findAllByHomeId(home.id);
+      List<Product> products = await productRepository.findAllByHomeIdAndGroupIsNull(home.id);
       List<HomeListable> cards = <HomeListable>[]
         ..addAll(products)
-        ..addAll(categories)
+        ..addAll(groups)
         ..sort((a, b) => a.title.compareTo(b.title));
       yield LoadedAll(cards);
-    } else if (event is TapOnCategory) {
-      categoryBloc.add(LoadCategory(event.category.id));
+    } else if (event is TapOnGroup) {
+      groupBloc.add(LoadGroup(event.group.id));
     } else if (event is TapOnProduct) {
       productBloc.add(LoadProduct(event.product.id));
     }

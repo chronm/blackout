@@ -1,10 +1,10 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
@@ -18,7 +18,7 @@ void main() {
   Database _database;
   ModelChangeRepository modelChangeRepository;
   UserRepository userRepository;
-  CategoryRepository categoryRepository;
+  GroupRepository groupRepository;
   ProductRepository productRepository;
   HomeRepository homeRepository;
 
@@ -26,7 +26,7 @@ void main() {
     _database = Database.forTesting(VmDatabase.memory());
     modelChangeRepository = _database.modelChangeRepository;
     userRepository = _database.userRepository;
-    categoryRepository = _database.categoryRepository;
+    groupRepository = _database.groupRepository;
     productRepository = _database.productRepository;
     homeRepository = _database.homeRepository;
   });
@@ -36,10 +36,10 @@ void main() {
   });
 
   test('(Save) Insert a new databaseChange', () async {
-    Category category = createDefaultCategory();
-    await homeRepository.save(category.home);
-    await categoryRepository.save(category, createDefaultUser());
-    ModelChange changelog = createDefaultModelChange(ModelChangeType.create, category: category);
+    Group group = createDefaultGroup();
+    await homeRepository.save(group.home);
+    await groupRepository.save(group, createDefaultUser());
+    ModelChange changelog = createDefaultModelChange(ModelChangeType.create, group: group);
     await userRepository.save(changelog.user);
 
     changelog = await modelChangeRepository.save(changelog);
@@ -48,10 +48,10 @@ void main() {
   });
 
   test('(FindAllByModificationDateAfter) Get one change if modificationDate after now', () async {
-    Category category = createDefaultCategory();
-    await homeRepository.save(category.home);
+    Group group = createDefaultGroup();
+    await homeRepository.save(group.home);
     User user = await userRepository.save(createDefaultUser());
-    await categoryRepository.save(category, user);
+    await groupRepository.save(group, user);
 
     List<ModelChange> changes = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDateTime(2000, 1, 1, 0, 0, 0), DEFAULT_HOME_ID);
 
@@ -59,10 +59,10 @@ void main() {
   });
 
   test('(FindAllByModificationDateAfter) Get zero if modificationDate before now', () async {
-    Category category = createDefaultCategory();
-    await homeRepository.save(category.home);
+    Group group = createDefaultGroup();
+    await homeRepository.save(group.home);
     User user = await userRepository.save(createDefaultUser());
-    await categoryRepository.save(category, user);
+    await groupRepository.save(group, user);
 
     List<ModelChange> changes = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDateTime(2999, 12, 31, 0, 0, 0), DEFAULT_HOME_ID);
 
@@ -70,23 +70,23 @@ void main() {
   });
 
   test('(FindAll) Find all databaseChangelogs', () async {
-    Category category = createDefaultCategory();
-    await homeRepository.save(category.home);
+    Group group = createDefaultGroup();
+    await homeRepository.save(group.home);
     User user = await userRepository.save(createDefaultUser());
-    await categoryRepository.save(category, user);
+    await groupRepository.save(group, user);
 
     List<ModelChange> changes = await modelChangeRepository.findAllByHomeId(DEFAULT_HOME_ID);
 
     expect(changes.length, equals(1));
   });
 
-  test('(FindAllByCategoryIdAndHomeId', () async {
-    Category category = createDefaultCategory();
-    await homeRepository.save(category.home);
+  test('(FindAllByGroupIdAndHomeId', () async {
+    Group group = createDefaultGroup();
+    await homeRepository.save(group.home);
     User user = await userRepository.save(createDefaultUser());
-    await categoryRepository.save(category, user);
+    await groupRepository.save(group, user);
 
-    List<ModelChange> changes = await modelChangeRepository.findAllByCategoryIdAndHomeId(category.id, category.home.id);
+    List<ModelChange> changes = await modelChangeRepository.findAllByGroupIdAndHomeId(group.id, group.home.id);
 
     expect(changes.length, equals(1));
   });

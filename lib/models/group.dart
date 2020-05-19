@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
-class Category implements HomeListable {
+class Group implements HomeListable {
   String id;
   String name;
   String pluralName;
@@ -22,7 +22,7 @@ class Category implements HomeListable {
   UnitEnum unit;
   List<ModelChange> modelChanges = [];
 
-  Category({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products = const [], @required this.home, this.modelChanges}) : products = products;
+  Group({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products = const [], @required this.home, this.modelChanges}) : products = products;
 
   double get amount => products.map((p) => p.amount).reduce((a, b) => a + b);
 
@@ -42,8 +42,8 @@ class Category implements HomeListable {
     return (amount <= refillLimit) || products.any((product) => product.tooFewAvailable);
   }
 
-  Category clone() {
-    return Category(id: id, name: name, pluralName: pluralName, warnInterval: warnInterval, refillLimit: refillLimit, unit: unit, products: products, home: home, modelChanges: modelChanges);
+  Group clone() {
+    return Group(id: id, name: name, pluralName: pluralName, warnInterval: warnInterval, refillLimit: refillLimit, unit: unit, products: products, home: home, modelChanges: modelChanges);
   }
 
   bool isValid() {
@@ -54,22 +54,22 @@ class Category implements HomeListable {
     return name == other.name && pluralName == other.pluralName && warnInterval == other.warnInterval && unit == other.unit && refillLimit == other.refillLimit;
   }
 
-  factory Category.fromEntry(CategoryEntry categoryEntry, Home home, {List<Product> products, List<ModelChange> modelChanges}) {
-    return Category(
-      id: categoryEntry.id,
-      name: categoryEntry.name,
-      pluralName: categoryEntry.pluralName,
-      refillLimit: categoryEntry.refillLimit,
-      unit: UnitEnum.values[categoryEntry.unit],
-      warnInterval: periodFromISO8601String(categoryEntry.warnInterval),
+  factory Group.fromEntry(GroupEntry groupEntry, Home home, {List<Product> products, List<ModelChange> modelChanges}) {
+    return Group(
+      id: groupEntry.id,
+      name: groupEntry.name,
+      pluralName: groupEntry.pluralName,
+      refillLimit: groupEntry.refillLimit,
+      unit: UnitEnum.values[groupEntry.unit],
+      warnInterval: periodFromISO8601String(groupEntry.warnInterval),
       products: products,
       home: home,
       modelChanges: modelChanges,
     );
   }
 
-  CategoryTableCompanion toCompanion() {
-    return CategoryTableCompanion(
+  GroupTableCompanion toCompanion() {
+    return GroupTableCompanion(
       id: Value(id),
       name: Value(name),
       pluralName: Value(pluralName),
@@ -80,7 +80,7 @@ class Category implements HomeListable {
     );
   }
 
-  List<Modification> getModifications(Category other) {
+  List<Modification> getModifications(Group other) {
     List<Modification> modifications = [];
     if (unit != other.unit) {
       modifications.add(Modification(fieldName: "unit", from: describeEnum(unit), to: describeEnum(other.unit)));

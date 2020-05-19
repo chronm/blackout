@@ -1,33 +1,33 @@
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:flutter/material.dart';
 
-typedef void CategoryCallback(Category category);
+typedef void GroupCallback(Group group);
 
-class CategorySelector extends StatefulWidget {
-  final Category initialCategory;
-  final List<Category> categories;
-  final CategoryCallback callback;
+class GroupSelector extends StatefulWidget {
+  final Group initialGroup;
+  final List<Group> groups;
+  final GroupCallback callback;
 
-  CategorySelector({Key key, this.callback, this.initialCategory, this.categories}) : super(key: key);
+  GroupSelector({Key key, this.callback, this.initialGroup, this.groups}) : super(key: key);
 
   @override
-  _CategorySelectorState createState() => _CategorySelectorState();
+  _GroupSelectorState createState() => _GroupSelectorState();
 }
 
-class _CategorySelectorState extends State<CategorySelector> {
+class _GroupSelectorState extends State<GroupSelector> {
   bool _checked;
-  Category _category;
+  Group _group;
 
   @override
   void initState() {
     super.initState();
-    _checked = widget.initialCategory != null;
-    _category = widget.initialCategory;
+    _checked = widget.initialGroup != null;
+    _group = widget.initialGroup;
   }
 
   void invokeCallback() {
-    widget.callback(_checked ? _category : null);
+    widget.callback(_checked ? _group : null);
   }
 
   @override
@@ -35,23 +35,23 @@ class _CategorySelectorState extends State<CategorySelector> {
     return Checkable(
       initialChecked: _checked,
       checkedCallback: (context) => Expanded(
-        child: DropdownButtonFormField<Category>(
-          value: _category,
+        child: DropdownButtonFormField<Group>(
+          value: _group,
           decoration: InputDecoration(
-            labelText: "Category",
+            labelText: "Group",
           ),
           isExpanded: true,
-          items: widget.categories
+          items: widget.groups
               .map(
-                (c) => DropdownMenuItem<Category>(
+                (c) => DropdownMenuItem<Group>(
                   value: c,
                   child: Text(c.title),
                 ),
               )
               .toList(),
-          onChanged: (category) {
+          onChanged: (group) {
             setState(() {
-              _category = category;
+              _group = group;
             });
             invokeCallback();
           },
@@ -59,7 +59,7 @@ class _CategorySelectorState extends State<CategorySelector> {
       ),
       uncheckedCallback: (context) => Expanded(
         child: Text(
-          "Category",
+          "Group",
           textAlign: TextAlign.center,
         ),
       ),

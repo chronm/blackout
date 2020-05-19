@@ -25,7 +25,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         titleResolver: (state) => state is ShowProduct ? state.product.title : "",
         titleCallback: (state) {
           if (state is ShowProduct) {
-            Navigator.push(context, RouteBuilder.build(Routes.productDetailsRoute(product: state.product, changes: state.product.modelChanges, categories: state.categories)));
+            Navigator.push(context, RouteBuilder.build(Routes.productDetailsRoute(product: state.product, changes: state.product.modelChanges, groups: state.groups)));
           }
         },
         subtitleResolver: (state) {

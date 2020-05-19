@@ -6,7 +6,7 @@ class ProductTable extends Table {
 
   TextColumn get ean => text().nullable().customConstraint('unique')();
 
-  TextColumn get categoryId => text().nullable().customConstraint('null references CategoryTable(id)')();
+  TextColumn get groupId => text().nullable().customConstraint('null references GroupTable(id)')();
 
   TextColumn get description => text().customConstraint('unique')();
 
