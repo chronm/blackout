@@ -1,13 +1,13 @@
-import 'package:Blackout/bloc/category/category_bloc.dart' show CategoryBloc;
+import 'package:Blackout/bloc/group/group_bloc.dart' show GroupBloc;
 import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
@@ -18,39 +18,39 @@ import '../../blackout_test_base.dart';
 
 void main() {
   ModelChangeRepository modelChangeRepository;
-  CategoryRepository categoryRepository;
+  GroupRepository groupRepository;
   ProductRepository productRepository;
   BlackoutPreferences blackoutPreferences;
-  CategoryBloc categoryBloc;
+  GroupBloc groupBloc;
   ProductBloc productBloc;
   HomeBloc homeBloc;
 
   setUp(() {
     modelChangeRepository = ModelChangeRepositoryMock();
-    categoryRepository = CategoryRepositoryMock();
+    groupRepository = GroupRepositoryMock();
     productRepository = ProductRepositoryMock();
     blackoutPreferences = BlackoutPreferencesMock();
-    categoryBloc = CategoryBlocMock();
+    groupBloc = GroupBlocMock();
     productBloc = ProductBlocMock();
-    homeBloc = HomeBloc(blackoutPreferences, categoryRepository, productRepository, categoryBloc, modelChangeRepository, productBloc);
+    homeBloc = HomeBloc(blackoutPreferences, groupRepository, productRepository, groupBloc, modelChangeRepository, productBloc);
   });
 
   test('Load all on the home screen displayable entries', () {
-    Category category = createDefaultCategory();
+    Group group = createDefaultGroup();
     Product product = createDefaultProduct();
-    category.products = [product];
-    product.category = category;
+    group.products = [product];
+    product.group = group;
     Charge charge = createDefaultCharge();
     product.charges = [charge];
     charge.product = product;
     Change change = createDefaultChange();
     charge.changes = [change];
     change.charge = charge;
-    Product product2 = product.clone()..category = null;
+    Product product2 = product.clone()..group = null;
 
     when(blackoutPreferences.getHome()).thenAnswer((_) => Future.value(createDefaultHome()));
-    when(categoryRepository.findAllByHomeId(DEFAULT_HOME_ID)).thenAnswer((_) => Future.value(<Category>[category]));
-    when(productRepository.findAllByHomeIdAndCategoryIsNull(DEFAULT_HOME_ID)).thenAnswer((_) => Future.value(<Product>[product2]));
+    when(groupRepository.findAllByHomeId(DEFAULT_HOME_ID)).thenAnswer((_) => Future.value(<Group>[group]));
+    when(productRepository.findAllByHomeIdAndGroupIsNull(DEFAULT_HOME_ID)).thenAnswer((_) => Future.value(<Product>[product2]));
 
     expectLater(homeBloc, emitsInOrder([HomeInitialState(), Loading(), isA<LoadedAll>()]));
 

@@ -1,9 +1,9 @@
-import 'package:Blackout/bloc/category/category_bloc.dart';
+import 'package:Blackout/bloc/group/group_bloc.dart';
 import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/charge/charge_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/charge_repository.dart';
@@ -13,7 +13,7 @@ import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/generated/l10n_extension.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/charge.dart';
@@ -48,14 +48,14 @@ Home createDefaultHome() {
   );
 }
 
-// Category
-final String DEFAULT_CATEGORY_ID = "categoryId";
-final String DEFAULT_CATEGORY_NAME = "categoryName";
-final String DEFAULT_CATEGORY_PLURAL_NAME = "categoryPluralName";
+// Group
+final String DEFAULT_CATEGORY_ID = "groupId";
+final String DEFAULT_CATEGORY_NAME = "groupName";
+final String DEFAULT_CATEGORY_PLURAL_NAME = "groupPluralName";
 final Period DEFAULT_CATEGORY_WARN_INTERVAL = periodFromISO8601String("P8D");
 
-Category createDefaultCategory() {
-  return Category(
+Group createDefaultGroup() {
+  return Group(
     name: DEFAULT_CATEGORY_NAME,
     pluralName: DEFAULT_CATEGORY_PLURAL_NAME,
     warnInterval: DEFAULT_CATEGORY_WARN_INTERVAL,
@@ -124,14 +124,14 @@ User createDefaultUser() {
 final String DEFAULT_MODEL_CHANGE_ID = "databaseChangelogId";
 final LocalDateTime DEFAULT_MODEL_CHANGE_MODIFICATION_DATE = DEFAULT_CHANGE_CHANGE_DATE;
 
-ModelChange createDefaultModelChange(ModelChangeType modification, {Category category, Product product, Charge charge}) {
+ModelChange createDefaultModelChange(ModelChangeType modification, {Group group, Product product, Charge charge}) {
   return ModelChange(
     id: DEFAULT_MODEL_CHANGE_ID,
     user: createDefaultUser(),
     modificationDate: DEFAULT_MODEL_CHANGE_MODIFICATION_DATE,
     modification: modification,
     home: createDefaultHome(),
-    categoryId: category != null ? category.id : null,
+    groupId: group != null ? group.id : null,
     productId: product != null ? product.id : null,
     chargeId: charge != null ? charge.id : null,
   );
@@ -161,7 +161,7 @@ Modification createDefaultModification() {
     from: DEFAULT_MODIFICATION_FROM,
     to: DEFAULT_MODIFICATION_TO,
     home: createDefaultHome(),
-    modelChange: createDefaultModelChange(ModelChangeType.create, category: createDefaultCategory()..id = DEFAULT_CATEGORY_ID),
+    modelChange: createDefaultModelChange(ModelChangeType.create, group: createDefaultGroup()..id = DEFAULT_CATEGORY_ID),
   );
 }
 
@@ -265,9 +265,9 @@ class _HomeState extends State<_Home> {
 
 class BlackoutPreferencesMock extends Mock implements BlackoutPreferences {}
 
-class CategoryBlocMock extends MockBloc<CategoryEvent, CategoryState> implements CategoryBloc {}
+class GroupBlocMock extends MockBloc<GroupEvent, GroupState> implements GroupBloc {}
 
-class CategoryRepositoryMock extends Mock implements CategoryRepository {}
+class GroupRepositoryMock extends Mock implements GroupRepository {}
 
 class ChangeRepositoryMock extends Mock implements ChangeRepository {}
 

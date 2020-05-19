@@ -49,7 +49,7 @@ class Charge {
     }
   }
 
-  String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(product.category != null ? product.category.unit : product.unit))).toString();
+  String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(product.group != null ? product.group.unit : product.unit))).toString();
 
   UnitEnum get unit => product.unit;
 
@@ -57,8 +57,8 @@ class Charge {
 
   bool get expiredOrNotification {
     bool isExpired = false;
-    if (product.category?.warnInterval != null) {
-      isExpired = expirationDate.subtract(product.category.warnInterval) < LocalDateTime.now();
+    if (product.group?.warnInterval != null) {
+      isExpired = expirationDate.subtract(product.group.warnInterval) < LocalDateTime.now();
     }
 
     bool notification = notificationDate != null ? notificationDate <= LocalDateTime.now() : false;

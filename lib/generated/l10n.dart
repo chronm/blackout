@@ -146,7 +146,7 @@ class S {
 
   String get singular {
     return Intl.message(
-      'What is the name of this category?',
+      'What is the name of this group?',
       name: 'singular',
       desc: '',
       args: [],
@@ -162,10 +162,10 @@ class S {
     );
   }
 
-  String get modifyCategory {
+  String get modifyGroup {
     return Intl.message(
-      'Modify Category',
-      name: 'modifyCategory',
+      'Modify Group',
+      name: 'modifyGroup',
       desc: '',
       args: [],
     );

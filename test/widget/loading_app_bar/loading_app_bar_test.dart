@@ -83,26 +83,6 @@ void main() {
     expect(state, isTrue);
   });
 
-  testWidgets('Switch state to loading', (WidgetTester tester) async {
-    whenListen<HomeEvent, HomeState>(homeBloc, Stream<HomeState>.fromIterable(([HomeInitialState(), Loading()])));
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          appBar: LoadingAppBar<HomeBloc, HomeState>(
-            bloc: homeBloc,
-            searchCallback: (_) {},
-            title: "title",
-          ),
-        ),
-      ),
-    );
-
-    await tester.pump();
-
-    expect(find.byType(LinearProgressIndicator), findsOneWidget);
-  });
-
   testWidgets('Change to searching, enter text and change back', (WidgetTester tester) async {
     String searchString;
 

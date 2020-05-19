@@ -1,4 +1,4 @@
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
@@ -64,14 +64,14 @@ void main() {
     expect(product.tooFewAvailable, isTrue);
   });
 
-  test('(ScientificAmount) get scientific amount with unit form category', () async {
+  test('(ScientificAmount) get scientific amount with unit form group', () async {
     Change change = createDefaultChange();
     Charge charge = createDefaultCharge();
     charge.changes = [change];
     Product product = createDefaultProduct();
     product.charges = [charge];
-    Category category = createDefaultCategory();
-    product.category = category;
+    Group group = createDefaultGroup();
+    product.group = group;
 
     expect(product.subtitle, equals("1"));
   });
@@ -83,7 +83,7 @@ void main() {
     Product product = createDefaultProduct();
     product.charges = [charge];
     product.unit = UnitEnum.unitless;
-    product.category = null;
+    product.group = null;
 
     expect(product.subtitle, equals("1"));
   });

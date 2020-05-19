@@ -1,7 +1,7 @@
 import 'package:moor/moor.dart';
 
-@DataClassName("CategoryEntry")
-class CategoryTable extends Table {
+@DataClassName("GroupEntry")
+class GroupTable extends Table {
   TextColumn get id => text()();
 
   TextColumn get name => text().customConstraint('unique')();

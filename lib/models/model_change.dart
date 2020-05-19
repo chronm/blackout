@@ -18,7 +18,7 @@ class ModelChange {
   String id;
   User user;
   LocalDateTime modificationDate;
-  String categoryId;
+  String groupId;
   String productId;
   String chargeId;
   ModelChangeType modification;
@@ -31,12 +31,12 @@ class ModelChange {
     @required this.modificationDate,
     @required this.modification,
     @required this.home,
-    String categoryId,
+    String groupId,
     String productId,
     String chargeId,
     this.modifications,
-  })  : assert((categoryId != null && productId == null && chargeId == null) || (categoryId == null && productId != null && chargeId == null) || (categoryId == null && productId == null && chargeId != null)),
-        this.categoryId = categoryId,
+  })  : assert((groupId != null && productId == null && chargeId == null) || (groupId == null && productId != null && chargeId == null) || (groupId == null && productId == null && chargeId != null)),
+        this.groupId = groupId,
         this.productId = productId,
         this.chargeId = chargeId;
 
@@ -46,7 +46,7 @@ class ModelChange {
       user: user,
       modificationDate: localDateTimeFromDateTime(entry.modificationDate),
       modification: ModelChangeType.values[entry.direction],
-      categoryId: entry.categoryId,
+      groupId: entry.groupId,
       productId: entry.productId,
       chargeId: entry.chargeId,
       home: home,
@@ -59,7 +59,7 @@ class ModelChange {
       id: Value(id),
       userId: Value(user.id),
       direction: Value(ModelChangeType.values.indexOf(modification)),
-      categoryId: Value(categoryId),
+      groupId: Value(groupId),
       productId: Value(productId),
       chargeId: Value(chargeId),
       modificationDate: Value(modificationDate.toDateTimeLocal()),

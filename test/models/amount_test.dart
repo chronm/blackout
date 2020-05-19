@@ -1,4 +1,4 @@
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/product.dart';
@@ -24,10 +24,10 @@ void main() {
     product1.charges = [charge1, charge2];
     Product product2 = createDefaultProduct();
     product2.charges = [charge3, charge4];
-    Category category = createDefaultCategory();
-    category.products = [product1, product2];
+    Group group = createDefaultGroup();
+    group.products = [product1, product2];
 
-    expect(category.amount, equals(product1.amount + product2.amount));
+    expect(group.amount, equals(product1.amount + product2.amount));
     expect(product1.amount, equals(charge1.amount + charge2.amount));
     expect(product2.amount, equals(charge3.amount + charge4.amount));
     expect(charge1.amount, equals(change1.value));

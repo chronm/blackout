@@ -1,7 +1,7 @@
 import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
@@ -65,9 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                       ),
                       onTap: () async {
-                        if (listable is Category) {
-                          widget._bloc.add(TapOnCategory(listable));
-                          await Navigator.push(context, RouteBuilder.build(Routes.categoryOverviewRoute()));
+                        if (listable is Group) {
+                          widget._bloc.add(TapOnGroup(listable));
+                          await Navigator.push(context, RouteBuilder.build(Routes.groupOverviewRoute()));
                           widget._bloc.add(LoadAll());
                         } else if (listable is Product) {
                           widget._bloc.add(TapOnProduct(listable));

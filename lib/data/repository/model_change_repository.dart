@@ -28,8 +28,8 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
     return changes;
   }
 
-  Future<List<ModelChange>> findAllByCategoryIdAndHomeId(String categoryId, String homeId) async {
-    var query = select(modelChangeTable)..where((c) => c.categoryId.equals(categoryId) & c.homeId.equals(homeId));
+  Future<List<ModelChange>> findAllByGroupIdAndHomeId(String groupId, String homeId) async {
+    var query = select(modelChangeTable)..where((c) => c.groupId.equals(groupId) & c.homeId.equals(homeId));
     List<ModelChangeEntry> entries = await query.get();
 
     List<ModelChange> changes = [];

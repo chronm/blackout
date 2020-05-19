@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:Blackout/data/database/category_table.dart';
+import 'package:Blackout/data/database/group_table.dart';
 import 'package:Blackout/data/database/change_table.dart';
 import 'package:Blackout/data/database/home_table.dart';
 import 'package:Blackout/data/database/charge_table.dart';
@@ -9,7 +9,7 @@ import 'package:Blackout/data/database/modification_table.dart';
 import 'package:Blackout/data/database/product_table.dart';
 import 'package:Blackout/data/database/sync_table.dart';
 import 'package:Blackout/data/database/user_table.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/charge_repository.dart';
@@ -38,8 +38,8 @@ LazyDatabase _openConnection() {
 }
 
 @UseMoor(
-    tables: [ChargeTable, ProductTable, CategoryTable, ChangeTable, ModelChangeTable, SyncTable, UserTable, HomeTable, ModificationTable],
-    daos: [ChargeRepository, ProductRepository, CategoryRepository, ChangeRepository, ModelChangeRepository, SyncRepository, UserRepository, HomeRepository, ModificationRepository])
+    tables: [ChargeTable, ProductTable, GroupTable, ChangeTable, ModelChangeTable, SyncTable, UserTable, HomeTable, ModificationTable],
+    daos: [ChargeRepository, ProductRepository, GroupRepository, ChangeRepository, ModelChangeRepository, SyncRepository, UserRepository, HomeRepository, ModificationRepository])
 class Database<T> extends _$Database {
   Database() : super(_openConnection());
 

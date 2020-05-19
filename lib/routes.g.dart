@@ -14,18 +14,18 @@ abstract class Routes extends Equatable {
 
   factory Routes.setupRoute() = SetupRoute;
 
-  factory Routes.categoryOverviewRoute() = CategoryOverviewRoute;
+  factory Routes.groupOverviewRoute() = GroupOverviewRoute;
 
-  factory Routes.categoryDetailsRoute(
-      {@required Category category,
-      @required List<ModelChange> changes}) = CategoryDetailsRoute;
+  factory Routes.groupDetailsRoute(
+      {@required Group group,
+      @required List<ModelChange> changes}) = GroupDetailsRoute;
 
   factory Routes.productOverviewRoute() = ProductOverviewRoute;
 
   factory Routes.productDetailsRoute(
       {@required Product product,
       @required List<ModelChange> changes,
-      @required List<Category> categories}) = ProductDetailsRoute;
+      @required List<Group> groups}) = ProductDetailsRoute;
 
   factory Routes.chargeOverviewRoute() = ChargeOverviewRoute;
 
@@ -38,8 +38,8 @@ abstract class Routes extends Equatable {
   R when<R>(
       {@required R Function(HomeRoute) homeRoute,
       @required R Function(SetupRoute) setupRoute,
-      @required R Function(CategoryOverviewRoute) categoryOverviewRoute,
-      @required R Function(CategoryDetailsRoute) categoryDetailsRoute,
+      @required R Function(GroupOverviewRoute) groupOverviewRoute,
+      @required R Function(GroupDetailsRoute) groupDetailsRoute,
       @required R Function(ProductOverviewRoute) productOverviewRoute,
       @required R Function(ProductDetailsRoute) productDetailsRoute,
       @required R Function(ChargeOverviewRoute) chargeOverviewRoute,
@@ -47,8 +47,8 @@ abstract class Routes extends Equatable {
     assert(() {
       if (homeRoute == null ||
           setupRoute == null ||
-          categoryOverviewRoute == null ||
-          categoryDetailsRoute == null ||
+          groupOverviewRoute == null ||
+          groupDetailsRoute == null ||
           productOverviewRoute == null ||
           productDetailsRoute == null ||
           chargeOverviewRoute == null ||
@@ -62,10 +62,10 @@ abstract class Routes extends Equatable {
         return homeRoute(this as HomeRoute);
       case _Routes.SetupRoute:
         return setupRoute(this as SetupRoute);
-      case _Routes.CategoryOverviewRoute:
-        return categoryOverviewRoute(this as CategoryOverviewRoute);
-      case _Routes.CategoryDetailsRoute:
-        return categoryDetailsRoute(this as CategoryDetailsRoute);
+      case _Routes.GroupOverviewRoute:
+        return groupOverviewRoute(this as GroupOverviewRoute);
+      case _Routes.GroupDetailsRoute:
+        return groupDetailsRoute(this as GroupDetailsRoute);
       case _Routes.ProductOverviewRoute:
         return productOverviewRoute(this as ProductOverviewRoute);
       case _Routes.ProductDetailsRoute:
@@ -84,9 +84,9 @@ abstract class Routes extends Equatable {
       @required
           FutureOr<R> Function(SetupRoute) setupRoute,
       @required
-          FutureOr<R> Function(CategoryOverviewRoute) categoryOverviewRoute,
+          FutureOr<R> Function(GroupOverviewRoute) groupOverviewRoute,
       @required
-          FutureOr<R> Function(CategoryDetailsRoute) categoryDetailsRoute,
+          FutureOr<R> Function(GroupDetailsRoute) groupDetailsRoute,
       @required
           FutureOr<R> Function(ProductOverviewRoute) productOverviewRoute,
       @required
@@ -98,8 +98,8 @@ abstract class Routes extends Equatable {
     assert(() {
       if (homeRoute == null ||
           setupRoute == null ||
-          categoryOverviewRoute == null ||
-          categoryDetailsRoute == null ||
+          groupOverviewRoute == null ||
+          groupDetailsRoute == null ||
           productOverviewRoute == null ||
           productDetailsRoute == null ||
           chargeOverviewRoute == null ||
@@ -113,10 +113,10 @@ abstract class Routes extends Equatable {
         return homeRoute(this as HomeRoute);
       case _Routes.SetupRoute:
         return setupRoute(this as SetupRoute);
-      case _Routes.CategoryOverviewRoute:
-        return categoryOverviewRoute(this as CategoryOverviewRoute);
-      case _Routes.CategoryDetailsRoute:
-        return categoryDetailsRoute(this as CategoryDetailsRoute);
+      case _Routes.GroupOverviewRoute:
+        return groupOverviewRoute(this as GroupOverviewRoute);
+      case _Routes.GroupDetailsRoute:
+        return groupDetailsRoute(this as GroupDetailsRoute);
       case _Routes.ProductOverviewRoute:
         return productOverviewRoute(this as ProductOverviewRoute);
       case _Routes.ProductDetailsRoute:
@@ -131,8 +131,8 @@ abstract class Routes extends Equatable {
   R whenOrElse<R>(
       {R Function(HomeRoute) homeRoute,
       R Function(SetupRoute) setupRoute,
-      R Function(CategoryOverviewRoute) categoryOverviewRoute,
-      R Function(CategoryDetailsRoute) categoryDetailsRoute,
+      R Function(GroupOverviewRoute) groupOverviewRoute,
+      R Function(GroupDetailsRoute) groupDetailsRoute,
       R Function(ProductOverviewRoute) productOverviewRoute,
       R Function(ProductDetailsRoute) productDetailsRoute,
       R Function(ChargeOverviewRoute) chargeOverviewRoute,
@@ -151,12 +151,12 @@ abstract class Routes extends Equatable {
       case _Routes.SetupRoute:
         if (setupRoute == null) break;
         return setupRoute(this as SetupRoute);
-      case _Routes.CategoryOverviewRoute:
-        if (categoryOverviewRoute == null) break;
-        return categoryOverviewRoute(this as CategoryOverviewRoute);
-      case _Routes.CategoryDetailsRoute:
-        if (categoryDetailsRoute == null) break;
-        return categoryDetailsRoute(this as CategoryDetailsRoute);
+      case _Routes.GroupOverviewRoute:
+        if (groupOverviewRoute == null) break;
+        return groupOverviewRoute(this as GroupOverviewRoute);
+      case _Routes.GroupDetailsRoute:
+        if (groupDetailsRoute == null) break;
+        return groupDetailsRoute(this as GroupDetailsRoute);
       case _Routes.ProductOverviewRoute:
         if (productOverviewRoute == null) break;
         return productOverviewRoute(this as ProductOverviewRoute);
@@ -176,8 +176,8 @@ abstract class Routes extends Equatable {
   Future<R> asyncWhenOrElse<R>(
       {FutureOr<R> Function(HomeRoute) homeRoute,
       FutureOr<R> Function(SetupRoute) setupRoute,
-      FutureOr<R> Function(CategoryOverviewRoute) categoryOverviewRoute,
-      FutureOr<R> Function(CategoryDetailsRoute) categoryDetailsRoute,
+      FutureOr<R> Function(GroupOverviewRoute) groupOverviewRoute,
+      FutureOr<R> Function(GroupDetailsRoute) groupDetailsRoute,
       FutureOr<R> Function(ProductOverviewRoute) productOverviewRoute,
       FutureOr<R> Function(ProductDetailsRoute) productDetailsRoute,
       FutureOr<R> Function(ChargeOverviewRoute) chargeOverviewRoute,
@@ -196,12 +196,12 @@ abstract class Routes extends Equatable {
       case _Routes.SetupRoute:
         if (setupRoute == null) break;
         return setupRoute(this as SetupRoute);
-      case _Routes.CategoryOverviewRoute:
-        if (categoryOverviewRoute == null) break;
-        return categoryOverviewRoute(this as CategoryOverviewRoute);
-      case _Routes.CategoryDetailsRoute:
-        if (categoryDetailsRoute == null) break;
-        return categoryDetailsRoute(this as CategoryDetailsRoute);
+      case _Routes.GroupOverviewRoute:
+        if (groupOverviewRoute == null) break;
+        return groupOverviewRoute(this as GroupOverviewRoute);
+      case _Routes.GroupDetailsRoute:
+        if (groupDetailsRoute == null) break;
+        return groupDetailsRoute(this as GroupDetailsRoute);
       case _Routes.ProductOverviewRoute:
         if (productOverviewRoute == null) break;
         return productOverviewRoute(this as ProductOverviewRoute);
@@ -222,8 +222,8 @@ abstract class Routes extends Equatable {
   Future<void> whenPartial(
       {FutureOr<void> Function(HomeRoute) homeRoute,
       FutureOr<void> Function(SetupRoute) setupRoute,
-      FutureOr<void> Function(CategoryOverviewRoute) categoryOverviewRoute,
-      FutureOr<void> Function(CategoryDetailsRoute) categoryDetailsRoute,
+      FutureOr<void> Function(GroupOverviewRoute) groupOverviewRoute,
+      FutureOr<void> Function(GroupDetailsRoute) groupDetailsRoute,
       FutureOr<void> Function(ProductOverviewRoute) productOverviewRoute,
       FutureOr<void> Function(ProductDetailsRoute) productDetailsRoute,
       FutureOr<void> Function(ChargeOverviewRoute) chargeOverviewRoute,
@@ -231,8 +231,8 @@ abstract class Routes extends Equatable {
     assert(() {
       if (homeRoute == null &&
           setupRoute == null &&
-          categoryOverviewRoute == null &&
-          categoryDetailsRoute == null &&
+          groupOverviewRoute == null &&
+          groupDetailsRoute == null &&
           productOverviewRoute == null &&
           productDetailsRoute == null &&
           chargeOverviewRoute == null &&
@@ -248,12 +248,12 @@ abstract class Routes extends Equatable {
       case _Routes.SetupRoute:
         if (setupRoute == null) break;
         return setupRoute(this as SetupRoute);
-      case _Routes.CategoryOverviewRoute:
-        if (categoryOverviewRoute == null) break;
-        return categoryOverviewRoute(this as CategoryOverviewRoute);
-      case _Routes.CategoryDetailsRoute:
-        if (categoryDetailsRoute == null) break;
-        return categoryDetailsRoute(this as CategoryDetailsRoute);
+      case _Routes.GroupOverviewRoute:
+        if (groupOverviewRoute == null) break;
+        return groupOverviewRoute(this as GroupOverviewRoute);
+      case _Routes.GroupDetailsRoute:
+        if (groupDetailsRoute == null) break;
+        return groupDetailsRoute(this as GroupDetailsRoute);
       case _Routes.ProductOverviewRoute:
         if (productOverviewRoute == null) break;
         return productOverviewRoute(this as ProductOverviewRoute);
@@ -298,31 +298,31 @@ class SetupRoute extends Routes {
 }
 
 @immutable
-class CategoryOverviewRoute extends Routes {
-  const CategoryOverviewRoute._() : super(_Routes.CategoryOverviewRoute);
+class GroupOverviewRoute extends Routes {
+  const GroupOverviewRoute._() : super(_Routes.GroupOverviewRoute);
 
-  factory CategoryOverviewRoute() {
-    _instance ??= const CategoryOverviewRoute._();
+  factory GroupOverviewRoute() {
+    _instance ??= const GroupOverviewRoute._();
     return _instance;
   }
 
-  static CategoryOverviewRoute _instance;
+  static GroupOverviewRoute _instance;
 }
 
 @immutable
-class CategoryDetailsRoute extends Routes {
-  const CategoryDetailsRoute({@required this.category, @required this.changes})
-      : super(_Routes.CategoryDetailsRoute);
+class GroupDetailsRoute extends Routes {
+  const GroupDetailsRoute({@required this.group, @required this.changes})
+      : super(_Routes.GroupDetailsRoute);
 
-  final Category category;
+  final Group group;
 
   final List<ModelChange> changes;
 
   @override
   String toString() =>
-      'CategoryDetailsRoute(category:${this.category},changes:${this.changes})';
+      'GroupDetailsRoute(group:${this.group},changes:${this.changes})';
   @override
-  List get props => [category, changes];
+  List get props => [group, changes];
 }
 
 @immutable
@@ -342,20 +342,20 @@ class ProductDetailsRoute extends Routes {
   const ProductDetailsRoute(
       {@required this.product,
       @required this.changes,
-      @required this.categories})
+      @required this.groups})
       : super(_Routes.ProductDetailsRoute);
 
   final Product product;
 
   final List<ModelChange> changes;
 
-  final List<Category> categories;
+  final List<Group> groups;
 
   @override
   String toString() =>
-      'ProductDetailsRoute(product:${this.product},changes:${this.changes},categories:${this.categories})';
+      'ProductDetailsRoute(product:${this.product},changes:${this.changes},groups:${this.groups})';
   @override
-  List get props => [product, changes, categories];
+  List get props => [product, changes, groups];
 }
 
 @immutable

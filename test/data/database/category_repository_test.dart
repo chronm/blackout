@@ -1,8 +1,8 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,13 +14,13 @@ import '../../blackout_test_base.dart';
 void main() {
   Database _database;
   ProductRepository productRepository;
-  CategoryRepository categoryRepository;
+  GroupRepository groupRepository;
   HomeRepository homeRepository;
 
   setUp(() {
     _database = Database.forTesting(VmDatabase.memory());
     productRepository = _database.productRepository;
-    categoryRepository = _database.categoryRepository;
+    groupRepository = _database.groupRepository;
     homeRepository = _database.homeRepository;
   });
 
@@ -28,129 +28,129 @@ void main() {
     await _database.close();
   });
 
-  test('(Save) Insert a new category', () async {
-    Category category = createDefaultCategory();
+  test('(Save) Insert a new group', () async {
+    Group group = createDefaultGroup();
     User user = createDefaultUser();
 
-    await homeRepository.save(category.home);
-    category = await categoryRepository.save(category, user);
+    await homeRepository.save(group.home);
+    group = await groupRepository.save(group, user);
 
-    expect(category.id, isNotNull);
-    expect(category.name, equals(DEFAULT_CATEGORY_NAME));
-    expect(category.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
-    expect(category.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
+    expect(group.id, isNotNull);
+    expect(group.name, equals(DEFAULT_CATEGORY_NAME));
+    expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
+    expect(group.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
   });
 
-  test('(Save) Update a category', () async {
-    Category category = createDefaultCategory();
+  test('(Save) Update a group', () async {
+    Group group = createDefaultGroup();
     User user = createDefaultUser();
-    await homeRepository.save(category.home);
-    category = await categoryRepository.save(category, user);
-    String categoryId = category.id;
+    await homeRepository.save(group.home);
+    group = await groupRepository.save(group, user);
+    String groupId = group.id;
 
-    category.name = "test";
-    await categoryRepository.save(category, user);
-    category = await categoryRepository.getOneByCategoryIdAndHomeId(categoryId, DEFAULT_HOME_ID);
+    group.name = "test";
+    await groupRepository.save(group, user);
+    group = await groupRepository.getOneByGroupIdAndHomeId(groupId, DEFAULT_HOME_ID);
 
-    expect(category.id, equals(categoryId));
-    expect(category.name, equals("test"));
-    expect(category.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
-    expect(category.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
-    expect(category.home.name, equals(DEFAULT_HOME_NAME));
-    expect(category.home.id, equals(DEFAULT_HOME_ID));
+    expect(group.id, equals(groupId));
+    expect(group.name, equals("test"));
+    expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
+    expect(group.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
+    expect(group.home.name, equals(DEFAULT_HOME_NAME));
+    expect(group.home.id, equals(DEFAULT_HOME_ID));
   });
 
-  test('(Drop) Throw exception if category to drop is no database object', () async {
-    await categoryRepository.findAllByHomeId(DEFAULT_HOME_ID);
-    Category category = createDefaultCategory();
-    expect(() => categoryRepository.drop(category), throwsAssertionError);
+  test('(Drop) Throw exception if group to drop is no database object', () async {
+    await groupRepository.findAllByHomeId(DEFAULT_HOME_ID);
+    Group group = createDefaultGroup();
+    expect(() => groupRepository.drop(group), throwsAssertionError);
   });
 
-  test('(Drop) Delete a category', () async {
-    Category category = createDefaultCategory();
+  test('(Drop) Delete a group', () async {
+    Group group = createDefaultGroup();
 
-    await homeRepository.save(category.home);
+    await homeRepository.save(group.home);
     User user = createDefaultUser();
-    category = await categoryRepository.save(category, user);
+    group = await groupRepository.save(group, user);
 
-    var result = await categoryRepository.drop(category);
+    var result = await groupRepository.drop(group);
     expect(result, equals(1));
 
-    List<Category> categories = await categoryRepository.findAllByHomeId(DEFAULT_HOME_ID);
-    expect(categories.length, equals(0));
-    expect(category.home.name, equals(DEFAULT_HOME_NAME));
-    expect(category.home.id, equals(DEFAULT_HOME_ID));
+    List<Group> groups = await groupRepository.findAllByHomeId(DEFAULT_HOME_ID);
+    expect(groups.length, equals(0));
+    expect(group.home.name, equals(DEFAULT_HOME_NAME));
+    expect(group.home.id, equals(DEFAULT_HOME_ID));
   });
 
-  test('(GetOneByCategoryId) Category contains Syncs if recurseSyncs=true', () async {
+  test('(GetOneByGroupId) Group contains Syncs if recurseSyncs=true', () async {
     User user = createDefaultUser();
-    Category category = createDefaultCategory();
+    Group group = createDefaultGroup();
     Product product = createDefaultProduct();
-    product.category = category;
+    product.group = group;
 
-    await homeRepository.save(category.home);
-    category = await categoryRepository.save(category, user);
+    await homeRepository.save(group.home);
+    group = await groupRepository.save(group, user);
     product = await productRepository.save(product, user);
 
-    category = await categoryRepository.getOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
-    expect(category.id, isNotNull);
-    expect(category.name, equals(DEFAULT_CATEGORY_NAME));
-    expect(category.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
-    expect(category.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
-    expect(category.products, hasLength(1));
-    expect(category.products[0].category.id, equals(category.id));
-    expect(category.home.name, equals(DEFAULT_HOME_NAME));
-    expect(category.home.id, equals(DEFAULT_HOME_ID));
+    group = await groupRepository.getOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
+    expect(group.id, isNotNull);
+    expect(group.name, equals(DEFAULT_CATEGORY_NAME));
+    expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
+    expect(group.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
+    expect(group.products, hasLength(1));
+    expect(group.products[0].group.id, equals(group.id));
+    expect(group.home.name, equals(DEFAULT_HOME_NAME));
+    expect(group.home.id, equals(DEFAULT_HOME_ID));
   });
 
-  test('(GetOneByCategoryId) Category does not contain products if recurseProducts=false', () async {
+  test('(GetOneByGroupId) Group does not contain products if recurseProducts=false', () async {
     User user = createDefaultUser();
-    Category category = createDefaultCategory();
+    Group group = createDefaultGroup();
     Product product = createDefaultProduct();
-    product.category = category;
+    product.group = group;
 
-    await homeRepository.save(category.home);
-    category = await categoryRepository.save(category, user);
+    await homeRepository.save(group.home);
+    group = await groupRepository.save(group, user);
     product = await productRepository.save(product, user);
 
-    category = await categoryRepository.getOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID, recurseProducts: false);
-    expect(category.id, isNotNull);
-    expect(category.name, equals(DEFAULT_CATEGORY_NAME));
-    expect(category.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
-    expect(category.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
-    expect(category.products, hasLength(0));
-    expect(category.home.name, equals(DEFAULT_HOME_NAME));
-    expect(category.home.id, equals(DEFAULT_HOME_ID));
+    group = await groupRepository.getOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID, recurseProducts: false);
+    expect(group.id, isNotNull);
+    expect(group.name, equals(DEFAULT_CATEGORY_NAME));
+    expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
+    expect(group.warnInterval, equals(DEFAULT_CATEGORY_WARN_INTERVAL));
+    expect(group.products, hasLength(0));
+    expect(group.home.name, equals(DEFAULT_HOME_NAME));
+    expect(group.home.id, equals(DEFAULT_HOME_ID));
   });
 
-  test('(GetOneByCategoryId) Return null if category not found', () async {
-    Category category = await categoryRepository.getOneByCategoryIdAndHomeId("", DEFAULT_HOME_ID);
+  test('(GetOneByGroupId) Return null if group not found', () async {
+    Group group = await groupRepository.getOneByGroupIdAndHomeId("", DEFAULT_HOME_ID);
 
-    expect(category, isNull);
+    expect(group, isNull);
   });
 
-  test('(FindOneByCategoryId) Optional is empty if category not found', () async {
-    Optional<Category> category = await categoryRepository.findOneByCategoryIdAndHomeId("", DEFAULT_HOME_ID);
+  test('(FindOneByGroupId) Optional is empty if group not found', () async {
+    Optional<Group> group = await groupRepository.findOneByGroupIdAndHomeId("", DEFAULT_HOME_ID);
 
-    expect(category.isEmpty, isTrue);
+    expect(group.isEmpty, isTrue);
   });
 
-  test('(FindOneByCategoryId) Optional is present if category found)', () async {
-    Category category = createDefaultCategory();
-    await homeRepository.save(category.home);
-    category = await categoryRepository.save(category, createDefaultUser());
+  test('(FindOneByGroupId) Optional is present if group found)', () async {
+    Group group = createDefaultGroup();
+    await homeRepository.save(group.home);
+    group = await groupRepository.save(group, createDefaultUser());
 
-    Optional<Category> optionalCategory = await categoryRepository.findOneByCategoryIdAndHomeId(category.id, DEFAULT_HOME_ID);
+    Optional<Group> optionalGroup = await groupRepository.findOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
 
-    expect(optionalCategory.isEmpty, isFalse);
+    expect(optionalGroup.isEmpty, isFalse);
   });
 
-  test('(FindAll) find all categories', () async {
-    Category category = createDefaultCategory();
-    await homeRepository.save(category.home);
-    await categoryRepository.save(category, createDefaultUser());
+  test('(FindAll) find all groups', () async {
+    Group group = createDefaultGroup();
+    await homeRepository.save(group.home);
+    await groupRepository.save(group, createDefaultUser());
 
-    List<Category> categories = await categoryRepository.findAllByHomeId(DEFAULT_HOME_ID, recurseProducts: false);
-    expect(categories.length, equals(1));
+    List<Group> groups = await groupRepository.findAllByHomeId(DEFAULT_HOME_ID, recurseProducts: false);
+    expect(groups.length, equals(1));
   });
 }

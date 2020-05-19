@@ -1,12 +1,12 @@
 import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/category_repository.dart';
+import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
-import 'package:Blackout/models/category.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/charge.dart';
@@ -26,12 +26,12 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final HomeBloc _homeBloc;
   final HomeRepository homeRepository;
   final UserRepository userRepository;
-  final CategoryRepository categoryRepository;
+  final GroupRepository groupRepository;
   final ProductRepository productRepository;
   final ChargeRepository chargeRepository;
   final ChangeRepository changeRepository;
 
-  SetupBloc(this._blackoutPreferences, this._homeBloc, this.homeRepository, this.userRepository, this.categoryRepository, this.productRepository, this.chargeRepository, this.changeRepository);
+  SetupBloc(this._blackoutPreferences, this._homeBloc, this.homeRepository, this.userRepository, this.groupRepository, this.productRepository, this.chargeRepository, this.changeRepository);
 
   @override
   SetupState get initialState => InitialSetupState();
@@ -46,7 +46,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
       user = await userRepository.save(user);
       await _blackoutPreferences.setUser(user);
       await _blackoutPreferences.setHome(home);
-      await createCategory(home);
+      await createGroup(home);
       await createProduct(home);
       _homeBloc.add(LoadAll());
       yield GoToHome();
@@ -72,15 +72,15 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     await changeRepository.save(change2);
   }
 
-  Future<void> createCategory(Home home) async {
+  Future<void> createGroup(Home home) async {
     User user = await _blackoutPreferences.getUser();
-    Category category = Category(name: "Ei", pluralName: "Eier", refillLimit: 6, warnInterval: Period(days: 8), unit: UnitEnum.unitless, home: home);
-    await categoryRepository.save(category, user);
-    category.warnInterval = Period(days: 5);
-    await categoryRepository.save(category, user);
-    Product product = Product(ean: "lalelu", description: "Freilandeier 10 Stück M", category: category, home: home);
+    Group group = Group(name: "Ei", pluralName: "Eier", refillLimit: 6, warnInterval: Period(days: 8), unit: UnitEnum.unitless, home: home);
+    await groupRepository.save(group, user);
+    group.warnInterval = Period(days: 5);
+    await groupRepository.save(group, user);
+    Product product = Product(ean: "lalelu", description: "Freilandeier 10 Stück M", group: group, home: home);
     await productRepository.save(product, user);
-    Product product2 = Product(ean: "lalelu2", description: "Freilandeier 10 Stück L", category: category, home: home);
+    Product product2 = Product(ean: "lalelu2", description: "Freilandeier 10 Stück L", group: group, home: home);
     await productRepository.save(product2, user);
     Charge charge = Charge(expirationDate: LocalDateTime.now().addDays(1), product: product, home: home);
     await chargeRepository.save(charge, user);
@@ -89,7 +89,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     Change change = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, charge: charge);
     Change change2 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: -5, charge: charge);
     Change change3 = Change(id: Uuid().v4(), user: user, home: home, changeDate: LocalDateTime.now(), value: 10, charge: charge2);
-    category.products = [product, product2];
+    group.products = [product, product2];
     product.charges = [charge];
     product2.charges = [charge2];
     charge.changes = [change, change2];
