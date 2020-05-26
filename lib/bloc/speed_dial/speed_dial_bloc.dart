@@ -52,7 +52,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       }
     }
     if (event is TapOnCreateCharge) {
-      chargeBloc.add(CreateCharge());
+      chargeBloc.add(CreateCharge(event.product));
       Navigator.push(event.context, RouteBuilder.build(Routes.ChargeDetailsRoute));
     }
     if (event is TapOnCreateProduct) {

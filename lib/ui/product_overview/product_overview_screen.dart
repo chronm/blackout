@@ -84,10 +84,19 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           return Container();
         },
       ),
-      floatingActionButton: createSpeedDial([
-        goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-        createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context))),
-      ]),
+      floatingActionButton: BlocBuilder<SpeedDialBloc, SpeedDialState>(
+        builder: (context, state) {
+          if (state is ShowProduct) {
+            return createSpeedDial([
+              goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+              createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context, (state as ShowProduct).product))),
+            ]);
+          }
+          return createSpeedDial([
+            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+          ]);
+        }
+      ),
     );
   }
 }
