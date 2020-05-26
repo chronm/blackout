@@ -2,6 +2,11 @@ part of 'charge_bloc.dart';
 
 abstract class ChargeEvent extends Equatable {}
 
+class CreateCharge extends ChargeEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class LoadCharge extends ChargeEvent {
   final String chargeId;
 

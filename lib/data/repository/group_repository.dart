@@ -1,5 +1,5 @@
-import 'package:Blackout/data/database/group_table.dart';
 import 'package:Blackout/data/database/database.dart';
+import 'package:Blackout/data/database/group_table.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
@@ -24,7 +24,6 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
       products = await db.productRepository.getAllByGroupIdAndHomeId(groupEntry.id, groupEntry.homeId, recurseGroup: false);
     }
 
-
     Home home = await db.homeRepository.getHomeById(groupEntry.homeId);
 
     List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByGroupIdAndHomeId(groupEntry.id, home.id);
@@ -40,6 +39,17 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
 
   Future<List<Group>> findAllByHomeId(String homeId, {bool recurseProducts = true}) async {
     List<GroupEntry> entries = await (select(groupTable)..where((c) => c.homeId.equals(homeId))).get();
+
+    List<Group> groups = [];
+    for (GroupEntry entry in entries) {
+      groups.add(await createGroup(entry, recurseProducts: recurseProducts));
+    }
+
+    return groups;
+  }
+
+  Future<List<Group>> findAllByPatternAndHomeId(String pattern, String homeId, {bool recurseProducts = true}) async {
+    List<GroupEntry> entries = await (select(groupTable)..where((c) => (c.name.contains(pattern) | c.pluralName.contains(pattern)) & c.homeId.equals(homeId))).get();
 
     List<Group> groups = [];
     for (GroupEntry entry in entries) {

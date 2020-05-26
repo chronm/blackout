@@ -71,7 +71,7 @@ class _AppState extends State<App> {
       bloc: widget._bloc,
       listener: (context, state) {
         if (state is GoToSetup) {
-          Navigator.pushReplacement(context, RouteBuilder.build(Routes.setupRoute()));
+          Navigator.pushReplacement(context, RouteBuilder.build(Routes.SetupRoute));
         }
       },
       child: HomeScreen(),

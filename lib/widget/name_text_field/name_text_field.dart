@@ -1,7 +1,7 @@
 import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef void NameCallback(String name);
+typedef void NameCallback(String name, bool error);
 
 class NameTextField extends StatefulWidget {
   final String initialValue;
@@ -17,17 +17,17 @@ class _NameTextFieldState extends State<NameTextField> {
   TextEditingController _controller = TextEditingController();
   bool _error;
 
-  void callCallback(String value) {
+  void invokeCallback(String value) {
     if (value == "") {
-      setState(() {
-        _error = false;
-      });
-      widget.callback(null);
-    } else {
       setState(() {
         _error = true;
       });
-      widget.callback(value);
+      widget.callback(null, true);
+    } else {
+      setState(() {
+        _error = false;
+      });
+      widget.callback(value, false);
     }
   }
 
@@ -37,7 +37,7 @@ class _NameTextFieldState extends State<NameTextField> {
     _controller.text = widget.initialValue.trim();
     _error = _controller.text == null;
     _controller.addListener(() {
-      callCallback(_controller.text.trim());
+      invokeCallback(_controller.text.trim());
     });
   }
 

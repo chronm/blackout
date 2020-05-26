@@ -1,14 +1,17 @@
 import 'package:Blackout/bloc/product/product_bloc.dart';
+import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/routes.dart';
+import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Column, Container, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Column, Container, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductOverviewScreen extends StatefulWidget {
-  final ProductBloc _bloc = sl<ProductBloc>();
+  final ProductBloc bloc = sl<ProductBloc>();
+  final SpeedDialBloc speedDial = sl<SpeedDialBloc>();
 
   ProductOverviewScreen({Key key}) : super(key: key);
 
@@ -21,11 +24,11 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LoadingAppBar<ProductBloc, ProductState>(
-        bloc: widget._bloc,
+        bloc: widget.bloc,
         titleResolver: (state) => state is ShowProduct ? state.product.title : "",
         titleCallback: (state) {
           if (state is ShowProduct) {
-            Navigator.push(context, RouteBuilder.build(Routes.productDetailsRoute(product: state.product, changes: state.product.modelChanges, groups: state.groups)));
+            Navigator.push(context, RouteBuilder.build(Routes.ProductDetailsRoute));
           }
         },
         subtitleResolver: (state) {
@@ -37,11 +40,17 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           }
           return null;
         },
+        returnAction: () => Navigator.pop(context),
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
-        bloc: widget._bloc,
+        bloc: widget.bloc,
         builder: (context, state) {
           if (state is ShowProduct) {
+            if (state.product.charges.length == 0) {
+              return Center(
+                child: Text("Nothing here"),
+              );
+            }
             return ListView.builder(
               itemCount: state.product.charges.length,
               itemBuilder: (context, index) {
@@ -63,9 +72,9 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                       mainAxisSize: MainAxisSize.min,
                     ),
                     onTap: () async {
-                      widget._bloc.add(TapOnCharge(charge));
-                      await Navigator.push(context, RouteBuilder.build(Routes.chargeOverviewRoute()));
-                      widget._bloc.add(LoadProduct(state.product.id));
+                      widget.bloc.add(TapOnCharge(charge));
+                      await Navigator.push(context, RouteBuilder.build(Routes.ChargeOverviewRoute));
+                      widget.bloc.add(LoadProduct(state.product.id));
                     },
                   ),
                 );
@@ -75,6 +84,10 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           return Container();
         },
       ),
+      floatingActionButton: createSpeedDial([
+        goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+        createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context))),
+      ]),
     );
   }
 }

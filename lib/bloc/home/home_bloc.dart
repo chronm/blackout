@@ -1,17 +1,19 @@
-import 'package:Blackout/bloc/group/group_bloc.dart';
+import 'package:Blackout/bloc/group/group_bloc.dart' show GroupBloc, LoadGroup;
 import 'package:Blackout/bloc/main/main_bloc.dart';
-import 'package:Blackout/bloc/product/product_bloc.dart';
+import 'package:Blackout/bloc/product/product_bloc.dart' show LoadProduct, ProductBloc;
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
+import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/routes.dart';
 import 'package:bloc/bloc.dart' show Bloc;
-import 'package:equatable/equatable.dart' show Equatable;
-import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart' show BuildContext, Navigator, immutable;
 
 part 'home_event.dart';
 
@@ -32,6 +34,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
+    if (event is TapOnGroup) {
+      groupBloc.add(LoadGroup(event.group.id));
+      await Navigator.push(event.context, RouteBuilder.build(Routes.GroupOverviewRoute));
+    } else if (event is TapOnProduct) {
+      productBloc.add(LoadProduct(event.product.id));
+      await Navigator.push(event.context, RouteBuilder.build(Routes.ProductOverviewRoute));
+    }
     if (event is LoadAll) {
       yield Loading();
       Home home = await blackoutPreferences.getHome();
@@ -42,10 +51,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ..addAll(groups)
         ..sort((a, b) => a.title.compareTo(b.title));
       yield LoadedAll(cards);
-    } else if (event is TapOnGroup) {
-      groupBloc.add(LoadGroup(event.group.id));
-    } else if (event is TapOnProduct) {
-      productBloc.add(LoadProduct(event.product.id));
     }
   }
 }

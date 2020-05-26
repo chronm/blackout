@@ -53,7 +53,7 @@ class Charge {
 
   UnitEnum get unit => product.unit;
 
-  double get amount => changes.map((c) => c.value).reduce((a, b) => a + b);
+  double get amount => changes.length != 0 ? changes.map((c) => c.value).reduce((a, b) => a + b) : 0;
 
   bool get expiredOrNotification {
     bool isExpired = false;

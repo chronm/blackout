@@ -1,8 +1,11 @@
 import 'package:Blackout/bloc/group/group_bloc.dart';
+import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/model_change.dart';
+import 'package:Blackout/util/speeddial.dart';
+import 'package:Blackout/widget/app_bar_title/app_bar_title.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/name_text_field/name_text_field.dart';
 import 'package:Blackout/widget/period_widget/period_widget.dart';
@@ -15,47 +18,53 @@ import 'package:flutter/material.dart';
 
 class GroupDetailsScreen extends StatefulWidget {
   final GroupBloc bloc = sl<GroupBloc>();
-  final Group group;
-  final List<ModelChange> changes;
+  final SpeedDialBloc speedDial = sl<SpeedDialBloc>();
 
-  GroupDetailsScreen(this.group, this.changes, {Key key}) : super(key: key);
+  GroupDetailsScreen({Key key}) : super(key: key);
 
   @override
   _GroupDetailsScreenState createState() => _GroupDetailsScreenState();
 }
 
 class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
+  Group _oldGroup;
   Group _group;
   Key _refillLimitKey;
   bool _errorInPeriod = false;
   bool _errorInRefillLimit = false;
+  bool _errorInName = false;
 
   @override
   void initState() {
     super.initState();
     _refillLimitKey = GlobalKey();
-    _group = widget.group.clone();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.bloc.state is ShowGroup) {
+      setState(() {
+        _oldGroup = (widget.bloc.state as ShowGroup).group;
+        _group = _oldGroup.clone();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: FLAppBarTitle(
+        title: AppBarTitle(
           title: S.of(context).modifyGroup,
-          titleStyle: TextStyle(
-            fontSize: 20,
-          ),
-          layout: FLAppBarTitleLayout.vertical,
+          layout: AppBarTitleLayout.vertical,
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && _group != widget.group
+            onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && _group != _oldGroup
                 ? () {
-                    widget.bloc.add(SaveGroup(_group));
-                    Navigator.pop(context);
+                    widget.bloc.add(SaveGroupAndReturn(_group, context));
                   }
                 : null,
           )
@@ -69,9 +78,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 padding: EdgeInsets.all(8.8),
                 child: NameTextField(
                   initialValue: _group.name,
-                  callback: (value) {
+                  callback: (value, error) {
                     setState(() {
                       _group.name = value;
+                      _errorInName = error;
                     });
                   },
                 ),
@@ -145,7 +155,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             HorizontalTextDivider(text: S.of(context).changes),
           ]..addAll(
-              widget.changes
+              _group.modelChanges
                   .map(
                     (c) => Card(
                       child: Padding(
@@ -161,6 +171,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
         ),
       ),
+      floatingActionButton: createSpeedDial([
+        goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+      ]),
     );
   }
 }

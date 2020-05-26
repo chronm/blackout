@@ -1,12 +1,14 @@
 import 'package:Blackout/bloc/product/product_bloc.dart';
+import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/widget/group_selector/group_selector.dart';
+import 'package:Blackout/util/speeddial.dart';
+import 'package:Blackout/widget/app_bar_title/app_bar_title.dart';
 import 'package:Blackout/widget/description_text_field/description_text_field.dart';
 import 'package:Blackout/widget/ean_field/ean_field.dart';
+import 'package:Blackout/widget/group_selector/group_selector.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
@@ -16,18 +18,18 @@ import 'package:flutter/material.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final ProductBloc bloc = sl<ProductBloc>();
-  final Product product;
-  final List<ModelChange> changes;
-  final List<Group> groups;
+  final SpeedDialBloc speedDial = sl<SpeedDialBloc>();
 
-  ProductDetailsScreen(this.product, this.changes, this.groups, {Key key}) : super(key: key);
+  ProductDetailsScreen({Key key}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  Product _oldProduct;
   Product _product;
+  List<Group> _groups;
   bool _errorInEan = false;
   bool _errorInRefillLimit = false;
   Key _refillLimitKey;
@@ -36,33 +38,37 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     _refillLimitKey = GlobalKey();
-    _product = widget.product.clone();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.bloc.state is ShowProduct) {
+      setState(() {
+        _oldProduct = (widget.bloc.state as ShowProduct).product;
+        _product = _oldProduct.clone();
+        _groups = (widget.bloc.state as ShowProduct).groups;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: FLAppBarTitle(
+        title: AppBarTitle(
           title: S.of(context).modifyProduct,
-          titleStyle: TextStyle(
-            fontSize: 20,
-          ),
-          subtitle: widget.product.hierarchy(context),
+          subtitle: _product.hierarchy(context),
           subtitleStyle: TextStyle(
             fontSize: 15,
           ),
-          layout: FLAppBarTitleLayout.vertical,
+          layout: AppBarTitleLayout.vertical,
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: _product.isValid() && !_errorInEan && !_errorInRefillLimit && _product != widget.product
-                ? () {
-                    widget.bloc.add(SaveProduct(_product));
-                    Navigator.pop(context);
-                  }
+            onPressed: _product.isValid() && !_errorInEan && !_errorInRefillLimit && _product != _oldProduct
+                ? () => widget.bloc.add(SaveProductAndReturn(_product, context))
                 : null,
           )
         ],
@@ -88,7 +94,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 padding: EdgeInsets.all(8.8),
                 child: GroupSelector(
                   initialGroup: _product.group,
-                  groups: widget.groups,
+                  groups: _groups,
                   callback: (value) {
                     setState(() {
                       _product.group = value;
@@ -177,7 +183,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             HorizontalTextDivider(text: S.of(context).changes),
           ]..addAll(
-              widget.changes
+              _product.modelChanges
                   .map(
                     (c) => Card(
                       child: Padding(
@@ -193,6 +199,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
         ),
       ),
+      floatingActionButton: createSpeedDial([
+        goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+        createGroupButton(() => widget.speedDial.add(TapOnCreateGroup(context))),
+      ]),
     );
   }
 }

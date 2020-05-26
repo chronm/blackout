@@ -1,30 +1,26 @@
 part of 'group_bloc.dart';
 
-abstract class GroupEvent extends Equatable {}
+abstract class GroupEvent {}
+
+class CreateGroup extends GroupEvent {}
 
 class LoadGroup extends GroupEvent {
   final String groupId;
 
   LoadGroup(this.groupId);
-
-  @override
-  List<Object> get props => [groupId];
 }
 
-class SaveGroup extends GroupEvent {
+class SaveGroupAndReturn extends GroupEvent {
   final Group group;
+  final BuildContext context;
 
-  SaveGroup(this.group);
-
-  @override
-  List<Object> get props => [group];
+  SaveGroupAndReturn(this.group, this.context);
 }
 
 class TapOnProduct extends GroupEvent {
   final Product product;
 
   TapOnProduct(this.product);
-
-  @override
-  List<Object> get props => [product];
 }
+
+class LoadGroups extends GroupEvent {}

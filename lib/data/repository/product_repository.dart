@@ -82,6 +82,14 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
     return await createProduct(productEntry, recurseGroup: recurseGroup, recurseCharges: recurseCharges);
   }
 
+  Future<Product> getOneByEanAndHomeId(String ean, String homeId, {bool recurseGroup = true, bool recurseCharges = true}) async {
+    var query = select(productTable)..where((p) => p.ean.equals(ean));
+    ProductEntry productEntry = (await query.getSingle());
+    if (productEntry == null) return null;
+
+    return await createProduct(productEntry, recurseGroup: recurseGroup, recurseCharges: recurseCharges);
+  }
+
   Future<List<Product>> getAllByGroupIdAndHomeId(String groupId, String homeId, {bool recurseGroup = true}) async {
     List<Product> products = [];
 
