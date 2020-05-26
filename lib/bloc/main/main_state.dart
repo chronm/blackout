@@ -1,20 +1,11 @@
 part of 'main_bloc.dart';
 
-abstract class MainState extends Equatable {}
+abstract class MainState {}
 
-class InitialMainState extends MainState {
-  @override
-  List<Object> get props => [];
-}
+class InitialMainState extends MainState {}
 
-class GoToSetup extends MainState {
-  @override
-  List<Object> get props => [];
-}
+class GoToSetup extends MainState {}
 
-class GoToHome extends MainState {
-  @override
-  List<Object> get props => [];
-}
+class GoToHome extends MainState {}
 
 class LoadingState {}

@@ -2,6 +2,15 @@ part of 'product_bloc.dart';
 
 abstract class ProductEvent extends Equatable {}
 
+class CreateProduct extends ProductEvent {
+  final String productId;
+
+  CreateProduct(this.productId);
+
+  @override
+  List<Object> get props => [productId];
+}
+
 class LoadProduct extends ProductEvent {
   final String productId;
 
@@ -11,13 +20,14 @@ class LoadProduct extends ProductEvent {
   List<Object> get props => [productId];
 }
 
-class SaveProduct extends ProductEvent {
+class SaveProductAndReturn extends ProductEvent {
   final Product product;
+  final BuildContext context;
 
-  SaveProduct(this.product);
+  SaveProductAndReturn(this.product, this.context);
 
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [product, context];
 }
 
 class TapOnCharge extends ProductEvent {

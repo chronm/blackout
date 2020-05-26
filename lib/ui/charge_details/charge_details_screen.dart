@@ -1,7 +1,10 @@
 import 'package:Blackout/bloc/charge/charge_bloc.dart';
+import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/charge.dart';
+import 'package:Blackout/util/speeddial.dart';
+import 'package:Blackout/widget/app_bar_title/app_bar_title.dart';
 import 'package:Blackout/widget/expiration_date_picker/expiration_date_picker.dart';
 import 'package:Blackout/widget/notification_date_picker/notification_date_picker.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
@@ -10,45 +13,44 @@ import 'package:flutter/material.dart';
 
 class ChargeDetailsScreen extends StatefulWidget {
   final ChargeBloc bloc = sl<ChargeBloc>();
-  final Charge charge;
+  final SpeedDialBloc speedDial = sl<SpeedDialBloc>();
 
-  ChargeDetailsScreen(this.charge, {Key key}) : super(key: key);
+  ChargeDetailsScreen({Key key}) : super(key: key);
 
   @override
   _ChargeDetailsScreenState createState() => _ChargeDetailsScreenState();
 }
 
 class _ChargeDetailsScreenState extends State<ChargeDetailsScreen> {
+  Charge _oldCharge;
   Charge _charge;
   bool _errorInExpirationDate = false;
   bool _errorInNotificationDate = false;
 
   @override
-  void initState() {
-    super.initState();
-    _charge = widget.charge.clone();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.bloc.state is ShowCharge) {
+      setState(() {
+        _oldCharge = (widget.bloc.state as ShowCharge).charge.clone();
+        _charge = _oldCharge.clone();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: FLAppBarTitle(
+        title: AppBarTitle(
           title: S.of(context).modifyCharge,
-          titleStyle: TextStyle(
-            fontSize: 20,
-          ),
-          subtitle: widget.charge.hierarchy(context),
-          subtitleStyle: TextStyle(
-            fontSize: 15,
-          ),
-          layout: FLAppBarTitleLayout.vertical,
+          subtitle: _charge.hierarchy(context),
+          layout: AppBarTitleLayout.vertical,
         ),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: !_errorInExpirationDate && !_errorInNotificationDate && _charge != widget.charge
+            onPressed: !_errorInExpirationDate && !_errorInNotificationDate && _charge != _oldCharge
                 ? () {
                     widget.bloc.add(SaveCharge(_charge));
                     Navigator.pop(context);
@@ -91,6 +93,9 @@ class _ChargeDetailsScreenState extends State<ChargeDetailsScreen> {
           ],
         ),
       ),
+      floatingActionButton: createSpeedDial([
+        goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+      ]),
     );
   }
 }

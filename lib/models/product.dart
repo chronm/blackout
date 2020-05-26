@@ -1,8 +1,8 @@
 import 'package:Blackout/data/database/database.dart';
+import 'package:Blackout/models/charge.dart' show Charge;
 import 'package:Blackout/models/group.dart' show Group;
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/home_listable.dart';
-import 'package:Blackout/models/charge.dart' show Charge;
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/unit/unit.dart';
@@ -30,7 +30,7 @@ class Product implements HomeListable {
 
   UnitEnum get unit => group != null ? group.unit : _unit;
 
-  double get amount => charges.map((i) => i.amount).reduce((a, b) => a + b);
+  double get amount => charges.length != 0 ? charges.map((i) => i.amount).reduce((a, b) => a + b) : 0;
 
   @override
   String get title => description;
@@ -52,14 +52,14 @@ class Product implements HomeListable {
   bool get tooFewAvailable => refillLimit != null ? amount <= refillLimit : false;
 
   Product clone() {
-    return Product(id: id, ean: ean, group: group, description: description, charges: charges, home: home, refillLimit: refillLimit, unit: unit, modelChanges: modelChanges);
+    return Product(id: id, ean: ean, group: group, description: description, charges: charges, home: home, refillLimit: refillLimit, unit: _unit, modelChanges: modelChanges);
   }
 
   bool isValid() {
     return description != null && description != "";
   }
 
-   bool operator ==(other) {
+  bool operator ==(other) {
     return ean == other.ean && description == other.description && refillLimit == other.refillLimit && group == other.group;
   }
 

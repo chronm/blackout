@@ -22,9 +22,9 @@ class Group implements HomeListable {
   UnitEnum unit;
   List<ModelChange> modelChanges = [];
 
-  Group({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products = const [], @required this.home, this.modelChanges}) : products = products;
+  Group({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products, @required this.home, this.modelChanges}) : products = products;
 
-  double get amount => products.map((p) => p.amount).reduce((a, b) => a + b);
+  double get amount => products.length != 0 ? products.map((p) => p.amount).reduce((a, b) => a + b) : 0;
 
   @override
   String get title => amount > 1 ? (pluralName != null ? pluralName : name) : name;
@@ -39,7 +39,8 @@ class Group implements HomeListable {
 
   @override
   bool get tooFewAvailable {
-    return (amount <= refillLimit) || products.any((product) => product.tooFewAvailable);
+    bool inThis = refillLimit != null ? amount <= refillLimit : false;
+    return inThis || products.any((product) => product.tooFewAvailable);
   }
 
   Group clone() {

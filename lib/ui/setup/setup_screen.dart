@@ -183,7 +183,7 @@ class _SetupScreenState extends State<SetupScreen> {
         bloc: widget._bloc,
         listener: (context, state) {
           if (state is GoToHome) {
-            Navigator.pushReplacement(context, RouteBuilder.build(Routes.homeRoute()));
+            Navigator.pushReplacement(context, RouteBuilder.build(Routes.HomeRoute));
           }
         },
         child: ScrollableContainer(

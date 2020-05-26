@@ -1,17 +1,11 @@
 part of 'charge_bloc.dart';
 
-abstract class ChargeState extends Equatable {}
+abstract class ChargeState {}
 
-class InitialChargeState extends ChargeState {
-  @override
-  List<Object> get props => [];
-}
+class InitialChargeState extends ChargeState {}
 
 class ShowCharge extends ChargeState {
   final Charge charge;
 
   ShowCharge(this.charge);
-
-  @override
-  List<Object> get props => [charge];
 }

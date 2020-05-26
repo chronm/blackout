@@ -4,6 +4,7 @@ import 'package:Blackout/bloc/charge/charge_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart' show MainBloc;
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/bloc/setup/setup_bloc.dart';
+import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
@@ -25,11 +26,12 @@ void prepareSharedPreferences(GetIt sl) async {
 
 void prepareBlocs(GetIt sl) async {
   sl.registerSingleton<ChargeBloc>(ChargeBloc(sl<ChangeRepository>(), sl<ChargeRepository>(), sl<BlackoutPreferences>(), sl<ModelChangeRepository>()));
-  sl.registerSingleton<ProductBloc>(ProductBloc(sl<ModelChangeRepository>(), sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>(), sl<ChargeBloc>()));
+  sl.registerSingleton<ProductBloc>(ProductBloc(sl<ModelChangeRepository>(), sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
   sl.registerSingleton<GroupBloc>(GroupBloc(sl<GroupRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>(), sl<ProductBloc>()));
   sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<GroupBloc>(),sl<ModelChangeRepository>(), sl<ProductBloc>()));
   sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<ChargeRepository>(), sl<ChangeRepository>()));
   sl.registerSingleton<MainBloc>(MainBloc(sl<BlackoutPreferences>(), sl<HomeBloc>()));
+  sl.registerSingleton<SpeedDialBloc>(SpeedDialBloc(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ProductBloc>(), sl<HomeBloc>(), sl<GroupBloc>(), sl<ChargeBloc>(), sl<ChangeRepository>()  ));
 }
 
 void registerRepositories(GetIt sl) async {

@@ -48,14 +48,14 @@ extension LocalDateTimeExtension on LocalDateTime {
     DateTime now = LocalDateTime.now().toDateTimeLocal();
     DateTime other = this.toDateTimeLocal();
 
-    if (Jiffy(now).diff(other, Units.DAY) == 0) {
+    if (now.day == other.day) {
       return S.of(context).today;
     }
 
-    if (Jiffy(now).diff(other, Units.DAY) == 1) {
+    if (now.day - other.day == 1) {
       return S.of(context).yesterday;
     }
-    if (Jiffy(now).diff(other, Units.DAY) == -1) {
+    if (now.day - other.day == -1) {
       return S.of(context).tomorrow;
     }
     if (Jiffy(now).diff(other, Units.WEEK) == 0) {

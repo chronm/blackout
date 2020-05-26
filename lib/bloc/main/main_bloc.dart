@@ -3,9 +3,9 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart' show Bloc;
-import 'package:equatable/equatable.dart' show Equatable;
 
 part 'main_event.dart';
+
 part 'main_state.dart';
 
 class MainBloc extends Bloc<MainEvent, MainState> {

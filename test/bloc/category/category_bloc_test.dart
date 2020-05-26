@@ -32,7 +32,7 @@ void main() {
 
     expectLater(groupBloc, emitsInOrder([InitialGroupState(), isA<ShowGroup>()]));
 
-    groupBloc.add(SaveGroup(createDefaultGroup()));
+    groupBloc.add(SaveGroupAndReturn(createDefaultGroup()));
   });
 
   test('Load group, coming from HomeScreen emits ShowGroup', () {
