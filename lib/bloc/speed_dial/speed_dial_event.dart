@@ -25,8 +25,9 @@ class TapOnTakeFromCharge extends SpeedDialEvent {
 
 class TapOnCreateCharge extends SpeedDialEvent {
   final BuildContext context;
+  final Product product;
 
-  TapOnCreateCharge(this.context);
+  TapOnCreateCharge(this.context, this.product);
 }
 
 class TapOnCreateProduct extends SpeedDialEvent {

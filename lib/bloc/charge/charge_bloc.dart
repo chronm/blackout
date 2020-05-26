@@ -6,6 +6,7 @@ import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/home.dart';
+import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -29,7 +30,7 @@ class ChargeBloc extends Bloc<ChargeEvent, ChargeState> {
   Stream<ChargeState> mapEventToState(ChargeEvent event) async* {
     if (event is CreateCharge) {
       Home home = await blackoutPreferences.getHome();
-      Charge charge = Charge(home: home);
+      Charge charge = Charge(home: home, product: event.product);
       yield ShowCharge(charge);
     }
     if (event is SaveCharge) {
