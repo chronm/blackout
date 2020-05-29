@@ -49,6 +49,12 @@ class Charge {
     }
   }
 
+  String creationDate(BuildContext context) {
+    ModelChange creation = modelChanges.firstWhere((element) => element.modification == ModelChangeType.create);
+    String creationDate = creation.modificationDate.prettyPrintShortDifference(context);
+    return S.of(context).createdAt(creationDate).capitalize();
+  }
+
   String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(product.group != null ? product.group.unit : product.unit))).toString();
 
   UnitEnum get unit => product.unit;

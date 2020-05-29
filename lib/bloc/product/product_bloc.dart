@@ -35,7 +35,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     if (event is CreateProduct) {
       Home home = await blackoutPreferences.getHome();
       List<Group> groups = await groupRepository.findAllByHomeId(home.id);
-      Product product = Product(ean: event.productId, description: "", home: home, modelChanges: [], charges: [], unit: UnitEnum.unitless);
+      Product product = Product(ean: event.ean, group: event.group, description: "", home: home, modelChanges: [], charges: [], unit: UnitEnum.unitless);
       yield ShowProduct(product, groups);
     }
     if (event is SaveProductAndReturn) {

@@ -10,6 +10,7 @@ import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
@@ -47,7 +48,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
         productBloc.add(LoadProduct(product.id));
         Navigator.push(event.context, RouteBuilder.build(Routes.ProductOverviewRoute));
       } else {
-        productBloc.add(CreateProduct(event.ean));
+        productBloc.add(CreateProduct(event.ean, null));
         Navigator.push(event.context, RouteBuilder.build(Routes.ProductDetailsRoute));
       }
     }
@@ -56,7 +57,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       Navigator.push(event.context, RouteBuilder.build(Routes.ChargeDetailsRoute));
     }
     if (event is TapOnCreateProduct) {
-      productBloc.add(CreateProduct(""));
+      productBloc.add(CreateProduct(null, event.group));
       Navigator.push(event.context, RouteBuilder.build(Routes.ProductDetailsRoute));
     }
     if (event is TapOnCreateGroup) {

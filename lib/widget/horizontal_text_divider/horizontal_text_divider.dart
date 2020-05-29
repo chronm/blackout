@@ -12,11 +12,11 @@ class HorizontalTextDivider extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Divider(),
+            child: Divider(color: Colors.grey[800], thickness: 2,),
           ),
           Text(text),
           Expanded(
-            child: Divider(),
+            child: Divider(color: Colors.grey[800], thickness: 2,),
           )
         ],
       ),
