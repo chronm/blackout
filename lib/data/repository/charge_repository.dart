@@ -91,7 +91,7 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
       product.charges = charges;
     }
 
-    return charges;
+    return charges..sort((a, b) => a.expirationOrNotificationDate.compareTo(b.expirationOrNotificationDate));
   }
 
   Future<Charge> save(Charge charge, User user) async {

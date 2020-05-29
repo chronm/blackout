@@ -3,12 +3,13 @@ part of 'product_bloc.dart';
 abstract class ProductEvent extends Equatable {}
 
 class CreateProduct extends ProductEvent {
-  final String productId;
+  final String ean;
+  final Group group;
 
-  CreateProduct(this.productId);
+  CreateProduct(this.ean, this.group);
 
   @override
-  List<Object> get props => [productId];
+  List<Object> get props => [ean, group];
 }
 
 class LoadProduct extends ProductEvent {

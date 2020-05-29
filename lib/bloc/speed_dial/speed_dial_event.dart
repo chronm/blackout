@@ -32,8 +32,9 @@ class TapOnCreateCharge extends SpeedDialEvent {
 
 class TapOnCreateProduct extends SpeedDialEvent {
   final BuildContext context;
+  final Group group;
 
-  TapOnCreateProduct(this.context);
+  TapOnCreateProduct(this.context, this.group);
 }
 
 class TapOnCreateGroup extends SpeedDialEvent {

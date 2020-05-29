@@ -8,7 +8,6 @@ import 'package:Blackout/widget/app_bar_title/app_bar_title.dart';
 import 'package:Blackout/widget/expiration_date_picker/expiration_date_picker.dart';
 import 'package:Blackout/widget/notification_date_picker/notification_date_picker.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:flui/flui.dart';
 import 'package:flutter/material.dart';
 
 class ChargeDetailsScreen extends StatefulWidget {

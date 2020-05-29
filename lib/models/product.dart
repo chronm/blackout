@@ -49,7 +49,12 @@ class Product implements HomeListable {
   }
 
   @override
-  bool get tooFewAvailable => refillLimit != null ? amount <= refillLimit : false;
+  bool get tooFewAvailable {
+    if (group != null) {
+      return group.tooFewAvailable;
+    }
+    return refillLimit != null ? amount <= refillLimit : false;
+  }
 
   Product clone() {
     return Product(id: id, ean: ean, group: group, description: description, charges: charges, home: home, refillLimit: refillLimit, unit: _unit, modelChanges: modelChanges);

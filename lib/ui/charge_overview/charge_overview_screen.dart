@@ -1,11 +1,15 @@
 import 'package:Blackout/bloc/charge/charge_bloc.dart';
 import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/util/speeddial.dart';
-import 'package:Blackout/widget/loading_app_bar/loading_app_bar.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Center, Container, Key, ListTile, ListView, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
+import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
+import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
+import 'package:Blackout/widget/title_card/title_card.dart';
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Container, Key, ListTile, ListView, MediaQuery, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
+import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChargeOverviewScreen extends StatefulWidget {
@@ -22,44 +26,52 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LoadingAppBar<ChargeBloc, ChargeState>(
-        bloc: widget.bloc,
-        titleResolver: (state) => state is ShowCharge ? state.charge.buildTitle(context) : "",
-        titleCallback: (state) {
-          if (state is ShowCharge) {
-            Navigator.push(context, RouteBuilder.build(Routes.ChargeDetailsRoute));
-          }
-        },
-        subtitleResolver: (state) => state is ShowCharge ? state.charge.hierarchy(context) : "",
-        returnAction: () => Navigator.pop(context),
-      ),
-      body: BlocBuilder<ChargeBloc, ChargeState>(
-        bloc: widget.bloc,
-        builder: (context, state) {
-          if (state is ShowCharge) {
-            if (state.charge.changes.length == 0) {
-              return Center(
-                child: Text(
-                  "Nothing here",
-                ),
+      body: ScrollableContainer(
+        fullscreen: true,
+        child: BlocBuilder<ChargeBloc, ChargeState>(
+          bloc: widget.bloc,
+          builder: (context, state) {
+            if (state is ShowCharge) {
+              return Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  TitleCard(
+                    title: state.charge.creationDate(context),
+                    tag: state.charge.id,
+                    event: state.charge.expiredOrNotification ? "Notify Apr 25, 2020" : null,
+                    available: S.of(context).available(state.charge.subtitle),
+                    productName: state.charge.product.title,
+                    groupName: state.charge.product.group?.title,
+                    modifyAction: () => Navigator.push(context, RouteBuilder.build(Routes.ChargeDetailsRoute)),
+                  ),
+                  HorizontalTextDivider(
+                    text: "Changes",
+                  ),
+                  Expanded(
+                    child: state.charge.changes.length == 0
+                        ? Center(
+                            child: Text("Nothing here"),
+                          )
+                        : ListView.builder(
+                            itemCount: state.charge.changes.length,
+                            itemBuilder: (context, index) {
+                              Change change = state.charge.changes[index];
+
+                              return Card(
+                                child: ListTile(
+                                  title: Text(change.buildTitle(context)),
+                                  subtitle: Text(change.subtitle),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
               );
             }
-            return ListView.builder(
-              itemCount: state.charge.changes.length,
-              itemBuilder: (context, index) {
-                Change change = state.charge.changes[index];
-
-                return Card(
-                  child: ListTile(
-                    title: Text(change.buildTitle(context)),
-                    subtitle: Text(change.subtitle),
-                  ),
-                );
-              },
-            );
-          }
-          return Container();
-        },
+            return Container();
+          },
+        ),
       ),
       floatingActionButton: BlocBuilder<ChargeBloc, ChargeState>(
         bloc: widget.bloc,

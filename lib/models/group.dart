@@ -39,8 +39,7 @@ class Group implements HomeListable {
 
   @override
   bool get tooFewAvailable {
-    bool inThis = refillLimit != null ? amount <= refillLimit : false;
-    return inThis || products.any((product) => product.tooFewAvailable);
+    return refillLimit != null ? amount <= refillLimit : false;
   }
 
   Group clone() {

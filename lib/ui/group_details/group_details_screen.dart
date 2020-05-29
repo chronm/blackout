@@ -3,7 +3,6 @@ import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/app_bar_title/app_bar_title.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
@@ -13,7 +12,6 @@ import 'package:Blackout/widget/plural_name_widget/plural_name_widget.dart';
 import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/unit_widget/unit_widget.dart';
-import 'package:flui/flui.dart';
 import 'package:flutter/material.dart';
 
 class GroupDetailsScreen extends StatefulWidget {

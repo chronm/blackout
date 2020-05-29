@@ -8,4 +8,6 @@ abstract class HomeListable {
   bool get expiredOrNotification;
 
   bool get tooFewAvailable;
+
+  String get id;
 }
