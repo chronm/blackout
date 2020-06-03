@@ -1,56 +1,219 @@
 {
-  "_locale": "de",
-  "setup": "Einrichtung",
-  "welcomeMessage": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
-  "setYourUsername": "Wie möchten Sie genannt werden? Dies ist für jeden Haushalt, zu dem Sie gehören, gleich und wird verwendet, um Sie zu identifizieren, z.B. wenn Sie Gegenstände hinzufügen oder entfernen. Sie können dies später ändern.",
-  "setYourHome": "Wollen Sie einem bestehenden Haushalt beitreten oder einen neuen gründen?",
-  "joinHome": "Scanne einfach den QR Code auf einem anderen Gerät um dem Haushalt beizutreten.",
-  "createHome": "Wie möchten Sie Ihren Haushalt nennen? Sie können ihn später ändern",
-  "nameOfYourHousehold": "Name deines Haushaltes",
-  "username": "Benutzername",
-  "create": "Erstellen",
-  "join": "Beitreten",
-  "finish": "Fertig",
-  "available": "Verfügbar: {amount}",
-  "singular": "Wie lautet der Name dieser Kategorie?",
-  "plural": "Wenn es eine Pluralform hat, geben Sie hier ein",
-  "modifyGroup": "Kategorie bearbeiten",
-  "modifyProduct": "Produkt bearbeiten",
-  "modifyCharge": "Charge bearbeiten",
-  "years": "{years, plural, one{1 Jahr} other {{years} Jahre}}",
-  "months": "{months, plural, one{1 Monat} other {{months} Monate}}",
-  "weeks": "{weeks, plural, one{1 Woche} other {{weeks} Wochen}}",
-  "days": "{days, plural, one{1 Tag} other {{days} Tage}}",
-  "hours": "{hours, plural, one{1 Stunde} other {{hours} Stunden}}",
-  "minutes": "{minutes, plural, one{1 Minute} other {{minutes} Minuten}}",
-  "seconds": "{seconds, plural, one{1 Sekunde} other {{seconds} Sekunden}}",
-  "created": "Erstellt",
-  "modifiedField": "Änderung von {field} von {from} zu {to}",
-  "disabledField": "{field} ({from}) deaktiviert",
-  "enabledField": "{field} ({to}) aktiviert",
-  "changes": "Änderungen",
-  "nameMustNotBeEmpty": "Name darf nicht leer sein",
-  "warnMe": "Warne mich vor Ablauf",
-  "minimumAmount": "Mindestmenge",
-  "amountCouldNotBeParsed": "{amount} ist kein gültiger Wert",
-  "createdAt": "{create} erstellt",
-  "expired": "lief {time} ab",
-  "expires": "läuft {time} ab",
-  "inWeeks": "{weeks, plural, one{in {weeks} Woche} other{{in {weeks} Wochen}}",
-  "inMonths": "{months, plural, one{in {months} Monat} other{{in {months} Monaten}}",
-  "longAgo": "Vor einiger Zeit",
-  "today": "heute",
-  "yesterday": "gestern",
-  "tomorrow": "morgen",
-  "future": "weit in der Zukunft",
-  "notify": "benachrichtige {time}",
-  "description": "Beschreibung",
-  "descriptionMustNotBeEmpty": "Beschreibung darf nicht leer sein",
-  "ean": "Produktcode (ean)",
-  "removed": "{date} {amount} entnommen",
-  "added": "{date} {amount} hinzugefügt",
-  "expirationDate": "Mindesthaltbarkeitsdatum",
-  "notificationDate": "Benachrichtigungsdatum",
-  "expirationDateCouldNotBeParsed": "{expirationDate} ist kein gültiger Wert",
-  "notificationDateCouldNotBeParsed": "{notificationDate} ist kein gültiger Wert"
+  "@@locale": "de",
+  "CHANGE_ADDED": "{date} {amount} hinzugefügt",
+  "@CHANGE_ADDED": {
+    "placeholders": {
+      "amount": {},
+      "date": {}
+    }
+  },
+  "CHANGES": "Änderungen",
+  "@CHANGES": {},
+  "CHANGE_TOOK": "{date} {amount} entnommen",
+  "@CHANGE_TOOK": {
+    "placeholders": {
+      "amount": {},
+      "date": {}
+    }
+  },
+  "GENERAL_AMOUNT_AVAILABLE": "Verfügbar: {amount}",
+  "@GENERAL_AMOUNT_AVAILABLE": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "GENERAL_DAYS": "{days, plural, zero{} one{1 Tag} other{{days} Tage}}",
+  "@GENERAL_DAYS": {
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "GENERAL_EVENT_IN_MONTHS": "{months, plural, zero{} one{in 1 Monat} other{in {months} Monaten}}",
+  "@GENERAL_EVENT_IN_MONTHS": {
+    "placeholders": {
+      "months": {}
+    }
+  },
+  "GENERAL_EVENT_IN_OVER_A_YEAR": "in über einem Jahr",
+  "@GENERAL_EVENT_IN_OVER_A_YEAR": {},
+  "GENERAL_EVENT_IN_WEEKS": "{weeks, plural, zero{} one{in 1 Woche} other{in {weeks} Wochen}}",
+  "@GENERAL_EVENT_IN_WEEKS": {
+    "placeholders": {
+      "weeks": {}
+    }
+  },
+  "GENERAL_EVENT_OVER_A_YEAR_AGO": "vor über einem Jahr",
+  "@GENERAL_EVENT_OVER_A_YEAR_AGO": {},
+  "GENERAL_EVENT_TODAY": "heute",
+  "@GENERAL_EVENT_TODAY": {},
+  "GENERAL_EVENT_TOMORROW": "morgen",
+  "@GENERAL_EVENT_TOMORROW": {},
+  "GENERAL_EVENT_YESTERDAY": "gestern",
+  "@GENERAL_EVENT_YESTERDAY": {},
+  "GENERAL_EXPIRED_AGO": "lief {expirationDate} ab",
+  "@GENERAL_EXPIRED_AGO": {
+    "placeholders": {
+      "expirationDate": {}
+    }
+  },
+  "GENERAL_EXPIRES_AT": "läuft {expirationDate} ab",
+  "@GENERAL_EXPIRES_AT": {
+    "placeholders": {
+      "expirationDate": {}
+    }
+  },
+  "GENERAL_EXPIRES_IN": "läuft {interval} ab",
+  "@GENERAL_EXPIRES_IN": {
+    "placeholders": {
+      "interval": {}
+    }
+  },
+  "GENERAL_HOURS": "{hours, plural, zero{} one{1 Stunde} other{{hours} Stunden}}",
+  "@GENERAL_HOURS": {
+    "placeholders": {
+      "hours": {}
+    }
+  },
+  "GENERAL_LESS_THAN_AVAILABLE": "Weniger als {amount} verfügbar",
+  "@GENERAL_LESS_THAN_AVAILABLE": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "GENERAL_MINUTES": "{minutes, plural, zero{} one{1 Minute} other{{minutes} Minuten}}",
+  "@GENERAL_MINUTES": {
+    "placeholders": {
+      "minutes": {}
+    }
+  },
+  "GENERAL_MONTHS": "{months, plural, zero{} one{1 Monat} other{{months} Monate}}",
+  "@GENERAL_MONTHS": {
+    "placeholders": {
+      "months": {}
+    }
+  },
+  "GENERAL_NOTIFY_AT": "Benachrichtige {notificationDate}",
+  "@GENERAL_NOTIFY_AT": {
+    "placeholders": {
+      "notificationDate": {}
+    }
+  },
+  "GENERAL_SAVE": "Speichern",
+  "@GENERAL_SAVE": {},
+  "GENERAL_SEARCH": "Suche",
+  "@GENERAL_SEARCH": {},
+  "GENERAL_SECONDS": "{seconds, plural, zero{} one{1 Sekunde} other{{seconds} Sekunden}}",
+  "@GENERAL_SECONDS": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "GENERAL_WEEKS": "{weeks, plural, zero{} one{1 Woche} other{{weeks} Wochen}}",
+  "@GENERAL_WEEKS": {
+    "placeholders": {
+      "weeks": {}
+    }
+  },
+  "GENERAL_YEARS": "{years, plural, zero{} one{1 Jahr} other{{years} Jahre}}",
+  "@GENERAL_YEARS": {
+    "placeholders": {
+      "years": {}
+    }
+  },
+  "GROUP_BEST_BEFORE": "Ablaufdatum",
+  "@GROUP_BEST_BEFORE": {},
+  "GROUP_MINIMUM_AMOUNT": "Mindestmenge",
+  "@GROUP_MINIMUM_AMOUNT": {},
+  "GROUP_NAME": "Name der Kategorie",
+  "@GROUP_NAME": {},
+  "GROUP_NO_PRODUCTS": "Keine Produkte",
+  "@GROUP_NO_PRODUCTS": {},
+  "GROUP_PLURAL_NAME": "Pluralform des Names",
+  "@GROUP_PLURAL_NAME": {},
+  "MODEL_CHANGE_CREATED": "Erstellt",
+  "@MODEL_CHANGE_CREATED": {},
+  "MODEL_CHANGE_FIELD_DISABLED": "{field} ({from}) deaktiviert",
+  "@MODEL_CHANGE_FIELD_DISABLED": {
+    "placeholders": {
+      "field": {},
+      "from": {}
+    }
+  },
+  "MODEL_CHANGE_FIELD_ENABLED": "{field} ({to}) aktiviert",
+  "@MODEL_CHANGE_FIELD_ENABLED": {
+    "placeholders": {
+      "field": {},
+      "to": {}
+    }
+  },
+  "MODEL_CHANGE_FIELD_MODIFIED": "Änderung von {field} von {from} zu {to}",
+  "@MODEL_CHANGE_FIELD_MODIFIED": {
+    "placeholders": {
+      "field": {},
+      "from": {},
+      "to": {}
+    }
+  },
+  "PRODUCT_DESCRIPTION": "Beschreibung",
+  "@PRODUCT_DESCRIPTION": {},
+  "PRODUCT_EAN": "Produktcode",
+  "@PRODUCT_EAN": {},
+  "PRODUCTS": "Produkte",
+  "@PRODUCTS": {},
+  "SETUP_CREATE_HOME": "Erstellen",
+  "@SETUP_CREATE_HOME": {},
+  "SETUP_CREATE_HOME_CARD_TITLE": "Wie möchten Sie Ihren Haushalt nennen? Sie können ihn später ändern",
+  "@SETUP_CREATE_HOME_CARD_TITLE": {},
+  "SETUP_FINISH": "Fertig",
+  "@SETUP_FINISH": {},
+  "SETUP_HOME_CARD_TITLE": "Wollen Sie einem bestehenden Haushalt beitreten oder einen neuen gründen?",
+  "@SETUP_HOME_CARD_TITLE": {},
+  "SETUP_HOME_NAME": "Name deines Haushaltes",
+  "@SETUP_HOME_NAME": {},
+  "SETUP_JOIN_HOME": "Beitreten",
+  "@SETUP_JOIN_HOME": {},
+  "SETUP_JOIN_HOME_CARD_TITLE": "Scanne einfach den QR Code auf einem anderen Gerät um dem Haushalt beizutreten.",
+  "@SETUP_JOIN_HOME_CARD_TITLE": {},
+  "SETUP_USERNAME": "Benutzername",
+  "@SETUP_USERNAME": {},
+  "SETUP_USERNAME_CARD_TITLE": "Wie möchten Sie genannt werden? Dies ist für jeden Haushalt, zu dem Sie gehören, gleich und wird verwendet, um Sie zu identifizieren, z.B. wenn Sie Gegenstände hinzufügen oder entfernen. Sie können dies später ändern.",
+  "@SETUP_USERNAME_CARD_TITLE": {},
+  "SETUP_WELCOME_CARD_TITLE": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
+  "@SETUP_WELCOME_CARD_TITLE": {},
+  "UNIT_CREATED_AT": "{creationDate} erstellt",
+  "@UNIT_CREATED_AT": {
+    "placeholders": {
+      "creationDate": {}
+    }
+  },
+  "UNIT_EXPIRATION_DATE": "Mindesthaltbarkeitsdatum",
+  "@UNIT_EXPIRATION_DATE": {},
+  "UNIT_NOTIFICATION_DATE": "Benachrichtigungsdatum",
+  "@UNIT_NOTIFICATION_DATE": {},
+  "UNITS": "Chargen",
+  "@UNITS": {},
+  "WARN_AMOUNT_COULD_NOT_BE_PARSED": "{amount} ist kein gültiger Wert",
+  "@WARN_AMOUNT_COULD_NOT_BE_PARSED": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "WARN_DESCRIPTION_MUST_NOT_BE_EMPTY": "Beschreibung darf nicht leer sein",
+  "@WARN_DESCRIPTION_MUST_NOT_BE_EMPTY": {},
+  "WARN_EAN_MUST_NOT_BE_EMPTY": "Productcode darf nicht leer sein",
+  "@WARN_EAN_MUST_NOT_BE_EMPTY": {},
+  "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": "{expirationDate} ist kein gültiger Wert",
+  "@WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": {
+    "placeholders": {
+      "expirationDate": {}
+    }
+  },
+  "WARN_NAME_MUST_NOT_BE_EMPTY": "Name darf nicht leer sein",
+  "@WARN_NAME_MUST_NOT_BE_EMPTY": {},
+  "WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED": "{notificationDate} ist kein gültiger Wert",
+  "@WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED": {
+    "placeholders": {
+      "notificationDate": {}
+    }
+  }
 }

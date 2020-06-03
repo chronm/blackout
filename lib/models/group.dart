@@ -5,7 +5,9 @@ import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart' show Product;
 import 'package:Blackout/models/unit/unit.dart';
+import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
+import 'package:Blackout/util/group_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
@@ -24,22 +26,42 @@ class Group implements HomeListable {
 
   Group({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products, @required this.home, this.modelChanges}) : products = products;
 
-  double get amount => products.length != 0 ? products.map((p) => p.amount).reduce((a, b) => a + b) : 0;
+  @override
+  String get title => amount != 1 ? (pluralName != null ? pluralName : name) : name;
 
   @override
-  String get title => amount > 1 ? (pluralName != null ? pluralName : name) : name;
+  String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString();
+
+  String get scientificRefillLimit => UnitConverter.toScientific(Amount(refillLimit, Unit.fromSi(unit))).toString();
 
   @override
-  String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString();
+  String get subtitleBestBeforeNotification => "";
 
   @override
-  bool get expiredOrNotification {
-    return products.any((product) => product.expiredOrNotification);
+  bool get expired {
+    return products.any((product) => product.expired);
   }
 
   @override
+  bool get warn {
+    return products.any((element) => element.warn);
+  }
+  
+  @override
   bool get tooFewAvailable {
     return refillLimit != null ? amount <= refillLimit : false;
+  }
+
+  @override
+  String buildStatus(BuildContext context) {
+    return (products..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context);
+  }
+
+  @override
+  ChargeStatus get status {
+    if (expired) return ChargeStatus.expired;
+    if (warn) return ChargeStatus.warn;
+    return ChargeStatus.none;
   }
 
   Group clone() {
@@ -83,7 +105,8 @@ class Group implements HomeListable {
   List<Modification> getModifications(Group other) {
     List<Modification> modifications = [];
     if (unit != other.unit) {
-      modifications.add(Modification(fieldName: "unit", from: describeEnum(unit), to: describeEnum(other.unit)));
+      String from = unit != null ? describeEnum(unit) : null;
+      modifications.add(Modification(fieldName: "unit", from: from, to: describeEnum(other.unit)));
     }
     if (name != other.name) {
       modifications.add(Modification(fieldName: "name", from: name, to: other.name));
@@ -92,10 +115,12 @@ class Group implements HomeListable {
       modifications.add(Modification(fieldName: "pluralName", from: pluralName, to: other.pluralName));
     }
     if (warnInterval != other.warnInterval) {
-      modifications.add(Modification(fieldName: "warnInterval", from: warnInterval.toString(), to: other.warnInterval.toString()));
+      String from = warnInterval != null ? warnInterval.toString() : null;
+      modifications.add(Modification(fieldName: "warnInterval", from: from, to: other.warnInterval.toString()));
     }
     if (refillLimit != other.refillLimit) {
-      modifications.add(Modification(fieldName: "refillLimit", from: UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString().trim(), to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString().trim()));
+      String from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString() : null;
+      modifications.add(Modification(fieldName: "refillLimit", from: from, to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
     }
     return modifications;
   }

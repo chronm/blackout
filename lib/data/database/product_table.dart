@@ -10,6 +10,8 @@ class ProductTable extends Table {
 
   TextColumn get description => text().customConstraint('unique')();
 
+  TextColumn get warnInterval => text().nullable()();
+
   TextColumn get homeId => text().customConstraint('references Home(id)')();
 
   RealColumn get refillLimit => real().nullable()();

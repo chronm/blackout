@@ -46,8 +46,8 @@ class _DescriptionTextFieldState extends State<DescriptionTextField> {
     return TextField(
       controller: _controller,
       decoration: InputDecoration(
-        labelText: S.of(context).description,
-        errorText: _error ? S.of(context).descriptionMustNotBeEmpty : null,
+        labelText: S.of(context).PRODUCT_DESCRIPTION,
+        errorText: _error ? S.of(context).WARN_DESCRIPTION_MUST_NOT_BE_EMPTY : null,
       ),
     );
   }

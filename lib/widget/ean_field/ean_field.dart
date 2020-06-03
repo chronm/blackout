@@ -71,8 +71,8 @@ class _EanFieldState extends State<EanField> {
               child: TextField(
                 controller: _controller,
                 decoration: InputDecoration(
-                  labelText: S.of(context).ean,
-                  errorText: _error ? "Must not be empty" : null,
+                  labelText: S.of(context).PRODUCT_EAN,
+                  errorText: _error ? S.of(context).WARN_EAN_MUST_NOT_BE_EMPTY : null,
                 ),
               ),
             )
@@ -81,7 +81,7 @@ class _EanFieldState extends State<EanField> {
       ),
       uncheckedCallback: (context) => Expanded(
         child: Text(
-          S.of(context).ean,
+          S.of(context).PRODUCT_EAN,
           textAlign: TextAlign.center,
         ),
       ),

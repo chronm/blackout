@@ -14,8 +14,23 @@ class LoadCharge extends ChargeEvent {
   LoadCharge(this.chargeId);
 }
 
-class SaveCharge extends ChargeEvent {
+class SaveChargeAndClose extends ChargeEvent {
   final Charge charge;
+  final BuildContext context;
 
-  SaveCharge(this.charge);
+  SaveChargeAndClose(this.charge, this.context);
+}
+
+class TapOnShowChargeConfiguration extends ChargeEvent {
+  final Charge charge;
+  final BuildContext context;
+
+  TapOnShowChargeConfiguration(this.charge, this.context);
+}
+
+class TapOnShowChargeChanges extends ChargeEvent {
+  final List<ModelChange> changes;
+  final BuildContext context;
+
+  TapOnShowChargeChanges(this.changes, this.context);
 }

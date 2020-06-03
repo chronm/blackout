@@ -1,4 +1,5 @@
 import 'package:Blackout/data/database/database.dart';
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/charge.dart' show Charge;
 import 'package:Blackout/models/group.dart' show Group;
 import 'package:Blackout/models/home.dart';
@@ -6,6 +7,9 @@ import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/unit/unit.dart';
+import 'package:Blackout/util/charge_extension.dart';
+import 'package:Blackout/util/product_extension.dart';
+import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
@@ -16,48 +20,59 @@ class Product implements HomeListable {
   String ean;
   Group group;
   String description;
+  Period warnInterval;
   List<Charge> charges = [];
   Home home;
   double refillLimit;
   UnitEnum _unit;
   List<ModelChange> modelChanges = [];
 
-  String hierarchy(BuildContext context) => group != null ? group.title : null;
-
-  Product({this.id, this.ean, @required this.description, this.group, this.charges, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
+  Product({this.id, this.ean, @required this.description, this.group, this.warnInterval, this.charges, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
 
   void set unit(UnitEnum unit) => _unit = unit;
 
   UnitEnum get unit => group != null ? group.unit : _unit;
 
-  double get amount => charges.length != 0 ? charges.map((i) => i.amount).reduce((a, b) => a + b) : 0;
-
   @override
   String get title => description;
 
   @override
-  String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(group != null ? group.unit : unit))).toString();
+  String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(group != null ? group.unit : unit))).toString();
+
+  String get scientificRefillLimit => UnitConverter.toScientific(Amount(refillLimit, Unit.fromSi(unit))).toString();
 
   @override
-  bool get expiredOrNotification {
-    bool isExpired = false;
-    if (group?.warnInterval != null) {
-      isExpired = charges.where((charge) => charge.expirationDate != null).any((charge) => charge.expirationDate.subtract(group.warnInterval) < LocalDateTime.now());
-    }
+  String get subtitleBestBeforeNotification => "";
 
-    return isExpired || charges.where((charge) => charge.notificationDate != null).any((charge) => charge.notificationDate <= LocalDateTime.now());
-  }
+  @override
+  bool get expired => charges.any((element) => element.expired);
+
+  @override
+  bool get warn => charges.any((element) => element.warn);
 
   @override
   bool get tooFewAvailable {
-    if (group != null) {
-      return group.tooFewAvailable;
-    }
     return refillLimit != null ? amount <= refillLimit : false;
   }
 
+  @override
+  String buildStatus(BuildContext context) {
+    return (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context);
+  }
+
+  LocalDate get expirationDate {
+    return (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.expirationDate;
+  }
+
+  @override
+  ChargeStatus get status {
+    if (expired) return ChargeStatus.expired;
+    if (warn) return ChargeStatus.warn;
+    return ChargeStatus.none;
+  }
+
   Product clone() {
-    return Product(id: id, ean: ean, group: group, description: description, charges: charges, home: home, refillLimit: refillLimit, unit: _unit, modelChanges: modelChanges);
+    return Product(id: id, ean: ean, group: group, description: description, warnInterval: warnInterval, charges: charges, home: home, refillLimit: refillLimit, unit: _unit, modelChanges: modelChanges);
   }
 
   bool isValid() {
@@ -65,7 +80,7 @@ class Product implements HomeListable {
   }
 
   bool operator ==(other) {
-    return ean == other.ean && description == other.description && refillLimit == other.refillLimit && group == other.group;
+    return ean == other.ean && description == other.description && refillLimit == other.refillLimit && group == other.group && warnInterval == other.warnInterval;
   }
 
   factory Product.fromEntry(ProductEntry entry, Home home, {Group group, List<Charge> charges, List<ModelChange> modelChanges}) {
@@ -79,6 +94,7 @@ class Product implements HomeListable {
       charges: charges,
       home: home,
       modelChanges: modelChanges,
+      warnInterval: periodFromISO8601String(entry.warnInterval),
     );
   }
 
@@ -91,6 +107,7 @@ class Product implements HomeListable {
       unit: unit != null ? Value(UnitEnum.values.indexOf(unit)) : Value.absent(),
       groupId: group != null ? Value(group.id) : Value(null),
       homeId: Value(home.id),
+      warnInterval: Value(warnInterval.toString()),
     );
   }
 
@@ -99,15 +116,22 @@ class Product implements HomeListable {
     if (ean != other.ean) {
       modifications.add(Modification(fieldName: "ean", from: ean, to: other.ean));
     }
+    if (warnInterval != other.warnInterval) {
+      String from = warnInterval != null ? warnInterval.toString() : null;
+      modifications.add(Modification(fieldName: "warnInterval", from: from, to: other.warnInterval.toString()));
+    }
     if (description != other.description) {
       modifications.add(Modification(fieldName: "description", from: description, to: other.description));
     }
     if (refillLimit != other.refillLimit) {
-      modifications.add(Modification(fieldName: "refillLimit", from: UnitConverter.toScientific(Amount.fromSi(refillLimit, _unit)).toString(), to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
+      String from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, _unit)).toString() : null;
+      modifications.add(Modification(fieldName: "refillLimit", from: from, to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
     }
     if (unit != other.unit) {
-      modifications.add(Modification(fieldName: "unit", from: describeEnum(unit), to: describeEnum(group.unit)));
+      String from = unit != null ? describeEnum(_unit) : null;
+      modifications.add(Modification(fieldName: "unit", from: from, to: describeEnum(group.unit)));
     }
+
 
     return modifications;
   }

@@ -2,11 +2,11 @@ part of 'speed_dial_bloc.dart';
 
 abstract class SpeedDialEvent{}
 
-class ScannedEan extends SpeedDialEvent {
+class TapOnScanEan extends SpeedDialEvent {
   final String ean;
   final BuildContext context;
 
-  ScannedEan(this.ean, this.context);
+  TapOnScanEan(this.ean, this.context);
 }
 
 class TapOnAddToCharge extends SpeedDialEvent {

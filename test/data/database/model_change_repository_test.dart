@@ -53,7 +53,7 @@ void main() {
     User user = await userRepository.save(createDefaultUser());
     await groupRepository.save(group, user);
 
-    List<ModelChange> changes = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDateTime(2000, 1, 1, 0, 0, 0), DEFAULT_HOME_ID);
+    List<ModelChange> changes = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate(2000, 1, 1, 0, 0, 0), DEFAULT_HOME_ID);
 
     expect(changes.length, equals(1));
   });
@@ -64,7 +64,7 @@ void main() {
     User user = await userRepository.save(createDefaultUser());
     await groupRepository.save(group, user);
 
-    List<ModelChange> changes = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDateTime(2999, 12, 31, 0, 0, 0), DEFAULT_HOME_ID);
+    List<ModelChange> changes = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate(2999, 12, 31, 0, 0, 0), DEFAULT_HOME_ID);
 
     expect(changes.length, equals(0));
   });

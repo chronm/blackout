@@ -16,8 +16,8 @@ class SyncRepository extends DatabaseAccessor<Database> with _$SyncRepositoryMix
 
     List<Sync> syncs = [];
     for (SyncEntry entry in entries) {
-      User user = await db.userRepository.getOneByUserId(entry.userId);
-      Home home = await db.homeRepository.getHomeById(entry.homeId);
+      User user = await db.userRepository.findOneByUserId(entry.userId);
+      Home home = await db.homeRepository.findHomeById(entry.homeId);
       Sync sync = Sync.fromEntry(entry, user, home);
       syncs.add(sync);
     }

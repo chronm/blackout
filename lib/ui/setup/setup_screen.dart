@@ -33,7 +33,7 @@ class _SetupScreenState extends State<SetupScreen> {
       Padding(
         padding: EdgeInsets.only(left: 40, right: 40),
         child: Text(
-          S.of(context).welcomeMessage,
+          S.of(context).SETUP_WELCOME_CARD_TITLE,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 20,
@@ -46,10 +46,10 @@ class _SetupScreenState extends State<SetupScreen> {
 
   List<Widget> _buildSetupUserWidget() {
     return _buildPage(
-      S.of(context).setYourUsername,
+      S.of(context).SETUP_USERNAME_CARD_TITLE,
       TextField(
         decoration: InputDecoration(
-          labelText: S.of(context).username,
+          labelText: S.of(context).SETUP_USERNAME,
         ),
         controller: _userController,
         onChanged: (value) {
@@ -69,7 +69,7 @@ class _SetupScreenState extends State<SetupScreen> {
 
   List<Widget> _buildSetupHomeWidget() {
     return _buildPage(
-      S.of(context).setYourHome,
+      S.of(context).SETUP_HOME_CARD_TITLE,
       Row(
         children: <Widget>[
           Column(
@@ -84,7 +84,7 @@ class _SetupScreenState extends State<SetupScreen> {
                   });
                 },
               ),
-              Text(S.of(context).create),
+              Text(S.of(context).SETUP_CREATE_HOME),
             ],
           ),
           Expanded(
@@ -102,7 +102,7 @@ class _SetupScreenState extends State<SetupScreen> {
 //                  });
 //                },
               ),
-              Text(S.of(context).join),
+              Text(S.of(context).SETUP_JOIN_HOME),
             ],
           ),
         ],
@@ -113,20 +113,20 @@ class _SetupScreenState extends State<SetupScreen> {
 
   List<Widget> _buildNewHomePage() {
     return _buildPage(
-      S.of(context).createHome,
+      S.of(context).SETUP_CREATE_HOME_CARD_TITLE,
       Column(
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              labelText: S.of(context).nameOfYourHousehold,
+              labelText: S.of(context).SETUP_CREATE_HOME,
             ),
             controller: _homeController,
           ),
           RelativeHeightContainer(factor: 0.01),
           FlatButton(
             color: Colors.redAccent,
-            onPressed: () => widget._bloc.add(SetupAndCreateEvent(_userController.text, _homeController.text)),
-            child: Text(S.of(context).finish),
+            onPressed: () => widget._bloc.add(CreateHomeAndFinish(_userController.text, _homeController.text)),
+            child: Text(S.of(context).SETUP_FINISH),
           ),
         ],
       ),
@@ -135,7 +135,7 @@ class _SetupScreenState extends State<SetupScreen> {
 
   List<Widget> _buildJoinHomePage() {
     return _buildPage(
-      S.of(context).joinHome,
+      S.of(context).SETUP_JOIN_HOME_CARD_TITLE,
       SizedBox(
         height: 200,
         child: Column(
@@ -143,7 +143,7 @@ class _SetupScreenState extends State<SetupScreen> {
             Expanded(
                 flex: 5,
                 child: QRViewWidget(
-                  callback: (value) => widget._bloc.add(SetupAndJoinEvent(_userController.text, value)),
+                  callback: (value) => widget._bloc.add(JoinHomeAndFinish(_userController.text, value)),
                 )),
           ],
         ),

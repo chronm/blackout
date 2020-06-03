@@ -33,14 +33,14 @@ void main() {
     User user = createDefaultUser();
     user = await userRepository.save(user);
 
-    user = await userRepository.getOneByUserId(user.id);
+    user = await userRepository.findOneByUserId(user.id);
 
     expect(user.id, isNotNull);
     expect(user.name, equals(DEFAULT_USER_NAME));
   });
 
   test('(GetOneById) Return null if user not found', () async {
-    User user = await userRepository.getOneByUserId("");
+    User user = await userRepository.findOneByUserId("");
 
     expect(user, isNull);
   });

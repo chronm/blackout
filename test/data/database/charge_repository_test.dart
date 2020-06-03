@@ -56,12 +56,12 @@ void main() {
     charge = await chargeRepository.save(charge, createDefaultUser());
     String chargeId = charge.id;
 
-    charge.expirationDate = LocalDateTime(2000, 1, 1, 0, 0, 0);
+    charge.expirationDate = LocalDate(2000, 1, 1, 0, 0, 0);
     await chargeRepository.save(charge, createDefaultUser());
-    charge = await chargeRepository.getOneByChargeIdAndHomeId(chargeId, DEFAULT_HOME_ID);
+    charge = await chargeRepository.findOneByChargeIdAndHomeId(chargeId, DEFAULT_HOME_ID);
 
     expect(charge.id, equals(chargeId));
-    expect(charge.expirationDate, equals(LocalDateTime(2000, 1, 1, 0, 0, 0)));
+    expect(charge.expirationDate, equals(LocalDate(2000, 1, 1, 0, 0, 0)));
     expect(charge.home.name, equals(DEFAULT_HOME_NAME));
     expect(charge.home.id, equals(DEFAULT_HOME_ID));
   });
@@ -100,7 +100,7 @@ void main() {
     charge = await chargeRepository.save(charge, createDefaultUser());
     change = await changeRepository.save(change);
 
-    charge = await chargeRepository.getOneByChargeIdAndHomeId(charge.id, DEFAULT_HOME_ID);
+    charge = await chargeRepository.findOneByChargeIdAndHomeId(charge.id, DEFAULT_HOME_ID);
     expect(charge.id, isNotNull);
     expect(charge.changes, hasLength(1));
     expect(charge.changes[0].charge.id, equals(charge.id));
@@ -120,7 +120,7 @@ void main() {
     charge = await chargeRepository.save(charge, createDefaultUser());
     change = await changeRepository.save(change);
 
-    charge = await chargeRepository.getOneByChargeIdAndHomeId(charge.id, DEFAULT_HOME_ID, recurseChanges: false);
+    charge = await chargeRepository.findOneByChargeIdAndHomeId(charge.id, DEFAULT_HOME_ID, recurseChanges: false);
     expect(charge.id, isNotNull);
     expect(charge.changes, hasLength(0));
     expect(charge.home.name, equals(DEFAULT_HOME_NAME));
@@ -128,7 +128,7 @@ void main() {
   });
 
   test('(GetOneByChargeId) Return null if charge not found', () async {
-    Charge charge = await chargeRepository.getOneByChargeIdAndHomeId("", DEFAULT_HOME_ID);
+    Charge charge = await chargeRepository.findOneByChargeIdAndHomeId("", DEFAULT_HOME_ID);
 
     expect(charge, isNull);
   });
@@ -174,7 +174,7 @@ void main() {
     product = await productRepository.save(product, createDefaultUser());
     charge = await chargeRepository.save(charge, createDefaultUser());
 
-    List<Charge> charges = await chargeRepository.getAllByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
+    List<Charge> charges = await chargeRepository.findAllByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
     expect(charges.length, equals(1));
     expect(charges[0].product, isNotNull);
   });
@@ -187,7 +187,7 @@ void main() {
     product = await productRepository.save(product, createDefaultUser());
     charge = await chargeRepository.save(charge, createDefaultUser());
 
-    List<Charge> charges = await chargeRepository.getAllByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseProduct: false);
+    List<Charge> charges = await chargeRepository.findAllByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseProduct: false);
     expect(charges.length, equals(1));
     expect(charges[0].product, isNull);
   });

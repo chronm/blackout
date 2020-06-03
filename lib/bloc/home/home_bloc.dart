@@ -5,15 +5,13 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
 import 'package:bloc/bloc.dart' show Bloc;
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart' show BuildContext, Navigator, immutable;
+import 'package:flutter/material.dart' show BuildContext, Navigator;
 
 part 'home_event.dart';
 
@@ -37,9 +35,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is TapOnGroup) {
       groupBloc.add(LoadGroup(event.group.id));
       await Navigator.push(event.context, RouteBuilder.build(Routes.GroupOverviewRoute));
-    } else if (event is TapOnProduct) {
+      yield* mapEventToState(LoadAll());
+    }
+    if (event is TapOnProduct) {
       productBloc.add(LoadProduct(event.product.id));
       await Navigator.push(event.context, RouteBuilder.build(Routes.ProductOverviewRoute));
+      yield* mapEventToState(LoadAll());
     }
     if (event is LoadAll) {
       yield Loading();

@@ -8,9 +8,13 @@ import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
-import 'package:flutter/material.dart'
-    show BuildContext, Card, Center, Column, Container, CrossAxisAlignment, Curves, EdgeInsets, Expanded, FontWeight, Hero, Icon, IconButton, Icons, InkWell, IntrinsicHeight, Key, ListTile, ListView, MainAxisSize, Material, MediaQuery, Navigator, Padding, Row, Scaffold, SingleChildScrollView, SizedBox, Spacer, State, StatefulWidget, Text, TextStyle, Widget;
+import 'package:Blackout/util/charge_extension.dart';
+import 'package:Blackout/util/string_extension.dart';
+import 'package:Blackout/util/time_machine_extension.dart';
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Navigator, Row, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 
 class ProductOverviewScreen extends StatefulWidget {
   final ProductBloc bloc = sl<ProductBloc>();
@@ -38,14 +42,15 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                   TitleCard(
                     title: state.product.title,
                     tag: state.product.id,
-                    trendingDown: state.product.tooFewAvailable ? "Less than 800 g available" : null,
-                    event: state.product.expiredOrNotification ? "Notify Apr 25, 2020" : null,
-                    available: S.of(context).available(state.product.subtitle),
+                    trendingDown: state.product.tooFewAvailable ? S.of(context).GENERAL_LESS_THAN_AVAILABLE(state.product.scientificRefillLimit) : null,
+                    available: S.of(context).GENERAL_AMOUNT_AVAILABLE(state.product.scientificAmount),
+                    event: state.product.buildStatus(context),
                     groupName: state.product.group != null ? state.product.group.title : null,
-                    modifyAction: () => Navigator.push(context, RouteBuilder.build(Routes.ProductDetailsRoute)),
+                    modifyAction: () => widget.bloc.add(TapOnShowProductConfiguration(state.product, state.groups, context)),
+                    changesAction: () => widget.bloc.add(TapOnShowProductChanges(state.product.modelChanges, context)),
                   ),
                   HorizontalTextDivider(
-                    text: "Charges",
+                    text: S.of(context).UNITS,
                   ),
                   Expanded(
                     child: state.product.charges.length == 0
@@ -55,14 +60,19 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                         : ListView.builder(
                             itemCount: state.product.charges.length,
                             itemBuilder: (context, index) {
-                              Charge charge = state.product.charges[0];
+                              Charge charge = state.product.charges[index];
 
                               List<Widget> trailing = <Widget>[];
-                              if (charge.expiredOrNotification) {
+                              if (charge.expired || charge.warn) {
                                 trailing.add(
-                                  Icon(Icons.event),
+                                  Icon(
+                                    Icons.event,
+                                    color: charge.status == ChargeStatus.expired ? Colors.redAccent : null,
+                                  ),
                                 );
                               }
+
+                              String status = charge.buildStatus(context);
 
                               return Hero(
                                 tag: charge.id,
@@ -73,9 +83,16 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                                 ),
                                 child: Card(
                                   child: ListTile(
-                                    title: Text(charge.buildTitle(context)),
-                                    subtitle: Text(S.of(context).available(charge.subtitle)),
-                                    trailing: Column(
+                                    isThreeLine: status != null,
+                                    title: Text(S.of(context).UNIT_CREATED_AT(charge.creationDate.prettyPrintShortDifference(context)).capitalize()),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(charge.scientificAmount)),
+                                        status != null ? Text(status) : null,
+                                      ].where((element) => element != null).toList(),
+                                    ),
+                                    trailing: Row(
                                       children: trailing,
                                       mainAxisSize: MainAxisSize.min,
                                     ),
@@ -98,18 +115,18 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ),
       ),
       floatingActionButton: BlocBuilder<ProductBloc, ProductState>(
-          bloc: widget.bloc,
-          builder: (context, state) {
-            if (state is ShowProduct) {
-              return createSpeedDial([
-                goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-                createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context, state.product))),
-              ]);
-            }
-            return createSpeedDial([
-              goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-            ]);
-          }),
+        bloc: widget.bloc,
+        builder: (context, state) {
+          List<SpeedDialChild> children = [
+            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+          ];
+          if (state is ShowProduct) {
+            children.add(createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context, state.product))));
+            children.add(createGroupButton(() => widget.speedDial.add(TapOnCreateGroup(context))));
+          }
+          return createSpeedDial(children);
+        },
+      ),
     );
   }
 }

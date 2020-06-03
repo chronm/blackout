@@ -41,6 +41,6 @@ void main() {
 
     expectLater(setupBloc, emitsInOrder([InitialSetupState(), GoToHome()]));
 
-    setupBloc.add(SetupAndCreateEvent(DEFAULT_USER_NAME, DEFAULT_HOME_NAME));
+    setupBloc.add(CreateHomeAndFinish(DEFAULT_USER_NAME, DEFAULT_HOME_NAME));
   });
 }

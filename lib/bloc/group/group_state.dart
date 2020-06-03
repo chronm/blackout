@@ -17,3 +17,10 @@ class ShowGroups extends GroupState {
 
   ShowGroups(this.groups);
 }
+
+class ShowGroupConfiguration extends GroupState {
+  final Home home;
+
+  ShowGroupConfiguration(this.home);
+
+}

@@ -57,7 +57,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
             child: TextField(
               controller: _controller,
               decoration: InputDecoration(
-                labelText: S.of(context).warnMe,
+                labelText: S.of(context).GROUP_BEST_BEFORE,
                 helperText: _period.prettyPrint(context),
                 errorText: _error ? "Error" : null,
               ),
@@ -66,7 +66,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
       },
       uncheckedCallback: (context) => Expanded(
         child: Text(
-          S.of(context).warnMe,
+          S.of(context).GROUP_BEST_BEFORE,
           textAlign: TextAlign.center,
         ),
       ),

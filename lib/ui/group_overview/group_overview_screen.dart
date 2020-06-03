@@ -3,13 +3,15 @@ import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/routes.dart';
+import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Center, Column, Container, EdgeInsets, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, MediaQuery, Navigator, Padding, Scaffold, SingleChildScrollView, SizedBox, State, StatefulWidget, Text, Widget;
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Row, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 
 class GroupOverviewScreen extends StatefulWidget {
   final GroupBloc bloc = sl<GroupBloc>();
@@ -40,10 +42,11 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                   TitleCard(
                     title: state.group.title,
                     tag: state.group.id,
-                    event: state.group.expiredOrNotification != null ? "Notify Apr 25, 2020" : null,
-                    trendingDown: state.group.tooFewAvailable != null ? "Less than xx available" : null,
-                    available: S.of(context).available(state.group.subtitle),
-                    modifyAction: () => Navigator.push(context, RouteBuilder.build(Routes.GroupDetailsRoute)),
+                    trendingDown: state.group.tooFewAvailable ? S.of(context).GENERAL_LESS_THAN_AVAILABLE(state.group.scientificRefillLimit) : null,
+                    available: S.of(context).GENERAL_AMOUNT_AVAILABLE(state.group.scientificAmount),
+                    event: state.group.buildStatus(context),
+                    modifyAction: () => widget.bloc.add(TapOnShowGroupConfiguration(state.group, context)),
+                    changesAction: () => widget.bloc.add(TapOnShowGroupChanges(state.group.modelChanges, context)),
                     callback: (value) {
                       setState(() {
                         searchString = value;
@@ -51,12 +54,12 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                     },
                   ),
                   HorizontalTextDivider(
-                    text: "Products",
+                    text: S.of(context).PRODUCTS,
                   ),
                   Expanded(
                     child: state.group.products.length == 0
                         ? Center(
-                            child: Text("Nothing here"),
+                            child: Text(S.of(context).GROUP_NO_PRODUCTS),
                           )
                         : ListView.builder(
                             itemCount: products.length,
@@ -64,13 +67,6 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                               Product product = products[index];
 
                               List<Widget> trailing = <Widget>[];
-                              if (product.expiredOrNotification) {
-                                trailing.add(
-                                  Icon(
-                                    Icons.event,
-                                  ),
-                                );
-                              }
                               if (product.tooFewAvailable) {
                                 trailing.add(
                                   Icon(
@@ -78,6 +74,16 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                                   ),
                                 );
                               }
+                              if (product.expired || product.warn) {
+                                trailing.add(
+                                  Icon(
+                                    Icons.event,
+                                    color: product.status == ChargeStatus.expired ? Colors.redAccent : null,
+                                  ),
+                                );
+                              }
+
+                              String status = product.buildStatus(context);
 
                               return Hero(
                                 tag: product.id,
@@ -88,16 +94,21 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                                 ),
                                 child: Card(
                                   child: ListTile(
+                                    isThreeLine: status != null,
                                     title: Text(product.title),
-                                    subtitle: Text(S.of(context).available(product.subtitle)),
-                                    trailing: Column(
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(product.scientificAmount)),
+                                        status != null ? Text(status) : null,
+                                      ].where((element) => element != null).toList(),
+                                    ),
+                                    trailing: Row(
                                       children: trailing,
                                       mainAxisSize: MainAxisSize.min,
                                     ),
-                                    onTap: () async {
-                                      widget.bloc.add(TapOnProduct(product));
-                                      await Navigator.push(context, RouteBuilder.build(Routes.ProductOverviewRoute));
-                                      widget.bloc.add(LoadGroup(state.group.id));
+                                    onTap: () {
+                                      widget.bloc.add(TapOnProduct(product, context, state.group));
                                     },
                                   ),
                                 ),
@@ -115,16 +126,14 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       floatingActionButton: BlocBuilder<GroupBloc, GroupState>(
         bloc: widget.bloc,
         builder: (context, state) {
-          if (state is ShowGroup) {
-            return createSpeedDial([
-              goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-              createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, state.group))),
-            ]);
-          }
-          return createSpeedDial([
+          List<SpeedDialChild> children = [
             goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-          ]);
-        }
+          ];
+          if (state is ShowGroup) {
+            children.add(createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, state.group))));
+          }
+          return createSpeedDial(children);
+        },
       ),
     );
   }

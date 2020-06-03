@@ -1,14 +1,13 @@
-import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/data/database/charge_table.dart';
+import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/charge.dart';
+import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
-import 'package:optional/optional.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,15 +22,16 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
 
     Product product;
     if (recurseProduct) {
-      product = await db.productRepository.getOneByProductIdAndHomeId(chargeEntry.productId, chargeEntry.homeId, recurseCharges: false);
+      product = await db.productRepository.findOneByProductIdAndHomeId(chargeEntry.productId, chargeEntry.homeId, recurseCharges: false);
     }
 
     List<Change> changes = [];
     if (recurseChanges) {
-      changes = await db.changeRepository.getAllByChargeIdAndHomeId(chargeEntry.id, chargeEntry.homeId, recurseCharge: false);
+      changes = await db.changeRepository.findAllByChargeIdAndHomeId(chargeEntry.id, chargeEntry.homeId, recurseCharge: false)
+        ..sort((a, b) => a.changeDate.compareTo(b.changeDate));
     }
 
-    Home home = await db.homeRepository.getHomeById(chargeEntry.homeId);
+    Home home = await db.homeRepository.findHomeById(chargeEntry.homeId);
 
     List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByChargeIdAndHomeId(chargeEntry.id, home.id);
 
@@ -59,11 +59,7 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
     return charges;
   }
 
-  Future<Optional<Charge>> findOneByChargeIdAndHomeId(String chargeId, String homeId, {bool recurseProduct = true, bool recurseChanges = true}) async {
-    return Optional.ofNullable(await getOneByChargeIdAndHomeId(chargeId, homeId, recurseProduct: recurseProduct, recurseChanges: recurseChanges));
-  }
-
-  Future<Charge> getOneByChargeIdAndHomeId(String chargeId, String homeId, {bool recurseProduct = true, bool recurseChanges = true}) async {
+  Future<Charge> findOneByChargeIdAndHomeId(String chargeId, String homeId, {bool recurseProduct = true, bool recurseChanges = true}) async {
     var query = select(chargeTable)..where((i) => i.id.equals(chargeId))..where((i) => i.homeId.equals(homeId));
     ChargeEntry chargeEntry = (await query.getSingle());
     if (chargeEntry == null) return null;
@@ -71,12 +67,12 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
     return await createCharge(chargeEntry, recurseProduct: recurseProduct, recurseChanges: recurseChanges);
   }
 
-  Future<List<Charge>> getAllByProductIdAndHomeId(String productId, String homeId, {bool recurseProduct = true}) async {
+  Future<List<Charge>> findAllByProductIdAndHomeId(String productId, String homeId, {bool recurseProduct = true}) async {
     List<Charge> charges = [];
 
     Product product;
     if (recurseProduct) {
-      product = await db.productRepository.getOneByProductIdAndHomeId(productId, homeId, recurseGroup: false, recurseCharges: false);
+      product = await db.productRepository.findOneByProductIdAndHomeId(productId, homeId, recurseGroup: false, recurseCharges: false);
     }
 
     var query = select(chargeTable)..where((p) => p.productId.equals(productId));
@@ -91,19 +87,19 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
       product.charges = charges;
     }
 
-    return charges..sort((a, b) => a.expirationOrNotificationDate.compareTo(b.expirationOrNotificationDate));
+    return charges;
   }
 
   Future<Charge> save(Charge charge, User user) async {
     if (charge.id == null) {
-      charge.id =Uuid().v4();
-      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: charge.home, user: user, modification: ModelChangeType.create, chargeId: charge.id);
+      charge.id = Uuid().v4();
+      ModelChange change = ModelChange(modificationDate: LocalDate.today(), home: charge.home, user: user, modification: ModelChangeType.create, chargeId: charge.id);
       await db.modelChangeRepository.save(change);
     } else {
-      ModelChange change = ModelChange(modificationDate: LocalDateTime.now(), home: charge.home, user: user, modification: ModelChangeType.modify, chargeId: charge.id);
+      ModelChange change = ModelChange(modificationDate: LocalDate.today(), home: charge.home, user: user, modification: ModelChangeType.modify, chargeId: charge.id);
       await db.modelChangeRepository.save(change);
 
-      Charge oldCharge = await getOneByChargeIdAndHomeId(charge.id, charge.home.id);
+      Charge oldCharge = await findOneByChargeIdAndHomeId(charge.id, charge.home.id);
       List<Modification> modifications = oldCharge.getModifications(charge);
       for (Modification modification in modifications) {
         modification.home = charge.home;
@@ -114,7 +110,7 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
 
     await into(chargeTable).insertOnConflictUpdate(charge.toCompanion());
 
-    return await getOneByChargeIdAndHomeId(charge.id, charge.home.id);
+    return await findOneByChargeIdAndHomeId(charge.id, charge.home.id);
   }
 
   Future<int> drop(Charge charge) async {

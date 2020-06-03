@@ -37,40 +37,38 @@ Period periodFromISO8601String(String period) {
   );
 }
 
-LocalDateTime localDateTimeFromDateTime(DateTime dateTime) {
-  return LocalDateTime.dateTime(dateTime).add(Period(hours: dateTime.timeZoneOffset.inHours));
+LocalDate LocalDateFromDateTime(DateTime dateTime) {
+  return LocalDate.dateTime(dateTime).add(Period(hours: dateTime.timeZoneOffset.inHours));
 }
 
-extension LocalDateTimeExtension on LocalDateTime {
+extension LocalDateExtension on LocalDate {
   String prettyPrintShortDifference(BuildContext context) {
-    String languageCode = Localizations.localeOf(context).languageCode;
-
-    DateTime now = LocalDateTime.now().toDateTimeLocal();
-    DateTime other = this.toDateTimeLocal();
+    DateTime now = LocalDate.today().toDateTimeUnspecified();
+    DateTime other = this.toDateTimeUnspecified();
 
     if (now.day == other.day) {
-      return S.of(context).today;
+      return S.of(context).GENERAL_EVENT_TODAY;
     }
 
     if (now.day - other.day == 1) {
-      return S.of(context).yesterday;
+      return S.of(context).GENERAL_EVENT_YESTERDAY;
     }
     if (now.day - other.day == -1) {
-      return S.of(context).tomorrow;
+      return S.of(context).GENERAL_EVENT_TOMORROW;
     }
     if (Jiffy(now).diff(other, Units.WEEK) == 0) {
-      return DateFormat('EEEE', languageCode).format(other);
+      return DateFormat.EEEE().format(other);
     }
     if (Jiffy(now).diff(other, Units.MONTH) == 0) {
-      return S.of(context).inWeeks(Jiffy(now).diff(other, Units.WEEK).abs());
+      return S.of(context).GENERAL_EVENT_IN_WEEKS(Jiffy(now).diff(other, Units.WEEK).abs());
     }
     if (Jiffy(now).diff(other, Units.YEAR) == 0) {
-      return S.of(context).inMonths(Jiffy(now).diff(other, Units.MONTH).abs());
+      return S.of(context).GENERAL_EVENT_IN_MONTHS(Jiffy(now).diff(other, Units.MONTH).abs());
     }
     if (Jiffy(now).diff(other, Units.YEAR) < 0) {
-      return S.of(context).future;
+      return S.of(context).GENERAL_EVENT_IN_OVER_A_YEAR;
     } else {
-      return S.of(context).longAgo;
+      return S.of(context).GENERAL_EVENT_OVER_A_YEAR_AGO;
     }
   }
 }
@@ -91,25 +89,25 @@ extension PeriodExtension on Period {
     }
     List<String> parts = [];
     if (this.years != 0) {
-      parts.add(S.of(context).years(this.years));
+      parts.add(S.of(context).GENERAL_YEARS(this.years));
     }
     if (this.months != 0) {
-      parts.add(S.of(context).months(this.months));
+      parts.add(S.of(context).GENERAL_MONTHS(this.months));
     }
     if (this.weeks != 0) {
-      parts.add(S.of(context).weeks(this.weeks));
+      parts.add(S.of(context).GENERAL_WEEKS(this.weeks));
     }
     if (this.days != 0) {
-      parts.add(S.of(context).days(this.days));
+      parts.add(S.of(context).GENERAL_DAYS(this.days));
     }
     if (this.hours != 0) {
-      parts.add(S.of(context).hours(this.hours));
+      parts.add(S.of(context).GENERAL_HOURS(this.hours));
     }
     if (this.minutes != 0) {
-      parts.add(S.of(context).minutes(this.minutes));
+      parts.add(S.of(context).GENERAL_MINUTES(this.minutes));
     }
     if (this.seconds != 0) {
-      parts.add(S.of(context).seconds(this.seconds));
+      parts.add(S.of(context).GENERAL_SECONDS(this.seconds));
     }
 
     return parts.join(", ");
