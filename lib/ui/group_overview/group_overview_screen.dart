@@ -3,13 +3,13 @@ import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/routes.dart';
 import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Center, Column, Container, EdgeInsets, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, MediaQuery, Navigator, Padding, Scaffold, SingleChildScrollView, SizedBox, State, StatefulWidget, Text, Widget;
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Column, Container, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class GroupOverviewScreen extends StatefulWidget {
   final GroupBloc bloc = sl<GroupBloc>();
@@ -43,7 +43,8 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                     event: state.group.expiredOrNotification != null ? "Notify Apr 25, 2020" : null,
                     trendingDown: state.group.tooFewAvailable != null ? "Less than xx available" : null,
                     available: S.of(context).available(state.group.subtitle),
-                    modifyAction: () => Navigator.push(context, RouteBuilder.build(Routes.GroupDetailsRoute)),
+                    modifyAction: () => widget.bloc.add(TapOnShowGroupConfiguration(state.group, context)),
+                    changesAction: () => widget.bloc.add(TapOnShowGroupChanges(state.group.modelChanges, context)),
                     callback: (value) {
                       setState(() {
                         searchString = value;
@@ -94,10 +95,8 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                                       children: trailing,
                                       mainAxisSize: MainAxisSize.min,
                                     ),
-                                    onTap: () async {
-                                      widget.bloc.add(TapOnProduct(product));
-                                      await Navigator.push(context, RouteBuilder.build(Routes.ProductOverviewRoute));
-                                      widget.bloc.add(LoadGroup(state.group.id));
+                                    onTap: () {
+                                      widget.bloc.add(TapOnProduct(product, context, state.group));
                                     },
                                   ),
                                 ),
@@ -115,16 +114,14 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       floatingActionButton: BlocBuilder<GroupBloc, GroupState>(
         bloc: widget.bloc,
         builder: (context, state) {
-          if (state is ShowGroup) {
-            return createSpeedDial([
-              goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-              createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, state.group))),
-            ]);
-          }
-          return createSpeedDial([
+          List<SpeedDialChild> children = [
             goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-          ]);
-        }
+          ];
+          if (state is ShowGroup) {
+            children.add(createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, state.group))));
+          }
+          return createSpeedDial(children);
+        },
       ),
     );
   }

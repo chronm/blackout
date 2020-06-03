@@ -27,7 +27,7 @@ class Group implements HomeListable {
   double get amount => products.length != 0 ? products.map((p) => p.amount).reduce((a, b) => a + b) : 0;
 
   @override
-  String get title => amount > 1 ? (pluralName != null ? pluralName : name) : name;
+  String get title => amount != 1 ? (pluralName != null ? pluralName : name) : name;
 
   @override
   String get subtitle => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString();

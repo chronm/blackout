@@ -38,7 +38,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
 
   @override
   Stream<SetupState> mapEventToState(SetupEvent event) async* {
-    if (event is SetupAndCreateEvent) {
+    if (event is CreateHomeAndFinish) {
       Home home = Home(id: Uuid().v4(), name: event.home);
       home = await homeRepository.save(home);
 
@@ -51,7 +51,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
       _homeBloc.add(LoadAll());
       yield GoToHome();
     }
-    if (event is SetupAndJoinEvent) {
+    if (event is JoinHomeAndFinish) {
       throw UnimplementedError();
     }
   }

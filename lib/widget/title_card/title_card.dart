@@ -13,12 +13,13 @@ class TitleCard extends StatelessWidget {
   final String productName;
   final String groupName;
   final SearchCallback callback;
+  final VoidCallback changesAction;
 
-  TitleCard({Key key, this.title, this.tag, this.trendingDown, this.event, this.modifyAction, this.available, this.productName, this.groupName, this.callback}) : super(key: key);
+  TitleCard({Key key, this.title, this.tag, this.trendingDown, this.event, this.modifyAction, this.available, this.productName, this.groupName, this.callback, this.changesAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).padding.top + 48.0 + 48.0 + 30.0 + (trendingDown != null ? 48.0 : 0) + (event != null ? 48.0 : 0) + (productName != null ? 48.0 : 0) + (groupName != null ? 48.0 : 0);
+    double height = MediaQuery.of(context).padding.top + 48.0 + 48.0 + 20.0 + (trendingDown != null ? 48.0 : 0) + (event != null ? 48.0 : 0) + (productName != null ? 48.0 : 0) + (groupName != null ? 48.0 : 0);
     return Hero(
       tag: tag,
       child: SearchBar(
@@ -157,12 +158,29 @@ class TitleCard extends StatelessWidget {
                     ),
                     Spacer(),
                     Column(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.mode_edit),
-                          iconSize: 12.0,
-                          onPressed: modifyAction,
-                        )
+                        SizedBox(
+                          height: 30.0,
+                          width: 30.0,
+                          child: IconButton(
+                            icon: Icon(Icons.mode_edit),
+                            iconSize: 16.0,
+                            onPressed: modifyAction,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                          width: 30.0,
+                          child: IconButton(
+                            icon: Icon(Icons.history),
+                            iconSize: 16.0,
+                            onPressed: changesAction,
+                          ),
+                        ),
                       ],
                     )
                   ],

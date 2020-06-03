@@ -30,7 +30,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height + 30.0,
+      height: widget.height + 40.0,
       child: Stack(
         overflow: Overflow.visible,
         children: <Widget>[

@@ -125,7 +125,7 @@ class _SetupScreenState extends State<SetupScreen> {
           RelativeHeightContainer(factor: 0.01),
           FlatButton(
             color: Colors.redAccent,
-            onPressed: () => widget._bloc.add(SetupAndCreateEvent(_userController.text, _homeController.text)),
+            onPressed: () => widget._bloc.add(CreateHomeAndFinish(_userController.text, _homeController.text)),
             child: Text(S.of(context).finish),
           ),
         ],
@@ -143,7 +143,7 @@ class _SetupScreenState extends State<SetupScreen> {
             Expanded(
                 flex: 5,
                 child: QRViewWidget(
-                  callback: (value) => widget._bloc.add(SetupAndJoinEvent(_userController.text, value)),
+                  callback: (value) => widget._bloc.add(JoinHomeAndFinish(_userController.text, value)),
                 )),
           ],
         ),

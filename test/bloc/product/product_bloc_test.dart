@@ -37,7 +37,7 @@ void main() {
 
     expectLater(productBloc, emitsInOrder([ProductInitialState(), isA<ShowProduct>()]));
 
-    productBloc.add(SaveProductAndReturn(createDefaultProduct()));
+    productBloc.add(SaveProductAndClose(createDefaultProduct()));
   });
 
   test('Load and show product', () {

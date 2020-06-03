@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
             var result = await BarcodeScanner.scan(options: options);
             ean = result.rawContent;
           }
-          widget.speedDial.add(ScannedEan(ean, context));
+          widget.speedDial.add(TapOnScanEan(ean, context));
         }),
         createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, null))),
         createGroupButton(() => widget.speedDial.add(TapOnCreateGroup(context))),

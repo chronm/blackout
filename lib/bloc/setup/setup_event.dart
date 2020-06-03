@@ -1,23 +1,17 @@
 part of 'setup_bloc.dart';
 
-abstract class SetupEvent extends Equatable {}
+abstract class SetupEvent {}
 
-class SetupAndCreateEvent extends SetupEvent {
+class CreateHomeAndFinish extends SetupEvent {
   final String username;
   final String home;
 
-  SetupAndCreateEvent(this.username, this.home);
-
-  @override
-  List<Object> get props => [username, home];
+  CreateHomeAndFinish(this.username, this.home);
 }
 
-class SetupAndJoinEvent extends SetupEvent {
+class JoinHomeAndFinish extends SetupEvent {
   final String username;
   final Home home;
 
-  SetupAndJoinEvent(this.username, this.home);
-
-  @override
-  List<Object> get props => [username, home];
+  JoinHomeAndFinish(this.username, this.home);
 }

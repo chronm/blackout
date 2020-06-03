@@ -1,13 +1,5 @@
 part of 'speed_dial_bloc.dart';
 
-abstract class SpeedDialState extends Equatable{}
+abstract class SpeedDialState {}
 
-class InitialSpeedDialState extends SpeedDialState {
-  @override
-  List<Object> get props => [];
-}
-
-class GoToProductDetails extends SpeedDialState {
-  @override
-  List<Object> get props => [];
-}
+class InitialSpeedDialState extends SpeedDialState {}

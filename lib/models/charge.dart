@@ -64,7 +64,7 @@ class Charge {
   bool get expiredOrNotification {
     bool isExpired = false;
     if (product.group?.warnInterval != null) {
-      isExpired = expirationDate.subtract(product.group.warnInterval) < LocalDateTime.now();
+      isExpired = expirationDate != null ? expirationDate.subtract(product.group.warnInterval) < LocalDateTime.now() : false;
     }
 
     bool notification = notificationDate != null ? notificationDate <= LocalDateTime.now() : false;
@@ -89,6 +89,8 @@ class Charge {
   bool operator ==(other) {
     return expirationDate == other.expirationDate && notificationDate == other.notificationDate;
   }
+
+  bool isValid() => true;
 
   factory Charge.fromEntry(ChargeEntry entry, Home home, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
     return Charge(

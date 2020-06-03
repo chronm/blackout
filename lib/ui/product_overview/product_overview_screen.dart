@@ -9,8 +9,51 @@ import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
 import 'package:flutter/material.dart'
-    show BuildContext, Card, Center, Column, Container, CrossAxisAlignment, Curves, EdgeInsets, Expanded, FontWeight, Hero, Icon, IconButton, Icons, InkWell, IntrinsicHeight, Key, ListTile, ListView, MainAxisSize, Material, MediaQuery, Navigator, Padding, Row, Scaffold, SingleChildScrollView, SizedBox, Spacer, State, StatefulWidget, Text, TextStyle, Widget;
+    show
+        Align,
+        Alignment,
+        BorderRadius,
+        BoxDecoration,
+        BuildContext,
+        Card,
+        Center,
+        Colors,
+        Column,
+        Container,
+        CrossAxisAlignment,
+        Curves,
+        EdgeInsets,
+        Expanded,
+        FontWeight,
+        Hero,
+        Icon,
+        IconButton,
+        Icons,
+        InkWell,
+        IntrinsicHeight,
+        Key,
+        ListTile,
+        ListView,
+        MainAxisSize,
+        Material,
+        MediaQuery,
+        Navigator,
+        OverlayEntry,
+        Padding,
+        Row,
+        Scaffold,
+        SingleChildScrollView,
+        SizedBox,
+        Spacer,
+        Stack,
+        State,
+        StatefulWidget,
+        Text,
+        TextStyle,
+        Widget,
+        showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ProductOverviewScreen extends StatefulWidget {
   final ProductBloc bloc = sl<ProductBloc>();
@@ -42,7 +85,8 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                     event: state.product.expiredOrNotification ? "Notify Apr 25, 2020" : null,
                     available: S.of(context).available(state.product.subtitle),
                     groupName: state.product.group != null ? state.product.group.title : null,
-                    modifyAction: () => Navigator.push(context, RouteBuilder.build(Routes.ProductDetailsRoute)),
+                    modifyAction: () => widget.bloc.add(TapOnShowProductConfiguration(state.product, state.groups, context)),
+                    changesAction: () => widget.bloc.add(TapOnShowProductChanges(state.product.modelChanges, context)),
                   ),
                   HorizontalTextDivider(
                     text: "Charges",
@@ -98,18 +142,17 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ),
       ),
       floatingActionButton: BlocBuilder<ProductBloc, ProductState>(
-          bloc: widget.bloc,
-          builder: (context, state) {
-            if (state is ShowProduct) {
-              return createSpeedDial([
-                goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-                createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context, state.product))),
-              ]);
-            }
-            return createSpeedDial([
-              goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-            ]);
-          }),
+        bloc: widget.bloc,
+        builder: (context, state) {
+          List<SpeedDialChild> children = [
+            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+          ];
+          if (state is ShowProduct) {
+            children.add(createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context, state.product))));
+          }
+          return createSpeedDial(children);
+        },
+      ),
     );
   }
 }

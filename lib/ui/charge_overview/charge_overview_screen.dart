@@ -42,7 +42,8 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
                     available: S.of(context).available(state.charge.subtitle),
                     productName: state.charge.product.title,
                     groupName: state.charge.product.group?.title,
-                    modifyAction: () => Navigator.push(context, RouteBuilder.build(Routes.ChargeDetailsRoute)),
+                    modifyAction: () => widget.bloc.add(TapOnShowChargeConfiguration(state.charge, context)),
+                    changesAction: () => widget.bloc.add(TapOnShowChargeChanges(state.charge.modelChanges, context)),
                   ),
                   HorizontalTextDivider(
                     text: "Changes",
