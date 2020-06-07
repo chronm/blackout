@@ -50,7 +50,7 @@ void main() {
 
     group.name = "test";
     await groupRepository.save(group, user);
-    group = await groupRepository.getOneByGroupIdAndHomeId(groupId, DEFAULT_HOME_ID);
+    group = await groupRepository.findOneByGroupIdAndHomeId(groupId, DEFAULT_HOME_ID);
 
     expect(group.id, equals(groupId));
     expect(group.name, equals("test"));
@@ -92,7 +92,7 @@ void main() {
     group = await groupRepository.save(group, user);
     product = await productRepository.save(product, user);
 
-    group = await groupRepository.getOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
+    group = await groupRepository.findOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
     expect(group.id, isNotNull);
     expect(group.name, equals(DEFAULT_CATEGORY_NAME));
     expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
@@ -113,7 +113,7 @@ void main() {
     group = await groupRepository.save(group, user);
     product = await productRepository.save(product, user);
 
-    group = await groupRepository.getOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID, recurseProducts: false);
+    group = await groupRepository.findOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID, recurseProducts: false);
     expect(group.id, isNotNull);
     expect(group.name, equals(DEFAULT_CATEGORY_NAME));
     expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
@@ -124,7 +124,7 @@ void main() {
   });
 
   test('(GetOneByGroupId) Return null if group not found', () async {
-    Group group = await groupRepository.getOneByGroupIdAndHomeId("", DEFAULT_HOME_ID);
+    Group group = await groupRepository.findOneByGroupIdAndHomeId("", DEFAULT_HOME_ID);
 
     expect(group, isNull);
   });

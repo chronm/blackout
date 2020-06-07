@@ -1,6 +1,6 @@
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/widget/expiration_date_picker/expiration_date_picker.dart';
-import 'package:Blackout/widget/notification_date_picker/notification_date_picker.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart';
 
@@ -54,26 +54,12 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
                     ),
                   ),
                 ),
-                Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.8),
-                    child: NotificationDatePicker(
-                      initialNotificationDate: _charge.notificationDate,
-                      callback: (notificationDate, error) {
-                        setState(() {
-                          _charge.notificationDate = notificationDate;
-                          _errorInNotificationDate = error;
-                        });
-                      },
-                    ),
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.8),
                   child: FlatButton(
                     color: Colors.redAccent,
-                    child: Text("save"),
-                    onPressed: _charge.isValid() && !_errorInNotificationDate && !_errorInExpirationDate && (_charge != _oldCharge || widget.newCharge) ? () => widget.action(_charge) : null,
+                    child: Text(S.of(context).GENERAL_SAVE),
+                    onPressed: !_errorInNotificationDate && !_errorInExpirationDate && (_charge != _oldCharge || widget.newCharge) ? () => widget.action(_charge) : null,
                   ),
                 ),
               ],

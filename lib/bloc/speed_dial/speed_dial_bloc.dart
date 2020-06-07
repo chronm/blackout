@@ -47,7 +47,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
   Stream<SpeedDialState> mapEventToState(SpeedDialEvent event) async* {
     if (event is TapOnScanEan) {
       Home home = await blackoutPreferences.getHome();
-      Product product = await productRepository.getOneByEanAndHomeId(event.ean, home.id);
+      Product product = await productRepository.findOneByEanAndHomeId(event.ean, home.id);
       if (product != null) {
         productBloc.add(LoadProduct(product.id));
         Navigator.push(event.context, RouteBuilder.build(Routes.ProductOverviewRoute));
@@ -152,7 +152,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
               onPressed: () async {
                 amount = Amount.fromInput(controller.text, charge.product.unit);
                 Change change = Change(
-                  changeDate: LocalDateTime.now(),
+                  changeDate: LocalDate.today(),
                   home: home,
                   user: user,
                   charge: charge,
@@ -198,7 +198,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
               onPressed: () async {
                 amount = Amount.fromInput(controller.text, charge.product.unit);
                 Change change = Change(
-                  changeDate: LocalDateTime.now(),
+                  changeDate: LocalDate.today(),
                   home: home,
                   user: user,
                   charge: charge,

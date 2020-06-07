@@ -4,6 +4,7 @@ import 'package:Blackout/models/product.dart';
 import 'package:Blackout/widget/description_text_field/description_text_field.dart';
 import 'package:Blackout/widget/ean_field/ean_field.dart';
 import 'package:Blackout/widget/group_selector/group_selector.dart';
+import 'package:Blackout/widget/period_widget/period_widget.dart';
 import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/unit_widget/unit_widget.dart';
@@ -28,6 +29,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
   Product _product;
   bool _errorInEan = false;
   bool _errorInRefillLimit = false;
+  bool _errorInPeriod = false;
   Key _refillLimitKey = GlobalKey();
 
   @override
@@ -76,6 +78,22 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                   ),
                 ),
                 _product.group == null
+                    ? Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: PeriodWidget(
+                            initialPeriod: _product.warnInterval,
+                            callback: (period, error) {
+                              setState(() {
+                                _errorInPeriod = error;
+                                _product.warnInterval = period;
+                              });
+                            },
+                          )
+                        ),
+                      )
+                    : null,
+                _product.group == null
                     ? IntrinsicHeight(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -117,26 +135,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                           ],
                         ),
                       )
-                    : Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.8),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 59.0,
-                                  child: Center(
-                                    child: Text(
-                                      S.of(context).minimumAmount,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    : null,
                 Card(
                   child: Padding(
                     padding: EdgeInsets.all(8.8),
@@ -157,11 +156,11 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                   padding: const EdgeInsets.only(top: 8.8),
                   child: FlatButton(
                     color: Colors.redAccent,
-                    child: Text("save"),
-                    onPressed: _product.isValid() && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
+                    child: Text(S.of(context).GENERAL_SAVE),
+                    onPressed: _product.isValid() && !_errorInPeriod && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
                   ),
                 ),
-              ],
+              ].where((element) => element != null).toList(),
             ),
           ),
         ),

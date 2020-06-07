@@ -56,7 +56,7 @@ void main() {
 
     expect(group.expiredOrNotification, isTrue);
 
-    charge.expirationDate = LocalDateTime.now().add(Period(days: 10));
+    charge.expirationDate = LocalDate.today().add(Period(days: 10));
 
     expect(group.expiredOrNotification, isFalse);
   });

@@ -17,7 +17,7 @@ enum ModelChangeType {
 class ModelChange {
   String id;
   User user;
-  LocalDateTime modificationDate;
+  LocalDate modificationDate;
   String groupId;
   String productId;
   String chargeId;
@@ -44,7 +44,7 @@ class ModelChange {
     return ModelChange(
       id: entry.id,
       user: user,
-      modificationDate: localDateTimeFromDateTime(entry.modificationDate),
+      modificationDate: LocalDateFromDateTime(entry.modificationDate),
       modification: ModelChangeType.values[entry.direction],
       groupId: entry.groupId,
       productId: entry.productId,
@@ -62,7 +62,7 @@ class ModelChange {
       groupId: Value(groupId),
       productId: Value(productId),
       chargeId: Value(chargeId),
-      modificationDate: Value(modificationDate.toDateTimeLocal()),
+      modificationDate: Value(modificationDate.toDateTimeUnspecified()),
       homeId: Value(home.id),
     );
   }
@@ -70,16 +70,16 @@ class ModelChange {
   String toLocalizedString(BuildContext context) {
     switch (modification) {
       case ModelChangeType.create:
-        return S.of(context).created;
+        return S.of(context).MODEL_CHANGE_CREATED;
       case ModelChangeType.modify:
         return modifications.map((m) {
           if (m.from != "" && (m.to == "" || m.to == null)) {
-            return S.of(context).disabledField(m.fieldName, m.from);
+            return S.of(context).MODEL_CHANGE_FIELD_DISABLED(m.fieldName, m.from);
           }
           if ((m.from == "" || m.from == null) && m.to != "") {
-            return S.of(context).enabledField(m.fieldName, m.to);
+            return S.of(context).MODEL_CHANGE_FIELD_ENABLED(m.fieldName, m.to);
           }
-          return S.of(context).modifiedField(m.fieldName, m.from, m.to);
+          return S.of(context).MODEL_CHANGE_FIELD_MODIFIED(m.fieldName, m.from, m.to);
         }).join("\n");
     }
     return "";

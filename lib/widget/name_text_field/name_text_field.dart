@@ -46,8 +46,8 @@ class _NameTextFieldState extends State<NameTextField> {
     return TextField(
       controller: _controller,
       decoration: InputDecoration(
-        labelText: S.of(context).singular,
-        errorText: _error ? S.of(context).nameMustNotBeEmpty : null,
+        labelText: S.of(context).GROUP_NAME,
+        errorText: _error ? S.of(context).WARN_NAME_MUST_NOT_BE_EMPTY : null,
       ),
     );
   }

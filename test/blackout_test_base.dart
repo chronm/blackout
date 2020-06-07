@@ -35,7 +35,7 @@ final Period DEFAULT_PERIOD_UNTIL_EXPIRATION = Period(weeks: 1);
 
 final Period DEFAULT_PERIOD_UNTIL_NOTIFICATION = Period(days: 6);
 
-final LocalDateTime NOW = LocalDateTime.now();
+final LocalDate NOW = LocalDate.today();
 
 // Home
 final String DEFAULT_HOME_ID = "defaultHomeId";
@@ -81,8 +81,8 @@ Product createDefaultProduct() {
 
 // Charge
 final String DEFAULT_ITEM_ID = "chargeid";
-final LocalDateTime DEFAULT_ITEM_EXPIRATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_EXPIRATION);
-final LocalDateTime DEFAULT_ITEM_NOTIFICATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_NOTIFICATION);
+final LocalDate DEFAULT_ITEM_EXPIRATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_EXPIRATION);
+final LocalDate DEFAULT_ITEM_NOTIFICATION_DATE = NOW.add(DEFAULT_PERIOD_UNTIL_NOTIFICATION);
 
 Charge createDefaultCharge() {
   return Charge(
@@ -97,7 +97,7 @@ Charge createDefaultCharge() {
 final String DEFAULT_CHANGE_ID = "changeId";
 final String DEFAULT_CHANGE_OWNER = "changeOwner";
 final double DEFAULT_CHANGE_VALUE = 1.0;
-final LocalDateTime DEFAULT_CHANGE_CHANGE_DATE = NOW;
+final LocalDate DEFAULT_CHANGE_CHANGE_DATE = NOW;
 
 Change createDefaultChange() {
   return Change(
@@ -122,7 +122,7 @@ User createDefaultUser() {
 
 // DatabaseChangelog
 final String DEFAULT_MODEL_CHANGE_ID = "databaseChangelogId";
-final LocalDateTime DEFAULT_MODEL_CHANGE_MODIFICATION_DATE = DEFAULT_CHANGE_CHANGE_DATE;
+final LocalDate DEFAULT_MODEL_CHANGE_MODIFICATION_DATE = DEFAULT_CHANGE_CHANGE_DATE;
 
 ModelChange createDefaultModelChange(ModelChangeType modification, {Group group, Product product, Charge charge}) {
   return ModelChange(
@@ -138,7 +138,7 @@ ModelChange createDefaultModelChange(ModelChangeType modification, {Group group,
 }
 
 // Sync
-final LocalDateTime SYNC_SYNCHRONIZATION_DATE = NOW;
+final LocalDate SYNC_SYNCHRONIZATION_DATE = NOW;
 
 Sync createDefaultSync() {
   return Sync(

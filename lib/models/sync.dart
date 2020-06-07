@@ -7,7 +7,7 @@ import 'package:time_machine/time_machine.dart';
 
 class Sync {
   User user;
-  LocalDateTime synchronizationDate;
+  LocalDate synchronizationDate;
   Home home;
 
   Sync({@required this.user, @required this.synchronizationDate, @required this.home});
@@ -15,7 +15,7 @@ class Sync {
   factory Sync.fromEntry(SyncEntry entry, User user, Home home) {
     return Sync(
       user: user,
-      synchronizationDate: localDateTimeFromDateTime(entry.synchronizationDate),
+      synchronizationDate: LocalDateFromDateTime(entry.synchronizationDate),
       home: home,
     );
   }
@@ -23,7 +23,7 @@ class Sync {
   SyncTableCompanion toCompanion() {
     return SyncTableCompanion(
       userId: Value(user.id),
-      synchronizationDate: Value(synchronizationDate.toDateTimeLocal()),
+      synchronizationDate: Value(synchronizationDate.toDateTimeUnspecified()),
       homeId: Value(home.id),
     );
   }

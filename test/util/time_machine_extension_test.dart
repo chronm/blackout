@@ -21,15 +21,15 @@ void main() {
     expect(periodFromISO8601String("asdf"), isNull);
   });
 
-  test('(LocalDateTimeFromDateTime)', () {
-    LocalDateTime localDateTime = localDateTimeFromDateTime(DateTime(2020, 3, 24, 12, 49, 0));
+  test('(LocalDateFromDateTime)', () {
+    LocalDate LocalDate = LocalDateFromDateTime(DateTime(2020, 3, 24, 12, 49, 0));
 
-    expect(localDateTime.year, equals(2020));
-    expect(localDateTime.monthOfYear, equals(3));
-    expect(localDateTime.dayOfMonth, equals(24));
-    expect(localDateTime.hourOfDay, equals(12));
-    expect(localDateTime.minuteOfHour, equals(49));
-    expect(localDateTime.secondOfMinute, equals(0));
+    expect(LocalDate.year, equals(2020));
+    expect(LocalDate.monthOfYear, equals(3));
+    expect(LocalDate.dayOfMonth, equals(24));
+    expect(LocalDate.hourOfDay, equals(12));
+    expect(LocalDate.minuteOfHour, equals(49));
+    expect(LocalDate.secondOfMinute, equals(0));
   });
 
   testWidgets('PrettyPrint a time_machine period', (WidgetTester tester) async {
@@ -47,25 +47,25 @@ void main() {
     expect(duration, equals(Duration(days: 450, hours: 5, minutes: 6, seconds: 7)));
   });
 
-  testWidgets('Pretty print short difference between LocalDateTime and now', (WidgetTester tester) async {
+  testWidgets('Pretty print short difference between LocalDate and now', (WidgetTester tester) async {
     BuildContext context = await DEFAULT_BUILD_CONTEXT(tester);
 
-    LocalDateTime then = LocalDateTime.now();
+    LocalDate then = LocalDate.today();
     expect(then.prettyPrintShortDifference(context), "today");
 
-    then = LocalDateTime.now().subtractDays(1);
+    then = LocalDate.today().subtractDays(1);
     expect(then.prettyPrintShortDifference(context), "yesterday");
 
-    then = LocalDateTime.now().subtractDays(2);
+    then = LocalDate.today().subtractDays(2);
     expect(then.prettyPrintShortDifference(context), then.dayOfWeek.toString());
 
-    then = LocalDateTime.now().subtractWeeks(1);
+    then = LocalDate.today().subtractWeeks(1);
     expect(then.prettyPrintShortDifference(context), "in 1 week");
 
-    then = LocalDateTime.now().subtractMonths(1);
+    then = LocalDate.today().subtractMonths(1);
     expect(then.prettyPrintShortDifference(context), "in 1 month");
 
-    then = LocalDateTime.now().subtractYears(1);
+    then = LocalDate.today().subtractYears(1);
     expect(then.prettyPrintShortDifference(context), "very long ago");
   });
 }

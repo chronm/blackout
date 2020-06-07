@@ -43,7 +43,7 @@ void main() {
   test('Load and show product', () {
     when(modelChangeRepository.findAllByProductIdAndHomeId(DEFAULT_PRODUCT_ID, DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultModelChange(ModelChangeType.create, product: createDefaultProduct()..id = DEFAULT_PRODUCT_ID)]));
     when(blackoutPreferences.getHome()).thenAnswer((realInvocation) => Future.value(createDefaultHome()));
-    when(productRepository.getOneByProductIdAndHomeId(argThat(isA<Product>()), argThat(isA<User>()))).thenAnswer((realInvocation) => Future.value(createDefaultProduct()));
+    when(productRepository.findOneByProductIdAndHomeId(argThat(isA<Product>()), argThat(isA<User>()))).thenAnswer((realInvocation) => Future.value(createDefaultProduct()));
     when(groupRepository.findAllByHomeId(DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultGroup()]));
 
     expectLater(productBloc, emitsInOrder([ProductInitialState(), isA<ShowProduct>()]));

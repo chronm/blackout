@@ -68,8 +68,8 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
             Expanded(
               child: TextField(
                 decoration: InputDecoration(
-                  labelText: S.of(context).minimumAmount,
-                  errorText: _error ? S.of(context).amountCouldNotBeParsed(_controller.text) : null,
+                  labelText: S.of(context).GROUP_MINIMUM_AMOUNT,
+                  errorText: _error ? S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text) : null,
                 ),
                 controller: _controller,
               ),
@@ -79,7 +79,7 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
       ),
       uncheckedCallback: (context) => Expanded(
         child: Text(
-          S.of(context).minimumAmount,
+          S.of(context).GROUP_MINIMUM_AMOUNT,
           textAlign: TextAlign.center,
         ),
       ),

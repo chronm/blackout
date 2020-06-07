@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_machine/time_machine.dart';
 
-typedef void ExpirationDateCallback(LocalDateTime expirationDate, bool error);
+typedef void ExpirationDateCallback(LocalDate expirationDate, bool error);
 
 class ExpirationDatePicker extends StatefulWidget {
-  final LocalDateTime initialExpirationDate;
+  final LocalDate initialExpirationDate;
   final ExpirationDateCallback callback;
 
   ExpirationDatePicker({Key key, @required this.initialExpirationDate, @required this.callback}) : super(key: key);
@@ -25,16 +25,16 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
   void initState() {
     super.initState();
     _checked = widget.initialExpirationDate != null;
-    _controller = TextEditingController(text: DateFormat.yMd().format(_checked ? widget.initialExpirationDate.toDateTimeLocal() : LocalDateTime.now().toDateTimeLocal()));
+    _controller = TextEditingController(text: DateFormat.yMd().format(_checked ? widget.initialExpirationDate.toDateTimeUnspecified() : LocalDate.today().toDateTimeUnspecified()));
     _controller.addListener(() {
       invokeCallback();
     });
   }
 
   void invokeCallback() {
-    LocalDateTime dateTime;
+    LocalDate dateTime;
     try {
-      dateTime = LocalDateTime.dateTime(DateFormat.yMd().parse(_controller.text));
+      dateTime = LocalDate.dateTime(DateFormat.yMd().parse(_controller.text));
       setState(() {
         _error = false;
       });
@@ -64,7 +64,7 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
                   context: context,
                   initialDate: _controller.text != "" ? DateFormat.yMd().parse(_controller.text) : DateTime.now(),
                   firstDate: DateTime.now(),
-                  lastDate: LocalDateTime.now().addYears(100).toDateTimeLocal(),
+                  lastDate: LocalDate.today().addYears(100).toDateTimeUnspecified(),
                 );
                 _controller.text = DateFormat.yMd().format(picked);
                 invokeCallback();
@@ -74,7 +74,7 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
               child: TextField(
                 controller: _controller,
                 decoration: InputDecoration(
-                  errorText: _error ? S.of(context).expirationDateCouldNotBeParsed(_controller.text) : null,
+                  errorText: _error ? S.of(context).WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED(_controller.text) : null,
                 ),
               ),
             ),
@@ -83,7 +83,7 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
       ),
       uncheckedCallback: (context) => Expanded(
         child: Text(
-          S.of(context).expirationDate,
+          S.of(context).UNIT_EXPIRATION_DATE,
           textAlign: TextAlign.center,
         ),
       ),

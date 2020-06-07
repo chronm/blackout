@@ -3,7 +3,9 @@ import 'package:Blackout/bloc/speed_dial/speed_dial_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/routes.dart';
+import 'package:Blackout/util/charge_extension.dart';
+import 'package:Blackout/util/time_machine_extension.dart';
+import 'package:Blackout/util/string_extension.dart';
 import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
@@ -36,17 +38,17 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   TitleCard(
-                    title: state.charge.creationDate(context),
+                    title: S.of(context).UNIT_CREATED_AT(state.charge.creationDate.prettyPrintShortDifference(context)).capitalize(),
                     tag: state.charge.id,
-                    event: state.charge.expiredOrNotification ? "Notify Apr 25, 2020" : null,
-                    available: S.of(context).available(state.charge.subtitle),
+                    available: S.of(context).GENERAL_AMOUNT_AVAILABLE(state.charge.scientificAmount),
+                    event: state.charge.buildStatus(context),
                     productName: state.charge.product.title,
                     groupName: state.charge.product.group?.title,
                     modifyAction: () => widget.bloc.add(TapOnShowChargeConfiguration(state.charge, context)),
                     changesAction: () => widget.bloc.add(TapOnShowChargeChanges(state.charge.modelChanges, context)),
                   ),
                   HorizontalTextDivider(
-                    text: "Changes",
+                    text: S.of(context).CHANGES,
                   ),
                   Expanded(
                     child: state.charge.changes.length == 0

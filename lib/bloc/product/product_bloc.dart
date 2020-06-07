@@ -38,13 +38,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       User user = await blackoutPreferences.getUser();
       Product product = await productRepository.save(event.product, user);
       List<Group> groups = await groupRepository.findAllByHomeId(product.home.id);
-      yield ShowProduct(product, groups);
-      sl<HomeBloc>().add(LoadAll());
       Navigator.pop(event.context, product);
+      yield ShowProduct(product, groups);
     }
     if (event is LoadProduct) {
       Home home = await blackoutPreferences.getHome();
-      Product product = await productRepository.getOneByProductIdAndHomeId(event.productId, home.id);
+      Product product = await productRepository.findOneByProductIdAndHomeId(event.productId, home.id);
       List<Group> groups = await groupRepository.findAllByHomeId(home.id);
       yield ShowProduct(product, groups);
     }

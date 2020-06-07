@@ -40,13 +40,13 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
         child: TextField(
           controller: _controller,
           decoration: InputDecoration(
-            labelText: S.of(context).plural,
+            labelText: S.of(context).GROUP_PLURAL_NAME,
           ),
         ),
       ),
       uncheckedCallback: (context) => Expanded(
         child: Text(
-          S.of(context).plural,
+          S.of(context).GROUP_PLURAL_NAME,
           textAlign: TextAlign.center,
         ),
       ),

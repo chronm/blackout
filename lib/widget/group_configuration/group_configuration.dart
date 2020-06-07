@@ -1,3 +1,4 @@
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/widget/name_text_field/name_text_field.dart';
 import 'package:Blackout/widget/period_widget/period_widget.dart';
@@ -129,7 +130,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                   padding: const EdgeInsets.only(top: 8.8),
                   child: FlatButton(
                     color: Colors.redAccent,
-                    child: Text("save"),
+                    child: Text(S.of(context).GENERAL_SAVE),
                     onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
                   ),
                 ),

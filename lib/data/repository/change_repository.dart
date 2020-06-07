@@ -5,7 +5,6 @@ import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
-import 'package:optional/optional_internal.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
@@ -20,12 +19,12 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
 
     Charge charge;
     if (recurseCharge) {
-      charge = await db.chargeRepository.getOneByChargeIdAndHomeId(changeEntry.chargeId, changeEntry.homeId, recurseChanges: false);
+      charge = await db.chargeRepository.findOneByChargeIdAndHomeId(changeEntry.chargeId, changeEntry.homeId, recurseChanges: false);
     }
 
-    User user = await db.userRepository.getOneByUserId(changeEntry.userId);
+    User user = await db.userRepository.findOneByUserId(changeEntry.userId);
 
-    Home home = await db.homeRepository.getHomeById(changeEntry.homeId);
+    Home home = await db.homeRepository.findHomeById(changeEntry.homeId);
 
     change = Change.fromEntry(changeEntry, user, home, charge: charge);
 
@@ -47,23 +46,19 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
     return changes;
   }
 
-  Future<List<Change>> findAllByChangeDateAfterAndHomeId(LocalDateTime changeDate, String homeId) async {
-    var query = select(changeTable)..where((c) => c.changeDate.isBiggerThanValue(changeDate.toDateTimeLocal()))..where((c) => c.homeId.equals(homeId));
+  Future<List<Change>> findAllByChangeDateAfterAndHomeId(LocalDate changeDate, String homeId) async {
+    var query = select(changeTable)..where((c) => c.changeDate.isBiggerThanValue(changeDate.toDateTimeUnspecified()))..where((c) => c.homeId.equals(homeId));
     List<String> ids = await query.map((c) => c.id).get();
 
     List<Change> changes = [];
     for (String id in ids) {
-      changes.add(await getOneByChangeIdAndHomeId(id, homeId));
+      changes.add(await findOneByChangeIdAndHomeId(id, homeId));
     }
 
     return changes;
   }
 
-  Future<Optional<Change>> findOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseCharge = true}) async {
-    return Optional.ofNullable(await getOneByChangeIdAndHomeId(changeId, homeId, recurseCharge: recurseCharge));
-  }
-
-  Future<Change> getOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseCharge = true}) async {
+  Future<Change> findOneByChangeIdAndHomeId(String changeId, String homeId, {bool recurseCharge = true}) async {
     var query = select(changeTable)..where((c) => c.id.equals(changeId));
     ChangeEntry changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;
@@ -71,12 +66,12 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
     return createChange(changeEntry, recurseCharge: recurseCharge);
   }
 
-  Future<List<Change>> getAllByChargeIdAndHomeId(String chargeId, String homeId, {bool recurseCharge = true}) async {
+  Future<List<Change>> findAllByChargeIdAndHomeId(String chargeId, String homeId, {bool recurseCharge = true}) async {
     List<Change> changes = [];
 
     Charge charge;
     if (recurseCharge) {
-      charge = await db.chargeRepository.getOneByChargeIdAndHomeId(chargeId, homeId, recurseProduct: false, recurseChanges: false);
+      charge = await db.chargeRepository.findOneByChargeIdAndHomeId(chargeId, homeId, recurseProduct: false, recurseChanges: false);
     }
 
     var query = select(changeTable)..where((c) => c.chargeId.equals(chargeId));
@@ -99,7 +94,7 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
 
     await into(changeTable).insertOnConflictUpdate(change.toCompanion());
 
-    return getOneByChangeIdAndHomeId(change.id, change.home.id);
+    return findOneByChangeIdAndHomeId(change.id, change.home.id);
   }
 
   Future<int> drop(Change change) async {

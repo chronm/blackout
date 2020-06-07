@@ -39,12 +39,12 @@ class ChargeBloc extends Bloc<ChargeEvent, ChargeState> {
     if (event is SaveChargeAndClose) {
       User user = await blackoutPreferences.getUser();
       Charge charge = await chargeRepository.save(event.charge, user);
-      yield ShowCharge(charge);
       Navigator.pop(event.context, charge);
+      yield ShowCharge(charge);
     }
     if (event is LoadCharge) {
       Home home = await blackoutPreferences.getHome();
-      Charge charge = await chargeRepository.getOneByChargeIdAndHomeId(event.chargeId, home.id);
+      Charge charge = await chargeRepository.findOneByChargeIdAndHomeId(event.chargeId, home.id);
       yield ShowCharge(charge);
     }
     if (event is TapOnShowChargeConfiguration) {

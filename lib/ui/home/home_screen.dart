@@ -5,11 +5,13 @@ import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
+import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/search_bar/search_bar.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/material.dart' show AppBar, BuildContext, Card, Center, Colors, Column, Container, Expanded, FontWeight, Hero, Icon, Icons, ListTile, ListView, MainAxisSize, MainAxisSize1, Material, MediaQuery, SafeArea, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, TextStyle, Widget;
+import 'package:flutter/material.dart'
+    show AppBar, BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, FontWeight, Hero, Icon, Icons, ListTile, ListView, MainAxisAlignment, MainAxisSize, MainAxisSize1, Material, MediaQuery, Row, SafeArea, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, TextStyle, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -69,16 +71,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         HomeListable listable = cards[index];
 
                         List<Widget> trailing = <Widget>[];
-                        if (listable.expiredOrNotification) {
-                          trailing.add(
-                            Icon(Icons.event),
-                          );
-                        }
                         if (listable.tooFewAvailable) {
                           trailing.add(
                             Icon(Icons.trending_down),
                           );
                         }
+                        if (listable.expired || listable.warn) {
+                          trailing.add(
+                            Icon(
+                              Icons.event,
+                              color: listable.status == ChargeStatus.expired ? Colors.redAccent : null,
+                            ),
+                          );
+                        }
+
+                        String status = listable.buildStatus(context);
 
                         return Hero(
                           tag: listable.id,
@@ -89,9 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Card(
                             child: ListTile(
+                              isThreeLine: status != null,
                               title: Text(listable.title),
-                              subtitle: Text(S.of(context).available(listable.subtitle)),
-                              trailing: Column(
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(listable.scientificAmount)),
+                                  status != null ? Text(status) : null
+                                ].where((element) => element != null).toList(),
+                              ),
+                              trailing: Row(
                                 children: trailing,
                                 mainAxisSize: MainAxisSize.min,
                               ),

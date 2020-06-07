@@ -21,103 +21,110 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(amount, date) => "${date} ${amount} hinzugefügt";
 
-  static m1(amount) => "${amount} ist kein gültiger Wert";
+  static m1(amount, date) => "${date} ${amount} entnommen";
 
   static m2(amount) => "Verfügbar: ${amount}";
 
-  static m3(create) => "${create} erstellt";
+  static m3(days) => "${Intl.plural(days, zero: '', one: '1 Tag', other: '${days} Tage')}";
 
-  static m4(days) => "${Intl.plural(days, one: '1 Tag', other: '${days} Tage')}";
+  static m4(months) => "${Intl.plural(months, zero: '', one: 'in 1 Monat', other: 'in ${months} Monaten')}";
 
-  static m5(field, from) => "${field} (${from}) deaktiviert";
+  static m5(weeks) => "${Intl.plural(weeks, zero: '', one: 'in 1 Woche', other: 'in ${weeks} Wochen')}";
 
-  static m6(field, to) => "${field} (${to}) aktiviert";
+  static m6(expirationDate) => "lief ${expirationDate} ab";
 
-  static m7(expirationDate) => "${expirationDate} ist kein gültiger Wert";
+  static m7(expirationDate) => "läuft ${expirationDate} ab";
 
-  static m8(time) => "lief ${time} ab";
+  static m8(interval) => "läuft ${interval} ab";
 
-  static m9(time) => "läuft ${time} ab";
+  static m9(hours) => "${Intl.plural(hours, zero: '', one: '1 Stunde', other: '${hours} Stunden')}";
 
-  static m10(hours) => "${Intl.plural(hours, one: '1 Stunde', other: '${hours} Stunden')}";
+  static m10(amount) => "Weniger als ${amount} verfügbar";
 
-  static m11(months) => "{months, plural, one{in ${months} Monat} other{{in ${months} Monaten}}";
+  static m11(minutes) => "${Intl.plural(minutes, zero: '', one: '1 Minute', other: '${minutes} Minuten')}";
 
-  static m12(weeks) => "{weeks, plural, one{in ${weeks} Woche} other{{in ${weeks} Wochen}}";
+  static m12(months) => "${Intl.plural(months, zero: '', one: '1 Monat', other: '${months} Monate')}";
 
-  static m13(minutes) => "${Intl.plural(minutes, one: '1 Minute', other: '${minutes} Minuten')}";
+  static m13(notificationDate) => "Benachrichtige ${notificationDate}";
 
-  static m14(field, from, to) => "Änderung von ${field} von ${from} zu ${to}";
+  static m14(seconds) => "${Intl.plural(seconds, zero: '', one: '1 Sekunde', other: '${seconds} Sekunden')}";
 
-  static m15(months) => "${Intl.plural(months, one: '1 Monat', other: '${months} Monate')}";
+  static m15(weeks) => "${Intl.plural(weeks, zero: '', one: '1 Woche', other: '${weeks} Wochen')}";
 
-  static m16(notificationDate) => "${notificationDate} ist kein gültiger Wert";
+  static m16(years) => "${Intl.plural(years, zero: '', one: '1 Jahr', other: '${years} Jahre')}";
 
-  static m17(time) => "benachrichtige ${time}";
+  static m17(field, from) => "${field} (${from}) deaktiviert";
 
-  static m18(amount, date) => "${date} ${amount} entnommen";
+  static m18(field, to) => "${field} (${to}) aktiviert";
 
-  static m19(seconds) => "${Intl.plural(seconds, one: '1 Sekunde', other: '${seconds} Sekunden')}";
+  static m19(field, from, to) => "Änderung von ${field} von ${from} zu ${to}";
 
-  static m20(weeks) => "${Intl.plural(weeks, one: '1 Woche', other: '${weeks} Wochen')}";
+  static m20(creationDate) => "${creationDate} erstellt";
 
-  static m21(years) => "${Intl.plural(years, one: '1 Jahr', other: '${years} Jahre')}";
+  static m21(amount) => "${amount} ist kein gültiger Wert";
+
+  static m22(expirationDate) => "${expirationDate} ist kein gültiger Wert";
+
+  static m23(notificationDate) => "${notificationDate} ist kein gültiger Wert";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "_locale" : MessageLookupByLibrary.simpleMessage("de"),
-    "added" : m0,
-    "amountCouldNotBeParsed" : m1,
-    "available" : m2,
-    "changes" : MessageLookupByLibrary.simpleMessage("Änderungen"),
-    "create" : MessageLookupByLibrary.simpleMessage("Erstellen"),
-    "createHome" : MessageLookupByLibrary.simpleMessage("Wie möchten Sie Ihren Haushalt nennen? Sie können ihn später ändern"),
-    "created" : MessageLookupByLibrary.simpleMessage("Erstellt"),
-    "createdAt" : m3,
-    "days" : m4,
-    "description" : MessageLookupByLibrary.simpleMessage("Beschreibung"),
-    "descriptionMustNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Beschreibung darf nicht leer sein"),
-    "disabledField" : m5,
-    "ean" : MessageLookupByLibrary.simpleMessage("Produktcode (ean)"),
-    "enabledField" : m6,
-    "expirationDate" : MessageLookupByLibrary.simpleMessage("Mindesthaltbarkeitsdatum"),
-    "expirationDateCouldNotBeParsed" : m7,
-    "expired" : m8,
-    "expires" : m9,
-    "finish" : MessageLookupByLibrary.simpleMessage("Fertig"),
-    "future" : MessageLookupByLibrary.simpleMessage("weit in der Zukunft"),
-    "hours" : m10,
-    "inMonths" : m11,
-    "inWeeks" : m12,
-    "join" : MessageLookupByLibrary.simpleMessage("Beitreten"),
-    "joinHome" : MessageLookupByLibrary.simpleMessage("Scanne einfach den QR Code auf einem anderen Gerät um dem Haushalt beizutreten."),
-    "longAgo" : MessageLookupByLibrary.simpleMessage("Vor einiger Zeit"),
-    "minimumAmount" : MessageLookupByLibrary.simpleMessage("Mindestmenge"),
-    "minutes" : m13,
-    "modifiedField" : m14,
-    "modifyCharge" : MessageLookupByLibrary.simpleMessage("Charge bearbeiten"),
-    "modifyGroup" : MessageLookupByLibrary.simpleMessage("Kategorie bearbeiten"),
-    "modifyProduct" : MessageLookupByLibrary.simpleMessage("Produkt bearbeiten"),
-    "months" : m15,
-    "nameMustNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Name darf nicht leer sein"),
-    "nameOfYourHousehold" : MessageLookupByLibrary.simpleMessage("Name deines Haushaltes"),
-    "notificationDate" : MessageLookupByLibrary.simpleMessage("Benachrichtigungsdatum"),
-    "notificationDateCouldNotBeParsed" : m16,
-    "notify" : m17,
-    "plural" : MessageLookupByLibrary.simpleMessage("Wenn es eine Pluralform hat, geben Sie hier ein"),
-    "removed" : m18,
-    "seconds" : m19,
-    "setYourHome" : MessageLookupByLibrary.simpleMessage("Wollen Sie einem bestehenden Haushalt beitreten oder einen neuen gründen?"),
-    "setYourUsername" : MessageLookupByLibrary.simpleMessage("Wie möchten Sie genannt werden? Dies ist für jeden Haushalt, zu dem Sie gehören, gleich und wird verwendet, um Sie zu identifizieren, z.B. wenn Sie Gegenstände hinzufügen oder entfernen. Sie können dies später ändern."),
-    "setup" : MessageLookupByLibrary.simpleMessage("Einrichtung"),
-    "singular" : MessageLookupByLibrary.simpleMessage("Wie lautet der Name dieser Kategorie?"),
-    "today" : MessageLookupByLibrary.simpleMessage("heute"),
-    "tomorrow" : MessageLookupByLibrary.simpleMessage("morgen"),
-    "username" : MessageLookupByLibrary.simpleMessage("Benutzername"),
-    "warnMe" : MessageLookupByLibrary.simpleMessage("Warne mich vor Ablauf"),
-    "weeks" : m20,
-    "welcomeMessage" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
-    "years" : m21,
-    "yesterday" : MessageLookupByLibrary.simpleMessage("gestern")
+    "CHANGES" : MessageLookupByLibrary.simpleMessage("Änderungen"),
+    "CHANGE_ADDED" : m0,
+    "CHANGE_TOOK" : m1,
+    "GENERAL_AMOUNT_AVAILABLE" : m2,
+    "GENERAL_DAYS" : m3,
+    "GENERAL_EVENT_IN_MONTHS" : m4,
+    "GENERAL_EVENT_IN_OVER_A_YEAR" : MessageLookupByLibrary.simpleMessage("in über einem Jahr"),
+    "GENERAL_EVENT_IN_WEEKS" : m5,
+    "GENERAL_EVENT_OVER_A_YEAR_AGO" : MessageLookupByLibrary.simpleMessage("vor über einem Jahr"),
+    "GENERAL_EVENT_TODAY" : MessageLookupByLibrary.simpleMessage("heute"),
+    "GENERAL_EVENT_TOMORROW" : MessageLookupByLibrary.simpleMessage("morgen"),
+    "GENERAL_EVENT_YESTERDAY" : MessageLookupByLibrary.simpleMessage("gestern"),
+    "GENERAL_EXPIRED_AGO" : m6,
+    "GENERAL_EXPIRES_AT" : m7,
+    "GENERAL_EXPIRES_IN" : m8,
+    "GENERAL_HOURS" : m9,
+    "GENERAL_LESS_THAN_AVAILABLE" : m10,
+    "GENERAL_MINUTES" : m11,
+    "GENERAL_MONTHS" : m12,
+    "GENERAL_NOTIFY_AT" : m13,
+    "GENERAL_SAVE" : MessageLookupByLibrary.simpleMessage("Speichern"),
+    "GENERAL_SEARCH" : MessageLookupByLibrary.simpleMessage("Suche"),
+    "GENERAL_SECONDS" : m14,
+    "GENERAL_WEEKS" : m15,
+    "GENERAL_YEARS" : m16,
+    "GROUP_BEST_BEFORE" : MessageLookupByLibrary.simpleMessage("Ablaufdatum"),
+    "GROUP_MINIMUM_AMOUNT" : MessageLookupByLibrary.simpleMessage("Mindestmenge"),
+    "GROUP_NAME" : MessageLookupByLibrary.simpleMessage("Name der Kategorie"),
+    "GROUP_NO_PRODUCTS" : MessageLookupByLibrary.simpleMessage("Keine Produkte"),
+    "GROUP_PLURAL_NAME" : MessageLookupByLibrary.simpleMessage("Pluralform des Names"),
+    "MODEL_CHANGE_CREATED" : MessageLookupByLibrary.simpleMessage("Erstellt"),
+    "MODEL_CHANGE_FIELD_DISABLED" : m17,
+    "MODEL_CHANGE_FIELD_ENABLED" : m18,
+    "MODEL_CHANGE_FIELD_MODIFIED" : m19,
+    "PRODUCTS" : MessageLookupByLibrary.simpleMessage("Produkte"),
+    "PRODUCT_DESCRIPTION" : MessageLookupByLibrary.simpleMessage("Beschreibung"),
+    "PRODUCT_EAN" : MessageLookupByLibrary.simpleMessage("Produktcode"),
+    "SETUP_CREATE_HOME" : MessageLookupByLibrary.simpleMessage("Erstellen"),
+    "SETUP_CREATE_HOME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Wie möchten Sie Ihren Haushalt nennen? Sie können ihn später ändern"),
+    "SETUP_FINISH" : MessageLookupByLibrary.simpleMessage("Fertig"),
+    "SETUP_HOME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Wollen Sie einem bestehenden Haushalt beitreten oder einen neuen gründen?"),
+    "SETUP_HOME_NAME" : MessageLookupByLibrary.simpleMessage("Name deines Haushaltes"),
+    "SETUP_JOIN_HOME" : MessageLookupByLibrary.simpleMessage("Beitreten"),
+    "SETUP_JOIN_HOME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Scanne einfach den QR Code auf einem anderen Gerät um dem Haushalt beizutreten."),
+    "SETUP_USERNAME" : MessageLookupByLibrary.simpleMessage("Benutzername"),
+    "SETUP_USERNAME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Wie möchten Sie genannt werden? Dies ist für jeden Haushalt, zu dem Sie gehören, gleich und wird verwendet, um Sie zu identifizieren, z.B. wenn Sie Gegenstände hinzufügen oder entfernen. Sie können dies später ändern."),
+    "SETUP_WELCOME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
+    "UNITS" : MessageLookupByLibrary.simpleMessage("Chargen"),
+    "UNIT_CREATED_AT" : m20,
+    "UNIT_EXPIRATION_DATE" : MessageLookupByLibrary.simpleMessage("Mindesthaltbarkeitsdatum"),
+    "UNIT_NOTIFICATION_DATE" : MessageLookupByLibrary.simpleMessage("Benachrichtigungsdatum"),
+    "WARN_AMOUNT_COULD_NOT_BE_PARSED" : m21,
+    "WARN_DESCRIPTION_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Beschreibung darf nicht leer sein"),
+    "WARN_EAN_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Productcode darf nicht leer sein"),
+    "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED" : m22,
+    "WARN_NAME_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Name darf nicht leer sein"),
+    "WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED" : m23
   };
 }

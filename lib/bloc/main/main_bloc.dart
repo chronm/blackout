@@ -20,18 +20,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   @override
   Stream<MainState> mapEventToState(MainEvent event) async* {
     if (event is InitializeAppEvent) {
-      yield* initializeApp(event);
-    }
-  }
-
-  Stream<MainState> initializeApp(InitializeAppEvent event) async* {
-    User user = await _blackoutPreferences.getUser();
-    Home home = await _blackoutPreferences.getHome();
-    if (user == null || home == null) {
-      yield GoToSetup();
-    } else {
-      _homeBloc.add(LoadAll());
-      yield GoToHome();
+      User user = await _blackoutPreferences.getUser();
+      Home home = await _blackoutPreferences.getHome();
+      if (user == null || home == null) {
+        yield GoToSetup();
+      } else {
+        _homeBloc.add(LoadAll());
+        yield GoToHome();
+      }
     }
   }
 }

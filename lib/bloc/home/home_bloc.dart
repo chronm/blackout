@@ -34,11 +34,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is TapOnGroup) {
       groupBloc.add(LoadGroup(event.group.id));
-      Navigator.push(event.context, RouteBuilder.build(Routes.GroupOverviewRoute));
+      await Navigator.push(event.context, RouteBuilder.build(Routes.GroupOverviewRoute));
+      yield* mapEventToState(LoadAll());
     }
     if (event is TapOnProduct) {
       productBloc.add(LoadProduct(event.product.id));
-      Navigator.push(event.context, RouteBuilder.build(Routes.ProductOverviewRoute));
+      await Navigator.push(event.context, RouteBuilder.build(Routes.ProductOverviewRoute));
+      yield* mapEventToState(LoadAll());
     }
     if (event is LoadAll) {
       yield Loading();
