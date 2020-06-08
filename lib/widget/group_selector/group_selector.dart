@@ -4,7 +4,6 @@ import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 typedef void GroupCallback(Group group);

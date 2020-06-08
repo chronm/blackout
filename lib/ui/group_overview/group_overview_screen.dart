@@ -8,10 +8,9 @@ import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Row, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, Widget, showDialog;
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Row, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:intl/intl.dart';
 
 class GroupOverviewScreen extends StatefulWidget {
   final GroupBloc bloc = sl<GroupBloc>();

@@ -1,17 +1,15 @@
-import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
+import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/widget/group_selector/group_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
 import '../../blackout_test_base.dart';
 
 void main() {
   testWidgets('Initialize without group', (WidgetTester tester) async {
-    Group group;
     await tester.pumpWidget(wrapMaterial(
       widget: GroupSelector(
         initialGroup: null,

@@ -1,5 +1,4 @@
 import 'package:Blackout/bloc/charge/charge_bloc.dart';
-import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
@@ -10,7 +9,6 @@ import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:Blackout/widget/changes_widget/changes_widget.dart';
 import 'package:Blackout/widget/product_configuration/product_configuration.dart';
@@ -18,7 +16,6 @@ import 'package:flutter/material.dart' show BuildContext, Navigator, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'product_event.dart';
-
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {

@@ -6,8 +6,8 @@ import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart' show Product;
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:Blackout/util/group_extension.dart';
+import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
@@ -54,7 +54,7 @@ class Group implements HomeListable {
 
   @override
   String buildStatus(BuildContext context) {
-    return (products..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context);
+    return products.length != 0 ? (products..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context) : null;
   }
 
   @override

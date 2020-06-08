@@ -1,4 +1,3 @@
-import 'package:Blackout/bloc/home/home_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart';
 import 'package:Blackout/bloc/product/product_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
