@@ -4,15 +4,16 @@ import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
-import 'package:Blackout/util/string_extension.dart';
 import 'package:Blackout/util/speeddial.dart';
+import 'package:Blackout/util/string_extension.dart';
+import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Center, Container, Key, ListTile, ListView, MediaQuery, Navigator, Scaffold, State, StatefulWidget, Text, Widget;
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Container, Key, ListTile, ListView, Scaffold, State, StatefulWidget, Text, Widget;
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ChargeOverviewScreen extends StatefulWidget {
   final ChargeBloc bloc = sl<ChargeBloc>();
@@ -79,32 +80,14 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
       floatingActionButton: BlocBuilder<ChargeBloc, ChargeState>(
         bloc: widget.bloc,
         builder: (context, state) {
-          if (state is ShowCharge) {
-            return createSpeedDial(
-              [
-                goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-                addToChargeButton(
-                  () => widget.speedDial.add(
-                    TapOnAddToCharge(
-                      context,
-                      state.charge,
-                    ),
-                  ),
-                ),
-                takeFromChargeButton(
-                  () => widget.speedDial.add(
-                    TapOnTakeFromCharge(
-                      context,
-                      state.charge,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }
-          return createSpeedDial([
+          List<SpeedDialChild> children = [
             goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
-          ]);
+          ];
+          if (state is ShowCharge) {
+            children.add(addToChargeButton(() => widget.speedDial.add(TapOnAddToCharge(context, state.charge))));
+            children.add(takeFromChargeButton(() => widget.speedDial.add(TapOnTakeFromCharge(context, state.charge))));
+          }
+          return createSpeedDial(children);
         },
       ),
     );

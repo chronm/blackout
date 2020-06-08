@@ -11,7 +11,7 @@ import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/search_bar/search_bar.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart'
-    show AppBar, BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, FontWeight, Hero, Icon, Icons, ListTile, ListView, MainAxisAlignment, MainAxisSize, MainAxisSize1, Material, MediaQuery, Row, SafeArea, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, TextStyle, Widget;
+    show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, FontWeight, Hero, Icon, Icons, ListTile, ListView, MainAxisSize, Material, MediaQuery, Row, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, TextStyle, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {

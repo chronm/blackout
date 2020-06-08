@@ -1,5 +1,4 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/charge.dart' show Charge;
 import 'package:Blackout/models/group.dart' show Group;
 import 'package:Blackout/models/home.dart';
@@ -57,11 +56,11 @@ class Product implements HomeListable {
 
   @override
   String buildStatus(BuildContext context) {
-    return (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context);
+    return charges.length != 0 ? (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context) : null;
   }
 
   LocalDate get expirationDate {
-    return (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.expirationDate;
+    return charges.length != 0 ? (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.expirationDate : null;
   }
 
   @override

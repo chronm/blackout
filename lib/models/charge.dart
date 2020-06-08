@@ -1,15 +1,11 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/modification.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/util/string_extension.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 

@@ -21,11 +21,10 @@ import 'package:Blackout/widget/charge_configuration/charge_configuration.dart';
 import 'package:Blackout/widget/group_configuration/group_configuration.dart';
 import 'package:Blackout/widget/product_configuration/product_configuration.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart' show AlertDialog, BuildContext, FlatButton, Navigator, Route, Text, TextEditingController, TextField, showDialog;
+import 'package:flutter/material.dart' show AlertDialog, BuildContext, FlatButton, Navigator, Text, TextEditingController, TextField, showDialog;
 import 'package:time_machine/time_machine.dart';
 
 part 'speed_dial_event.dart';
-
 part 'speed_dial_state.dart';
 
 class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
