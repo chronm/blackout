@@ -54,7 +54,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                   Expanded(
                     child: state.product.charges.length == 0
                         ? Center(
-                            child: Text("Nothing here"),
+                            child: Text(S.of(context).GENERAL_NOTHING_HERE),
                           )
                         : ListView.builder(
                             itemCount: state.product.charges.length,

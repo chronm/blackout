@@ -92,6 +92,8 @@
       "months": {}
     }
   },
+  "GENERAL_NOTHING_HERE": "Hier gibt's noch nichts",
+  "@GENERAL_NOTHING_HERE": {},
   "GENERAL_NOTIFY_AT": "Benachrichtige {notificationDate}",
   "@GENERAL_NOTIFY_AT": {
     "placeholders": {
@@ -126,8 +128,6 @@
   "@GROUP_MINIMUM_AMOUNT": {},
   "GROUP_NAME": "Name der Kategorie",
   "@GROUP_NAME": {},
-  "GROUP_NO_PRODUCTS": "Keine Produkte",
-  "@GROUP_NO_PRODUCTS": {},
   "GROUP_PLURAL_NAME": "Pluralform des Names",
   "@GROUP_PLURAL_NAME": {},
   "MODEL_CHANGE_CREATED": "Erstellt",
@@ -154,6 +154,8 @@
       "to": {}
     }
   },
+  "NO_PRODUCTS": "Keine Produkte",
+  "@NO_PRODUCTS": {},
   "PRODUCT_DESCRIPTION": "Beschreibung",
   "@PRODUCT_DESCRIPTION": {},
   "PRODUCT_EAN": "Produktcode",
