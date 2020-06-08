@@ -57,9 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (state is LoadedAll) {
                   if (state.cards.length == 0) {
                     return Center(
-                      child: Text(
-                        "Nothing here",
-                      ),
+                      child: Text(S.of(context).GENERAL_NOTHING_HERE),
                     );
                   }
                   List<HomeListable> cards = state.cards.where((card) => card.title.toLowerCase().contains(searchString)).toList();
@@ -100,10 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: Text(listable.title),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(listable.scientificAmount)),
-                                  status != null ? Text(status) : null
-                                ].where((element) => element != null).toList(),
+                                children: [Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(listable.scientificAmount)), status != null ? Text(status) : null].where((element) => element != null).toList(),
                               ),
                               trailing: Row(
                                 children: trailing,

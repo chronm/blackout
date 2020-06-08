@@ -58,7 +58,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                   Expanded(
                     child: state.group.products.length == 0
                         ? Center(
-                            child: Text(S.of(context).GROUP_NO_PRODUCTS),
+                            child: Text(S.of(context).GENERAL_NOTHING_HERE),
                           )
                         : ListView.builder(
                             itemCount: products.length,

@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -241,6 +242,16 @@ class S {
     );
   }
 
+  /// `Nothing here`
+  String get GENERAL_NOTHING_HERE {
+    return Intl.message(
+      'Nothing here',
+      name: 'GENERAL_NOTHING_HERE',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Notify at {notificationDate}`
   String GENERAL_NOTIFY_AT(Object notificationDate) {
     return Intl.message(
@@ -340,16 +351,6 @@ class S {
     );
   }
 
-  /// `No products`
-  String get GROUP_NO_PRODUCTS {
-    return Intl.message(
-      'No products',
-      name: 'GROUP_NO_PRODUCTS',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Plural form of name`
   String get GROUP_PLURAL_NAME {
     return Intl.message(
@@ -397,6 +398,16 @@ class S {
       name: 'MODEL_CHANGE_FIELD_MODIFIED',
       desc: '',
       args: [field, from, to],
+    );
+  }
+
+  /// `No products`
+  String get NO_PRODUCTS {
+    return Intl.message(
+      'No products',
+      name: 'NO_PRODUCTS',
+      desc: '',
+      args: [],
     );
   }
 

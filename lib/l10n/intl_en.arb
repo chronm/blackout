@@ -92,6 +92,8 @@
       "months": {}
     }
   },
+  "GENERAL_NOTHING_HERE": "Nothing here",
+  "@GENERAL_NOTHING_HERE": {},
   "GENERAL_NOTIFY_AT": "Notify at {notificationDate}",
   "@GENERAL_NOTIFY_AT": {
     "placeholders": {
@@ -126,8 +128,6 @@
   "@GROUP_MINIMUM_AMOUNT": {},
   "GROUP_NAME": "Name of this group",
   "@GROUP_NAME": {},
-  "GROUP_NO_PRODUCTS": "No products",
-  "@GROUP_NO_PRODUCTS": {},
   "GROUP_PLURAL_NAME": "Plural form of name",
   "@GROUP_PLURAL_NAME": {},
   "MODEL_CHANGE_CREATED": "Created",
@@ -154,6 +154,8 @@
       "to": {}
     }
   },
+  "NO_PRODUCTS": "No products",
+  "@NO_PRODUCTS": {},
   "PRODUCT_DESCRIPTION": "Description",
   "@PRODUCT_DESCRIPTION": {},
   "PRODUCT_EAN": "Product code",

@@ -54,7 +54,7 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
                   Expanded(
                     child: state.charge.changes.length == 0
                         ? Center(
-                            child: Text("Nothing here"),
+                            child: Text(S.of(context).GENERAL_NOTHING_HERE),
                           )
                         : ListView.builder(
                             itemCount: state.charge.changes.length,
