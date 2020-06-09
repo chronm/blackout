@@ -7,11 +7,12 @@ import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/util/speeddial.dart';
+import 'package:Blackout/widget/blackout_drawer/blackout_drawer.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/search_bar/search_bar.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart'
-    show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, FontWeight, Hero, Icon, Icons, ListTile, ListView, MainAxisSize, Material, MediaQuery, Row, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, TextStyle, Widget;
+    show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, FontWeight, GlobalKey, Hero, Icon, Icons, ListTile, ListView, MainAxisSize, Material, MediaQuery, Row, Scaffold, ScaffoldState, SingleChildScrollView, State, StatefulWidget, Text, TextStyle, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,17 +23,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  GlobalKey<ScaffoldState> _scaffold = GlobalKey();
   String searchString = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffold,
+      drawer: BlackoutDrawer(),
       body: ScrollableContainer(
         fullscreen: true,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SearchBar(
+              scaffold: _scaffold,
               height: 110.0,
               callback: (searchString) {
                 setState(() {
@@ -46,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Center(
                   child: Text(
                     "Blackout",
-                    style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.white70, fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

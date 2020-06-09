@@ -162,6 +162,8 @@
   "@PRODUCT_EAN": {},
   "PRODUCTS": "Produkte",
   "@PRODUCTS": {},
+  "SETTINGS_USERNAME": "Benutzername",
+  "@SETTINGS_USERNAME": {},
   "SETUP_CREATE_HOME": "Erstellen",
   "@SETUP_CREATE_HOME": {},
   "SETUP_CREATE_HOME_CARD_TITLE": "Wie möchten Sie Ihren Haushalt nennen? Sie können ihn später ändern",
@@ -217,5 +219,7 @@
     "placeholders": {
       "notificationDate": {}
     }
-  }
+  },
+  "WARN_USERNAME_MUST_NOT_BE_EMPTY": "Benutzername darf nicht leer sein",
+  "@WARN_USERNAME_MUST_NOT_BE_EMPTY": {}
 }

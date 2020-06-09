@@ -1,3 +1,4 @@
+import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 typedef void SearchCallback(String searchString);
@@ -6,8 +7,9 @@ class SearchBar extends StatefulWidget {
   final Widget child;
   final SearchCallback callback;
   final double height;
+  final GlobalKey<ScaffoldState> scaffold;
 
-  SearchBar({Key key, this.callback, this.child, this.height}) : super(key: key);
+  SearchBar({Key key, this.callback, this.child, this.height, this.scaffold}) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -45,16 +47,26 @@ class _SearchBarState extends State<SearchBar> {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(1.0), border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.0), color: Colors.white),
                 child: Row(
                   children: [
+                    widget.scaffold != null
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.menu,
+                              color: Colors.redAccent,
+                            ),
+                            onPressed: () => widget.scaffold.currentState.openDrawer(),
+                          )
+                        : null,
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(left: 8.8),
                         child: TextField(
+                          enabled: widget.callback != null,
                           focusNode: _focusNode,
                           controller: _controller,
                           decoration: InputDecoration(
-                            labelText: "Search",
+                            labelText: S.of(context).GENERAL_SEARCH,
                             labelStyle: TextStyle(
-                              color: Colors.black,
+                              color: widget.callback != null ? Colors.black : Colors.grey,
                             ),
                           ),
                           style: TextStyle(
@@ -70,31 +82,31 @@ class _SearchBarState extends State<SearchBar> {
                     ),
                     _searching
                         ? IconButton(
-                            icon: Icon(
-                              Icons.close,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              _controller.text = "";
-                              _focusNode.unfocus();
-                              setState(() {
-                                _searching = false;
-                              });
-                            },
-                          )
+                      icon: Icon(
+                        Icons.close,
+                        color: widget.callback != null ? Colors.redAccent : Colors.grey,
+                      ),
+                      onPressed: widget.callback != null ? () {
+                        _controller.text = "";
+                        _focusNode.unfocus();
+                        setState(() {
+                          _searching = false;
+                        });
+                      } : null,
+                    )
                         : IconButton(
-                            icon: Icon(
-                              Icons.search,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              _focusNode.requestFocus();
-                              setState(() {
-                                _searching = true;
-                              });
-                            },
-                          ),
-                  ],
+                      icon: Icon(
+                        Icons.search,
+                        color: widget.callback != null ? Colors.redAccent : Colors.grey,
+                      ),
+                      onPressed: widget.callback != null ? () {
+                        _focusNode.requestFocus();
+                        setState(() {
+                          _searching = true;
+                        });
+                      } : null,
+                    ),
+                  ].where((element) => element != null).toList(),
                 ),
               ),
             ),

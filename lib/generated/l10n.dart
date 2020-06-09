@@ -34,10 +34,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Added {amount} {date}`
+  /// `added {amount} {date}`
   String CHANGE_ADDED(Object amount, Object date) {
     return Intl.message(
-      'Added $amount $date',
+      'added $amount $date',
       name: 'CHANGE_ADDED',
       desc: '',
       args: [amount, date],
@@ -441,6 +441,16 @@ class S {
     );
   }
 
+  /// `Username`
+  String get SETTINGS_USERNAME {
+    return Intl.message(
+      'Username',
+      name: 'SETTINGS_USERNAME',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Create`
   String get SETUP_CREATE_HOME {
     return Intl.message(
@@ -638,6 +648,16 @@ class S {
       name: 'WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED',
       desc: '',
       args: [notificationDate],
+    );
+  }
+
+  /// `Username must not be empty`
+  String get WARN_USERNAME_MUST_NOT_BE_EMPTY {
+    return Intl.message(
+      'Username must not be empty',
+      name: 'WARN_USERNAME_MUST_NOT_BE_EMPTY',
+      desc: '',
+      args: [],
     );
   }
 }

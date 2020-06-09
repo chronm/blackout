@@ -1,3 +1,4 @@
+import 'package:Blackout/bloc/drawer/drawer_bloc.dart';
 import 'package:Blackout/bloc/main/main_bloc.dart';
 import 'package:Blackout/di/di.dart';
 import 'package:Blackout/generated/l10n.dart';
@@ -50,7 +51,7 @@ class BlackoutApp extends StatelessWidget {
 }
 
 class App extends StatefulWidget {
-  final MainBloc _bloc = sl<MainBloc>();
+  final MainBloc bloc = sl<MainBloc>();
 
   @override
   State<StatefulWidget> createState() => _AppState();
@@ -61,14 +62,15 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      widget._bloc.add(InitializeAppEvent());
+      widget.bloc.add(InitializeAppEvent());
+      sl<DrawerBloc>().add(InitializeDrawer());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<MainBloc, MainState>(
-      bloc: widget._bloc,
+      bloc: widget.bloc,
       listener: (context, state) {
         if (state is GoToSetup) {
           Navigator.pushReplacement(context, RouteBuilder.build(Routes.SetupRoute));

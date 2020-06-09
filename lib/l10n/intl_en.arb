@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "CHANGE_ADDED": "Added {amount} {date}",
+  "CHANGE_ADDED": "added {amount} {date}",
   "@CHANGE_ADDED": {
     "placeholders": {
       "amount": {},
@@ -162,6 +162,8 @@
   "@PRODUCT_EAN": {},
   "PRODUCTS": "Products",
   "@PRODUCTS": {},
+  "SETTINGS_USERNAME": "Username",
+  "@SETTINGS_USERNAME": {},
   "SETUP_CREATE_HOME": "Create",
   "@SETUP_CREATE_HOME": {},
   "SETUP_CREATE_HOME_CARD_TITLE": "How do you want to call your household? You can change it later",
@@ -217,5 +219,7 @@
     "placeholders": {
       "notificationDate": {}
     }
-  }
+  },
+  "WARN_USERNAME_MUST_NOT_BE_EMPTY": "Username must not be empty",
+  "@WARN_USERNAME_MUST_NOT_BE_EMPTY": {}
 }

@@ -68,16 +68,16 @@ class MessageLookup extends MessageLookupByLibrary {
   static m23(notificationDate) => "${notificationDate} ist kein gültiger Wert";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "CHANGES" : MessageLookupByLibrary.simpleMessage("Änderungen"),
-    "CHANGE_ADDED" : m0,
-    "CHANGE_TOOK" : m1,
-    "GENERAL_AMOUNT_AVAILABLE" : m2,
-    "GENERAL_DAYS" : m3,
-    "GENERAL_EVENT_IN_MONTHS" : m4,
-    "GENERAL_EVENT_IN_OVER_A_YEAR" : MessageLookupByLibrary.simpleMessage("in über einem Jahr"),
-    "GENERAL_EVENT_IN_WEEKS" : m5,
-    "GENERAL_EVENT_OVER_A_YEAR_AGO" : MessageLookupByLibrary.simpleMessage("vor über einem Jahr"),
+  static _notInlinedMessages(_) => <String, Function>{
+        "CHANGES": MessageLookupByLibrary.simpleMessage("Änderungen"),
+        "CHANGE_ADDED": m0,
+        "CHANGE_TOOK": m1,
+        "GENERAL_AMOUNT_AVAILABLE": m2,
+        "GENERAL_DAYS": m3,
+        "GENERAL_EVENT_IN_MONTHS": m4,
+        "GENERAL_EVENT_IN_OVER_A_YEAR": MessageLookupByLibrary.simpleMessage("in über einem Jahr"),
+        "GENERAL_EVENT_IN_WEEKS": m5,
+        "GENERAL_EVENT_OVER_A_YEAR_AGO": MessageLookupByLibrary.simpleMessage("vor über einem Jahr"),
         "GENERAL_EVENT_TODAY": MessageLookupByLibrary.simpleMessage("heute"),
         "GENERAL_EVENT_TOMORROW": MessageLookupByLibrary.simpleMessage("morgen"),
         "GENERAL_EVENT_YESTERDAY": MessageLookupByLibrary.simpleMessage("gestern"),
@@ -107,6 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "PRODUCTS": MessageLookupByLibrary.simpleMessage("Produkte"),
         "PRODUCT_DESCRIPTION": MessageLookupByLibrary.simpleMessage("Beschreibung"),
         "PRODUCT_EAN": MessageLookupByLibrary.simpleMessage("Produktcode"),
+        "SETTINGS_USERNAME": MessageLookupByLibrary.simpleMessage("Benutzername"),
         "SETUP_CREATE_HOME": MessageLookupByLibrary.simpleMessage("Erstellen"),
         "SETUP_CREATE_HOME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("Wie möchten Sie Ihren Haushalt nennen? Sie können ihn später ändern"),
         "SETUP_FINISH": MessageLookupByLibrary.simpleMessage("Fertig"),
@@ -114,18 +115,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "SETUP_HOME_NAME": MessageLookupByLibrary.simpleMessage("Name deines Haushaltes"),
         "SETUP_JOIN_HOME": MessageLookupByLibrary.simpleMessage("Beitreten"),
         "SETUP_JOIN_HOME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("Scanne einfach den QR Code auf einem anderen Gerät um dem Haushalt beizutreten."),
-        "SETUP_USERNAME" : MessageLookupByLibrary.simpleMessage("Benutzername"),
-    "SETUP_USERNAME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Wie möchten Sie genannt werden? Dies ist für jeden Haushalt, zu dem Sie gehören, gleich und wird verwendet, um Sie zu identifizieren, z.B. wenn Sie Gegenstände hinzufügen oder entfernen. Sie können dies später ändern."),
-    "SETUP_WELCOME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
-    "UNITS" : MessageLookupByLibrary.simpleMessage("Chargen"),
-    "UNIT_CREATED_AT" : m20,
-    "UNIT_EXPIRATION_DATE" : MessageLookupByLibrary.simpleMessage("Mindesthaltbarkeitsdatum"),
-    "UNIT_NOTIFICATION_DATE" : MessageLookupByLibrary.simpleMessage("Benachrichtigungsdatum"),
-    "WARN_AMOUNT_COULD_NOT_BE_PARSED" : m21,
-    "WARN_DESCRIPTION_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Beschreibung darf nicht leer sein"),
-    "WARN_EAN_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Productcode darf nicht leer sein"),
-    "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED" : m22,
-    "WARN_NAME_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Name darf nicht leer sein"),
-    "WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED" : m23
-  };
+        "SETUP_USERNAME": MessageLookupByLibrary.simpleMessage("Benutzername"),
+        "SETUP_USERNAME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("Wie möchten Sie genannt werden? Dies ist für jeden Haushalt, zu dem Sie gehören, gleich und wird verwendet, um Sie zu identifizieren, z.B. wenn Sie Gegenstände hinzufügen oder entfernen. Sie können dies später ändern."),
+        "SETUP_WELCOME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
+        "UNITS": MessageLookupByLibrary.simpleMessage("Chargen"),
+        "UNIT_CREATED_AT": m20,
+        "UNIT_EXPIRATION_DATE": MessageLookupByLibrary.simpleMessage("Mindesthaltbarkeitsdatum"),
+        "UNIT_NOTIFICATION_DATE": MessageLookupByLibrary.simpleMessage("Benachrichtigungsdatum"),
+        "WARN_AMOUNT_COULD_NOT_BE_PARSED": m21,
+        "WARN_DESCRIPTION_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Beschreibung darf nicht leer sein"),
+        "WARN_EAN_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Productcode darf nicht leer sein"),
+        "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": m22,
+        "WARN_NAME_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Name darf nicht leer sein"),
+        "WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED": m23,
+        "WARN_USERNAME_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Benutzername darf nicht leer sein")
+      };
 }

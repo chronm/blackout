@@ -19,7 +19,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(amount, date) => "Added ${amount} ${date}";
+  static m0(amount, date) => "added ${amount} ${date}";
 
   static m1(amount, date) => "Took ${amount} ${date}";
 
@@ -68,16 +68,17 @@ class MessageLookup extends MessageLookupByLibrary {
   static m23(notificationDate) => "${notificationDate} is not valid";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "CHANGES" : MessageLookupByLibrary.simpleMessage("Changes"),
-    "CHANGE_ADDED" : m0,
-    "CHANGE_TOOK" : m1,
-    "GENERAL_AMOUNT_AVAILABLE" : m2,
-    "GENERAL_DAYS" : m3,
-    "GENERAL_EVENT_IN_MONTHS" : m4,
-    "GENERAL_EVENT_IN_OVER_A_YEAR" : MessageLookupByLibrary.simpleMessage("in over one year"),
-    "GENERAL_EVENT_IN_WEEKS" : m5,
-    "GENERAL_EVENT_OVER_A_YEAR_AGO" : MessageLookupByLibrary.simpleMessage("over one year ago"),
+  static _notInlinedMessages(_) =>
+      <String, Function>{
+        "CHANGES": MessageLookupByLibrary.simpleMessage("Changes"),
+        "CHANGE_ADDED": m0,
+        "CHANGE_TOOK": m1,
+        "GENERAL_AMOUNT_AVAILABLE": m2,
+        "GENERAL_DAYS": m3,
+        "GENERAL_EVENT_IN_MONTHS": m4,
+        "GENERAL_EVENT_IN_OVER_A_YEAR": MessageLookupByLibrary.simpleMessage("in over one year"),
+        "GENERAL_EVENT_IN_WEEKS": m5,
+        "GENERAL_EVENT_OVER_A_YEAR_AGO": MessageLookupByLibrary.simpleMessage("over one year ago"),
         "GENERAL_EVENT_TODAY": MessageLookupByLibrary.simpleMessage("today"),
         "GENERAL_EVENT_TOMORROW": MessageLookupByLibrary.simpleMessage("tomorrow"),
         "GENERAL_EVENT_YESTERDAY": MessageLookupByLibrary.simpleMessage("yesterday"),
@@ -107,6 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "PRODUCTS": MessageLookupByLibrary.simpleMessage("Products"),
         "PRODUCT_DESCRIPTION": MessageLookupByLibrary.simpleMessage("Description"),
         "PRODUCT_EAN": MessageLookupByLibrary.simpleMessage("Product code"),
+        "SETTINGS_USERNAME": MessageLookupByLibrary.simpleMessage("Username"),
         "SETUP_CREATE_HOME": MessageLookupByLibrary.simpleMessage("Create"),
         "SETUP_CREATE_HOME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("How do you want to call your household? You can change it later"),
         "SETUP_FINISH": MessageLookupByLibrary.simpleMessage("Finish"),
@@ -114,18 +116,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "SETUP_HOME_NAME": MessageLookupByLibrary.simpleMessage("Name of your household"),
         "SETUP_JOIN_HOME": MessageLookupByLibrary.simpleMessage("Join"),
         "SETUP_JOIN_HOME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("Simply scan the QR Code on another device to join the household."),
-        "SETUP_USERNAME" : MessageLookupByLibrary.simpleMessage("Username"),
-    "SETUP_USERNAME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later."),
-    "SETUP_WELCOME_CARD_TITLE" : MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
-    "UNITS" : MessageLookupByLibrary.simpleMessage("Charges"),
-    "UNIT_CREATED_AT" : m20,
-    "UNIT_EXPIRATION_DATE" : MessageLookupByLibrary.simpleMessage("Best before"),
-    "UNIT_NOTIFICATION_DATE" : MessageLookupByLibrary.simpleMessage("Notify at"),
-    "WARN_AMOUNT_COULD_NOT_BE_PARSED" : m21,
-    "WARN_DESCRIPTION_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Description must not be empty"),
-    "WARN_EAN_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Product code must not be empty"),
-    "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED" : m22,
-    "WARN_NAME_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Name must not be empty"),
-    "WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED" : m23
-  };
+        "SETUP_USERNAME": MessageLookupByLibrary.simpleMessage("Username"),
+        "SETUP_USERNAME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later."),
+        "SETUP_WELCOME_CARD_TITLE": MessageLookupByLibrary.simpleMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"),
+        "UNITS": MessageLookupByLibrary.simpleMessage("Charges"),
+        "UNIT_CREATED_AT": m20,
+        "UNIT_EXPIRATION_DATE": MessageLookupByLibrary.simpleMessage("Best before"),
+        "UNIT_NOTIFICATION_DATE": MessageLookupByLibrary.simpleMessage("Notify at"),
+        "WARN_AMOUNT_COULD_NOT_BE_PARSED": m21,
+        "WARN_DESCRIPTION_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Description must not be empty"),
+        "WARN_EAN_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Product code must not be empty"),
+        "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": m22,
+        "WARN_NAME_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Name must not be empty"),
+        "WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED": m23,
+        "WARN_USERNAME_MUST_NOT_BE_EMPTY": MessageLookupByLibrary.simpleMessage("Username must not be empty")
+      };
 }
