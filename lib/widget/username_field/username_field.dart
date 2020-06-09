@@ -1,19 +1,19 @@
 import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef void NameCallback(String name, bool error);
+typedef UsernameCallback(String value, bool error);
 
-class NameTextField extends StatefulWidget {
+class UsernameField extends StatefulWidget {
   final String initialValue;
-  final NameCallback callback;
+  final UsernameCallback callback;
 
-  NameTextField({Key key, @required this.initialValue, @required this.callback}) : super(key: key);
+  UsernameField({Key key, this.initialValue, this.callback}) : super(key: key);
 
   @override
-  _NameTextFieldState createState() => _NameTextFieldState();
+  _UsernameFieldState createState() => _UsernameFieldState();
 }
 
-class _NameTextFieldState extends State<NameTextField> {
+class _UsernameFieldState extends State<UsernameField> {
   TextEditingController _controller = TextEditingController();
   bool _error;
 
@@ -39,8 +39,8 @@ class _NameTextFieldState extends State<NameTextField> {
     return TextField(
       controller: _controller,
       decoration: InputDecoration(
-        labelText: S.of(context).GROUP_NAME,
-        errorText: _error ? S.of(context).WARN_NAME_MUST_NOT_BE_EMPTY : null,
+        labelText: S.of(context).SETTINGS_USERNAME,
+        errorText: _error ? S.of(context).WARN_USERNAME_MUST_NOT_BE_EMPTY : null,
       ),
     );
   }

@@ -8,10 +8,43 @@ import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/util/speeddial.dart';
 import 'package:Blackout/util/string_extension.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
+import 'package:Blackout/widget/blackout_drawer/blackout_drawer.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Center, Colors, Column, Container, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Navigator, Row, Scaffold, SingleChildScrollView, State, StatefulWidget, Text, Widget;
+import 'package:flutter/material.dart'
+    show
+        BoxDecoration,
+        BuildContext,
+        Card,
+        Center,
+        Colors,
+        Column,
+        Container,
+        CrossAxisAlignment,
+        Drawer,
+        DrawerHeader,
+        EdgeInsets,
+        Expanded,
+        GlobalKey,
+        Hero,
+        Icon,
+        Icons,
+        Key,
+        ListTile,
+        ListView,
+        MainAxisSize,
+        Material,
+        MediaQuery,
+        Navigator,
+        Row,
+        Scaffold,
+        ScaffoldState,
+        SingleChildScrollView,
+        State,
+        StatefulWidget,
+        Text,
+        Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -26,9 +59,13 @@ class ProductOverviewScreen extends StatefulWidget {
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  GlobalKey<ScaffoldState> _scaffold = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffold,
+      drawer: BlackoutDrawer(),
       body: ScrollableContainer(
         fullscreen: true,
         child: BlocBuilder<ProductBloc, ProductState>(
@@ -39,6 +76,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   TitleCard(
+                    scaffold: _scaffold,
                     title: state.product.title,
                     tag: state.product.id,
                     trendingDown: state.product.tooFewAvailable ? S.of(context).GENERAL_LESS_THAN_AVAILABLE(state.product.scientificRefillLimit) : null,
@@ -54,57 +92,57 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                   Expanded(
                     child: state.product.charges.length == 0
                         ? Center(
-                            child: Text(S.of(context).GENERAL_NOTHING_HERE),
-                          )
+                      child: Text(S.of(context).GENERAL_NOTHING_HERE),
+                    )
                         : ListView.builder(
-                            itemCount: state.product.charges.length,
-                            itemBuilder: (context, index) {
-                              Charge charge = state.product.charges[index];
+                      itemCount: state.product.charges.length,
+                      itemBuilder: (context, index) {
+                        Charge charge = state.product.charges[index];
 
-                              List<Widget> trailing = <Widget>[];
-                              if (charge.expired || charge.warn) {
-                                trailing.add(
-                                  Icon(
-                                    Icons.event,
-                                    color: charge.status == ChargeStatus.expired ? Colors.redAccent : null,
-                                  ),
-                                );
-                              }
+                        List<Widget> trailing = <Widget>[];
+                        if (charge.expired || charge.warn) {
+                          trailing.add(
+                            Icon(
+                              Icons.event,
+                              color: charge.status == ChargeStatus.expired ? Colors.redAccent : null,
+                            ),
+                          );
+                        }
 
-                              String status = charge.buildStatus(context);
+                        String status = charge.buildStatus(context);
 
-                              return Hero(
-                                tag: charge.id,
-                                flightShuttleBuilder: (context, animation, flightDirection, fromHeroContext, toHeroContext) => Material(
-                                  child: SingleChildScrollView(
-                                    child: toHeroContext.widget,
-                                  ),
-                                ),
-                                child: Card(
-                                  child: ListTile(
-                                    isThreeLine: status != null,
-                                    title: Text(S.of(context).UNIT_CREATED_AT(charge.creationDate.prettyPrintShortDifference(context)).capitalize()),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(charge.scientificAmount)),
-                                        status != null ? Text(status) : null,
-                                      ].where((element) => element != null).toList(),
-                                    ),
-                                    trailing: Row(
-                                      children: trailing,
-                                      mainAxisSize: MainAxisSize.min,
-                                    ),
-                                    onTap: () async {
-                                      widget.bloc.add(TapOnCharge(charge));
-                                      await Navigator.push(context, RouteBuilder.build(Routes.ChargeOverviewRoute));
-                                      widget.bloc.add(LoadProduct(state.product.id));
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
+                        return Hero(
+                          tag: charge.id,
+                          flightShuttleBuilder: (context, animation, flightDirection, fromHeroContext, toHeroContext) => Material(
+                            child: SingleChildScrollView(
+                              child: toHeroContext.widget,
+                            ),
                           ),
+                          child: Card(
+                            child: ListTile(
+                              isThreeLine: status != null,
+                              title: Text(S.of(context).UNIT_CREATED_AT(charge.creationDate.prettyPrintShortDifference(context)).capitalize()),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(charge.scientificAmount)),
+                                  status != null ? Text(status) : null,
+                                ].where((element) => element != null).toList(),
+                              ),
+                              trailing: Row(
+                                children: trailing,
+                                mainAxisSize: MainAxisSize.min,
+                              ),
+                              onTap: () async {
+                                widget.bloc.add(TapOnCharge(charge));
+                                await Navigator.push(context, RouteBuilder.build(Routes.ChargeOverviewRoute));
+                                widget.bloc.add(LoadProduct(state.product.id));
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               );

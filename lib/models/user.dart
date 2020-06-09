@@ -10,6 +10,15 @@ class User {
 
   User({this.id, @required this.name});
 
+  User clone() {
+    return User(id: id, name: name);
+  }
+
+  @override
+  bool operator ==(other) {
+    return name == other.name;
+  }
+
   factory User.fromEntry(UserEntry entry) {
     return User(
       id: entry.id,

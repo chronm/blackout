@@ -22,7 +22,7 @@ class ChangesWidget extends StatelessWidget {
                         padding: EdgeInsets.all(8.8),
                         child: ListTile(
                           title: Text(c.toLocalizedString(context)),
-                          subtitle: Text("${c.modificationDate.toString()} - ${c.user.name}"),
+                          subtitle: Text("${c.modificationDate.toString()} \n${c.user.name}"),
                         ),
                       ),
                     ),

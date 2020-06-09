@@ -2,6 +2,7 @@ import 'package:Blackout/ui/charge_overview/charge_overview_screen.dart';
 import 'package:Blackout/ui/group_overview/group_overview_screen.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
 import 'package:Blackout/ui/product_overview/product_overview_screen.dart';
+import 'package:Blackout/ui/settings/settings_screen.dart';
 import 'package:Blackout/ui/setup/setup_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,11 @@ class RouteBuilder {
           pageBuilder: (context, animation, secondaryAnimation) => ChargeOverviewScreen(),
           transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
         );
+      case Routes.SettingsRoute:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => SettingsScreen(),
+          transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
+        );
     }
 
     return null;
@@ -50,4 +56,5 @@ enum Routes {
   GroupOverviewRoute,
   ProductOverviewRoute,
   ChargeOverviewRoute,
+  SettingsRoute,
 }
