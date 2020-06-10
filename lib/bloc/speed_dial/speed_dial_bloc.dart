@@ -8,6 +8,7 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
@@ -17,7 +18,9 @@ import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:Blackout/routes.dart';
+import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/widget/charge_configuration/charge_configuration.dart';
+import 'package:Blackout/widget/charge_dialog/charge_dialog.dart';
 import 'package:Blackout/widget/group_configuration/group_configuration.dart';
 import 'package:Blackout/widget/product_configuration/product_configuration.dart';
 import 'package:bloc/bloc.dart';
@@ -25,6 +28,7 @@ import 'package:flutter/material.dart' show AlertDialog, BuildContext, FlatButto
 import 'package:time_machine/time_machine.dart';
 
 part 'speed_dial_event.dart';
+
 part 'speed_dial_state.dart';
 
 class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
@@ -130,39 +134,26 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
     }
     if (event is TapOnAddToCharge) {
       Charge charge = event.charge;
-      TextEditingController controller = TextEditingController();
       Home home = await blackoutPreferences.getHome();
       User user = await blackoutPreferences.getUser();
       Amount amount;
       await showDialog(
         context: event.context,
-        child: AlertDialog(
-          content: TextField(
-            autofocus: true,
-            controller: controller,
-          ),
-          actions: [
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () => Navigator.pop(event.context),
-            ),
-            FlatButton(
-              child: Text("Accept"),
-              onPressed: () async {
-                amount = Amount.fromInput(controller.text, charge.product.unit);
-                Change change = Change(
-                  changeDate: LocalDate.today(),
-                  home: home,
-                  user: user,
-                  charge: charge,
-                  value: UnitConverter.toSi(amount).value,
-                );
-                await changeRepository.save(change);
-                chargeBloc.add(LoadCharge(charge.id));
-                Navigator.pop(event.context);
-              },
-            )
-          ],
+        builder: (context) => ChargeDialog(
+          title: S.of(context).DIALOG_ADD_TO_CHARGE,
+          callback: (value) async {
+            amount = Amount.fromInput(value, charge.product.unit);
+            Change change = Change(
+              changeDate: LocalDate.today(),
+              home: home,
+              user: user,
+              charge: charge,
+              value: UnitConverter.toSi(amount).value,
+            );
+            await changeRepository.save(change);
+            chargeBloc.add(LoadCharge(charge.id));
+            Navigator.pop(context);
+          },
         ),
       );
       if (amount != null) {
@@ -176,39 +167,31 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
     }
     if (event is TapOnTakeFromCharge) {
       Charge charge = event.charge;
-      TextEditingController controller = TextEditingController();
       Home home = await blackoutPreferences.getHome();
       User user = await blackoutPreferences.getUser();
       Amount amount;
       await showDialog(
         context: event.context,
-        child: AlertDialog(
-          content: TextField(
-            autofocus: true,
-            controller: controller,
-          ),
-          actions: [
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () => Navigator.pop(event.context),
-            ),
-            FlatButton(
-              child: Text("Accept"),
-              onPressed: () async {
-                amount = Amount.fromInput(controller.text, charge.product.unit);
-                Change change = Change(
-                  changeDate: LocalDate.today(),
-                  home: home,
-                  user: user,
-                  charge: charge,
-                  value: -UnitConverter.toSi(amount).value,
-                );
-                await changeRepository.save(change);
-                chargeBloc.add(LoadCharge(charge.id));
-                Navigator.pop(event.context);
-              },
-            )
-          ],
+        builder: (context) => ChargeDialog(
+          title: S.of(context).DIALOG_TAKE_FROM_CHARGE,
+          initialValue: event.charge.scientificAmount,
+          validation: (value) {
+            var siValue = UnitConverter.toSi(Amount.fromInput(value, event.charge.product.unit)).value;
+            return siValue <= event.charge.amount && siValue > 0;
+          },
+          callback: (value) async {
+            amount = Amount.fromInput(value, charge.product.unit);
+            Change change = Change(
+              changeDate: LocalDate.today(),
+              home: home,
+              user: user,
+              charge: charge,
+              value: -UnitConverter.toSi(amount).value,
+            );
+            await changeRepository.save(change);
+            chargeBloc.add(LoadCharge(charge.id));
+            Navigator.pop(event.context);
+          },
         ),
       );
       if (amount != null) {

@@ -17,7 +17,7 @@ class BlackoutDrawer extends StatelessWidget {
             child: Stack(
               children: [
                 Align(
-                  alignment: Alignment.topRight,
+                  alignment: Alignment.topLeft,
                   child: SizedBox(
                     height: 20.0,
                     width: 20.0,

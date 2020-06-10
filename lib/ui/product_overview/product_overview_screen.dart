@@ -47,6 +47,7 @@ import 'package:flutter/material.dart'
         Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 
 class ProductOverviewScreen extends StatefulWidget {
   final ProductBloc bloc = sl<ProductBloc>();
@@ -121,7 +122,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                           child: Card(
                             child: ListTile(
                               isThreeLine: status != null,
-                              title: Text(S.of(context).UNIT_CREATED_AT(charge.creationDate.prettyPrintShortDifference(context)).capitalize()),
+                              title: Text(S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(charge.creationDate.toDateTimeUnspecified())).capitalize()),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
