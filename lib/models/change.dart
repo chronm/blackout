@@ -40,7 +40,7 @@ class Change {
       id: entry.id,
       user: user,
       value: entry.value,
-      changeDate: LocalDateFromDateTime(entry.changeDate),
+      changeDate: localDateFromDateTime(entry.changeDate),
       charge: charge,
       home: home,
     );

@@ -28,8 +28,8 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
 
     List<Charge> charges = [];
     if (recurseCharges) {
-      charges = await db.chargeRepository.findAllByProductIdAndHomeId(productEntry.id, productEntry.homeId, recurseProduct: false)
-        ..where((c) => c.amount > 0);
+      charges = await db.chargeRepository.findAllByProductIdAndHomeId(productEntry.id, productEntry.homeId, recurseProduct: false);
+      charges = charges.where((c) => c.amount > 0).toList();
     }
 
     Home home = await db.homeRepository.findHomeById(productEntry.homeId);

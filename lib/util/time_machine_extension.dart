@@ -37,8 +37,8 @@ Period periodFromISO8601String(String period) {
   );
 }
 
-LocalDate LocalDateFromDateTime(DateTime dateTime) {
-  return LocalDate.dateTime(dateTime).add(Period(hours: dateTime.timeZoneOffset.inHours));
+LocalDate localDateFromDateTime(DateTime dateTime) {
+  return LocalDate.dateTime(dateTime);
 }
 
 extension LocalDateExtension on LocalDate {

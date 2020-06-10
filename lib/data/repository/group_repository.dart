@@ -21,7 +21,7 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     Group group;
     List<Product> products = [];
     if (recurseProducts) {
-      products = await db.productRepository.findAllByGroupIdAndHomeId(groupEntry.id, groupEntry.homeId, recurseGroup: false)..where((p) => p.amount > 0);
+      products = await db.productRepository.findAllByGroupIdAndHomeId(groupEntry.id, groupEntry.homeId, recurseGroup: false);
     }
 
     Home home = await db.homeRepository.findHomeById(groupEntry.homeId);
