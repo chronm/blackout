@@ -26,6 +26,15 @@ class Amount {
   String toString() {
     return (value != null ? "${value.format()} ${unit.symbol}" : "").trim();
   }
+
+  @override
+  bool operator ==(other) {
+    return UnitConverter.toScientific(this).value == UnitConverter.toScientific(other).value;
+  }
+
+  bool operator <=(other) {
+    return UnitConverter.toScientific(this).value <= UnitConverter.toScientific(other).value;
+  }
 }
 
 abstract class Unit {

@@ -16,6 +16,7 @@ import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart' show Bloc;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
@@ -49,8 +50,10 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
       user = await userRepository.save(user);
       await blackoutPreferences.setUser(user);
       await blackoutPreferences.setHome(home);
-      await createGroup(home);
-      await createProduct(home);
+      if (kDebugMode) {
+        await createGroup(home);
+        await createProduct(home);
+      }
       homeBloc.add(LoadAll());
       drawerBloc.add(InitializeDrawer());
       

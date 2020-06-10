@@ -16,6 +16,14 @@
       "date": {}
     }
   },
+  "DIALOG_ACCEPT_BUTTON": "Annehmen",
+  "@DIALOG_ACCEPT_BUTTON": {},
+  "DIALOG_ADD_TO_CHARGE": "Zur Charge hinzufügen",
+  "@DIALOG_ADD_TO_CHARGE": {},
+  "DIALOG_CANCEL_BUTTON": "Abbrechen",
+  "@DIALOG_CANCEL_BUTTON": {},
+  "DIALOG_TAKE_FROM_CHARGE": "Von Charge entnehmen",
+  "@DIALOG_TAKE_FROM_CHARGE": {},
   "GENERAL_AMOUNT_AVAILABLE": "Verfügbar: {amount}",
   "@GENERAL_AMOUNT_AVAILABLE": {
     "placeholders": {

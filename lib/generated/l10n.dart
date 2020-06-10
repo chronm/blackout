@@ -63,6 +63,46 @@ class S {
     );
   }
 
+  /// `Accept`
+  String get DIALOG_ACCEPT_BUTTON {
+    return Intl.message(
+      'Accept',
+      name: 'DIALOG_ACCEPT_BUTTON',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to charge`
+  String get DIALOG_ADD_TO_CHARGE {
+    return Intl.message(
+      'Add to charge',
+      name: 'DIALOG_ADD_TO_CHARGE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get DIALOG_CANCEL_BUTTON {
+    return Intl.message(
+      'Cancel',
+      name: 'DIALOG_CANCEL_BUTTON',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take from charge`
+  String get DIALOG_TAKE_FROM_CHARGE {
+    return Intl.message(
+      'Take from charge',
+      name: 'DIALOG_TAKE_FROM_CHARGE',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Available: {amount}`
   String GENERAL_AMOUNT_AVAILABLE(Object amount) {
     return Intl.message(

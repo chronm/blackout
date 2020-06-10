@@ -54,7 +54,7 @@ class Group implements HomeListable {
 
   @override
   String buildStatus(BuildContext context) {
-    return products.length != 0 ? (products..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context) : null;
+    return products.length != 0 ? (products..sort((a, b) => (a.expirationDate ?? LocalDate.today().addYears(100)).compareTo((b.expirationDate ?? LocalDate.today().addYears(100))))).first.buildStatus(context) : null;
   }
 
   @override

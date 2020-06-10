@@ -15,6 +15,7 @@ import 'package:flutter/material.dart' show BuildContext, Card, Center, Containe
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 
 class ChargeOverviewScreen extends StatefulWidget {
   final ChargeBloc bloc = sl<ChargeBloc>();
@@ -45,7 +46,7 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
                 children: [
                   TitleCard(
                     scaffold: _scaffold,
-                    title: S.of(context).UNIT_CREATED_AT(state.charge.creationDate.prettyPrintShortDifference(context)).capitalize(),
+                    title: S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(state.charge.creationDate.toDateTimeUnspecified())).capitalize(),
                     tag: state.charge.id,
                     available: S.of(context).GENERAL_AMOUNT_AVAILABLE(state.charge.scientificAmount),
                     event: state.charge.buildStatus(context),
