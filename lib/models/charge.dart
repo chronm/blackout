@@ -35,7 +35,7 @@ class Charge {
   factory Charge.fromEntry(ChargeEntry entry, Home home, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
     return Charge(
       id: entry.id,
-      expirationDate: entry.expirationDate == null ? null : LocalDateFromDateTime(entry.expirationDate),
+      expirationDate: entry.expirationDate == null ? null : localDateFromDateTime(entry.expirationDate),
       product: product,
       changes: changes,
       home: home,

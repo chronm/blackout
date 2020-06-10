@@ -1,4 +1,6 @@
+import 'package:Blackout/bloc/drawer/drawer_bloc.dart';
 import 'package:Blackout/bloc/home/home_bloc.dart';
+import 'package:Blackout/bloc/settings/settings_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
@@ -14,6 +16,7 @@ import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart' show Bloc;
+import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
@@ -21,8 +24,9 @@ part 'setup_event.dart';
 part 'setup_state.dart';
 
 class SetupBloc extends Bloc<SetupEvent, SetupState> {
-  final BlackoutPreferences _blackoutPreferences;
-  final HomeBloc _homeBloc;
+  final BlackoutPreferences blackoutPreferences;
+  final HomeBloc homeBloc;
+  final DrawerBloc drawerBloc;
   final HomeRepository homeRepository;
   final UserRepository userRepository;
   final GroupRepository groupRepository;
@@ -30,7 +34,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final ChargeRepository chargeRepository;
   final ChangeRepository changeRepository;
 
-  SetupBloc(this._blackoutPreferences, this._homeBloc, this.homeRepository, this.userRepository, this.groupRepository, this.productRepository, this.chargeRepository, this.changeRepository);
+  SetupBloc(this.blackoutPreferences, this.homeBloc, this.homeRepository, this.userRepository, this.groupRepository, this.productRepository, this.chargeRepository, this.changeRepository, this.drawerBloc);
 
   @override
   SetupState get initialState => InitialSetupState();
@@ -43,11 +47,13 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
 
       User user = User(id: Uuid().v4(), name: event.username);
       user = await userRepository.save(user);
-      await _blackoutPreferences.setUser(user);
-      await _blackoutPreferences.setHome(home);
+      await blackoutPreferences.setUser(user);
+      await blackoutPreferences.setHome(home);
       await createGroup(home);
       await createProduct(home);
-      _homeBloc.add(LoadAll());
+      homeBloc.add(LoadAll());
+      drawerBloc.add(InitializeDrawer());
+      
       yield GoToHome();
     }
     if (event is JoinHomeAndFinish) {
@@ -57,7 +63,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
 
 
   Future<void> createProduct(Home home) async {
-    User user = await _blackoutPreferences.getUser();
+    User user = await blackoutPreferences.getUser();
     Product product = Product(description: "Marmorkuchen", unit: UnitEnum.weight, home: home, refillLimit: 0.8);
     await productRepository.save(product, user);
     Charge charge = Charge(product: product, home: home);
@@ -72,7 +78,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   }
 
   Future<void> createGroup(Home home) async {
-    User user = await _blackoutPreferences.getUser();
+    User user = await blackoutPreferences.getUser();
     Group group = Group(name: "Ei", pluralName: "Eier", refillLimit: 6, warnInterval: Period(days: 8), unit: UnitEnum.unitless, home: home);
     await groupRepository.save(group, user);
     group.warnInterval = Period(days: 5);

@@ -44,7 +44,7 @@ class ModelChange {
     return ModelChange(
       id: entry.id,
       user: user,
-      modificationDate: LocalDateFromDateTime(entry.modificationDate),
+      modificationDate: localDateFromDateTime(entry.modificationDate),
       modification: ModelChangeType.values[entry.direction],
       groupId: entry.groupId,
       productId: entry.productId,

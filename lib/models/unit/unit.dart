@@ -74,6 +74,7 @@ class UnitConverter {
   static double _convertTo(double amount, Unit to) => amount / to.factor;
 
   static Amount toScientific(Amount amount) {
+    if (amount.value == 0) return amount;
     List<Unit> units = amount.unit.units;
     if (units.length == 1) {
       return amount;

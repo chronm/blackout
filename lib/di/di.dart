@@ -27,14 +27,14 @@ void prepareSharedPreferences(GetIt sl) async {
 }
 
 void prepareBlocs(GetIt sl) async {
+  sl.registerSingleton<DrawerBloc>(DrawerBloc(sl<BlackoutPreferences>()));
   sl.registerSingleton<ChargeBloc>(ChargeBloc(sl<ChangeRepository>(), sl<ChargeRepository>(), sl<BlackoutPreferences>(), sl<ModelChangeRepository>()));
   sl.registerSingleton<ProductBloc>(ProductBloc(sl<ModelChangeRepository>(), sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
   sl.registerSingleton<GroupBloc>(GroupBloc(sl<GroupRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>()));
   sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<GroupBloc>(), sl<ModelChangeRepository>(), sl<ProductBloc>()));
-  sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<ChargeRepository>(), sl<ChangeRepository>()));
+  sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<ChargeRepository>(), sl<ChangeRepository>(), sl<DrawerBloc>()));
   sl.registerSingleton<MainBloc>(MainBloc(sl<BlackoutPreferences>(), sl<HomeBloc>()));
   sl.registerSingleton<SpeedDialBloc>(SpeedDialBloc(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ProductBloc>(), sl<HomeBloc>(), sl<GroupBloc>(), sl<ChargeBloc>(), sl<ChangeRepository>(), sl<GroupRepository>()));
-  sl.registerSingleton<DrawerBloc>(DrawerBloc(sl<BlackoutPreferences>()));
   sl.registerSingleton<SettingsBloc>(SettingsBloc(sl<BlackoutPreferences>(), sl<UserRepository>()));
 }
 

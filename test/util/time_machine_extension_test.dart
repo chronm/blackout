@@ -22,14 +22,11 @@ void main() {
   });
 
   test('(LocalDateFromDateTime)', () {
-    LocalDate LocalDate = LocalDateFromDateTime(DateTime(2020, 3, 24, 12, 49, 0));
+    LocalDate localDate = localDateFromDateTime(DateTime(2020, 3, 24, 12, 49, 0));
 
-    expect(LocalDate.year, equals(2020));
-    expect(LocalDate.monthOfYear, equals(3));
-    expect(LocalDate.dayOfMonth, equals(24));
-    expect(LocalDate.hourOfDay, equals(12));
-    expect(LocalDate.minuteOfHour, equals(49));
-    expect(LocalDate.secondOfMinute, equals(0));
+    expect(localDate.year, equals(2020));
+    expect(localDate.monthOfYear, equals(3));
+    expect(localDate.dayOfMonth, equals(24));
   });
 
   testWidgets('PrettyPrint a time_machine period', (WidgetTester tester) async {

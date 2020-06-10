@@ -15,7 +15,7 @@ class Sync {
   factory Sync.fromEntry(SyncEntry entry, User user, Home home) {
     return Sync(
       user: user,
-      synchronizationDate: LocalDateFromDateTime(entry.synchronizationDate),
+      synchronizationDate: localDateFromDateTime(entry.synchronizationDate),
       home: home,
     );
   }
