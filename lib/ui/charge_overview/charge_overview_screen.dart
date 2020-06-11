@@ -88,11 +88,11 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
         bloc: widget.bloc,
         builder: (context, state) {
           List<SpeedDialChild> children = [
-            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context)), context),
           ];
           if (state is ShowCharge) {
-            children.add(addToChargeButton(() => widget.speedDial.add(TapOnAddToCharge(context, state.charge))));
-            children.add(takeFromChargeButton(() => widget.speedDial.add(TapOnTakeFromCharge(context, state.charge))));
+            children.add(addToChargeButton(() => widget.speedDial.add(TapOnAddToCharge(context, state.charge)), context));
+            children.add(takeFromChargeButton(() => widget.speedDial.add(TapOnTakeFromCharge(context, state.charge)), context));
           }
           return createSpeedDial(children);
         },

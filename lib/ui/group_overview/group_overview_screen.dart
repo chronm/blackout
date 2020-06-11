@@ -131,10 +131,10 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
         bloc: widget.bloc,
         builder: (context, state) {
           List<SpeedDialChild> children = [
-            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context)), context),
           ];
           if (state is ShowGroup) {
-            children.add(createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, state.group))));
+            children.add(createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, state.group)), context));
           }
           return createSpeedDial(children);
         },

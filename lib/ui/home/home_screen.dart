@@ -129,21 +129,29 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: createSpeedDial([
-        scanButton(() async {
-          String ean;
-          if (isEmulator) {
-            ean = "someEan";
-          } else {
-            var options = ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
-            var result = await BarcodeScanner.scan(options: options);
-            ean = result.rawContent;
+      floatingActionButton: BlocBuilder<HomeBloc, HomeState>(
+        bloc: sl<HomeBloc>(),
+        builder: (context, state) {
+          if (state is HomeInitialState) {
+            return null;
           }
-          widget.speedDial.add(TapOnScanEan(ean, context));
-        }),
-        createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, null))),
-        createGroupButton(() => widget.speedDial.add(TapOnCreateGroup(context))),
-      ]),
+          return createSpeedDial([
+            scanButton(() async {
+              String ean;
+              if (isEmulator) {
+                ean = "someEan";
+              } else {
+                var options = ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
+                var result = await BarcodeScanner.scan(options: options);
+                ean = result.rawContent;
+              }
+              widget.speedDial.add(TapOnScanEan(ean, context));
+            }, context),
+            createProductButton(() => widget.speedDial.add(TapOnCreateProduct(context, null)), context),
+            createGroupButton(() => widget.speedDial.add(TapOnCreateGroup(context)), context),
+          ]);
+        }
+      ),
     );
   }
 }
