@@ -78,6 +78,9 @@ class _AppState extends State<App> {
         if (state is GoToHome) {
           Navigator.pushReplacement(context, RouteBuilder.build(Routes.HomeRoute));
         }
+        if (state is ShowChangelog) {
+          Navigator.push(context, RouteBuilder.build(Routes.Changelog));
+        }
       },
       child: Container(),
     );

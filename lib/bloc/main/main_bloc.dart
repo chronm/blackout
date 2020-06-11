@@ -3,6 +3,8 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart' show Bloc;
+import 'package:package_info/package_info.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 part 'main_event.dart';
 
@@ -27,6 +29,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       } else {
         _homeBloc.add(LoadAll());
         yield GoToHome();
+        Version currentVersion = Version.parse((await PackageInfo.fromPlatform()).version);
+        Version latestVersion;
+        try {
+          latestVersion = Version.parse(await _blackoutPreferences.getVersion());
+        } on ArgumentError {
+          latestVersion = Version.none;
+        }
+        if (latestVersion != Version.none && latestVersion < currentVersion) {
+          yield ShowChangelog();
+        }
+        await _blackoutPreferences.setVersion(currentVersion.toString());
       }
     }
   }

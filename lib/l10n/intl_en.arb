@@ -7,6 +7,10 @@
       "date": {}
     }
   },
+  "CHANGELOG": "Changelog",
+  "@CHANGELOG": {},
+  "CHANGELOG_OKAY": "Okay",
+  "@CHANGELOG_OKAY": {},
   "CHANGES": "Changes",
   "@CHANGES": {},
   "CHANGE_TOOK": "Took {amount} {date}",
@@ -110,7 +114,7 @@
   },
   "GENERAL_SAVE": "Save",
   "@GENERAL_SAVE": {},
-  "GENERAL_SEARCH": "Search",
+  "GENERAL_SEARCH": "Search ...",
   "@GENERAL_SEARCH": {},
   "GENERAL_SECONDS": "{seconds, plural, zero{} one{1 second} other{{seconds} seconds}}",
   "@GENERAL_SECONDS": {

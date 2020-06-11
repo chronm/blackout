@@ -1,3 +1,4 @@
+import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/ui/charge_overview/charge_overview_screen.dart';
 import 'package:Blackout/ui/group_overview/group_overview_screen.dart';
 import 'package:Blackout/ui/home/home_screen.dart';
@@ -5,6 +6,7 @@ import 'package:Blackout/ui/product_overview/product_overview_screen.dart';
 import 'package:Blackout/ui/settings/settings_screen.dart';
 import 'package:Blackout/ui/setup/setup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_whatsnew/flutter_whatsnew.dart';
 
 class RouteBuilder {
   RouteBuilder._();
@@ -44,8 +46,23 @@ class RouteBuilder {
           pageBuilder: (context, animation, secondaryAnimation) => SettingsScreen(),
           transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
         );
-    }
+      case Routes.Changelog:
+        return PageRouteBuilder(
+          pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+            String locale = S.delegate.isSupported(Localizations.localeOf(context)) ? Localizations.localeOf(context).languageCode : "en";
 
+            return WhatsNewPage.changelog(
+              title: Text(S.of(context).CHANGELOG),
+              buttonText: Text(S.of(context).CHANGELOG_OKAY),
+              path: "documentation/changelog_$locale.md",
+              onButtonPressed: () {
+                  Navigator.pop(context);
+              },
+            );
+          },
+          transitionsBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
+        );
+    }
     return null;
   }
 }
@@ -57,4 +74,5 @@ enum Routes {
   ProductOverviewRoute,
   ChargeOverviewRoute,
   SettingsRoute,
+  Changelog,
 }

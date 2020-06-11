@@ -13,6 +13,7 @@ class BlackoutPreferences {
 
   User _user;
   Home _home;
+  String _version;
 
   Future<User> getUser() async {
     if (_user == null) {
@@ -38,5 +39,18 @@ class BlackoutPreferences {
   Future<bool> setHome(Home home) async {
     _home = home;
     return _sharedPreference.setString(Preferences.home, home.toJson());
+  }
+
+  Future<String> getVersion() async {
+    if (_version == null) {
+      _version = _sharedPreference.getString(Preferences.version);
+    }
+
+    return _version;
+  }
+
+  Future<bool> setVersion(String version) async {
+    _version = version;
+    return _sharedPreference.setString(Preferences.version, version);
   }
 }

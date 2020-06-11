@@ -24,6 +24,7 @@ dependencies:
   flutter_speed_dial: 1.2.5
   flutter_swiper: 1.1.6
   flutter_typeahead: 1.8.1
+  flutter_whatsnew: 1.0.3
   get_it: 4.0.2
   intl: 0.16.1
   jiffy: 3.0.1
@@ -56,6 +57,8 @@ flutter:
   assets:
     - packages/time_machine/data/cultures/cultures.bin
     - packages/time_machine/data/tzdb/tzdb.bin
+#    - documentation/changelog_en.md
+#    - documentation/changelog_de.md
 
 flutter_intl:
   enabled: true

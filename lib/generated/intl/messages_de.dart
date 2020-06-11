@@ -69,6 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "CHANGELOG" : MessageLookupByLibrary.simpleMessage("Changelog"),
+    "CHANGELOG_OKAY" : MessageLookupByLibrary.simpleMessage("Okay"),
     "CHANGES" : MessageLookupByLibrary.simpleMessage("Änderungen"),
     "CHANGE_ADDED" : m0,
     "CHANGE_TOOK" : m1,
@@ -95,7 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "GENERAL_NOTHING_HERE" : MessageLookupByLibrary.simpleMessage("Hier gibt\'s noch nichts"),
     "GENERAL_NOTIFY_AT" : m13,
     "GENERAL_SAVE" : MessageLookupByLibrary.simpleMessage("Speichern"),
-    "GENERAL_SEARCH" : MessageLookupByLibrary.simpleMessage("Suche"),
+    "GENERAL_SEARCH" : MessageLookupByLibrary.simpleMessage("Suche ..."),
     "GENERAL_SECONDS" : m14,
     "GENERAL_WEEKS" : m15,
     "GENERAL_YEARS" : m16,
