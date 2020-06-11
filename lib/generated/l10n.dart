@@ -43,6 +43,26 @@ class S {
     );
   }
 
+  /// `Changelog`
+  String get CHANGELOG {
+    return Intl.message(
+      'Changelog',
+      name: 'CHANGELOG',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Okay`
+  String get CHANGELOG_OKAY {
+    return Intl.message(
+      'Okay',
+      name: 'CHANGELOG_OKAY',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Changes`
   String get CHANGES {
     return Intl.message(
@@ -311,10 +331,10 @@ class S {
     );
   }
 
-  /// `Search`
+  /// `Search ...`
   String get GENERAL_SEARCH {
     return Intl.message(
-      'Search',
+      'Search ...',
       name: 'GENERAL_SEARCH',
       desc: '',
       args: [],
