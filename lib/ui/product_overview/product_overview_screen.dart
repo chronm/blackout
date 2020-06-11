@@ -156,11 +156,11 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         bloc: widget.bloc,
         builder: (context, state) {
           List<SpeedDialChild> children = [
-            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context))),
+            goToHomeButton(() => widget.speedDial.add(TapOnGotoHome(context)), context),
           ];
           if (state is ShowProduct) {
-            children.add(createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context, state.product))));
-            children.add(createGroupButton(() => widget.speedDial.add(TapOnCreateGroup(context))));
+            children.add(createChargeButton(() => widget.speedDial.add(TapOnCreateCharge(context, state.product)), context));
+            children.add(createGroupButton(() => widget.speedDial.add(TapOnCreateGroup(context)), context));
           }
           return createSpeedDial(children);
         },

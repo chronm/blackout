@@ -500,10 +500,10 @@ class S {
     );
   }
 
-  /// `How do you want to call your household? You can change it later`
+  /// `What would you like to call your household? You can always change it later, of course`
   String get SETUP_CREATE_HOME_CARD_TITLE {
     return Intl.message(
-      'How do you want to call your household? You can change it later',
+      'What would you like to call your household? You can always change it later, of course',
       name: 'SETUP_CREATE_HOME_CARD_TITLE',
       desc: '',
       args: [],
@@ -520,10 +520,10 @@ class S {
     );
   }
 
-  /// `Do you want to join an existing household or create a new one?`
+  /// `Do you want to join an existing household or start a new one?`
   String get SETUP_HOME_CARD_TITLE {
     return Intl.message(
-      'Do you want to join an existing household or create a new one?',
+      'Do you want to join an existing household or start a new one?',
       name: 'SETUP_HOME_CARD_TITLE',
       desc: '',
       args: [],
@@ -570,21 +570,91 @@ class S {
     );
   }
 
-  /// `How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later.`
+  /// `In order to track your actions, you need to create a username. If you do not like it later, you can change it.`
   String get SETUP_USERNAME_CARD_TITLE {
     return Intl.message(
-      'How do you want do be called. This will be the same for each household you are part of and is used to identify you e.g. when you add or remove charges. You can change this later.',
+      'In order to track your actions, you need to create a username. If you do not like it later, you can change it.',
       name: 'SETUP_USERNAME_CARD_TITLE',
       desc: '',
       args: [],
     );
   }
 
-  /// `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam`
+  /// `Welcome to Blackout.\nWe'll just set up the app, then you'll be good to go.`
   String get SETUP_WELCOME_CARD_TITLE {
     return Intl.message(
-      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam',
+      'Welcome to Blackout.\nWe\'ll just set up the app, then you\'ll be good to go.',
       name: 'SETUP_WELCOME_CARD_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get SPEEDDIAL_ADD_TO_CHARGE {
+    return Intl.message(
+      'Add',
+      name: 'SPEEDDIAL_ADD_TO_CHARGE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create charge`
+  String get SPEEDDIAL_CREATE_CHARGE {
+    return Intl.message(
+      'Create charge',
+      name: 'SPEEDDIAL_CREATE_CHARGE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create group`
+  String get SPEEDDIAL_CREATE_GROUP {
+    return Intl.message(
+      'Create group',
+      name: 'SPEEDDIAL_CREATE_GROUP',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create product`
+  String get SPEEDDIAL_CREATE_PRODUCT {
+    return Intl.message(
+      'Create product',
+      name: 'SPEEDDIAL_CREATE_PRODUCT',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home`
+  String get SPEEDDIAL_GOTO_HOME {
+    return Intl.message(
+      'Home',
+      name: 'SPEEDDIAL_GOTO_HOME',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan barcode`
+  String get SPEEDDIAL_SCAN {
+    return Intl.message(
+      'Scan barcode',
+      name: 'SPEEDDIAL_SCAN',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take`
+  String get SPEEDDIAL_TAKE_FROM_CHARGE {
+    return Intl.message(
+      'Take',
+      name: 'SPEEDDIAL_TAKE_FROM_CHARGE',
       desc: '',
       args: [],
     );
