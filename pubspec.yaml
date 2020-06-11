@@ -51,6 +51,13 @@ dev_dependencies:
   moor_generator: 3.1.0
   super_enum_generator: 0.5.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/launcher/blackout.png
+  adaptive_icon_background: assets/launcher/blackout_background.png
+  adaptive_icon_foreground: assets/launcher/blackout_foreground.png
+
 flutter:
   uses-material-design: true
 
