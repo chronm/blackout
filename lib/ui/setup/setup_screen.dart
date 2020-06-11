@@ -7,7 +7,7 @@ import 'package:Blackout/widget/qr_view_widget/qr_view_widget.dart';
 import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart'
-    show Align, Alignment, BuildContext, Colors, Column, Container, EdgeInsets, Expanded, FlatButton, Flexible, FocusNode, InputDecoration, Navigator, Padding, Radio, Row, Scaffold, SizedBox, State, StatefulWidget, Text, TextAlign, TextEditingController, TextField, TextStyle, Widget;
+    show Align, Alignment, BuildContext, Colors, Column, Container, EdgeInsets, Expanded, FlatButton, Flexible, FocusNode, InputDecoration, Navigator, Padding, Radio, Row, Scaffold, SizedBox, State, StatefulWidget, Text, TextAlign, TextCapitalization, TextEditingController, TextField, TextInputAction, TextStyle, Widget;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -50,6 +50,8 @@ class _SetupScreenState extends State<SetupScreen> {
     return _buildPage(
       S.of(context).SETUP_USERNAME_CARD_TITLE,
       TextField(
+        textCapitalization: TextCapitalization.words,
+        textInputAction: TextInputAction.go,
         focusNode: _userFocus,
         decoration: InputDecoration(
           labelText: S.of(context).SETUP_USERNAME,
@@ -120,6 +122,8 @@ class _SetupScreenState extends State<SetupScreen> {
       Column(
         children: <Widget>[
           TextField(
+            textInputAction: TextInputAction.go,
+            textCapitalization: TextCapitalization.words,
             focusNode: _homeFocus,
             decoration: InputDecoration(
               labelText: S.of(context).SETUP_CREATE_HOME,
