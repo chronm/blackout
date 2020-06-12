@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:Blackout/bloc/settings/settings_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
+import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/user.dart';
@@ -15,8 +16,9 @@ part 'drawer_state.dart';
 
 class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
   final BlackoutPreferences blackoutPreferences;
+  final HomeRepository homeRepository;
 
-  DrawerBloc(this.blackoutPreferences);
+  DrawerBloc(this.blackoutPreferences, this.homeRepository);
 
   @override
   DrawerState get initialState => InitialDrawerState();
@@ -26,8 +28,9 @@ class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
     if (event is InitializeDrawer) {
       User user = await blackoutPreferences.getUser();
       Home home = await blackoutPreferences.getHome();
+      List<Home> other = await homeRepository.findAll();
       if (user != null && home != null) {
-        yield LoadedDrawer(user.name, home.name);
+        yield LoadedDrawer(user.name, other, other.indexOf(home));
       }
     }
     if (event is TapOnSettings) {

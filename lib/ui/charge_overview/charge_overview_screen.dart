@@ -61,21 +61,21 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
                   Expanded(
                     child: state.charge.changes.length == 0
                         ? Center(
-                      child: Text(S.of(context).GENERAL_NOTHING_HERE),
-                    )
+                            child: Text(S.of(context).GENERAL_NOTHING_HERE),
+                          )
                         : ListView.builder(
-                      itemCount: state.charge.changes.length,
-                      itemBuilder: (context, index) {
-                        Change change = state.charge.changes[index];
+                            itemCount: state.charge.changes.length,
+                            itemBuilder: (context, index) {
+                              Change change = state.charge.changes[index];
 
-                        return Card(
-                          child: ListTile(
-                            title: Text(change.buildTitle(context)),
-                            subtitle: Text(change.subtitle),
+                              return Card(
+                                child: ListTile(
+                                  title: Text(change.buildTitle(context)),
+                                  subtitle: Text(change.subtitle),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
                   ),
                 ],
               );
