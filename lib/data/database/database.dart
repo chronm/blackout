@@ -18,6 +18,7 @@ import 'package:Blackout/data/repository/modification_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/sync_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart' as p;
@@ -30,7 +31,6 @@ part 'database.g.dart';
 
 Future<File> getDatabasePath() async {
   Directory directory = Directory(Platform.isAndroid ? p.join((await PathProviderEx.getStorageInfo())[0].rootDir, 'Blackout') : (await getApplicationDocumentsDirectory()).path);
-  await Permission.storage.request();
   if (!directory.existsSync()) {
     directory.createSync();
   }

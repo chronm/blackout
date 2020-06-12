@@ -23,6 +23,7 @@ void main() async {
     'rootBundle': rootBundle,
   });
   await prepareApplication();
+
   runApp(BlackoutApp());
 }
 
