@@ -5,7 +5,6 @@ import 'package:Blackout/data/repository/change_repository.dart';
 import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
@@ -32,8 +31,7 @@ class ChargeBloc extends Bloc<ChargeEvent, ChargeState> {
   @override
   Stream<ChargeState> mapEventToState(ChargeEvent event) async* {
     if (event is CreateCharge) {
-      Home home = await blackoutPreferences.getHome();
-      Charge charge = Charge(home: home, product: event.product);
+      Charge charge = Charge(product: event.product);
       yield ShowCharge(charge);
     }
     if (event is SaveChargeAndClose) {
@@ -43,8 +41,7 @@ class ChargeBloc extends Bloc<ChargeEvent, ChargeState> {
       yield ShowCharge(charge);
     }
     if (event is LoadCharge) {
-      Home home = await blackoutPreferences.getHome();
-      Charge charge = await chargeRepository.findOneByChargeIdAndHomeId(event.chargeId, home.id);
+      Charge charge = await chargeRepository.findOneByChargeId(event.chargeId);
       yield ShowCharge(charge);
     }
     if (event is TapOnShowChargeConfiguration) {

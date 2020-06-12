@@ -71,7 +71,7 @@ void main() {
     String changeId = change.id;
 
     await changeRepository.save(change);
-    change = await changeRepository.findOneByChangeIdAndHomeId(changeId, DEFAULT_HOME_ID);
+    change = await changeRepository.findOneByChangeId(changeId, DEFAULT_HOME_ID);
 
     expect(change.id, equals(changeId));
     expect(change.user.name, equals("test"));
@@ -81,7 +81,7 @@ void main() {
   });
 
   test('(Drop) Throw exception if change to drop is no database object', () async {
-    await changeRepository.findAllByChargeIdAndHomeId(DEFAULT_ITEM_ID, DEFAULT_HOME_ID, recurseCharge: false);
+    await changeRepository.findAllByChargeId(DEFAULT_ITEM_ID, DEFAULT_HOME_ID, recurseCharge: false);
     Change change = createDefaultChange();
     expect(() => changeRepository.drop(change), throwsAssertionError);
   });
@@ -101,7 +101,7 @@ void main() {
     var result = await changeRepository.drop(change);
     expect(result, equals(1));
 
-    List<Change> changes = await changeRepository.findAllByChargeIdAndHomeId(DEFAULT_ITEM_ID, DEFAULT_HOME_ID, recurseCharge: false);
+    List<Change> changes = await changeRepository.findAllByChargeId(DEFAULT_ITEM_ID, DEFAULT_HOME_ID, recurseCharge: false);
     expect(changes.length, equals(0));
   });
 
@@ -118,7 +118,7 @@ void main() {
     await userRepository.save(change.user);
     change = await changeRepository.save(change);
 
-    change = await changeRepository.findOneByChangeIdAndHomeId(change.id, DEFAULT_HOME_ID);
+    change = await changeRepository.findOneByChangeId(change.id, DEFAULT_HOME_ID);
     expect(change.id, isNotNull);
     expect(change.user.name, equals(DEFAULT_USER_NAME));
     expect(change.value, equals(DEFAULT_CHANGE_VALUE));
@@ -127,13 +127,13 @@ void main() {
   });
 
   test('(GetOneByChangeId) Return null if change not found', () async {
-    Change change = await changeRepository.findOneByChangeIdAndHomeId("", DEFAULT_HOME_ID);
+    Change change = await changeRepository.findOneByChangeId("", DEFAULT_HOME_ID);
 
     expect(change, isNull);
   });
 
   test('(FindOneByChangeId) Optional is empty if change not found', () async {
-    Optional<Change> change = await changeRepository.findOneByChangeIdAndHomeId("", DEFAULT_HOME_ID);
+    Optional<Change> change = await changeRepository.findOneByChangeId("", DEFAULT_HOME_ID);
 
     expect(change.isEmpty, isTrue);
   });
@@ -150,7 +150,7 @@ void main() {
     await chargeRepository.save(charge, createDefaultUser());
     change = await changeRepository.save(change);
 
-    Optional<Change> optionalChange = await changeRepository.findOneByChangeIdAndHomeId(change.id, DEFAULT_HOME_ID);
+    Optional<Change> optionalChange = await changeRepository.findOneByChangeId(change.id, DEFAULT_HOME_ID);
 
     expect(optionalChange.isEmpty, isFalse);
   });
@@ -183,7 +183,7 @@ void main() {
     charge = await chargeRepository.save(charge, createDefaultUser());
     change = await changeRepository.save(change);
 
-    List<Change> changes = await changeRepository.findAllByChargeIdAndHomeId(charge.id, DEFAULT_HOME_ID);
+    List<Change> changes = await changeRepository.findAllByChargeId(charge.id, DEFAULT_HOME_ID);
     expect(changes.length, equals(1));
     expect(changes[0].charge, isNotNull);
   });
@@ -200,7 +200,7 @@ void main() {
     charge = await chargeRepository.save(charge, createDefaultUser());
     change = await changeRepository.save(change);
 
-    List<Change> changes = await changeRepository.findAllByChargeIdAndHomeId(charge.id, DEFAULT_HOME_ID, recurseCharge: false);
+    List<Change> changes = await changeRepository.findAllByChargeId(charge.id, DEFAULT_HOME_ID, recurseCharge: false);
     expect(changes.length, equals(1));
     expect(changes[0].charge, isNull);
   });

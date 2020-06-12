@@ -37,14 +37,13 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
       yield ShowGroup(group);
     }
     if (event is LoadGroup) {
-      Home home = await blackoutPreferences.getHome();
-      Group group = await groupRepository.findOneByGroupIdAndHomeId(event.groupId, home.id);
+      Group group = await groupRepository.findOneByGroupId(event.groupId);
       yield ShowGroup(group);
     }
     if (event is TapOnProduct) {
       sl<ProductBloc>().add(LoadProduct(event.product.id));
       await Navigator.push(event.context, RouteBuilder.build(Routes.ProductOverviewRoute));
-      Group group = await groupRepository.findOneByGroupIdAndHomeId(event.group.id, event.group.home.id);
+      Group group = await groupRepository.findOneByGroupId(event.group.id);
       yield ShowGroup(group);
     }
     if (event is LoadGroups) {

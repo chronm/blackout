@@ -10,10 +10,9 @@ class Modification {
   String fieldName;
   String from;
   String to;
-  Home home;
   ModelChange modelChange;
 
-  Modification({this.id, @required this.fieldName, @required this.from, @required this.to, this.home, this.modelChange});
+  Modification({this.id, @required this.fieldName, @required this.from, @required this.to, this.modelChange});
 
   factory Modification.fromEntry(ModificationEntry entry) {
     return Modification(
@@ -30,7 +29,6 @@ class Modification {
       fieldName: Value(fieldName),
       from: Value(from),
       to: Value(to),
-      homeId: Value(home.id),
       modelChangeId: Value(modelChange.id),
     );
   }

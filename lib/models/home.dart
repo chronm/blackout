@@ -10,11 +10,6 @@ class Home {
 
   Home({@required this.id, @required this.name});
 
-  @override
-  bool operator ==(other) {
-    return id == other.id && name == other.name;
-  }
-
   factory Home.fromJson(String json) {
     if (json == null) return null;
     Map<String, dynamic> map = jsonDecode(json);
@@ -30,7 +25,11 @@ class Home {
     return Home(id: entry.id, name: entry.name);
   }
 
-  HomeTableCompanion toCompanion() {
-    return HomeTableCompanion(id: Value(id), name: Value(name));
+  HomeTableCompanion toCompanion({bool active}) {
+    return HomeTableCompanion(
+      id: Value(id),
+      name: Value(name),
+      active: Value(active),
+    );
   }
 }

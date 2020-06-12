@@ -34,6 +34,8 @@ dependencies:
   package_info: 0.4.1
   path: 1.7.0
   path_provider: 1.6.10
+  path_provider_ex: 1.0.1
+  permission_handler: 5.0.1
   pub_semver: 1.4.4
   qr_code_scanner: 0.0.13
   shared_preferences: 0.5.7+3

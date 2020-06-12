@@ -48,7 +48,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
               children: [
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.8),
+                    padding: EdgeInsets.all(8.0),
                     child: NameTextField(
                       initialValue: _group.name,
                       callback: (value, error) {
@@ -62,7 +62,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                 ),
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.8),
+                    padding: EdgeInsets.all(8.0),
                     child: PluralNameWidget(
                       initialValue: _group.pluralName,
                       callback: (value) {
@@ -75,7 +75,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                 ),
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.8),
+                    padding: EdgeInsets.all(8.0),
                     child: PeriodWidget(
                       initialPeriod: _group.warnInterval,
                       callback: (period, error) {
@@ -93,7 +93,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                     children: [
                       Card(
                         child: Padding(
-                          padding: EdgeInsets.all(8.8),
+                          padding: EdgeInsets.all(8.0),
                           child: UnitWidget(
                             initialUnit: _group.unit,
                             callback: (unit) {
@@ -108,7 +108,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                       Expanded(
                         child: Card(
                           child: Padding(
-                            padding: EdgeInsets.all(8.8),
+                            padding: EdgeInsets.all(8.0),
                             child: RefillLimitWidget(
                               key: _refillLimitKey,
                               initialUnit: _group.unit,
@@ -127,7 +127,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.8),
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: FlatButton(
                     color: Colors.redAccent,
                     child: Text(S.of(context).GENERAL_SAVE),

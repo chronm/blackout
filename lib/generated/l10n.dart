@@ -500,6 +500,16 @@ class S {
     );
   }
 
+  /// `Settings`
+  String get SETTINGS_TITLE {
+    return Intl.message(
+      'Settings',
+      name: 'SETTINGS_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Username`
   String get SETTINGS_USERNAME {
     return Intl.message(
@@ -590,10 +600,10 @@ class S {
     );
   }
 
-  /// `In order to track your actions, you need to create a username. If you do not like it later, you can change it.`
+  /// `To track your actions, I need a username from you. If you do not like it later, you can change it.`
   String get SETUP_USERNAME_CARD_TITLE {
     return Intl.message(
-      'In order to track your actions, you need to create a username. If you do not like it later, you can change it.',
+      'To track your actions, I need a username from you. If you do not like it later, you can change it.',
       name: 'SETUP_USERNAME_CARD_TITLE',
       desc: '',
       args: [],

@@ -50,7 +50,7 @@ void main() {
 
     group.name = "test";
     await groupRepository.save(group, user);
-    group = await groupRepository.findOneByGroupIdAndHomeId(groupId, DEFAULT_HOME_ID);
+    group = await groupRepository.findOneByGroupId(groupId, DEFAULT_HOME_ID);
 
     expect(group.id, equals(groupId));
     expect(group.name, equals("test"));
@@ -92,7 +92,7 @@ void main() {
     group = await groupRepository.save(group, user);
     product = await productRepository.save(product, user);
 
-    group = await groupRepository.findOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
+    group = await groupRepository.findOneByGroupId(group.id, DEFAULT_HOME_ID);
     expect(group.id, isNotNull);
     expect(group.name, equals(DEFAULT_CATEGORY_NAME));
     expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
@@ -113,7 +113,7 @@ void main() {
     group = await groupRepository.save(group, user);
     product = await productRepository.save(product, user);
 
-    group = await groupRepository.findOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID, recurseProducts: false);
+    group = await groupRepository.findOneByGroupId(group.id, DEFAULT_HOME_ID, recurseProducts: false);
     expect(group.id, isNotNull);
     expect(group.name, equals(DEFAULT_CATEGORY_NAME));
     expect(group.pluralName, equals(DEFAULT_CATEGORY_PLURAL_NAME));
@@ -124,13 +124,13 @@ void main() {
   });
 
   test('(GetOneByGroupId) Return null if group not found', () async {
-    Group group = await groupRepository.findOneByGroupIdAndHomeId("", DEFAULT_HOME_ID);
+    Group group = await groupRepository.findOneByGroupId("", DEFAULT_HOME_ID);
 
     expect(group, isNull);
   });
 
   test('(FindOneByGroupId) Optional is empty if group not found', () async {
-    Optional<Group> group = await groupRepository.findOneByGroupIdAndHomeId("", DEFAULT_HOME_ID);
+    Optional<Group> group = await groupRepository.findOneByGroupId("", DEFAULT_HOME_ID);
 
     expect(group.isEmpty, isTrue);
   });
@@ -140,7 +140,7 @@ void main() {
     await homeRepository.save(group.home);
     group = await groupRepository.save(group, createDefaultUser());
 
-    Optional<Group> optionalGroup = await groupRepository.findOneByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
+    Optional<Group> optionalGroup = await groupRepository.findOneByGroupId(group.id, DEFAULT_HOME_ID);
 
     expect(optionalGroup.isEmpty, isFalse);
   });

@@ -9,8 +9,8 @@ part 'modification_repository.g.dart';
 class ModificationRepository extends DatabaseAccessor<Database> with _$ModificationRepositoryMixin {
   ModificationRepository(Database db) : super(db);
 
-  Future<List<Modification>> findAllByModelChangeIdAndHomeId(String modelChangeId, String homeId) async {
-    var query = select(modificationTable)..where((m) => m.modelChangeId.equals(modelChangeId) & m.homeId.equals(homeId));
+  Future<List<Modification>> findAllByModelChangeId(String modelChangeId) async {
+    var query = select(modificationTable)..where((m) => m.modelChangeId.equals(modelChangeId));
     List<ModificationEntry> entries = (await query.get());
     return entries.map((m) => Modification.fromEntry(m)).toList();
   }

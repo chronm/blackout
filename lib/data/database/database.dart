@@ -22,18 +22,28 @@ import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:path_provider_ex/path_provider_ex.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
+
+Future<File> getDatabasePath() async {
+  Directory directory = Directory(Platform.isAndroid ? p.join((await PathProviderEx.getStorageInfo())[0].rootDir, 'Blackout') : (await getApplicationDocumentsDirectory()).path);
+  await Permission.storage.request();
+  if (!directory.existsSync()) {
+    directory.createSync();
+  }
+  return File(p.join(directory.path, 'db.sqlite'));
+}
 
 LazyDatabase _openConnection() {
   // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
     // put the database file, called db.sqlite here, into the documents folder
     // for your app.
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
-    return VmDatabase(file);
+
+    return VmDatabase(await getDatabasePath());
   });
 }
 
