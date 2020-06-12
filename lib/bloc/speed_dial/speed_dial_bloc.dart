@@ -72,11 +72,10 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       }
     }
     if (event is TapOnCreateCharge) {
-      Home home = await blackoutPreferences.getHome();
       Charge result = await showDialog<Charge>(
         context: event.context,
         builder: (context) => ChargeConfiguration(
-          charge: Charge(home: home, product: event.product),
+          charge: Charge(product: event.product),
           newCharge: true,
           action: (charge) {
             chargeBloc.add(SaveChargeAndClose(charge, context));
@@ -145,7 +144,6 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
             amount = Amount.fromInput(value, charge.product.unit);
             Change change = Change(
               changeDate: LocalDate.today(),
-              home: home,
               user: user,
               charge: charge,
               value: UnitConverter.toSi(amount).value,
@@ -183,7 +181,6 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
             amount = Amount.fromInput(value, charge.product.unit);
             Change change = Change(
               changeDate: LocalDate.today(),
-              home: home,
               user: user,
               charge: charge,
               value: -UnitConverter.toSi(amount).value,

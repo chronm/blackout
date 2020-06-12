@@ -11,12 +11,8 @@ class ChargeEntry extends DataClass implements Insertable<ChargeEntry> {
   final String id;
   final String productId;
   final DateTime expirationDate;
-  final String homeId;
   ChargeEntry(
-      {@required this.id,
-      @required this.productId,
-      this.expirationDate,
-      @required this.homeId});
+      {@required this.id, @required this.productId, this.expirationDate});
   factory ChargeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -28,8 +24,6 @@ class ChargeEntry extends DataClass implements Insertable<ChargeEntry> {
           .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
       expirationDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}expiration_date']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
   @override
@@ -44,9 +38,6 @@ class ChargeEntry extends DataClass implements Insertable<ChargeEntry> {
     if (!nullToAbsent || expirationDate != null) {
       map['expiration_date'] = Variable<DateTime>(expirationDate);
     }
-    if (!nullToAbsent || homeId != null) {
-      map['home_id'] = Variable<String>(homeId);
-    }
     return map;
   }
 
@@ -59,8 +50,6 @@ class ChargeEntry extends DataClass implements Insertable<ChargeEntry> {
       expirationDate: expirationDate == null && nullToAbsent
           ? const Value.absent()
           : Value(expirationDate),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
@@ -71,7 +60,6 @@ class ChargeEntry extends DataClass implements Insertable<ChargeEntry> {
       id: serializer.fromJson<String>(json['id']),
       productId: serializer.fromJson<String>(json['productId']),
       expirationDate: serializer.fromJson<DateTime>(json['expirationDate']),
-      homeId: serializer.fromJson<String>(json['homeId']),
     );
   }
   @override
@@ -81,90 +69,73 @@ class ChargeEntry extends DataClass implements Insertable<ChargeEntry> {
       'id': serializer.toJson<String>(id),
       'productId': serializer.toJson<String>(productId),
       'expirationDate': serializer.toJson<DateTime>(expirationDate),
-      'homeId': serializer.toJson<String>(homeId),
     };
   }
 
   ChargeEntry copyWith(
-          {String id,
-          String productId,
-          DateTime expirationDate,
-          String homeId}) =>
+          {String id, String productId, DateTime expirationDate}) =>
       ChargeEntry(
         id: id ?? this.id,
         productId: productId ?? this.productId,
         expirationDate: expirationDate ?? this.expirationDate,
-        homeId: homeId ?? this.homeId,
       );
   @override
   String toString() {
     return (StringBuffer('ChargeEntry(')
           ..write('id: $id, ')
           ..write('productId: $productId, ')
-          ..write('expirationDate: $expirationDate, ')
-          ..write('homeId: $homeId')
+          ..write('expirationDate: $expirationDate')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(productId.hashCode,
-          $mrjc(expirationDate.hashCode, homeId.hashCode))));
+  int get hashCode => $mrjf(
+      $mrjc(id.hashCode, $mrjc(productId.hashCode, expirationDate.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is ChargeEntry &&
           other.id == this.id &&
           other.productId == this.productId &&
-          other.expirationDate == this.expirationDate &&
-          other.homeId == this.homeId);
+          other.expirationDate == this.expirationDate);
 }
 
 class ChargeTableCompanion extends UpdateCompanion<ChargeEntry> {
   final Value<String> id;
   final Value<String> productId;
   final Value<DateTime> expirationDate;
-  final Value<String> homeId;
   const ChargeTableCompanion({
     this.id = const Value.absent(),
     this.productId = const Value.absent(),
     this.expirationDate = const Value.absent(),
-    this.homeId = const Value.absent(),
   });
   ChargeTableCompanion.insert({
     @required String id,
     @required String productId,
     this.expirationDate = const Value.absent(),
-    @required String homeId,
   })  : id = Value(id),
-        productId = Value(productId),
-        homeId = Value(homeId);
+        productId = Value(productId);
   static Insertable<ChargeEntry> custom({
     Expression<String> id,
     Expression<String> productId,
     Expression<DateTime> expirationDate,
-    Expression<String> homeId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (productId != null) 'product_id': productId,
       if (expirationDate != null) 'expiration_date': expirationDate,
-      if (homeId != null) 'home_id': homeId,
     });
   }
 
   ChargeTableCompanion copyWith(
       {Value<String> id,
       Value<String> productId,
-      Value<DateTime> expirationDate,
-      Value<String> homeId}) {
+      Value<DateTime> expirationDate}) {
     return ChargeTableCompanion(
       id: id ?? this.id,
       productId: productId ?? this.productId,
       expirationDate: expirationDate ?? this.expirationDate,
-      homeId: homeId ?? this.homeId,
     );
   }
 
@@ -179,9 +150,6 @@ class ChargeTableCompanion extends UpdateCompanion<ChargeEntry> {
     }
     if (expirationDate.present) {
       map['expiration_date'] = Variable<DateTime>(expirationDate.value);
-    }
-    if (homeId.present) {
-      map['home_id'] = Variable<String>(homeId.value);
     }
     return map;
   }
@@ -227,17 +195,8 @@ class $ChargeTableTable extends ChargeTable
     );
   }
 
-  final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
-  GeneratedTextColumn _homeId;
   @override
-  GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
-  GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
-  }
-
-  @override
-  List<GeneratedColumn> get $columns => [id, productId, expirationDate, homeId];
+  List<GeneratedColumn> get $columns => [id, productId, expirationDate];
   @override
   $ChargeTableTable get asDslTable => this;
   @override
@@ -265,12 +224,6 @@ class $ChargeTableTable extends ChargeTable
           _expirationDateMeta,
           expirationDate.isAcceptableOrUnknown(
               data['expiration_date'], _expirationDateMeta));
-    }
-    if (data.containsKey('home_id')) {
-      context.handle(_homeIdMeta,
-          homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
-    } else if (isInserting) {
-      context.missing(_homeIdMeta);
     }
     return context;
   }
@@ -2253,14 +2206,17 @@ class $SyncTableTable extends SyncTable
 class UserEntry extends DataClass implements Insertable<UserEntry> {
   final String id;
   final String name;
-  UserEntry({@required this.id, @required this.name});
+  final bool other;
+  UserEntry({@required this.id, @required this.name, @required this.other});
   factory UserEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
     return UserEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      other: boolType.mapFromDatabaseResponse(data['${effectivePrefix}other']),
     );
   }
   @override
@@ -2272,6 +2228,9 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     if (!nullToAbsent || name != null) {
       map['name'] = Variable<String>(name);
     }
+    if (!nullToAbsent || other != null) {
+      map['other'] = Variable<bool>(other);
+    }
     return map;
   }
 
@@ -2279,6 +2238,8 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return UserTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      other:
+          other == null && nullToAbsent ? const Value.absent() : Value(other),
     );
   }
 
@@ -2288,6 +2249,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return UserEntry(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      other: serializer.fromJson<bool>(json['other']),
     );
   }
   @override
@@ -2296,56 +2258,71 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
+      'other': serializer.toJson<bool>(other),
     };
   }
 
-  UserEntry copyWith({String id, String name}) => UserEntry(
+  UserEntry copyWith({String id, String name, bool other}) => UserEntry(
         id: id ?? this.id,
         name: name ?? this.name,
+        other: other ?? this.other,
       );
   @override
   String toString() {
     return (StringBuffer('UserEntry(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('other: $other')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+  int get hashCode =>
+      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, other.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is UserEntry && other.id == this.id && other.name == this.name);
+      (other is UserEntry &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.other == this.other);
 }
 
 class UserTableCompanion extends UpdateCompanion<UserEntry> {
   final Value<String> id;
   final Value<String> name;
+  final Value<bool> other;
   const UserTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.other = const Value.absent(),
   });
   UserTableCompanion.insert({
     @required String id,
     @required String name,
+    @required bool other,
   })  : id = Value(id),
-        name = Value(name);
+        name = Value(name),
+        other = Value(other);
   static Insertable<UserEntry> custom({
     Expression<String> id,
     Expression<String> name,
+    Expression<bool> other,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (other != null) 'other': other,
     });
   }
 
-  UserTableCompanion copyWith({Value<String> id, Value<String> name}) {
+  UserTableCompanion copyWith(
+      {Value<String> id, Value<String> name, Value<bool> other}) {
     return UserTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      other: other ?? this.other,
     );
   }
 
@@ -2357,6 +2334,9 @@ class UserTableCompanion extends UpdateCompanion<UserEntry> {
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (other.present) {
+      map['other'] = Variable<bool>(other.value);
     }
     return map;
   }
@@ -2391,8 +2371,20 @@ class $UserTableTable extends UserTable
     );
   }
 
+  final VerificationMeta _otherMeta = const VerificationMeta('other');
+  GeneratedBoolColumn _other;
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  GeneratedBoolColumn get other => _other ??= _constructOther();
+  GeneratedBoolColumn _constructOther() {
+    return GeneratedBoolColumn(
+      'other',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, name, other];
   @override
   $UserTableTable get asDslTable => this;
   @override
@@ -2415,6 +2407,12 @@ class $UserTableTable extends UserTable
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('other')) {
+      context.handle(
+          _otherMeta, other.isAcceptableOrUnknown(data['other'], _otherMeta));
+    } else if (isInserting) {
+      context.missing(_otherMeta);
+    }
     return context;
   }
 
@@ -2435,14 +2433,18 @@ class $UserTableTable extends UserTable
 class HomeEntry extends DataClass implements Insertable<HomeEntry> {
   final String id;
   final String name;
-  HomeEntry({@required this.id, @required this.name});
+  final bool active;
+  HomeEntry({@required this.id, @required this.name, @required this.active});
   factory HomeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
     return HomeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      active:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}active']),
     );
   }
   @override
@@ -2454,6 +2456,9 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
     if (!nullToAbsent || name != null) {
       map['name'] = Variable<String>(name);
     }
+    if (!nullToAbsent || active != null) {
+      map['active'] = Variable<bool>(active);
+    }
     return map;
   }
 
@@ -2461,6 +2466,8 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
     return HomeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      active:
+          active == null && nullToAbsent ? const Value.absent() : Value(active),
     );
   }
 
@@ -2470,6 +2477,7 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
     return HomeEntry(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      active: serializer.fromJson<bool>(json['active']),
     );
   }
   @override
@@ -2478,56 +2486,71 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
+      'active': serializer.toJson<bool>(active),
     };
   }
 
-  HomeEntry copyWith({String id, String name}) => HomeEntry(
+  HomeEntry copyWith({String id, String name, bool active}) => HomeEntry(
         id: id ?? this.id,
         name: name ?? this.name,
+        active: active ?? this.active,
       );
   @override
   String toString() {
     return (StringBuffer('HomeEntry(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('active: $active')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+  int get hashCode =>
+      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, active.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is HomeEntry && other.id == this.id && other.name == this.name);
+      (other is HomeEntry &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.active == this.active);
 }
 
 class HomeTableCompanion extends UpdateCompanion<HomeEntry> {
   final Value<String> id;
   final Value<String> name;
+  final Value<bool> active;
   const HomeTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.active = const Value.absent(),
   });
   HomeTableCompanion.insert({
     @required String id,
     @required String name,
+    @required bool active,
   })  : id = Value(id),
-        name = Value(name);
+        name = Value(name),
+        active = Value(active);
   static Insertable<HomeEntry> custom({
     Expression<String> id,
     Expression<String> name,
+    Expression<bool> active,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (active != null) 'active': active,
     });
   }
 
-  HomeTableCompanion copyWith({Value<String> id, Value<String> name}) {
+  HomeTableCompanion copyWith(
+      {Value<String> id, Value<String> name, Value<bool> active}) {
     return HomeTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      active: active ?? this.active,
     );
   }
 
@@ -2539,6 +2562,9 @@ class HomeTableCompanion extends UpdateCompanion<HomeEntry> {
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
     }
     return map;
   }
@@ -2573,8 +2599,20 @@ class $HomeTableTable extends HomeTable
     );
   }
 
+  final VerificationMeta _activeMeta = const VerificationMeta('active');
+  GeneratedBoolColumn _active;
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  GeneratedBoolColumn get active => _active ??= _constructActive();
+  GeneratedBoolColumn _constructActive() {
+    return GeneratedBoolColumn(
+      'active',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, name, active];
   @override
   $HomeTableTable get asDslTable => this;
   @override
@@ -2596,6 +2634,12 @@ class $HomeTableTable extends HomeTable
           _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('active')) {
+      context.handle(_activeMeta,
+          active.isAcceptableOrUnknown(data['active'], _activeMeta));
+    } else if (isInserting) {
+      context.missing(_activeMeta);
     }
     return context;
   }
@@ -2621,14 +2665,12 @@ class ModificationEntry extends DataClass
   final String fieldName;
   final String from;
   final String to;
-  final String homeId;
   ModificationEntry(
       {@required this.id,
       @required this.modelChangeId,
       @required this.fieldName,
       this.from,
-      this.to,
-      @required this.homeId});
+      this.to});
   factory ModificationEntry.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -2642,8 +2684,6 @@ class ModificationEntry extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
       from: stringType.mapFromDatabaseResponse(data['${effectivePrefix}from']),
       to: stringType.mapFromDatabaseResponse(data['${effectivePrefix}to']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
   @override
@@ -2664,9 +2704,6 @@ class ModificationEntry extends DataClass
     if (!nullToAbsent || to != null) {
       map['to'] = Variable<String>(to);
     }
-    if (!nullToAbsent || homeId != null) {
-      map['home_id'] = Variable<String>(homeId);
-    }
     return map;
   }
 
@@ -2681,8 +2718,6 @@ class ModificationEntry extends DataClass
           : Value(fieldName),
       from: from == null && nullToAbsent ? const Value.absent() : Value(from),
       to: to == null && nullToAbsent ? const Value.absent() : Value(to),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
@@ -2695,7 +2730,6 @@ class ModificationEntry extends DataClass
       fieldName: serializer.fromJson<String>(json['fieldName']),
       from: serializer.fromJson<String>(json['from']),
       to: serializer.fromJson<String>(json['to']),
-      homeId: serializer.fromJson<String>(json['homeId']),
     );
   }
   @override
@@ -2707,7 +2741,6 @@ class ModificationEntry extends DataClass
       'fieldName': serializer.toJson<String>(fieldName),
       'from': serializer.toJson<String>(from),
       'to': serializer.toJson<String>(to),
-      'homeId': serializer.toJson<String>(homeId),
     };
   }
 
@@ -2716,15 +2749,13 @@ class ModificationEntry extends DataClass
           String modelChangeId,
           String fieldName,
           String from,
-          String to,
-          String homeId}) =>
+          String to}) =>
       ModificationEntry(
         id: id ?? this.id,
         modelChangeId: modelChangeId ?? this.modelChangeId,
         fieldName: fieldName ?? this.fieldName,
         from: from ?? this.from,
         to: to ?? this.to,
-        homeId: homeId ?? this.homeId,
       );
   @override
   String toString() {
@@ -2733,8 +2764,7 @@ class ModificationEntry extends DataClass
           ..write('modelChangeId: $modelChangeId, ')
           ..write('fieldName: $fieldName, ')
           ..write('from: $from, ')
-          ..write('to: $to, ')
-          ..write('homeId: $homeId')
+          ..write('to: $to')
           ..write(')'))
         .toString();
   }
@@ -2742,10 +2772,8 @@ class ModificationEntry extends DataClass
   @override
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
-      $mrjc(
-          modelChangeId.hashCode,
-          $mrjc(fieldName.hashCode,
-              $mrjc(from.hashCode, $mrjc(to.hashCode, homeId.hashCode))))));
+      $mrjc(modelChangeId.hashCode,
+          $mrjc(fieldName.hashCode, $mrjc(from.hashCode, to.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -2754,8 +2782,7 @@ class ModificationEntry extends DataClass
           other.modelChangeId == this.modelChangeId &&
           other.fieldName == this.fieldName &&
           other.from == this.from &&
-          other.to == this.to &&
-          other.homeId == this.homeId);
+          other.to == this.to);
 }
 
 class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
@@ -2764,14 +2791,12 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
   final Value<String> fieldName;
   final Value<String> from;
   final Value<String> to;
-  final Value<String> homeId;
   const ModificationTableCompanion({
     this.id = const Value.absent(),
     this.modelChangeId = const Value.absent(),
     this.fieldName = const Value.absent(),
     this.from = const Value.absent(),
     this.to = const Value.absent(),
-    this.homeId = const Value.absent(),
   });
   ModificationTableCompanion.insert({
     @required String id,
@@ -2779,18 +2804,15 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
     @required String fieldName,
     this.from = const Value.absent(),
     this.to = const Value.absent(),
-    @required String homeId,
   })  : id = Value(id),
         modelChangeId = Value(modelChangeId),
-        fieldName = Value(fieldName),
-        homeId = Value(homeId);
+        fieldName = Value(fieldName);
   static Insertable<ModificationEntry> custom({
     Expression<String> id,
     Expression<String> modelChangeId,
     Expression<String> fieldName,
     Expression<String> from,
     Expression<String> to,
-    Expression<String> homeId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2798,7 +2820,6 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
       if (fieldName != null) 'field_name': fieldName,
       if (from != null) 'from': from,
       if (to != null) 'to': to,
-      if (homeId != null) 'home_id': homeId,
     });
   }
 
@@ -2807,15 +2828,13 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
       Value<String> modelChangeId,
       Value<String> fieldName,
       Value<String> from,
-      Value<String> to,
-      Value<String> homeId}) {
+      Value<String> to}) {
     return ModificationTableCompanion(
       id: id ?? this.id,
       modelChangeId: modelChangeId ?? this.modelChangeId,
       fieldName: fieldName ?? this.fieldName,
       from: from ?? this.from,
       to: to ?? this.to,
-      homeId: homeId ?? this.homeId,
     );
   }
 
@@ -2836,9 +2855,6 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
     }
     if (to.present) {
       map['to'] = Variable<String>(to.value);
-    }
-    if (homeId.present) {
-      map['home_id'] = Variable<String>(homeId.value);
     }
     return map;
   }
@@ -2908,21 +2924,9 @@ class $ModificationTableTable extends ModificationTable
     );
   }
 
-  final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
-  GeneratedTextColumn _homeId;
-  @override
-  GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
-  GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn(
-      'home_id',
-      $tableName,
-      false,
-    );
-  }
-
   @override
   List<GeneratedColumn> get $columns =>
-      [id, modelChangeId, fieldName, from, to, homeId];
+      [id, modelChangeId, fieldName, from, to];
   @override
   $ModificationTableTable get asDslTable => this;
   @override
@@ -2959,12 +2963,6 @@ class $ModificationTableTable extends ModificationTable
     }
     if (data.containsKey('to')) {
       context.handle(_toMeta, to.isAcceptableOrUnknown(data['to'], _toMeta));
-    }
-    if (data.containsKey('home_id')) {
-      context.handle(_homeIdMeta,
-          homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
-    } else if (isInserting) {
-      context.missing(_homeIdMeta);
     }
     return context;
   }

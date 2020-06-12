@@ -17,13 +17,19 @@ import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/sync_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
+import 'package:Blackout/main.dart';
 import 'package:get_it/get_it.dart' show GetIt;
 import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
 
 Future<BlackoutPreferences> createBlackoutPreferences() async => BlackoutPreferences(await SharedPreferences.getInstance());
 
-void prepareSharedPreferences(GetIt sl) async {
+Database database;
+bool diReady = false;
+
+void prepareApplication() async {
+  GetIt sl = GetIt.instance;
   sl.registerSingleton<BlackoutPreferences>(await createBlackoutPreferences());
+  sl.registerSingleton<MainBloc>(MainBloc(sl<BlackoutPreferences>()));
 }
 
 void prepareBlocs(GetIt sl) async {
@@ -33,27 +39,24 @@ void prepareBlocs(GetIt sl) async {
   sl.registerSingleton<GroupBloc>(GroupBloc(sl<GroupRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>()));
   sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<GroupBloc>(), sl<ModelChangeRepository>(), sl<ProductBloc>()));
   sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<ChargeRepository>(), sl<ChangeRepository>(), sl<DrawerBloc>()));
-  sl.registerSingleton<MainBloc>(MainBloc(sl<BlackoutPreferences>(), sl<HomeBloc>()));
   sl.registerSingleton<SpeedDialBloc>(SpeedDialBloc(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ProductBloc>(), sl<HomeBloc>(), sl<GroupBloc>(), sl<ChargeBloc>(), sl<ChangeRepository>(), sl<GroupRepository>()));
   sl.registerSingleton<SettingsBloc>(SettingsBloc(sl<BlackoutPreferences>(), sl<UserRepository>()));
 }
 
 void registerRepositories(GetIt sl) async {
-  Database database = Database();
+  database = Database();
   sl.registerSingleton<HomeRepository>(database.homeRepository);
+  sl.registerSingleton<UserRepository>(database.userRepository);
   sl.registerSingleton<GroupRepository>(database.groupRepository);
   sl.registerSingleton<ChangeRepository>(database.changeRepository);
   sl.registerSingleton<ModelChangeRepository>(database.modelChangeRepository);
   sl.registerSingleton<ChargeRepository>(database.chargeRepository);
   sl.registerSingleton<ProductRepository>(database.productRepository);
   sl.registerSingleton<SyncRepository>(database.syncRepository);
-  sl.registerSingleton<UserRepository>(database.userRepository);
 }
 
 void prepareDi() async {
-  GetIt sl = GetIt.instance;
-
-  await prepareSharedPreferences(sl);
   await registerRepositories(sl);
   await prepareBlocs(sl);
+  diReady = true;
 }

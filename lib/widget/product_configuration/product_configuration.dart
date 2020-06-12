@@ -52,7 +52,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
               children: [
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.8),
+                    padding: EdgeInsets.all(8.0),
                     child: DescriptionTextField(
                       initialValue: widget.product.description,
                       callback: (value) {
@@ -65,7 +65,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                 ),
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.8),
+                    padding: EdgeInsets.all(8.0),
                     child: GroupSelector(
                       initialGroup: _product.group,
                       groups: widget.groups,
@@ -100,7 +100,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                           children: [
                             Card(
                               child: Padding(
-                                padding: EdgeInsets.all(8.8),
+                                padding: EdgeInsets.all(8.0),
                                 child: UnitWidget(
                                   initialUnit: _product.unit,
                                   callback: (unit) {
@@ -115,7 +115,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                             Expanded(
                               child: Card(
                                 child: Padding(
-                                  padding: EdgeInsets.all(8.8),
+                                  padding: EdgeInsets.all(8.0),
                                   child: RefillLimitWidget(
                                     key: _refillLimitKey,
                                     initialUnit: _product.unit,
@@ -138,7 +138,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                     : null,
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.8),
+                    padding: EdgeInsets.all(8.0),
                     child: EanField(
                       initialEan: _product.ean,
                       callback: (value, error) {
@@ -153,7 +153,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.8),
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: FlatButton(
                     color: Colors.redAccent,
                     child: Text(S.of(context).GENERAL_SAVE),

@@ -15,58 +15,58 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
   ModelChangeRepository(Database db) : super(db);
 
   Future<List<ModelChange>> findAllByHomeId(String homeId) async {
-    List<ModelChangeEntry> entries = await (select(modelChangeTable)..where((d) => d.homeId.equals(homeId))).get();
+    List<ModelChangeEntry> entries = await (select(modelChangeTable)..where((c) => c.homeId.equals(homeId))).get();
 
     List<ModelChange> changes = [];
     for (ModelChangeEntry entry in entries) {
       User user = await db.userRepository.findOneByUserId(entry.userId);
+      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
       Home home = await db.homeRepository.findHomeById(entry.homeId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeIdAndHomeId(entry.id, home.id);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
     return changes;
   }
 
-  Future<List<ModelChange>> findAllByGroupIdAndHomeId(String groupId, String homeId) async {
-    var query = select(modelChangeTable)..where((c) => c.groupId.equals(groupId) & c.homeId.equals(homeId));
+  Future<List<ModelChange>> findAllByGroupId(String groupId) async {
+    var query = select(modelChangeTable)..where((c) => c.groupId.equals(groupId));
     List<ModelChangeEntry> entries = await query.get();
 
     List<ModelChange> changes = [];
     for (ModelChangeEntry entry in entries) {
       User user = await db.userRepository.findOneByUserId(entry.userId);
+      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
       Home home = await db.homeRepository.findHomeById(entry.homeId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeIdAndHomeId(entry.id, home.id);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
     return changes;
   }
 
-  Future<List<ModelChange>> findAllByProductIdAndHomeId(String productId, String homeId) async {
-    var query = select(modelChangeTable)..where((c) => c.productId.equals(productId) & c.homeId.equals(homeId));
+  Future<List<ModelChange>> findAllByProductId(String productId) async {
+    var query = select(modelChangeTable)..where((c) => c.productId.equals(productId));
     List<ModelChangeEntry> entries = await query.get();
 
     List<ModelChange> changes = [];
     for (ModelChangeEntry entry in entries) {
       User user = await db.userRepository.findOneByUserId(entry.userId);
+      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
       Home home = await db.homeRepository.findHomeById(entry.homeId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeIdAndHomeId(entry.id, home.id);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
     return changes;
   }
 
-  Future<List<ModelChange>> findAllByChargeIdAndHomeId(String chargeId, String homeId) async {
-    var query = select(modelChangeTable)..where((c) => c.chargeId.equals(chargeId) & c.homeId.equals(homeId));
+  Future<List<ModelChange>> findAllByChargeId(String chargeId) async {
+    var query = select(modelChangeTable)..where((c) => c.chargeId.equals(chargeId));
     List<ModelChangeEntry> entries = await query.get();
 
     List<ModelChange> changes = [];
     for (ModelChangeEntry entry in entries) {
       User user = await db.userRepository.findOneByUserId(entry.userId);
+      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
       Home home = await db.homeRepository.findHomeById(entry.homeId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeIdAndHomeId(entry.id, home.id);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -74,31 +74,30 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
   }
 
   Future<List<ModelChange>> findAllByModificationDateAfterAndHomeId(LocalDate modificationDate, String homeId) async {
-    var query = select(modelChangeTable)..where((c) => c.modificationDate.isBiggerThanValue(modificationDate.toDateTimeUnspecified()) & c.homeId.equals(homeId));
+    var query = select(modelChangeTable)..where((c) => c.modificationDate.isBiggerThanValue(modificationDate.toDateTimeUnspecified()));
     List<ModelChangeEntry> entries = await query.get();
 
     List<ModelChange> changes = [];
     for (ModelChangeEntry entry in entries) {
       User user = await db.userRepository.findOneByUserId(entry.userId);
+      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
       Home home = await db.homeRepository.findHomeById(entry.homeId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeIdAndHomeId(entry.id, home.id);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
     return changes;
   }
 
-  Future<ModelChange> findOneByChangeIdHomeId(String changeId, String homeId) async {
-    var query = select(modelChangeTable)..where((c) => c.id.equals(changeId))..where((c) => c.homeId.equals(homeId));
+  Future<ModelChange> findOneByChangeId(String changeId) async {
+    var query = select(modelChangeTable)..where((c) => c.id.equals(changeId));
     ModelChangeEntry changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;
 
     User user = await db.userRepository.findOneByUserId(changeEntry.userId);
 
+    List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(changeEntry.id);
+
     Home home = await db.homeRepository.findHomeById(changeEntry.homeId);
-
-    List<Modification> modifications = await db.modificationRepository.findAllByModelChangeIdAndHomeId(changeEntry.id, home.id);
-
     return ModelChange.fromEntry(changeEntry, user, home, modifications);
   }
 
@@ -107,6 +106,6 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
     await into(modelChangeTable).insertOnConflictUpdate(change.toCompanion());
 
-    return findOneByChangeIdHomeId(change.id, change.home.id);
+    return findOneByChangeId(change.id);
   }
 }

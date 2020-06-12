@@ -32,7 +32,7 @@ void main() {
   test('Save product emits ShowProduct', () {
     when(blackoutPreferences.getUser()).thenAnswer((realInvocation) => Future.value(createDefaultUser()));
     when(productRepository.save(argThat(isA<Product>()), argThat(isA<User>()))).thenAnswer((realInvocation) => Future.value(createDefaultProduct()..id = DEFAULT_PRODUCT_ID));
-    when(modelChangeRepository.findAllByProductIdAndHomeId(DEFAULT_PRODUCT_ID, DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultModelChange(ModelChangeType.create, product: createDefaultProduct()..id = DEFAULT_PRODUCT_ID)]));
+    when(modelChangeRepository.findAllByProductId(DEFAULT_PRODUCT_ID, DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultModelChange(ModelChangeType.create, product: createDefaultProduct()..id = DEFAULT_PRODUCT_ID)]));
     when(groupRepository.findAllByHomeId(DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultGroup()]));
 
     expectLater(productBloc, emitsInOrder([ProductInitialState(), isA<ShowProduct>()]));
@@ -41,9 +41,9 @@ void main() {
   });
 
   test('Load and show product', () {
-    when(modelChangeRepository.findAllByProductIdAndHomeId(DEFAULT_PRODUCT_ID, DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultModelChange(ModelChangeType.create, product: createDefaultProduct()..id = DEFAULT_PRODUCT_ID)]));
+    when(modelChangeRepository.findAllByProductId(DEFAULT_PRODUCT_ID, DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultModelChange(ModelChangeType.create, product: createDefaultProduct()..id = DEFAULT_PRODUCT_ID)]));
     when(blackoutPreferences.getHome()).thenAnswer((realInvocation) => Future.value(createDefaultHome()));
-    when(productRepository.findOneByProductIdAndHomeId(argThat(isA<Product>()), argThat(isA<User>()))).thenAnswer((realInvocation) => Future.value(createDefaultProduct()));
+    when(productRepository.findOneByProductId(argThat(isA<Product>()), argThat(isA<User>()))).thenAnswer((realInvocation) => Future.value(createDefaultProduct()));
     when(groupRepository.findAllByHomeId(DEFAULT_HOME_ID)).thenAnswer((realInvocation) => Future.value([createDefaultGroup()]));
 
     expectLater(productBloc, emitsInOrder([ProductInitialState(), isA<ShowProduct>()]));

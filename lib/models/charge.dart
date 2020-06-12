@@ -14,17 +14,15 @@ class Charge {
   Product product;
   LocalDate expirationDate;
   List<Change> changes = [];
-  Home home;
   List<ModelChange> modelChanges = [];
 
-  Charge({this.id, this.expirationDate, @required this.product, this.changes, @required this.home, this.modelChanges});
+  Charge({this.id, this.expirationDate, @required this.product, this.changes, this.modelChanges});
 
   Charge clone() {
     return Charge(id: id,
         expirationDate: expirationDate,
         product: product,
         changes: changes,
-        home: home,
         modelChanges: modelChanges);
   }
 
@@ -32,13 +30,12 @@ class Charge {
     return expirationDate == other.expirationDate;
   }
 
-  factory Charge.fromEntry(ChargeEntry entry, Home home, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
+  factory Charge.fromEntry(ChargeEntry entry, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
     return Charge(
       id: entry.id,
       expirationDate: entry.expirationDate == null ? null : localDateFromDateTime(entry.expirationDate),
       product: product,
       changes: changes,
-      home: home,
       modelChanges: modelChanges,
     );
   }
@@ -48,7 +45,6 @@ class Charge {
       id: Value(id),
       productId: Value(product.id),
       expirationDate: expirationDate == null ? Value.absent() : Value(expirationDate.toDateTimeUnspecified()),
-      homeId: Value(home.id),
     );
   }
 

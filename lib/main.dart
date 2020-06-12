@@ -22,7 +22,7 @@ void main() async {
   await TimeMachine.initialize({
     'rootBundle': rootBundle,
   });
-  await prepareDi();
+  await prepareApplication();
   runApp(BlackoutApp());
 }
 
@@ -62,8 +62,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      widget.bloc.add(InitializeAppEvent());
-      sl<DrawerBloc>().add(InitializeDrawer());
+      widget.bloc.add(InitializeAppEvent(context));
     });
   }
 

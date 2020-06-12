@@ -26,10 +26,11 @@ class User {
     );
   }
 
-  UserTableCompanion toCompanion() {
+  UserTableCompanion toCompanion({bool other}) {
     return UserTableCompanion(
       id: Value(id),
       name: Value(name),
+      other: Value(other),
     );
   }
 

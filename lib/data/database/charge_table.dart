@@ -8,8 +8,6 @@ class ChargeTable extends Table {
 
   DateTimeColumn get expirationDate => dateTime().nullable()();
 
-  TextColumn get homeId => text().customConstraint('references Home(id)')();
-
   @override
   Set<Column> get primaryKey => {id};
 }

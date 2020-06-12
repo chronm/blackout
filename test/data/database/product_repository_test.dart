@@ -55,7 +55,7 @@ void main() {
 
     product.description = "test";
     await productRepository.save(product, user);
-    product = await productRepository.findOneByProductIdAndHomeId(productId, DEFAULT_HOME_ID);
+    product = await productRepository.findOneByProductId(productId, DEFAULT_HOME_ID);
 
     expect(product.id, equals(productId));
     expect(product.description, equals("test"));
@@ -94,7 +94,7 @@ void main() {
     product = await productRepository.save(product, createDefaultUser());
     charge = await chargeRepository.save(charge, createDefaultUser());
 
-    product = await productRepository.findOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
+    product = await productRepository.findOneByProductId(product.id, DEFAULT_HOME_ID);
     expect(product.id, isNotNull);
     expect(product.description, equals(DEFAULT_PRODUCT_DESCRIPTION));
     expect(product.ean, equals(DEFAULT_PRODUCT_EAN));
@@ -113,7 +113,7 @@ void main() {
     product = await productRepository.save(product, createDefaultUser());
     charge = await chargeRepository.save(charge, createDefaultUser());
 
-    product = await productRepository.findOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID, recurseCharges: false);
+    product = await productRepository.findOneByProductId(product.id, DEFAULT_HOME_ID, recurseCharges: false);
     expect(product.id, isNotNull);
     expect(product.description, equals(DEFAULT_PRODUCT_DESCRIPTION));
     expect(product.ean, equals(DEFAULT_PRODUCT_EAN));
@@ -123,13 +123,13 @@ void main() {
   });
 
   test('(GetOneByProductId) Return null if product not found', () async {
-    Product product = await productRepository.findOneByProductIdAndHomeId("", DEFAULT_HOME_ID);
+    Product product = await productRepository.findOneByProductId("", DEFAULT_HOME_ID);
 
     expect(product, isNull);
   });
 
   test('(FindOneByProductId) Optional is empty if product not found', () async {
-    Optional<Product> product = await productRepository.findOneByProductIdAndHomeId("", DEFAULT_HOME_ID);
+    Optional<Product> product = await productRepository.findOneByProductId("", DEFAULT_HOME_ID);
 
     expect(product.isEmpty, isTrue);
   });
@@ -139,7 +139,7 @@ void main() {
     await homeRepository.save(product.home);
     product = await productRepository.save(createDefaultProduct(), createDefaultUser());
 
-    Optional<Product> optionalProduct = await productRepository.findOneByProductIdAndHomeId(product.id, DEFAULT_HOME_ID);
+    Optional<Product> optionalProduct = await productRepository.findOneByProductId(product.id, DEFAULT_HOME_ID);
 
     expect(optionalProduct.isEmpty, isFalse);
   });
@@ -161,7 +161,7 @@ void main() {
     group = await groupRepository.save(group, createDefaultUser());
     product = await productRepository.save(product, createDefaultUser());
 
-    List<Product> products = await productRepository.findAllByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID);
+    List<Product> products = await productRepository.findAllByGroupId(group.id, DEFAULT_HOME_ID);
     expect(products.length, equals(1));
     expect(products[0].group, isNotNull);
   });
@@ -174,7 +174,7 @@ void main() {
     group = await groupRepository.save(group, createDefaultUser());
     product = await productRepository.save(product, createDefaultUser());
 
-    List<Product> products = await productRepository.findAllByGroupIdAndHomeId(group.id, DEFAULT_HOME_ID, recurseGroup: false);
+    List<Product> products = await productRepository.findAllByGroupId(group.id, DEFAULT_HOME_ID, recurseGroup: false);
     expect(products.length, equals(1));
     expect(products[0].group, isNull);
   });

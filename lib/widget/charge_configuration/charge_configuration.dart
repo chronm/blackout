@@ -42,7 +42,7 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
               children: [
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.8),
+                    padding: EdgeInsets.all(8.0),
                     child: ExpirationDatePicker(
                       initialExpirationDate: _charge.expirationDate,
                       callback: (expirationDate, error) {
@@ -55,7 +55,7 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.8),
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: FlatButton(
                     color: Colors.redAccent,
                     child: Text(S.of(context).GENERAL_SAVE),

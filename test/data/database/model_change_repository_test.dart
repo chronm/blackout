@@ -86,7 +86,7 @@ void main() {
     User user = await userRepository.save(createDefaultUser());
     await groupRepository.save(group, user);
 
-    List<ModelChange> changes = await modelChangeRepository.findAllByGroupIdAndHomeId(group.id, group.home.id);
+    List<ModelChange> changes = await modelChangeRepository.findAllByGroupId(group.id, group.home.id);
 
     expect(changes.length, equals(1));
   });
@@ -97,7 +97,7 @@ void main() {
     User user = await userRepository.save(createDefaultUser());
     await productRepository.save(product, user);
 
-    List<ModelChange> changes = await modelChangeRepository.findAllByProductIdAndHomeId(product.id, product.home.id);
+    List<ModelChange> changes = await modelChangeRepository.findAllByProductId(product.id, product.home.id);
 
     expect(changes.length, equals(1));
   });

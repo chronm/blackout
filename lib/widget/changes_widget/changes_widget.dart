@@ -21,7 +21,7 @@ class ChangesWidget extends StatelessWidget {
                   .map(
                     (c) => Card(
                       child: Padding(
-                        padding: EdgeInsets.all(8.8),
+                        padding: EdgeInsets.all(8.0),
                         child: ListTile(
                           isThreeLine: true,
                           title: Text(c.toLocalizedString(context)),

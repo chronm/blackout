@@ -28,7 +28,7 @@ void main() {
   test('Save group emits ShowGroup', () {
     when(blackoutPreferences.getUser()).thenAnswer((_) => Future.value(createDefaultUser()));
     when(groupRepository.save(argThat(isA<Group>()), argThat(isA<User>()))).thenAnswer((_) => Future.value(createDefaultGroup()..id = DEFAULT_CATEGORY_ID));
-    when(modelChangeRepository.findAllByGroupIdAndHomeId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, group: createDefaultGroup()..id = DEFAULT_CATEGORY_ID)]));
+    when(modelChangeRepository.findAllByGroupId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, group: createDefaultGroup()..id = DEFAULT_CATEGORY_ID)]));
 
     expectLater(groupBloc, emitsInOrder([InitialGroupState(), isA<ShowGroup>()]));
 
@@ -36,7 +36,7 @@ void main() {
   });
 
   test('Load group, coming from HomeScreen emits ShowGroup', () {
-    when(modelChangeRepository.findAllByGroupIdAndHomeId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, group: createDefaultGroup()..id = DEFAULT_CATEGORY_ID)]));
+    when(modelChangeRepository.findAllByGroupId(DEFAULT_CATEGORY_ID, DEFAULT_HOME_ID)).thenAnswer((_) => Future.value([createDefaultModelChange(ModelChangeType.create, group: createDefaultGroup()..id = DEFAULT_CATEGORY_ID)]));
     when(blackoutPreferences.getHome()).thenAnswer((realInvocation) => Future.value(createDefaultHome()));
 
     expectLater(groupBloc, emitsInOrder([InitialGroupState(), isA<ShowGroup>()]));

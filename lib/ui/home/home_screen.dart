@@ -61,8 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, state) {
                 if (state is LoadedAll) {
                   if (state.cards.length == 0) {
-                    return Center(
-                      child: Text(S.of(context).GENERAL_NOTHING_HERE),
+                    return Expanded(
+                      child: Center(
+                        child: Text(S.of(context).GENERAL_NOTHING_HERE),
+                      ),
                     );
                   }
                   List<HomeListable> cards = state.cards.where((card) => card.title.toLowerCase().contains(searchString)).toList();

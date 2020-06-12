@@ -52,7 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Text("Settings"),
+        title: Text(S.of(context).SETTINGS_TITLE),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -61,7 +61,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       ),
       body: ScrollableContainer(
-        fullscreen: true,
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: BlocBuilder<SettingsBloc, SettingsState>(

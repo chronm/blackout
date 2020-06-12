@@ -40,7 +40,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
     if (event is LoadProduct) {
       Home home = await blackoutPreferences.getHome();
-      Product product = await productRepository.findOneByProductIdAndHomeId(event.productId, home.id);
+      Product product = await productRepository.findOneByProductId(event.productId);
       List<Group> groups = await groupRepository.findAllByHomeId(home.id);
       yield ShowProduct(product, groups);
     }

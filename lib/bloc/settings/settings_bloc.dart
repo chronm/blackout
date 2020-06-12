@@ -30,7 +30,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
     if (event is SaveSettings) {
       await blackoutPreferences.setUser(event.settings.user);
-      User user = await userRepository.save(event.settings.user);
+      await userRepository.save(event.settings.user, other: false);
       Navigator.pop(event.context);
       sl<DrawerBloc>().add(InitializeDrawer());
     }

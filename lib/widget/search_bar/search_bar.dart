@@ -58,7 +58,7 @@ class _SearchBarState extends State<SearchBar> {
                         : null,
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 8.8),
+                        padding: EdgeInsets.only(left: 8.0),
                         child: TextField(
                           textInputAction: TextInputAction.search,
                           enabled: widget.callback != null,

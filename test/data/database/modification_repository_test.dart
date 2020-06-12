@@ -19,7 +19,7 @@ void main() {
     Modification modification = createDefaultModification();
     await modificationRepository.save(modification);
 
-    List<Modification> modifications = await modificationRepository.findAllByModelChangeIdAndHomeId(DEFAULT_MODEL_CHANGE_ID, DEFAULT_HOME_ID);
+    List<Modification> modifications = await modificationRepository.findAllByModelChangeId(DEFAULT_MODEL_CHANGE_ID, DEFAULT_HOME_ID);
 
     expect(modifications.length, equals(1));
   });
