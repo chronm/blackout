@@ -420,6 +420,36 @@ class S {
     );
   }
 
+  /// `I found a backup. Do you want me to import it or do you want to start over?`
+  String get MAIN_IMPORT_DATABASE {
+    return Intl.message(
+      'I found a backup. Do you want me to import it or do you want to start over?',
+      name: 'MAIN_IMPORT_DATABASE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import`
+  String get MAIN_IMPORT_DATABASE_ACCEPT {
+    return Intl.message(
+      'Import',
+      name: 'MAIN_IMPORT_DATABASE_ACCEPT',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get MAIN_IMPORT_DATABASE_CANCEL {
+    return Intl.message(
+      'Cancel',
+      name: 'MAIN_IMPORT_DATABASE_CANCEL',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Created`
   String get MODEL_CHANGE_CREATED {
     return Intl.message(
@@ -465,6 +495,76 @@ class S {
     return Intl.message(
       'No products',
       name: 'NO_PRODUCTS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unfortunately you have permanently taken away my access to the memory, but I need it for the database. But I can redirect you to the settings where I can regain access.`
+  String get PERMISSIONS_STORAGE_PERMANENTLY_BODY {
+    return Intl.message(
+      'Unfortunately you have permanently taken away my access to the memory, but I need it for the database. But I can redirect you to the settings where I can regain access.',
+      name: 'PERMISSIONS_STORAGE_PERMANENTLY_BODY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No!`
+  String get PERMISSIONS_STORAGE_PERMANENTLY_NOPE {
+    return Intl.message(
+      'No!',
+      name: 'PERMISSIONS_STORAGE_PERMANENTLY_NOPE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Okay`
+  String get PERMISSIONS_STORAGE_PERMANENTLY_OKAY {
+    return Intl.message(
+      'Okay',
+      name: 'PERMISSIONS_STORAGE_PERMANENTLY_OKAY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Access to storage`
+  String get PERMISSIONS_STORAGE_PERMANENTLY_TITLE {
+    return Intl.message(
+      'Access to storage',
+      name: 'PERMISSIONS_STORAGE_PERMANENTLY_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I need access to the memory for the database, without it Blackout can unfortunately not work`
+  String get PERMISSIONS_STORAGE_RATIONALE_BODY {
+    return Intl.message(
+      'I need access to the memory for the database, without it Blackout can unfortunately not work',
+      name: 'PERMISSIONS_STORAGE_RATIONALE_BODY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Okay!`
+  String get PERMISSIONS_STORAGE_RATIONALE_OKAY {
+    return Intl.message(
+      'Okay!',
+      name: 'PERMISSIONS_STORAGE_RATIONALE_OKAY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Access to storage`
+  String get PERMISSIONS_STORAGE_RATIONALE_TITLE {
+    return Intl.message(
+      'Access to storage',
+      name: 'PERMISSIONS_STORAGE_RATIONALE_TITLE',
       desc: '',
       args: [],
     );
@@ -530,10 +630,10 @@ class S {
     );
   }
 
-  /// `What would you like to call your household? You can always change it later, of course`
+  /// `What would you like to call your household? Choose wisely, you cannot change it.`
   String get SETUP_CREATE_HOME_CARD_TITLE {
     return Intl.message(
-      'What would you like to call your household? You can always change it later, of course',
+      'What would you like to call your household? Choose wisely, you cannot change it.',
       name: 'SETUP_CREATE_HOME_CARD_TITLE',
       desc: '',
       args: [],
