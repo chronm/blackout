@@ -6,7 +6,8 @@ class InitialDrawerState extends DrawerState {}
 
 class LoadedDrawer extends DrawerState {
   final String username;
-  final String homeName;
+  final List<Home> homes;
+  final int activeHome;
 
-  LoadedDrawer(this.username, this.homeName);
+  LoadedDrawer(this.username, this.homes, this.activeHome);
 }

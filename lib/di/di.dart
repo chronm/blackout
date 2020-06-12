@@ -27,7 +27,7 @@ void prepareSharedPreferences(GetIt sl) async {
 }
 
 void prepareBlocs(GetIt sl) async {
-  sl.registerSingleton<DrawerBloc>(DrawerBloc(sl<BlackoutPreferences>()));
+  sl.registerSingleton<DrawerBloc>(DrawerBloc(sl<BlackoutPreferences>(), sl<HomeRepository>()));
   sl.registerSingleton<ChargeBloc>(ChargeBloc(sl<ChangeRepository>(), sl<ChargeRepository>(), sl<BlackoutPreferences>(), sl<ModelChangeRepository>()));
   sl.registerSingleton<ProductBloc>(ProductBloc(sl<ModelChangeRepository>(), sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
   sl.registerSingleton<GroupBloc>(GroupBloc(sl<GroupRepository>(), sl<ModelChangeRepository>(), sl<BlackoutPreferences>()));

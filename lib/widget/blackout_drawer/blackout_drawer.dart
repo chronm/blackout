@@ -7,89 +7,76 @@ class BlackoutDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        children: [
-          DrawerHeader(
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Colors.redAccent,
-            ),
-            child: Stack(
+      child: BlocBuilder<DrawerBloc, DrawerState>(
+        bloc: sl<DrawerBloc>(),
+        builder: (context, state) {
+          if (state is LoadedDrawer) {
+            return ListView(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: SizedBox(
-                    height: 20.0,
-                    width: 20.0,
-                    child: IconButton(
-                      icon: Icon(Icons.settings),
-                      iconSize: 20.0,
-                      padding: EdgeInsets.zero,
-                      onPressed: () => sl<DrawerBloc>().add(TapOnSettings(context)),
-                    ),
+                DrawerHeader(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        "Blackout",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Colors.white30,
+                  child: Stack(children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: SizedBox(
+                        height: 20.0,
+                        width: 20.0,
+                        child: IconButton(
+                          icon: Icon(Icons.settings),
+                          iconSize: 20.0,
+                          padding: EdgeInsets.zero,
+                          onPressed: () => sl<DrawerBloc>().add(TapOnSettings(context)),
                         ),
                       ),
                     ),
-                    Spacer(),
-                    BlocBuilder<DrawerBloc, DrawerState>(
-                      bloc: sl<DrawerBloc>(),
-                      builder: (context, state) {
-                        if (state is LoadedDrawer) {
-                          return Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.person),
-                                VerticalDivider(),
-                                Text(
-                                  state.username,
-                                  style: TextStyle(fontSize: 20.0),
-                                ),
-                              ],
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            "Blackout",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: Colors.white30,
                             ),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                    BlocBuilder<DrawerBloc, DrawerState>(
-                        bloc: sl<DrawerBloc>(),
-                        builder: (context, state) {
-                          if (state is LoadedDrawer) {
-                            return Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.home),
-                                  VerticalDivider(),
-                                  Text(
-                                    state.homeName,
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                ],
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.person),
+                              VerticalDivider(),
+                              Text(
+                                state.username,
+                                style: TextStyle(fontSize: 20.0),
                               ),
-                            );
-                          }
-                          return Container();
-                        }),
-                  ],
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ]),
                 ),
-              ],
-            ),
-          ),
-        ],
+              ]..addAll(
+                  state.homes.map(
+                    (e) => Card(
+                      child: ListTile(
+                        title: Text(e.name),
+                        leading: state.activeHome == state.homes.indexOf(e) ? Icon(Icons.home) : null,
+                      ),
+                    ),
+                  ),
+                ),
+            );
+          }
+          return Container();
+        },
       ),
     );
   }
