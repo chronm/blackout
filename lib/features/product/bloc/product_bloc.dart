@@ -1,17 +1,13 @@
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
+import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
-import 'package:Blackout/features/charge_overview/bloc/charge_bloc.dart';
-import 'package:Blackout/widget/model_changes_widget/model_changes_widget.dart';
-import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/product_overview/widgets/product_configuration.dart';
-import 'package:flutter/material.dart' show BuildContext, Navigator, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'product_event.dart';

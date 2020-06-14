@@ -1,11 +1,11 @@
 import 'package:Blackout/features/blackout_drawer/blackout_drawer.dart';
-import 'package:Blackout/features/group_overview/widgets/group_dial.dart';
-import 'package:Blackout/features/group_overview/widgets/group_title.dart';
-import 'package:Blackout/features/group_overview/widgets/products_list.dart';
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
+import 'package:Blackout/features/group/widgets/group_dial.dart';
+import 'package:Blackout/features/group/widgets/group_title.dart';
+import 'package:Blackout/features/group/widgets/products_list.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
-import 'package:Blackout/features/group_overview/bloc/group_bloc.dart' show CloseGroupConfiguration, GroupBloc, GroupState, LoadGroup, ShowGroup, GoToProduct;
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';

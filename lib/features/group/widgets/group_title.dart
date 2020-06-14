@@ -1,5 +1,5 @@
-import 'package:Blackout/features/group_overview/bloc/group_bloc.dart';
-import 'package:Blackout/features/group_overview/widgets/group_configuration.dart';
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
+import 'package:Blackout/features/group/widgets/group_configuration.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';

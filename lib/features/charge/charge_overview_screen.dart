@@ -1,10 +1,10 @@
 import 'package:Blackout/features/blackout_drawer/blackout_drawer.dart';
-import 'package:Blackout/features/charge_overview/widgets/changes_list.dart';
-import 'package:Blackout/features/charge_overview/widgets/charge_dial.dart';
-import 'package:Blackout/features/charge_overview/widgets/charge_title.dart';
+import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
+import 'package:Blackout/features/charge/widgets/changes_list.dart';
+import 'package:Blackout/features/charge/widgets/charge_dial.dart';
+import 'package:Blackout/features/charge/widgets/charge_title.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
-import 'package:Blackout/features/charge_overview/bloc/charge_bloc.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';

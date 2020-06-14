@@ -1,6 +1,6 @@
-import 'package:Blackout/features/product_overview/widgets/description_text_field.dart';
-import 'package:Blackout/features/product_overview/widgets/ean_field.dart';
-import 'package:Blackout/features/product_overview/widgets/group_selector.dart';
+import 'package:Blackout/features/product/widgets/description_text_field.dart';
+import 'package:Blackout/features/product/widgets/ean_field.dart';
+import 'package:Blackout/features/product/widgets/group_selector.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/product.dart';
@@ -120,9 +120,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                   callback: (value, error) {
                     setState(() {
                       _product.ean = value;
-                      setState(() {
-                        _errorInEan = error;
-                      });
+                      _errorInEan = error;
                     });
                   },
                 ),

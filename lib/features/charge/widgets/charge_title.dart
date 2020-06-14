@@ -1,5 +1,5 @@
-import 'package:Blackout/features/charge_overview/bloc/charge_bloc.dart';
-import 'package:Blackout/features/charge_overview/widgets/charge_configuration.dart';
+import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
+import 'package:Blackout/features/charge/widgets/charge_configuration.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/charge.dart';

@@ -1,4 +1,4 @@
-import 'package:Blackout/features/product_overview/bloc/product_bloc.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/charge.dart';

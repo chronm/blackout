@@ -1,7 +1,7 @@
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/features/group_overview/bloc/group_bloc.dart';
 import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';

@@ -1,11 +1,11 @@
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/user.dart';
-import 'package:Blackout/features/product_overview/bloc/product_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'group_event.dart';

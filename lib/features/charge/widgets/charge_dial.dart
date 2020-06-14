@@ -1,4 +1,4 @@
-import 'package:Blackout/features/charge_overview/bloc/charge_bloc.dart';
+import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
 import 'package:Blackout/features/speeddial/bloc/speed_dial_bloc.dart';
 import 'package:Blackout/features/speeddial/speeddial.dart';
 import 'package:Blackout/generated/l10n.dart';
