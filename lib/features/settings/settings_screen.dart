@@ -23,7 +23,7 @@ class Settings {
 }
 
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({Key key}) : super(key: key);
+  const SettingsScreen({Key key}) : super(key: key);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -62,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: Text(S.of(context).SETTINGS_TITLE),
           actions: [
             IconButton(
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
               onPressed: _settings != _oldSettings && !_errorInUsername ? () => sl<SettingsBloc>().add(SaveSettings(_settings)) : null,
             )
           ],

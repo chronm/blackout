@@ -12,11 +12,13 @@ import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/routes.dart';
-import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Navigator, StatelessWidget, TextStyle, Widget, showDialog;
+import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ProductDial extends StatelessWidget {
+  const ProductDial({Key key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SpeedDialBloc, SpeedDialState>(
@@ -64,10 +66,10 @@ class ProductDial extends StatelessWidget {
             builder: (context) {
               List<SpeedDialChild> children = [
                 SpeedDialChild(
-                  child: Icon(Icons.home),
+                  child: const Icon(Icons.home),
                   backgroundColor: Colors.red,
                   label: S.of(context).SPEEDDIAL_GOTO_HOME,
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
@@ -77,20 +79,20 @@ class ProductDial extends StatelessWidget {
               if (state is ShowProduct) {
                 children.addAll([
                   SpeedDialChild(
-                    child: Icon(Icons.insert_drive_file),
+                    child: const Icon(Icons.insert_drive_file),
                     backgroundColor: Colors.red,
                     label: S.of(context).SPEEDDIAL_CREATE_CHARGE,
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
                     onTap: () => sl<SpeedDialBloc>().add(TapOnCreateCharge(state.product)),
                   ),
                   SpeedDialChild(
-                    child: Icon(Icons.create_new_folder),
+                    child: const Icon(Icons.create_new_folder),
                     backgroundColor: Colors.red,
                     label: S.of(context).SPEEDDIAL_CREATE_GROUP,
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
                     ),

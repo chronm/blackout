@@ -6,7 +6,7 @@ class SetupPage extends StatelessWidget {
   final double padding;
   final Widget child;
 
-  SetupPage({
+  const SetupPage({
     Key key,
     @required this.description,
     @required this.child,
@@ -20,13 +20,13 @@ class SetupPage extends StatelessWidget {
         SizedBox(
           height: 150,
           child: Padding(
-            padding: EdgeInsets.only(left: 40, right: 40),
+            padding: const EdgeInsets.only(left: 40, right: 40),
             child: Align(
               alignment: Alignment.center,
               child: Text(
                 description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   height: 1.5,
                 ),

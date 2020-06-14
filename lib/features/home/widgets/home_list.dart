@@ -10,7 +10,10 @@ import 'package:flutter/material.dart';
 class HomeList extends StatelessWidget {
   final List<HomeListable> cards;
 
-  HomeList({Key key, this.cards}) : super(key: key);
+  const HomeList({
+    Key key,
+    @required this.cards,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +27,10 @@ class HomeList extends StatelessWidget {
 
                 List<Widget> trailing = <Widget>[];
                 if (listable.tooFewAvailable) {
-                  trailing.add(
-                    Icon(Icons.trending_down),
-                  );
+                  trailing.add(const Icon(Icons.trending_down));
                 }
                 if (listable.expired || listable.warn) {
-                  trailing.add(
-                    Icon(
-                      Icons.event,
-                      color: listable.status == ChargeStatus.expired ? Colors.redAccent : null,
-                    ),
-                  );
+                  trailing.add(Icon(Icons.event, color: listable.status == ChargeStatus.expired ? Colors.redAccent : null));
                 }
 
                 String status = listable.buildStatus(context);

@@ -8,22 +8,15 @@ import 'package:Blackout/features/setup/bloc/setup_bloc.dart';
 import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/setup/widgets/blackout_header.dart';
 import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        Colors,
-        Column,
-        Flexible,
-        FocusNode,
-        Navigator,
-        Scaffold,
-        State,
-        StatefulWidget,
-        Widget;
+import 'package:flutter/material.dart' show BuildContext, Colors, Column, Flexible, FocusNode, Key, Navigator, Scaffold, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class SetupScreen extends StatefulWidget {
+  const SetupScreen({
+    Key key,
+  }) : super(key: key);
+
   @override
   _SetupScreenState createState() => _SetupScreenState();
 }
@@ -58,14 +51,14 @@ class _SetupScreenState extends State<SetupScreen> {
                 child: Swiper(
                   itemCount: _pageCount,
                   loop: false,
-                  pagination: SwiperPagination(
+                  pagination: const SwiperPagination(
                     builder: const DotSwiperPaginationBuilder(
                       size: 5.0,
                       activeColor: Colors.redAccent,
                       color: Colors.white30,
                     ),
                   ),
-                  control: SwiperControl(
+                  control: const SwiperControl(
                     disableColor: Colors.white30,
                     color: Colors.redAccent,
                   ),
@@ -78,7 +71,7 @@ class _SetupScreenState extends State<SetupScreen> {
                     List<Widget> body = <Widget>[];
                     switch (index) {
                       case 0:
-                        return WelcomeWidget();
+                        return const WelcomeWidget();
                       case 1:
                         return SetupUser(
                           focus: _userFocus,
@@ -116,9 +109,7 @@ class _SetupScreenState extends State<SetupScreen> {
                             },
                             finishAction: () => sl<SetupBloc>().add(CreateHomeAndFinish(username, homeName)),
                           );
-                        } else if (_action == SetupHomeAction.join) {
-
-                        }
+                        } else if (_action == SetupHomeAction.join) {}
                         break;
                     }
 

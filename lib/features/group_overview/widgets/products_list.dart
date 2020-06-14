@@ -10,7 +10,7 @@ class ProductsList extends StatelessWidget {
   final Group group;
   final List<Product> products;
 
-  ProductsList({
+  const ProductsList({
     Key key,
     @required this.group,
     @required this.products,
@@ -30,19 +30,10 @@ class ProductsList extends StatelessWidget {
 
                 List<Widget> trailing = <Widget>[];
                 if (product.tooFewAvailable) {
-                  trailing.add(
-                    Icon(
-                      Icons.trending_down,
-                    ),
-                  );
+                  trailing.add(const Icon(Icons.trending_down));
                 }
                 if (product.expired || product.warn) {
-                  trailing.add(
-                    Icon(
-                      Icons.event,
-                      color: product.status == ChargeStatus.expired ? Colors.redAccent : null,
-                    ),
-                  );
+                  trailing.add(Icon(Icons.event, color: product.status == ChargeStatus.expired ? Colors.redAccent : null));
                 }
 
                 String status = product.buildStatus(context);

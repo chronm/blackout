@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 class ChargesList extends StatelessWidget {
   final Product product;
 
-  ChargesList({
+  const ChargesList({
     Key key,
     @required this.product,
   }) : super(key: key);
@@ -30,12 +30,7 @@ class ChargesList extends StatelessWidget {
 
                 List<Widget> trailing = <Widget>[];
                 if (charge.expired || charge.warn) {
-                  trailing.add(
-                    Icon(
-                      Icons.event,
-                      color: charge.status == ChargeStatus.expired ? Colors.redAccent : null,
-                    ),
-                  );
+                  trailing.add(Icon(Icons.event, color: charge.status == ChargeStatus.expired ? Colors.redAccent : null));
                 }
 
                 String status = charge.buildStatus(context);

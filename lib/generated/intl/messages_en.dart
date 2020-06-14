@@ -105,6 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "GROUP_MINIMUM_AMOUNT" : MessageLookupByLibrary.simpleMessage("Minimum amount"),
     "GROUP_NAME" : MessageLookupByLibrary.simpleMessage("Name of this group"),
     "GROUP_PLURAL_NAME" : MessageLookupByLibrary.simpleMessage("Plural form of name"),
+    "HOME_PRODUCTS_AND_GROUPS" : MessageLookupByLibrary.simpleMessage("Products and Groups"),
     "MAIN_IMPORT_DATABASE" : MessageLookupByLibrary.simpleMessage("I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted."),
     "MAIN_IMPORT_DATABASE_IGNORE" : MessageLookupByLibrary.simpleMessage("Ignore"),
     "MAIN_IMPORT_DATABASE_IMPORT" : MessageLookupByLibrary.simpleMessage("Import"),

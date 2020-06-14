@@ -14,7 +14,7 @@ class ChargeTitle extends StatelessWidget {
   final Charge charge;
   final GlobalKey<ScaffoldState> scaffold;
 
-  ChargeTitle({
+  const ChargeTitle({
     Key key,
     @required this.charge,
     @required this.scaffold,

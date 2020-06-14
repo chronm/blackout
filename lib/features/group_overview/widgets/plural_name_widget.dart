@@ -8,7 +8,11 @@ class PluralNameWidget extends StatefulWidget {
   final String initialValue;
   final PluralNameCallback callback;
 
-  PluralNameWidget({Key key, this.initialValue, @required this.callback}) : super(key: key);
+  const PluralNameWidget({
+    Key key,
+    @required this.initialValue,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _PluralNameWidgetState createState() => _PluralNameWidgetState();

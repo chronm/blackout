@@ -1,17 +1,19 @@
 import 'package:Blackout/features/blackout/widgets/ask_for_import_database.dart';
 import 'package:Blackout/features/blackout/widgets/ask_for_storage_rationale.dart';
-import 'package:Blackout/features/blackout/widgets/redirect_to_settings.dart';
+import 'package:Blackout/features/blackout/widgets/ask_for_redirect_to_settings.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/generated/l10n_extension.dart';
 import 'package:Blackout/features/blackout/bloc/blackout_bloc.dart';
-import 'package:flutter/material.dart' show Brightness, BuildContext, Colors, Container, Locale, MaterialApp, Navigator, State, StatefulWidget, ThemeData, Widget, WidgetsBinding, showDialog;
+import 'package:flutter/material.dart' show Brightness, BuildContext, Colors, Container, Key, Locale, MaterialApp, Navigator, State, StatefulWidget, ThemeData, Widget, WidgetsBinding, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class BlackoutApp extends StatefulWidget {
+  const BlackoutApp({Key key}): super(key: key);
+
   @override
   _BlackoutAppState createState() => _BlackoutAppState();
 }
@@ -50,14 +52,14 @@ class _BlackoutAppState extends State<BlackoutApp> {
             case AskForStorageRationale:
               await showDialog<bool>(
                 context: context,
-                builder: (_) => AskForStorageRationaleDialog(),
+                builder: (_) => const AskForStorageRationaleDialog(),
               );
               sl<BlackoutBloc>().add(CheckPermissions());
               break;
             case AskForRedirectToSettings:
               bool forward = await showDialog<bool>(
                 context: context,
-                builder: (_) => AskForRedirectToSettingsDialog(),
+                builder: (_) => const AskForRedirectToSettingsDialog(),
               );
               if (forward) await openAppSettings();
               sl<BlackoutBloc>().add(EndApp());
@@ -65,7 +67,7 @@ class _BlackoutAppState extends State<BlackoutApp> {
             case AskForImportDatabase:
               bool import = await showDialog<bool>(
                 context: context,
-                builder: (_) => AskForImportDatabaseDialog(),
+                builder: (_) => const AskForImportDatabaseDialog(),
               );
               import ? sl<BlackoutBloc>().add(ImportDatabase()) : sl<BlackoutBloc>().add(DropDatabaseAndSetup());
               break;

@@ -8,7 +8,13 @@ class Checkable extends StatefulWidget {
   final WidgetBuilder uncheckedCallback;
   final CheckedCallback callback;
 
-  Checkable({Key key, @required this.checkedCallback, @required this.uncheckedCallback, @required this.initialChecked, this.callback}) : super(key: key);
+  const Checkable({
+    Key key,
+    @required this.checkedCallback,
+    @required this.uncheckedCallback,
+    @required this.initialChecked,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _CheckableState createState() => _CheckableState();
@@ -30,7 +36,7 @@ class _CheckableState extends State<Checkable> {
         _checked ? widget.checkedCallback(context) : widget.uncheckedCallback(context),
         Container(
           height: 59,
-          child: VerticalDivider(
+          child: const VerticalDivider(
             width: 20,
             thickness: 1.5,
           ),

@@ -11,7 +11,11 @@ class EanField extends StatefulWidget {
   final String initialEan;
   final EanCallback callback;
 
-  EanField({Key key, this.initialEan, this.callback}) : super(key: key);
+  const EanField({
+    Key key,
+    @required this.initialEan,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _EanFieldState createState() => _EanFieldState();
@@ -56,13 +60,13 @@ class _EanFieldState extends State<EanField> {
             child: Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.center_focus_weak),
+                  icon: const Icon(Icons.center_focus_weak),
                   onPressed: _checked
                       ? () async {
                           if (isEmulator) {
                             _controller.text = "someEan";
                           } else {
-                            var options = ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
+                            var options = const ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
                             var result = await BarcodeScanner.scan(options: options);
                             _controller.text = result.rawContent;
                           }

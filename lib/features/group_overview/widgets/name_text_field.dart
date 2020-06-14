@@ -1,5 +1,4 @@
 import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/widget/title_card/title_card.dart';
 import 'package:flutter/material.dart';
 
 typedef void NameCallback(String name, bool error);
@@ -8,7 +7,11 @@ class NameTextField extends StatefulWidget {
   final String initialValue;
   final NameCallback callback;
 
-  NameTextField({Key key, @required this.initialValue, @required this.callback}) : super(key: key);
+  const NameTextField({
+    Key key,
+    @required this.initialValue,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _NameTextFieldState createState() => _NameTextFieldState();

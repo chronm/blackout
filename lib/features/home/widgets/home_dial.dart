@@ -11,11 +11,13 @@ import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/routes.dart';
-import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Navigator, StatelessWidget, TextStyle, Widget, showDialog;
+import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomeDial extends StatelessWidget {
+  const HomeDial({Key key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SpeedDialBloc, SpeedDialState>(
@@ -66,30 +68,30 @@ class HomeDial extends StatelessWidget {
               }
               return [
                 SpeedDialChild(
-                  child: Icon(Icons.center_focus_weak),
+                  child: const Icon(Icons.center_focus_weak),
                   backgroundColor: Colors.red,
                   label: S.of(context).SPEEDDIAL_SCAN,
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
                   onTap: () => sl<SpeedDialBloc>().add(TapOnScanEan()),
                 ),
                 SpeedDialChild(
-                  child: Icon(Icons.insert_drive_file),
+                  child: const Icon(Icons.insert_drive_file),
                   backgroundColor: Colors.red,
                   label: S.of(context).SPEEDDIAL_CREATE_PRODUCT,
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
                   onTap: () => sl<SpeedDialBloc>().add(TapOnCreateProduct()),
                 ),
                 SpeedDialChild(
-                  child: Icon(Icons.create_new_folder),
+                  child: const Icon(Icons.create_new_folder),
                   backgroundColor: Colors.red,
                   label: S.of(context).SPEEDDIAL_CREATE_GROUP,
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.black,
                   ),

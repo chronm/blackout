@@ -7,7 +7,11 @@ class UsernameField extends StatefulWidget {
   final String initialValue;
   final UsernameCallback callback;
 
-  UsernameField({Key key, this.initialValue, this.callback}) : super(key: key);
+  const UsernameField({
+    Key key,
+    @required this.initialValue,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _UsernameFieldState createState() => _UsernameFieldState();

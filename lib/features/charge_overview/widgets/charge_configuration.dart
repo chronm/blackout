@@ -11,7 +11,12 @@ class ChargeConfiguration extends StatefulWidget {
   final bool newCharge;
   final ChargeSaveAction action;
 
-  ChargeConfiguration({Key key, this.charge, this.newCharge = false, this.action}) : super(key: key);
+  const ChargeConfiguration({
+    Key key,
+    @required this.charge,
+    @required this.action,
+    this.newCharge = false,
+  }) : super(key: key);
 
   @override
   _ChargeConfigurationState createState() => _ChargeConfigurationState();

@@ -16,7 +16,20 @@ class TitleCard extends StatelessWidget {
   final VoidCallback changesAction;
   final GlobalKey<ScaffoldState> scaffold;
 
-  TitleCard({Key key, this.title, this.tag, this.trendingDown, this.event, this.modifyAction, this.available, this.productName, this.groupName, this.callback, this.changesAction, this.scaffold}) : super(key: key);
+  const TitleCard({
+    Key key,
+    @required this.title,
+    @required this.scaffold,
+    @required this.modifyAction,
+    @required this.available,
+    @required this.tag,
+    @required this.callback,
+    @required this.changesAction,
+    this.trendingDown,
+    this.event,
+    this.productName,
+    this.groupName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,41 +53,41 @@ class TitleCard extends StatelessWidget {
                     Column(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                           onPressed: () => Navigator.pop(context),
                         ),
                         productName != null
                             ? Container(
-                          height: 48.0,
-                          width: 48.0,
-                          child: Icon(Icons.insert_drive_file),
-                        )
+                                height: 48.0,
+                                width: 48.0,
+                                child: const Icon(Icons.insert_drive_file),
+                              )
                             : null,
                         groupName != null
                             ? Container(
-                          height: 48.0,
-                          width: 48.0,
-                          child: Icon(Icons.tab),
-                        )
+                                height: 48.0,
+                                width: 48.0,
+                                child: const Icon(Icons.tab),
+                              )
                             : null,
                         Container(
                           height: 48.0,
                           width: 48.0,
-                          child: Icon(Icons.shopping_basket),
+                          child: const Icon(Icons.shopping_basket),
                         ),
                         trendingDown != null
                             ? Container(
-                          height: 48.0,
-                          width: 48.0,
-                          child: Icon(Icons.trending_down),
-                        )
+                                height: 48.0,
+                                width: 48.0,
+                                child: const Icon(Icons.trending_down),
+                              )
                             : null,
                         event != null
                             ? Container(
-                          height: 48.0,
-                          width: 48.0,
-                          child: Icon(Icons.event),
-                        )
+                                height: 48.0,
+                                width: 48.0,
+                                child: const Icon(Icons.event),
+                              )
                             : null,
                       ].where((element) => element != null).toList(),
                     ),
@@ -86,7 +99,7 @@ class TitleCard extends StatelessWidget {
                           child: Center(
                             child: Text(
                               title,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -95,36 +108,36 @@ class TitleCard extends StatelessWidget {
                         ),
                         productName != null
                             ? Container(
-                          height: 48.0,
-                          child: Center(
-                            child: Text(
-                              productName,
-                              style: TextStyle(
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ),
-                        )
+                                height: 48.0,
+                                child: Center(
+                                  child: Text(
+                                    productName,
+                                    style: const TextStyle(
+                                      fontSize: 17.0,
+                                    ),
+                                  ),
+                                ),
+                              )
                             : null,
                         groupName != null
                             ? Container(
-                          height: 48.0,
-                          child: Center(
-                            child: Text(
-                              groupName,
-                              style: TextStyle(
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ),
-                        )
+                                height: 48.0,
+                                child: Center(
+                                  child: Text(
+                                    groupName,
+                                    style: const TextStyle(
+                                      fontSize: 17.0,
+                                    ),
+                                  ),
+                                ),
+                              )
                             : null,
                         Container(
                           height: 48.0,
                           child: Center(
                             child: Text(
                               available,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 17.0,
                               ),
                             ),
@@ -132,29 +145,29 @@ class TitleCard extends StatelessWidget {
                         ),
                         trendingDown != null
                             ? Container(
-                          height: 48.0,
-                          child: Center(
-                            child: Text(
-                              trendingDown,
-                              style: TextStyle(
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ),
-                        )
+                                height: 48.0,
+                                child: Center(
+                                  child: Text(
+                                    trendingDown,
+                                    style: const TextStyle(
+                                      fontSize: 17.0,
+                                    ),
+                                  ),
+                                ),
+                              )
                             : null,
                         event != null
                             ? Container(
-                          height: 48.0,
-                          child: Center(
-                            child: Text(
-                              event,
-                              style: TextStyle(
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ),
-                        )
+                                height: 48.0,
+                                child: Center(
+                                  child: Text(
+                                    event,
+                                    style: const TextStyle(
+                                      fontSize: 17.0,
+                                    ),
+                                  ),
+                                ),
+                              )
                             : null,
                       ].where((element) => element != null).toList(),
                     ),
@@ -166,7 +179,7 @@ class TitleCard extends StatelessWidget {
                           height: 30.0,
                           width: 30.0,
                           child: IconButton(
-                            icon: Icon(Icons.mode_edit),
+                            icon: const Icon(Icons.mode_edit),
                             iconSize: 16.0,
                             onPressed: modifyAction,
                           ),
@@ -178,7 +191,7 @@ class TitleCard extends StatelessWidget {
                           height: 30.0,
                           width: 30.0,
                           child: IconButton(
-                            icon: Icon(Icons.history),
+                            icon: const Icon(Icons.history),
                             iconSize: 16.0,
                             onPressed: changesAction,
                           ),
@@ -188,7 +201,6 @@ class TitleCard extends StatelessWidget {
                   ],
                 ),
               ),
-//              SizedBox(height: 30),
             ],
           ),
         ),

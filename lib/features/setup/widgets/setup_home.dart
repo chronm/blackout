@@ -8,7 +8,10 @@ typedef void SetupHomeCallback(SetupHomeAction action);
 class SetupHome extends StatefulWidget {
   final SetupHomeCallback callback;
 
-  SetupHome({Key key, this.callback}) : super(key: key);
+  const SetupHome({
+    Key key,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _SetupHomeState createState() => _SetupHomeState();

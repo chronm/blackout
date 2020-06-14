@@ -142,6 +142,8 @@
   "@GROUP_NAME": {},
   "GROUP_PLURAL_NAME": "Plural form of name",
   "@GROUP_PLURAL_NAME": {},
+  "HOME_PRODUCTS_AND_GROUPS": "Products and Groups",
+  "@HOME_PRODUCTS_AND_GROUPS": {},
   "MAIN_IMPORT_DATABASE": "I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.",
   "@MAIN_IMPORT_DATABASE": {},
   "MAIN_IMPORT_DATABASE_IGNORE": "Ignore",
