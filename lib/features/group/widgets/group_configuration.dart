@@ -1,8 +1,8 @@
-import 'package:Blackout/features/group_overview/widgets/name_text_field.dart';
-import 'file:///C:/Users/kevin/Projekte/blackout/lib/widget/period_widget/period_widget.dart';
-import 'package:Blackout/features/group_overview/widgets/plural_name_widget.dart';
+import 'package:Blackout/features/group/widgets/name_text_field.dart';
+import 'package:Blackout/features/group/widgets/plural_name_widget.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/group.dart';
+import 'package:Blackout/widget/period_widget/period_widget.dart';
 import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:Blackout/widget/unit_widget/unit_widget.dart';

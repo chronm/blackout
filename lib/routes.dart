@@ -1,8 +1,8 @@
+import 'package:Blackout/features/charge/charge_overview_screen.dart';
+import 'package:Blackout/features/group/group_overview_screen.dart';
+import 'package:Blackout/features/product/product_overview_screen.dart';
 import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/features/charge_overview/charge_overview_screen.dart';
-import 'package:Blackout/features/group_overview/group_overview_screen.dart';
 import 'package:Blackout/features/home/home_screen.dart';
-import 'package:Blackout/features/product_overview/product_overview_screen.dart';
 import 'package:Blackout/features/settings/settings_screen.dart';
 import 'package:Blackout/features/setup/setup_screen.dart';
 import 'package:flutter/material.dart';

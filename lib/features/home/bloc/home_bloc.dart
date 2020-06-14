@@ -1,14 +1,14 @@
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/home_listable.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:Blackout/features/group_overview/bloc/group_bloc.dart';
-import 'package:Blackout/features/product_overview/bloc/product_bloc.dart';
-import 'package:bloc/bloc.dart' show Bloc;
+import 'package:bloc/bloc.dart';
 
 part 'home_event.dart';
 

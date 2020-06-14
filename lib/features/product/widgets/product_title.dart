@@ -1,10 +1,10 @@
-import 'package:Blackout/features/product_overview/bloc/product_bloc.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
+import 'package:Blackout/features/product/widgets/product_configuration.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/widget/model_changes_widget/model_changes_widget.dart';
-import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/product_overview/widgets/product_configuration.dart';
 import 'package:Blackout/widget/title_card/title_card.dart';
 import 'package:flutter/material.dart';
 

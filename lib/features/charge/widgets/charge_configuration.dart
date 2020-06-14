@@ -1,4 +1,4 @@
-import 'package:Blackout/features/charge_overview/widgets/expiration_date_picker.dart';
+import 'package:Blackout/features/charge/widgets/expiration_date_picker.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/widget/scrollable_material_dialog/scrollable_material_dialog.dart';

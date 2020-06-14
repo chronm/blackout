@@ -1,6 +1,6 @@
-import 'package:Blackout/features/group_overview/bloc/group_bloc.dart';
-import 'package:Blackout/features/product_overview/bloc/product_bloc.dart';
-import 'package:Blackout/features/product_overview/widgets/product_configuration.dart';
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
+import 'package:Blackout/features/product/widgets/product_configuration.dart';
 import 'package:Blackout/features/speeddial/bloc/speed_dial_bloc.dart';
 import 'package:Blackout/features/speeddial/speeddial.dart';
 import 'package:Blackout/generated/l10n.dart';

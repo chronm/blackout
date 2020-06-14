@@ -1,12 +1,12 @@
 import 'package:Blackout/features/blackout_drawer/blackout_drawer.dart';
-import 'package:Blackout/features/product_overview/widgets/charges_list.dart';
-import 'package:Blackout/features/product_overview/widgets/product_dial.dart';
-import 'package:Blackout/features/product_overview/widgets/product_title.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
+import 'package:Blackout/features/product/widgets/charges_list.dart';
+import 'package:Blackout/features/product/widgets/product_dial.dart';
+import 'package:Blackout/features/product/widgets/product_title.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/routes.dart';
-import 'package:Blackout/features/product_overview/bloc/product_bloc.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart'

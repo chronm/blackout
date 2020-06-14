@@ -1,9 +1,9 @@
-import 'package:Blackout/features/charge_overview/bloc/charge_bloc.dart';
-import 'package:Blackout/features/charge_overview/widgets/charge_configuration.dart';
-import 'package:Blackout/features/group_overview/bloc/group_bloc.dart';
-import 'package:Blackout/features/group_overview/widgets/group_configuration.dart';
+import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
+import 'package:Blackout/features/charge/widgets/charge_configuration.dart';
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
+import 'package:Blackout/features/group/widgets/group_configuration.dart';
 import 'package:Blackout/features/home/bloc/home_bloc.dart';
-import 'package:Blackout/features/product_overview/bloc/product_bloc.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
 import 'package:Blackout/features/speeddial/bloc/speed_dial_bloc.dart';
 import 'package:Blackout/features/speeddial/speeddial.dart';
 import 'package:Blackout/generated/l10n.dart';
