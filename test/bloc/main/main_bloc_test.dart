@@ -1,5 +1,5 @@
 import 'package:Blackout/bloc/home/home_bloc.dart';
-import 'package:Blackout/bloc/main/main_bloc.dart';
+import 'package:Blackout/bloc/main/blackout_bloc.dart';
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

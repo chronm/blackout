@@ -50,32 +50,37 @@ class _PeriodWidgetState extends State<PeriodWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Checkable(
-      initialChecked: _checked,
-      checkedCallback: (context) {
-          return Expanded(
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: S.of(context).GROUP_BEST_BEFORE,
-                helperText: _period.prettyPrint(context),
-                errorText: _error ? "Error" : null,
-              ),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Checkable(
+          initialChecked: _checked,
+          checkedCallback: (context) {
+              return Expanded(
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    labelText: S.of(context).GROUP_BEST_BEFORE,
+                    helperText: _period.prettyPrint(context),
+                    errorText: _error ? "Error" : null,
+                  ),
+                ),
+              );
+          },
+          uncheckedCallback: (context) => Expanded(
+            child: Text(
+              S.of(context).GROUP_BEST_BEFORE,
+              textAlign: TextAlign.center,
             ),
-          );
-      },
-      uncheckedCallback: (context) => Expanded(
-        child: Text(
-          S.of(context).GROUP_BEST_BEFORE,
-          textAlign: TextAlign.center,
+          ),
+          callback: (checked) {
+            setState(() {
+              _checked = checked;
+            });
+            invokeCallback();
+          },
         ),
       ),
-      callback: (checked) {
-        setState(() {
-          _checked = checked;
-        });
-        invokeCallback();
-      },
     );
   }
 }

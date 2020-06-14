@@ -1,10 +1,10 @@
 import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/ui/charge_overview/charge_overview_screen.dart';
-import 'package:Blackout/ui/group_overview/group_overview_screen.dart';
-import 'package:Blackout/ui/home/home_screen.dart';
-import 'package:Blackout/ui/product_overview/product_overview_screen.dart';
-import 'package:Blackout/ui/settings/settings_screen.dart';
-import 'package:Blackout/ui/setup/setup_screen.dart';
+import 'package:Blackout/features/charge_overview/charge_overview_screen.dart';
+import 'package:Blackout/features/group_overview/group_overview_screen.dart';
+import 'package:Blackout/features/home/home_screen.dart';
+import 'package:Blackout/features/product_overview/product_overview_screen.dart';
+import 'package:Blackout/features/settings/settings_screen.dart';
+import 'package:Blackout/features/setup/setup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_whatsnew/flutter_whatsnew.dart';
 

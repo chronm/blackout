@@ -60,35 +60,42 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Checkable(
-      initialChecked: _checked,
-      checkedCallback: (context) => Expanded(
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: S.of(context).GROUP_MINIMUM_AMOUNT,
-                  errorText: _error ? S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text) : null,
-                ),
-                controller: _controller,
+    return Expanded(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Checkable(
+            initialChecked: _checked,
+            checkedCallback: (context) => Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: S.of(context).GROUP_MINIMUM_AMOUNT,
+                        errorText: _error ? S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text) : null,
+                      ),
+                      controller: _controller,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+            uncheckedCallback: (context) => Expanded(
+              child: Text(
+                S.of(context).GROUP_MINIMUM_AMOUNT,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            callback: (checked) {
+              setState(() {
+                _checked = checked;
+                invokeCallback();
+              });
+            },
+          ),
         ),
       ),
-      uncheckedCallback: (context) => Expanded(
-        child: Text(
-          S.of(context).GROUP_MINIMUM_AMOUNT,
-          textAlign: TextAlign.center,
-        ),
-      ),
-      callback: (checked) {
-        setState(() {
-          _checked = checked;
-          invokeCallback();
-        });
-      },
     );
   }
 }

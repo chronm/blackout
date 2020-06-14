@@ -1,4 +1,4 @@
-import 'package:Blackout/widget/name_text_field/name_text_field.dart';
+import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/group_overview/widgets/name_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
