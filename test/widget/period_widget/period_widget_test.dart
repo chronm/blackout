@@ -1,4 +1,4 @@
-import 'package:Blackout/widget/period_widget/period_widget.dart';
+import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/group_overview/widgets/period_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:time_machine/time_machine.dart';

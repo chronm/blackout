@@ -1,11 +1,11 @@
 import 'package:Blackout/generated/l10n.dart';
+import 'package:Blackout/typedefs.dart';
 import 'package:flutter/material.dart';
 
-typedef void ChargeCallback(String value);
 typedef bool ValidationCallback(String value);
 
 class ChargeDialog extends StatefulWidget {
-  final ChargeCallback callback;
+  final StringCallback callback;
   final ValidationCallback validation;
   final String initialValue;
   final String title;
@@ -30,7 +30,7 @@ class _ChargeDialogState extends State<ChargeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    bool validate = widget.validation != null ? widget.validation(_controller.text) : false;
+    bool validate = widget.validation != null ? widget.validation(_controller.text) : true;
     return AlertDialog(
       title: Text(widget.title),
       content: TextField(

@@ -26,19 +26,24 @@ class _UnitWidgetState extends State<UnitWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.static
-        ? Text(describeEnum(_unit))
-        : Center(
-            child: DropdownButton<UnitEnum>(
-              items: UnitEnum.values.map((u) => DropdownMenuItem(value: u, child: Text(describeEnum(u)))).toList(),
-              onChanged: (unit) {
-                setState(() {
-                  _unit = unit;
-                });
-                widget.callback(unit);
-              },
-              value: _unit,
-            ),
-          );
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: widget.static
+            ? Text(describeEnum(_unit))
+            : Center(
+                child: DropdownButton<UnitEnum>(
+                  items: UnitEnum.values.map((u) => DropdownMenuItem(value: u, child: Text(describeEnum(u)))).toList(),
+                  onChanged: (unit) {
+                    setState(() {
+                      _unit = unit;
+                    });
+                    widget.callback(unit);
+                  },
+                  value: _unit,
+                ),
+              ),
+      ),
+    );
   }
 }

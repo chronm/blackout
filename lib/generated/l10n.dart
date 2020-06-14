@@ -420,31 +420,31 @@ class S {
     );
   }
 
-  /// `I found a backup. Do you want me to import it or do you want to start over?`
+  /// `I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.`
   String get MAIN_IMPORT_DATABASE {
     return Intl.message(
-      'I found a backup. Do you want me to import it or do you want to start over?',
+      'I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.',
       name: 'MAIN_IMPORT_DATABASE',
       desc: '',
       args: [],
     );
   }
 
-  /// `Import`
-  String get MAIN_IMPORT_DATABASE_ACCEPT {
+  /// `Ignore`
+  String get MAIN_IMPORT_DATABASE_IGNORE {
     return Intl.message(
-      'Import',
-      name: 'MAIN_IMPORT_DATABASE_ACCEPT',
+      'Ignore',
+      name: 'MAIN_IMPORT_DATABASE_IGNORE',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cancel`
-  String get MAIN_IMPORT_DATABASE_CANCEL {
+  /// `Import`
+  String get MAIN_IMPORT_DATABASE_IMPORT {
     return Intl.message(
-      'Cancel',
-      name: 'MAIN_IMPORT_DATABASE_CANCEL',
+      'Import',
+      name: 'MAIN_IMPORT_DATABASE_IMPORT',
       desc: '',
       args: [],
     );

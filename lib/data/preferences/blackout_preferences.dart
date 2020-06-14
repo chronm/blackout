@@ -4,7 +4,13 @@ import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'constants/preferences.dart' show Preferences;
+abstract class Preferences {
+  Preferences._();
+
+  static const String home = "home";
+  static const String user = "user";
+  static const String version = "version";
+}
 
 class BlackoutPreferences {
   final SharedPreferences _sharedPreference;

@@ -1,4 +1,4 @@
-import 'package:Blackout/widget/plural_name_widget/plural_name_widget.dart';
+import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/group_overview/widgets/plural_name_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
