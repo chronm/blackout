@@ -15,7 +15,12 @@ class GroupConfiguration extends StatefulWidget {
   final bool newGroup;
   final GroupSaveAction action;
 
-  GroupConfiguration({Key key, this.group, this.newGroup = false, this.action}) : super(key: key);
+  const GroupConfiguration({
+    Key key,
+    @required this.group,
+    @required this.action,
+    this.newGroup = false,
+  }) : super(key: key);
 
   @override
   _GroupConfigurationState createState() => _GroupConfigurationState();
@@ -39,7 +44,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.all(16.0),
+      insetPadding: const EdgeInsets.all(16.0),
       child: Material(
         child: ScrollableContainer(
           child: Padding(

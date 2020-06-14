@@ -9,7 +9,10 @@ typedef void QRViewCallback(Home home);
 class QRViewWidget extends StatefulWidget {
   final QRViewCallback callback;
 
-  QRViewWidget({Key key, this.callback}) : super(key: key);
+  const QRViewWidget({
+    Key key,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _QRViewWidgetState createState() => _QRViewWidgetState();
@@ -30,7 +33,7 @@ class _QRViewWidgetState extends State<QRViewWidget> {
   Widget build(BuildContext context) {
     if (isEmulator) {
       return FlatButton(
-        child: Text("Click here to emulate captured qr code"),
+        child: const Text("Click here to emulate captured qr code"),
         onPressed: () => widget.callback(Home.fromJson("{\"id\": \"testHomeId\", \"name\": \"MyHome\"}")),
       );
     } else {
@@ -46,5 +49,4 @@ class _QRViewWidgetState extends State<QRViewWidget> {
     _controller?.dispose();
     super.dispose();
   }
-
 }

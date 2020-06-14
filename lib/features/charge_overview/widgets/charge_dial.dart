@@ -8,11 +8,13 @@ import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/charge_dialog/charge_dialog.dart';
-import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Navigator, StatelessWidget, TextStyle, Widget, showDialog;
+import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ChargeDial extends StatelessWidget {
+  const ChargeDial({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SpeedDialBloc, SpeedDialState>(
@@ -29,10 +31,10 @@ class ChargeDial extends StatelessWidget {
             builder: (context) {
               List<SpeedDialChild> children = [
                 SpeedDialChild(
-                  child: Icon(Icons.home),
+                  child: const Icon(Icons.home),
                   backgroundColor: Colors.red,
                   label: S.of(context).SPEEDDIAL_GOTO_HOME,
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
@@ -43,10 +45,10 @@ class ChargeDial extends StatelessWidget {
                 Charge charge = state.charge;
                 children.addAll([
                   SpeedDialChild(
-                    child: Icon(Icons.add),
+                    child: const Icon(Icons.add),
                     backgroundColor: Colors.red,
                     label: S.of(context).SPEEDDIAL_ADD_TO_CHARGE,
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
@@ -64,10 +66,10 @@ class ChargeDial extends StatelessWidget {
                     },
                   ),
                   SpeedDialChild(
-                    child: Icon(Icons.remove),
+                    child: const Icon(Icons.remove),
                     backgroundColor: Colors.red,
                     label: S.of(context).SPEEDDIAL_TAKE_FROM_CHARGE,
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
                     ),

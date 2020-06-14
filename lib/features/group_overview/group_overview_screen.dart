@@ -13,7 +13,7 @@ import 'package:flutter/material.dart' show BuildContext, Column, Container, Glo
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GroupOverviewScreen extends StatefulWidget {
-  GroupOverviewScreen({Key key}) : super(key: key);
+  const GroupOverviewScreen({Key key}) : super(key: key);
 
   @override
   _GroupOverviewScreenState createState() => _GroupOverviewScreenState();
@@ -69,7 +69,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
             },
           ),
         ),
-        floatingActionButton: GroupDial(),
+        floatingActionButton: const GroupDial(),
       ),
     );
   }

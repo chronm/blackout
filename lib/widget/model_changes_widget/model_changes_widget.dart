@@ -7,7 +7,10 @@ import 'package:intl/intl.dart';
 class ModelChangesWidget extends StatelessWidget {
   final List<ModelChange> changes;
 
-  const ModelChangesWidget({Key key, this.changes}) : super(key: key);
+  const ModelChangesWidget({
+    Key key,
+    @required this.changes,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class ModelChangesWidget extends StatelessWidget {
                   .map(
                     (c) => Card(
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           isThreeLine: true,
                           title: Text(c.toLocalizedString(context)),
@@ -30,14 +33,13 @@ class ModelChangesWidget extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.date_range),
-
+                                  const Icon(Icons.date_range),
                                   Text("${DateFormat.yMd().format(c.modificationDate.toDateTimeUnspecified())}"),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(Icons.person),
+                                  const Icon(Icons.person),
                                   Text("${c.user.name}"),
                                 ],
                               ),

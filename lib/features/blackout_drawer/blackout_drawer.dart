@@ -6,6 +6,9 @@ import 'package:flutter/material.dart' show BuildContext, Card, Container, Drawe
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BlackoutDrawer extends StatelessWidget {
+
+  const BlackoutDrawer();
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<DrawerBloc, DrawerState>(

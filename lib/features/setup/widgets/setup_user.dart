@@ -7,7 +7,7 @@ class SetupUser extends StatefulWidget {
   final StringCallback callback;
   final FocusNode focus;
 
-  SetupUser({
+  const SetupUser({
     Key key,
     @required this.callback,
     @required this.focus,

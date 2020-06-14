@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 class ChangesList extends StatelessWidget {
   final Charge charge;
 
-  const ChangesList({Key key, this.charge}) : super(key: key);
+  const ChangesList({
+    Key key,
+    @required this.charge,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

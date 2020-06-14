@@ -10,7 +10,11 @@ class PeriodWidget extends StatefulWidget {
   final Period initialPeriod;
   final PeriodCallback callback;
 
-  PeriodWidget({Key key, this.callback, this.initialPeriod}) : super(key: key);
+  const PeriodWidget({
+    Key key,
+    @required this.callback,
+    @required this.initialPeriod,
+  }) : super(key: key);
 
   @override
   _PeriodWidgetState createState() => _PeriodWidgetState();
@@ -56,16 +60,16 @@ class _PeriodWidgetState extends State<PeriodWidget> {
         child: Checkable(
           initialChecked: _checked,
           checkedCallback: (context) {
-              return Expanded(
-                child: TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).GROUP_BEST_BEFORE,
-                    helperText: _period.prettyPrint(context),
-                    errorText: _error ? "Error" : null,
-                  ),
+            return Expanded(
+              child: TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  labelText: S.of(context).GROUP_BEST_BEFORE,
+                  helperText: _period.prettyPrint(context),
+                  errorText: _error ? "Error" : null,
                 ),
-              );
+              ),
+            );
           },
           uncheckedCallback: (context) => Expanded(
             child: Text(

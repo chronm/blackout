@@ -12,9 +12,13 @@ class GroupSelector extends StatefulWidget {
   final Group initialGroup;
   final List<Group> groups;
   final GroupCallback callback;
-  final GroupBloc bloc = sl<GroupBloc>();
 
-  GroupSelector({Key key, this.callback, this.initialGroup, this.groups}) : super(key: key);
+  const GroupSelector({
+    Key key,
+    @required this.callback,
+    @required this.initialGroup,
+    @required this.groups,
+  }) : super(key: key);
 
   @override
   _GroupSelectorState createState() => _GroupSelectorState();
@@ -51,8 +55,8 @@ class _GroupSelectorState extends State<GroupSelector> {
                 controller: _controller,
               ),
               suggestionsCallback: (pattern) async {
-                Home home = await widget.bloc.blackoutPreferences.getHome();
-                return await widget.bloc.groupRepository.findAllByPatternAndHomeId(pattern, home.id);
+                Home home = await sl<GroupBloc>().blackoutPreferences.getHome();
+                return await sl<GroupBloc>().groupRepository.findAllByPatternAndHomeId(pattern, home.id);
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(

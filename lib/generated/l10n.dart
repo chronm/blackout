@@ -420,6 +420,16 @@ class S {
     );
   }
 
+  /// `Products and Groups`
+  String get HOME_PRODUCTS_AND_GROUPS {
+    return Intl.message(
+      'Products and Groups',
+      name: 'HOME_PRODUCTS_AND_GROUPS',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.`
   String get MAIN_IMPORT_DATABASE {
     return Intl.message(

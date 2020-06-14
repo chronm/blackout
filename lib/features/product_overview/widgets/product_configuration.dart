@@ -18,7 +18,13 @@ class ProductConfiguration extends StatefulWidget {
   final bool newProduct;
   final ProductSaveAction action;
 
-  ProductConfiguration({Key key, this.product, this.groups, this.newProduct = false, this.action}) : super(key: key);
+  const ProductConfiguration({
+    Key key,
+    @required this.product,
+    @required this.groups,
+    @required this.action,
+    this.newProduct = false,
+  }) : super(key: key);
 
   @override
   _ProductConfigurationState createState() => _ProductConfigurationState();
@@ -69,14 +75,14 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                 ),
                 _product.group == null
                     ? PeriodWidget(
-                      initialPeriod: _product.warnInterval,
-                      callback: (period, error) {
-                        setState(() {
-                          _errorInPeriod = error;
-                          _product.warnInterval = period;
-                        });
-                      },
-                    )
+                        initialPeriod: _product.warnInterval,
+                        callback: (period, error) {
+                          setState(() {
+                            _errorInPeriod = error;
+                            _product.warnInterval = period;
+                          });
+                        },
+                      )
                     : null,
                 _product.group == null
                     ? IntrinsicHeight(

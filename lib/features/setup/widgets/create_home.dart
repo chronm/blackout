@@ -8,7 +8,7 @@ class CreateHome extends StatefulWidget {
   final StringCallback callback;
   final VoidCallback finishAction;
 
-  CreateHome({
+  const CreateHome({
     Key key,
     @required this.callback,
     @required this.finishAction,

@@ -10,7 +10,12 @@ class RefillLimitWidget extends StatefulWidget {
   final double initialRefillLimit;
   final RefillLimitCallback callback;
 
-  RefillLimitWidget({Key key, this.initialUnit, this.callback, this.initialRefillLimit}) : super(key: key);
+  const RefillLimitWidget({
+    Key key,
+    @required this.initialUnit,
+    @required this.callback,
+    @required this.initialRefillLimit,
+  }) : super(key: key);
 
   @override
   _RefillLimitWidgetState createState() => _RefillLimitWidgetState();

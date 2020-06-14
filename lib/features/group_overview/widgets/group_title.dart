@@ -13,7 +13,7 @@ class GroupTitle extends StatelessWidget {
   final Group group;
   final StringCallback searchCallback;
 
-  GroupTitle({
+  const GroupTitle({
     Key key,
     @required this.group,
     @required this.scaffold,

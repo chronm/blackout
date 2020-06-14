@@ -10,7 +10,13 @@ class ChargeDialog extends StatefulWidget {
   final String initialValue;
   final String title;
 
-  ChargeDialog({Key key, this.callback, this.initialValue, this.validation, this.title}) : super(key: key);
+  const ChargeDialog({
+    Key key,
+    @required this.callback,
+    @required this.initialValue,
+    @required this.validation,
+    @required this.title,
+  }) : super(key: key);
 
   @override
   _ChargeDialogState createState() => _ChargeDialogState();

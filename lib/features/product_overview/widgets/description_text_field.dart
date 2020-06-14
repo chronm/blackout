@@ -7,7 +7,11 @@ class DescriptionTextField extends StatefulWidget {
   final String initialValue;
   final DescriptionCallback callback;
 
-  DescriptionTextField({Key key, this.initialValue, this.callback}) : super(key: key);
+  const DescriptionTextField({
+    Key key,
+    @required this.initialValue,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _DescriptionTextFieldState createState() => _DescriptionTextFieldState();

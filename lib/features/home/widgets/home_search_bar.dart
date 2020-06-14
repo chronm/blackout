@@ -6,7 +6,11 @@ class HomeSearchBar extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffold;
   final StringCallback searchCallback;
 
-  HomeSearchBar({Key key, this.scaffold, this.searchCallback}) : super(key: key);
+  const HomeSearchBar({
+    Key key,
+    @required this.scaffold,
+    @required this.searchCallback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +22,10 @@ class HomeSearchBar extends StatelessWidget {
         color: Colors.redAccent,
         width: MediaQuery.of(context).size.width,
         height: 110.0,
-        child: Center(
-          child: Text(
+        child: const Center(
+          child: const Text(
             "Blackout",
-            style: TextStyle(color: Colors.white70, fontSize: 20.0, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Colors.white70, fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
         ),
       ),

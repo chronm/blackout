@@ -1,5 +1,5 @@
 import 'package:Blackout/features/blackout_drawer/blackout_drawer.dart';
-import 'package:Blackout/features/charge_overview/widgets/ChangesList.dart';
+import 'package:Blackout/features/charge_overview/widgets/changes_list.dart';
 import 'package:Blackout/features/charge_overview/widgets/charge_dial.dart';
 import 'package:Blackout/features/charge_overview/widgets/charge_title.dart';
 import 'package:Blackout/generated/l10n.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChargeOverviewScreen extends StatefulWidget {
-  ChargeOverviewScreen({Key key}) : super(key: key);
+  const ChargeOverviewScreen({Key key}) : super(key: key);
 
   @override
   _ChargeOverviewScreenState createState() => _ChargeOverviewScreenState();
@@ -26,8 +26,7 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
   Widget build(BuildContext context) {
     return BlocListener<ChargeBloc, ChargeState>(
       bloc: sl<ChargeBloc>(),
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       child: Scaffold(
         key: _scaffold,
         drawer: BlackoutDrawer(),
@@ -58,7 +57,7 @@ class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
             },
           ),
         ),
-        floatingActionButton: ChargeDial(),
+        floatingActionButton: const ChargeDial(),
       ),
     );
   }

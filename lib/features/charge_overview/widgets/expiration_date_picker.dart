@@ -10,7 +10,11 @@ class ExpirationDatePicker extends StatefulWidget {
   final LocalDate initialExpirationDate;
   final ExpirationDateCallback callback;
 
-  ExpirationDatePicker({Key key, @required this.initialExpirationDate, @required this.callback}) : super(key: key);
+  const ExpirationDatePicker({
+    Key key,
+    @required this.initialExpirationDate,
+    @required this.callback,
+  }) : super(key: key);
 
   @override
   _ExpirationDatePickerState createState() => _ExpirationDatePickerState();
@@ -61,7 +65,7 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
             child: Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: () async {
                     DateTime picked = await showDatePicker(
                       context: context,

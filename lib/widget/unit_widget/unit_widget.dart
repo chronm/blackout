@@ -7,9 +7,12 @@ typedef UnitCallback(UnitEnum unit);
 class UnitWidget extends StatefulWidget {
   final UnitEnum initialUnit;
   final UnitCallback callback;
-  final bool static;
 
-  UnitWidget({Key key, @required this.callback, @required this.initialUnit, this.static = false}) : super(key: key);
+  const UnitWidget({
+    Key key,
+    @required this.callback,
+    @required this.initialUnit,
+  }) : super(key: key);
 
   @override
   _UnitWidgetState createState() => _UnitWidgetState();
@@ -29,20 +32,18 @@ class _UnitWidgetState extends State<UnitWidget> {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: widget.static
-            ? Text(describeEnum(_unit))
-            : Center(
-                child: DropdownButton<UnitEnum>(
-                  items: UnitEnum.values.map((u) => DropdownMenuItem(value: u, child: Text(describeEnum(u)))).toList(),
-                  onChanged: (unit) {
-                    setState(() {
-                      _unit = unit;
-                    });
-                    widget.callback(unit);
-                  },
-                  value: _unit,
-                ),
-              ),
+        child: Center(
+          child: DropdownButton<UnitEnum>(
+            items: UnitEnum.values.map((u) => DropdownMenuItem(value: u, child: Text(describeEnum(u)))).toList(),
+            onChanged: (unit) {
+              setState(() {
+                _unit = unit;
+              });
+              widget.callback(unit);
+            },
+            value: _unit,
+          ),
+        ),
       ),
     );
   }

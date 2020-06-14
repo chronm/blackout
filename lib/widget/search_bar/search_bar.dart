@@ -9,7 +9,13 @@ class SearchBar extends StatefulWidget {
   final double height;
   final GlobalKey<ScaffoldState> scaffold;
 
-  SearchBar({Key key, this.callback, this.child, this.height, this.scaffold}) : super(key: key);
+  const SearchBar({
+    Key key,
+    @required this.callback,
+    @required this.child,
+    @required this.height,
+    @required this.scaffold,
+  }) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -42,14 +48,14 @@ class _SearchBarState extends State<SearchBar> {
             left: 0.0,
             right: 0.0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: DecoratedBox(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(1.0), border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.0), color: Colors.white),
                 child: Row(
                   children: [
                     widget.scaffold != null
                         ? IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.menu,
                               color: Colors.redAccent,
                             ),
@@ -58,7 +64,7 @@ class _SearchBarState extends State<SearchBar> {
                         : null,
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0),
                         child: TextField(
                           textInputAction: TextInputAction.search,
                           enabled: widget.callback != null,
@@ -70,7 +76,7 @@ class _SearchBarState extends State<SearchBar> {
                               color: widget.callback != null ? Colors.black : Colors.grey,
                             ),
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           onTap: () {
@@ -83,30 +89,34 @@ class _SearchBarState extends State<SearchBar> {
                     ),
                     _searching
                         ? IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        color: widget.callback != null ? Colors.redAccent : Colors.grey,
-                      ),
-                      onPressed: widget.callback != null ? () {
-                        _controller.text = "";
-                        _focusNode.unfocus();
-                        setState(() {
-                          _searching = false;
-                        });
-                      } : null,
-                    )
+                            icon: Icon(
+                              Icons.close,
+                              color: widget.callback != null ? Colors.redAccent : Colors.grey,
+                            ),
+                            onPressed: widget.callback != null
+                                ? () {
+                                    _controller.text = "";
+                                    _focusNode.unfocus();
+                                    setState(() {
+                                      _searching = false;
+                                    });
+                                  }
+                                : null,
+                          )
                         : IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: widget.callback != null ? Colors.redAccent : Colors.grey,
-                      ),
-                      onPressed: widget.callback != null ? () {
-                        _focusNode.requestFocus();
-                        setState(() {
-                          _searching = true;
-                        });
-                      } : null,
-                    ),
+                            icon: Icon(
+                              Icons.search,
+                              color: widget.callback != null ? Colors.redAccent : Colors.grey,
+                            ),
+                            onPressed: widget.callback != null
+                                ? () {
+                                    _focusNode.requestFocus();
+                                    setState(() {
+                                      _searching = true;
+                                    });
+                                  }
+                                : null,
+                          ),
                   ].where((element) => element != null).toList(),
                 ),
               ),
