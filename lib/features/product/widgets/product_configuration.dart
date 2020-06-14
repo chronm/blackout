@@ -1,7 +1,10 @@
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
+import 'package:Blackout/features/product/bloc/product_bloc.dart';
 import 'package:Blackout/features/product/widgets/description_text_field.dart';
 import 'package:Blackout/features/product/widgets/ean_field.dart';
 import 'package:Blackout/features/product/widgets/group_selector.dart';
 import 'package:Blackout/generated/l10n.dart';
+import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/product.dart';
 import 'package:Blackout/widget/period_widget/period_widget.dart';
@@ -124,13 +127,50 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                     });
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: FlatButton(
-                    color: Colors.redAccent,
-                    child: Text(S.of(context).GENERAL_SAVE),
-                    onPressed: _product.isValid() && !_errorInPeriod && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
-                  ),
+                Row(
+                  children: [
+                    !widget.newProduct ? Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: FlatButton(
+                        color: Colors.redAccent,
+                        child: Text(S.of(context).GENERAL_DELETE),
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(S.of(context).GENERAL_DELETE_CONFIRMATION),
+                              actions: [
+                                FlatButton(
+                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_NO),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_YES),
+                                  onPressed: () {
+                                    sl<ProductBloc>().add(TapOnDeleteProduct(widget.product));
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ) : null,
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: FlatButton(
+                        color: Colors.redAccent,
+                        child: Text(S.of(context).GENERAL_SAVE),
+                        onPressed: _product.isValid() && !_errorInPeriod && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
+                      ),
+                    ),
+                  ].where((element) => element != null).toList(),
                 ),
               ].where((element) => element != null).toList(),
             ),

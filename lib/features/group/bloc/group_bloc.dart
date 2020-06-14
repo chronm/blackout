@@ -40,5 +40,9 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
       List<Group> groups = await groupRepository.findAllByHomeId(home.id);
       yield ShowGroups(groups);
     }
+    if (event is TapOnDeleteGroup) {
+      User user = await blackoutPreferences.getUser();
+      groupRepository.drop(event.group, user);
+    }
   }
 }

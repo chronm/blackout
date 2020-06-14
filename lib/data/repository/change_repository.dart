@@ -3,6 +3,7 @@ import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/home.dart';
+import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
@@ -97,7 +98,7 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
     return findOneByChangeId(change.id);
   }
 
-  Future<int> drop(Change change) async {
+  Future<int> drop(Change change, User user) async {
     assert(change.id != null, "Change is no database object");
 
     return await (delete(changeTable)..where((c) => c.id.equals(change.id))).go();

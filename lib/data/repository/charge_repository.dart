@@ -109,10 +109,13 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
     return await findOneByChargeId(charge.id);
   }
 
-  Future<int> drop(Charge charge) async {
+  Future<int> drop(Charge charge, User user) async {
     assert(charge.id != null, "Charge is no database object");
 
-    charge.changes.forEach((c) => db.changeRepository.drop(c));
+    charge.changes.forEach((c) => db.changeRepository.drop(c, user));
+
+    ModelChange change = ModelChange(user: user, modificationDate: LocalDate.today(), modification: ModelChangeType.delete, home: charge.product.home, chargeId: charge.id);
+    db.modelChangeRepository.save(change);
 
     return await (delete(chargeTable)..where((i) => i.id.equals(charge.id))).go();
   }

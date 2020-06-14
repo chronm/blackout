@@ -132,10 +132,13 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
     return await findOneByProductId(product.id);
   }
 
-  Future<int> drop(Product product) async {
+  Future<int> drop(Product product, User user) async {
     assert(product.id != null, "Product is no database object");
 
-    product.charges.forEach((i) => db.chargeRepository.drop(i));
+    product.charges.forEach((c) => db.chargeRepository.drop(c, user));
+
+    ModelChange change = ModelChange(user: user, modificationDate: LocalDate.today(), modification: ModelChangeType.delete, home: product.home, productId: product.id);
+    db.modelChangeRepository.save(change);
 
     return await (delete(productTable)..where((p) => p.id.equals(product.id))).go();
   }

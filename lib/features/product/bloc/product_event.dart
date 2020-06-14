@@ -19,3 +19,9 @@ class TapOnCharge extends ProductEvent {
 
   TapOnCharge(this.charge);
 }
+
+class TapOnDeleteProduct extends ProductEvent {
+  final Product product;
+
+  TapOnDeleteProduct(this.product);
+}

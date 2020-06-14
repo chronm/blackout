@@ -40,6 +40,14 @@
       "days": {}
     }
   },
+  "GENERAL_DELETE": "Delete",
+  "@GENERAL_DELETE": {},
+  "GENERAL_DELETE_CONFIRMATION": "Really delete?",
+  "@GENERAL_DELETE_CONFIRMATION": {},
+  "GENERAL_DELETE_CONFIRMATION_NO": "No",
+  "@GENERAL_DELETE_CONFIRMATION_NO": {},
+  "GENERAL_DELETE_CONFIRMATION_YES": "Yes",
+  "@GENERAL_DELETE_CONFIRMATION_YES": {},
   "GENERAL_EVENT_IN_MONTHS": "{months, plural, zero{} one{in 1 month} other{in {months} months}}",
   "@GENERAL_EVENT_IN_MONTHS": {
     "placeholders": {
