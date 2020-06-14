@@ -6,12 +6,12 @@ import 'package:Blackout/models/user.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
-import 'package:super_enum/super_enum.dart';
 import 'package:time_machine/time_machine.dart';
 
 enum ModelChangeType {
   create,
   modify,
+  delete,
 }
 
 class ModelChange {
@@ -81,6 +81,8 @@ class ModelChange {
           }
           return S.of(context).MODEL_CHANGE_FIELD_MODIFIED(m.fieldName, m.from, m.to);
         }).join("\n");
+      case ModelChangeType.delete:
+        return "";
     }
     return "";
   }

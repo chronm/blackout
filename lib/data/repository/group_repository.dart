@@ -89,10 +89,13 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     return await findOneByGroupId(group.id);
   }
 
-  Future<int> drop(Group group) async {
+  Future<int> drop(Group group, User user) async {
     assert(group.id != null, "Group is no database object.");
 
-    group.products.forEach((p) => db.productRepository.drop(p));
+    group.products.forEach((p) => db.productRepository.drop(p, user));
+
+    ModelChange change = ModelChange(user: user, modificationDate: LocalDate.today(), modification: ModelChangeType.delete, home: group.home, groupId: group.id);
+    db.modelChangeRepository.save(change);
 
     return await (delete(groupTable)..where((c) => c.id.equals(group.id))).go();
   }

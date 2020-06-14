@@ -1,6 +1,8 @@
+import 'package:Blackout/features/group/bloc/group_bloc.dart';
 import 'package:Blackout/features/group/widgets/name_text_field.dart';
 import 'package:Blackout/features/group/widgets/plural_name_widget.dart';
 import 'package:Blackout/generated/l10n.dart';
+import 'package:Blackout/main.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/widget/period_widget/period_widget.dart';
 import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
@@ -104,13 +106,50 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: FlatButton(
-                    color: Colors.redAccent,
-                    child: Text(S.of(context).GENERAL_SAVE),
-                    onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
-                  ),
+                Row(
+                  children: [
+                    !widget.newGroup ? Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: FlatButton(
+                        color: Colors.redAccent,
+                        child: Text(S.of(context).GENERAL_DELETE),
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(S.of(context).GENERAL_DELETE_CONFIRMATION),
+                              actions: [
+                                FlatButton(
+                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_NO),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_YES),
+                                  onPressed: () {
+                                    sl<GroupBloc>().add(TapOnDeleteGroup(widget.group));
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ) : null,
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: FlatButton(
+                        color: Colors.redAccent,
+                        child: Text(S.of(context).GENERAL_SAVE),
+                        onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
+                      ),
+                    ),
+                  ].where((element) => element != null).toList(),
                 ),
               ],
             ),

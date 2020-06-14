@@ -41,5 +41,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       sl<ChargeBloc>().add(LoadCharge(event.charge.id));
       yield GoToCharge(event.charge.product.id);
     }
+    if (event is TapOnDeleteProduct) {
+      User user = await blackoutPreferences.getUser();
+      productRepository.drop(event.product, user);
+    }
   }
 }

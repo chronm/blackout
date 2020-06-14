@@ -146,6 +146,46 @@ class S {
     );
   }
 
+  /// `Delete`
+  String get GENERAL_DELETE {
+    return Intl.message(
+      'Delete',
+      name: 'GENERAL_DELETE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Really delete?`
+  String get GENERAL_DELETE_CONFIRMATION {
+    return Intl.message(
+      'Really delete?',
+      name: 'GENERAL_DELETE_CONFIRMATION',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get GENERAL_DELETE_CONFIRMATION_NO {
+    return Intl.message(
+      'No',
+      name: 'GENERAL_DELETE_CONFIRMATION_NO',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get GENERAL_DELETE_CONFIRMATION_YES {
+    return Intl.message(
+      'Yes',
+      name: 'GENERAL_DELETE_CONFIRMATION_YES',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{months, plural, zero{} one{in 1 month} other{in {months} months}}`
   String GENERAL_EVENT_IN_MONTHS(num months) {
     return Intl.plural(

@@ -22,3 +22,9 @@ class TapOnProduct extends GroupEvent {
 
   TapOnProduct(this.product, this.group);
 }
+
+class TapOnDeleteGroup extends GroupEvent {
+  final Group group;
+
+  TapOnDeleteGroup(this.group);
+}
