@@ -111,7 +111,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                     !widget.newGroup ? Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: FlatButton(
-                        color: Colors.redAccent,
+                        color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_DELETE),
                         onPressed: () async {
                           await showDialog(
@@ -144,7 +144,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: FlatButton(
-                        color: Colors.redAccent,
+                        color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_SAVE),
                         onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
                       ),

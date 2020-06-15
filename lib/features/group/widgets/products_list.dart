@@ -33,7 +33,7 @@ class ProductsList extends StatelessWidget {
                   trailing.add(const Icon(Icons.trending_down));
                 }
                 if (product.expired || product.warn) {
-                  trailing.add(Icon(Icons.event, color: product.status == ChargeStatus.expired ? Colors.redAccent : null));
+                  trailing.add(Icon(Icons.event, color: product.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
                 String status = product.buildStatus(context);

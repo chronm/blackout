@@ -52,7 +52,7 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: FlatButton(
-              color: Colors.redAccent,
+              color: Theme.of(context).accentColor,
               child: Text(S.of(context).GENERAL_SAVE),
               onPressed: !_errorInNotificationDate && !_errorInExpirationDate && (_charge != _oldCharge || widget.newCharge) ? () => widget.action(_charge) : null,
             ),

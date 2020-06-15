@@ -6,6 +6,7 @@ import 'package:Blackout/main.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/generated/l10n_extension.dart';
 import 'package:Blackout/features/blackout/bloc/blackout_bloc.dart';
+import 'package:Blackout/themes.dart';
 import 'package:flutter/material.dart' show Brightness, BuildContext, Colors, Container, Key, Locale, MaterialApp, Navigator, State, StatefulWidget, ThemeData, Widget, WidgetsBinding, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -42,6 +43,7 @@ class _BlackoutAppState extends State<BlackoutApp> {
       localeResolutionCallback: S.delegate.resolution(fallback: Locale("en", "")),
       theme: ThemeData(
         brightness: Brightness.dark,
+        primarySwatch: createMaterialColor(Colors.redAccent),
         toggleableActiveColor: Colors.redAccent,
         accentColor: Colors.redAccent,
       ),
