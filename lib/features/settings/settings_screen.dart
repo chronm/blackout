@@ -68,29 +68,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
         body: ScrollableContainer(
-          child: Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            child: BlocBuilder<SettingsBloc, SettingsState>(
-              bloc: sl<SettingsBloc>(),
-              builder: (context, state) {
-                if (state is LoadedSettings) {
-                  return Column(
-                    children: [
-                      UsernameField(
-                        initialValue: state.user.name,
-                        callback: (value, error) {
-                          setState(() {
-                            _settings.user.name = value;
-                            _errorInUsername = error;
-                          });
-                        },
-                      ),
-                    ],
-                  );
-                }
-                return Container();
-              },
-            ),
+          child: BlocBuilder<SettingsBloc, SettingsState>(
+            bloc: sl<SettingsBloc>(),
+            builder: (context, state) {
+              if (state is LoadedSettings) {
+                return Column(
+                  children: [
+                    UsernameField(
+                      initialValue: state.user.name,
+                      callback: (value, error) {
+                        setState(() {
+                          _settings.user.name = value;
+                          _errorInUsername = error;
+                        });
+                      },
+                    ),
+                  ],
+                );
+              }
+              return Container();
+            },
           ),
         ),
       ),
