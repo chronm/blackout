@@ -12,56 +12,42 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DrawerHeader(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).accentColor,
-      ),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: SizedBox(
-              height: 20.0,
-              width: 20.0,
-              child: IconButton(
-                icon: const Icon(Icons.settings),
-                iconSize: 20.0,
-                padding: EdgeInsets.zero,
-                onPressed: () => sl<DrawerBloc>().add(TapOnSettings()),
+    return Container(
+      height: MediaQuery.of(context).padding.top + 120.0,
+      child: DrawerHeader(
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: const Text(
+                "Blackout",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Colors.white30,
+                ),
               ),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: const Text(
-                  "Blackout",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white30,
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                children: [
+                  const Icon(Icons.person),
+                  const VerticalDivider(),
+                  Text(
+                    username,
+                    style: const TextStyle(fontSize: 20.0),
                   ),
-                ),
+                ],
               ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  children: [
-                    const Icon(Icons.person),
-                    const VerticalDivider(),
-                    Text(
-                      username,
-                      style: const TextStyle(fontSize: 20.0),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

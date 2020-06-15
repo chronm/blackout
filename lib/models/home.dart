@@ -10,6 +10,11 @@ class Home {
 
   Home({@required this.id, @required this.name});
 
+  @override
+  bool operator ==(other) {
+    return id == other.id && name == other.name;
+  }
+
   factory Home.fromJson(String json) {
     if (json == null) return null;
     Map<String, dynamic> map = jsonDecode(json);
