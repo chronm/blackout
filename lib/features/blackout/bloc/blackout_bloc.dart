@@ -85,6 +85,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
           yield AskForImportDatabase();
         } else {
           await prepareApplication();
+          await prepareSetup();
           yield GoToSetup();
         }
       }
@@ -102,6 +103,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
     if (event is DropDatabaseAndSetup) {
       File file = await getDatabasePath();
       await prepareApplication();
+      await prepareSetup();
       file.deleteSync();
       yield GoToSetup();
     }
