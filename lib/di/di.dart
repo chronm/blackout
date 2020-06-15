@@ -26,7 +26,7 @@ bool application = true;
 
 void prepareMain() async {
   if (main) {
-    sl.registerLazySingletonAsync(() async => BlackoutPreferences(await SharedPreferences.getInstance()));
+    sl.registerSingleton(BlackoutPreferences(await SharedPreferences.getInstance()));
     sl.registerLazySingleton<BlackoutBloc>(() => BlackoutBloc(sl<BlackoutPreferences>()));
     main = false;
   }
