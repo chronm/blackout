@@ -12,7 +12,7 @@ import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/unit/unit.dart';
 import 'package:Blackout/routes.dart';
-import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Widget, showDialog;
+import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Theme, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -67,7 +67,7 @@ class ProductDial extends StatelessWidget {
               List<SpeedDialChild> children = [
                 SpeedDialChild(
                   child: const Icon(Icons.home),
-                  backgroundColor: Colors.red,
+                  backgroundColor: Theme.of(context).accentColor,
                   label: S.of(context).SPEEDDIAL_GOTO_HOME,
                   labelStyle: const TextStyle(
                     fontSize: 18.0,
@@ -80,7 +80,7 @@ class ProductDial extends StatelessWidget {
                 children.addAll([
                   SpeedDialChild(
                     child: const Icon(Icons.insert_drive_file),
-                    backgroundColor: Colors.red,
+                    backgroundColor: Theme.of(context).accentColor,
                     label: S.of(context).SPEEDDIAL_CREATE_CHARGE,
                     labelStyle: const TextStyle(
                       fontSize: 18.0,
@@ -90,7 +90,7 @@ class ProductDial extends StatelessWidget {
                   ),
                   SpeedDialChild(
                     child: const Icon(Icons.create_new_folder),
-                    backgroundColor: Colors.red,
+                    backgroundColor: Theme.of(context).accentColor,
                     label: S.of(context).SPEEDDIAL_CREATE_GROUP,
                     labelStyle: const TextStyle(
                       fontSize: 18.0,

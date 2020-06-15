@@ -30,7 +30,7 @@ class HomeList extends StatelessWidget {
                   trailing.add(const Icon(Icons.trending_down));
                 }
                 if (listable.expired || listable.warn) {
-                  trailing.add(Icon(Icons.event, color: listable.status == ChargeStatus.expired ? Colors.redAccent : null));
+                  trailing.add(Icon(Icons.event, color: listable.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
                 String status = listable.buildStatus(context);

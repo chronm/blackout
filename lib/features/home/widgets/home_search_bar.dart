@@ -19,7 +19,7 @@ class HomeSearchBar extends StatelessWidget {
       height: 110.0,
       callback: searchCallback,
       child: Container(
-        color: Colors.redAccent,
+        color: Theme.of(context).accentColor,
         width: MediaQuery.of(context).size.width,
         height: 110.0,
         child: const Center(

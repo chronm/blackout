@@ -5,7 +5,7 @@ import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/util/charge_extension.dart';
 import 'package:Blackout/util/string_extension.dart';
 import 'package:Blackout/models/product.dart';
-import 'package:flutter/material.dart' show BuildContext, Card, Center, Colors, Column, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Navigator, Row, SingleChildScrollView, StatelessWidget, Text, Widget, required;
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Colors, Column, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Navigator, Row, SingleChildScrollView, StatelessWidget, Text, Theme, Widget, required;
 import 'package:intl/intl.dart';
 
 class ChargesList extends StatelessWidget {
@@ -30,7 +30,7 @@ class ChargesList extends StatelessWidget {
 
                 List<Widget> trailing = <Widget>[];
                 if (charge.expired || charge.warn) {
-                  trailing.add(Icon(Icons.event, color: charge.status == ChargeStatus.expired ? Colors.redAccent : null));
+                  trailing.add(Icon(Icons.event, color: charge.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
                 String status = charge.buildStatus(context);

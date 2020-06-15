@@ -48,7 +48,7 @@ class _CreateHomeState extends State<CreateHome> {
           ),
           RelativeHeightContainer(factor: 0.01),
           FlatButton(
-            color: Colors.redAccent,
+            color: Theme.of(context).accentColor,
             onPressed: () {
               _focusNode.unfocus();
               widget.finishAction();

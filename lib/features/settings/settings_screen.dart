@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Theme.of(context).accentColor,
           title: Text(S.of(context).SETTINGS_TITLE),
           actions: [
             IconButton(

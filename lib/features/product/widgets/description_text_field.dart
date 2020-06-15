@@ -21,6 +21,16 @@ class _DescriptionTextFieldState extends State<DescriptionTextField> {
   TextEditingController _controller = TextEditingController();
   bool _error;
 
+  @override
+  void initState() {
+    super.initState();
+    _controller.text = widget.initialValue.trim();
+    _error = _controller.text == "";
+    _controller.addListener(() {
+      callCallback(_controller.text.trim());
+    });
+  }
+
   void callCallback(String value) {
     if (value == "") {
       setState(() {
@@ -33,16 +43,6 @@ class _DescriptionTextFieldState extends State<DescriptionTextField> {
       });
       widget.callback(value);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.text = widget.initialValue.trim();
-    _error = _controller.text == null;
-    _controller.addListener(() {
-      callCallback(_controller.text.trim());
-    });
   }
 
   @override

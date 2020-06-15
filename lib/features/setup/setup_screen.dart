@@ -8,7 +8,7 @@ import 'package:Blackout/features/setup/bloc/setup_bloc.dart';
 import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/setup/widgets/blackout_header.dart';
 import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:flutter/material.dart' show BuildContext, Colors, Column, Flexible, FocusNode, Key, Navigator, Scaffold, State, StatefulWidget, Widget;
+import 'package:flutter/material.dart' show BuildContext, Colors, Column, Flexible, FocusNode, Key, Navigator, Scaffold, State, StatefulWidget, Theme, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -51,16 +51,16 @@ class _SetupScreenState extends State<SetupScreen> {
                 child: Swiper(
                   itemCount: _pageCount,
                   loop: false,
-                  pagination: const SwiperPagination(
-                    builder: const DotSwiperPaginationBuilder(
+                  pagination:  SwiperPagination(
+                    builder: DotSwiperPaginationBuilder(
                       size: 5.0,
-                      activeColor: Colors.redAccent,
+                      activeColor: Theme.of(context).accentColor,
                       color: Colors.white30,
                     ),
                   ),
-                  control: const SwiperControl(
+                  control: SwiperControl(
                     disableColor: Colors.white30,
-                    color: Colors.redAccent,
+                    color: Theme.of(context).accentColor,
                   ),
                   onIndexChanged: (index) {
                     if (index == 2) {

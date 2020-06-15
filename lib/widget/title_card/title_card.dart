@@ -42,7 +42,7 @@ class TitleCard extends StatelessWidget {
         callback: callback,
         child: Container(
           height: height,
-          color: Colors.redAccent,
+          color: Theme.of(context).accentColor,
           child: Column(
             children: [
               SizedBox(height: MediaQuery.of(context).padding.top),

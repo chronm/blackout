@@ -14,8 +14,8 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return DrawerHeader(
       padding: const EdgeInsets.all(16.0),
-      decoration: const BoxDecoration(
-        color: Colors.redAccent,
+      decoration: BoxDecoration(
+        color: Theme.of(context).accentColor,
       ),
       child: Stack(
         children: [

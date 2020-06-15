@@ -132,7 +132,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                     !widget.newProduct ? Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: FlatButton(
-                        color: Colors.redAccent,
+                        color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_DELETE),
                         onPressed: () async {
                           await showDialog(
@@ -165,7 +165,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: FlatButton(
-                        color: Colors.redAccent,
+                        color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_SAVE),
                         onPressed: _product.isValid() && !_errorInPeriod && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
                       ),

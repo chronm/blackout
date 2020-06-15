@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show AnimatedIcons, BuildContext, CircleBorder, Colors, Curves, IconThemeData, Key, StatelessWidget, Widget, required;
+import 'package:flutter/material.dart' show AnimatedIcons, BuildContext, CircleBorder, Colors, Curves, IconThemeData, Key, StatelessWidget, Theme, Widget, required;
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 
@@ -21,7 +21,7 @@ class BlackoutDial extends StatelessWidget {
       overlayColor: Colors.black,
       overlayOpacity: 0.5,
       heroTag: 'speed-dial-hero-tag',
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Theme.of(context).accentColor,
       foregroundColor: Colors.white,
       elevation: 8.0,
       shape: const CircleBorder(),
