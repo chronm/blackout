@@ -26,8 +26,8 @@ bool application = true;
 
 void prepareMain() async {
   if (main) {
-    sl.registerSingleton<BlackoutPreferences>(BlackoutPreferences(await SharedPreferences.getInstance()));
-    sl.registerSingleton<BlackoutBloc>(BlackoutBloc(sl<BlackoutPreferences>()));
+    sl.registerLazySingletonAsync(() async => BlackoutPreferences(await SharedPreferences.getInstance()));
+    sl.registerLazySingleton<BlackoutBloc>(() => BlackoutBloc(sl<BlackoutPreferences>()));
     main = false;
   }
 }
@@ -35,8 +35,8 @@ void prepareMain() async {
 void prepareImport() async {
   if (import) {
     database = Database();
-    sl.registerSingleton<HomeRepository>(database.homeRepository);
-    sl.registerSingleton<UserRepository>(database.userRepository);
+    sl.registerLazySingleton<HomeRepository>(() => database.homeRepository);
+    sl.registerLazySingleton<UserRepository>(() => database.userRepository);
     import = false;
   }
 }
@@ -47,27 +47,30 @@ void prepareApplication() async {
     await prepareImport();
     await registerDatabase();
     await registerBloc();
-    sl.registerSingleton<SetupBloc>(SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<ChargeRepository>(), sl<ChangeRepository>(), sl<DrawerBloc>()));
     application = true;
   }
 }
 
+void prepareSetup() async {
+  sl.registerLazySingleton<SetupBloc>(() => SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<ChargeRepository>(), sl<ChangeRepository>(), sl<DrawerBloc>()));
+}
+
 void registerDatabase() async {
-  sl.registerSingleton<GroupRepository>(database.groupRepository);
-  sl.registerSingleton<ChangeRepository>(database.changeRepository);
-  sl.registerSingleton<ChargeRepository>(database.chargeRepository);
-  sl.registerSingleton<ProductRepository>(database.productRepository);
-  sl.registerSingleton<SyncRepository>(database.syncRepository);
+  sl.registerLazySingleton<GroupRepository>(() => database.groupRepository);
+  sl.registerLazySingleton<ChangeRepository>(() => database.changeRepository);
+  sl.registerLazySingleton<ChargeRepository>(() => database.chargeRepository);
+  sl.registerLazySingleton<ProductRepository>(() => database.productRepository);
+  sl.registerLazySingleton<SyncRepository>(() => database.syncRepository);
 }
 
 void registerBloc() async {
-  sl.registerSingleton<SettingsBloc>(SettingsBloc(sl<BlackoutPreferences>(), sl<UserRepository>()));
+  sl.registerLazySingleton<SettingsBloc>(() => SettingsBloc(sl<BlackoutPreferences>(), sl<UserRepository>()));
 
-  sl.registerSingleton<DrawerBloc>(DrawerBloc(sl<BlackoutPreferences>(), sl<HomeRepository>()));
+  sl.registerLazySingleton<DrawerBloc>(() => DrawerBloc(sl<BlackoutPreferences>(), sl<HomeRepository>()));
 
-  sl.registerSingleton<ChargeBloc>(ChargeBloc(sl<ChangeRepository>(), sl<ChargeRepository>(), sl<BlackoutPreferences>()));
-  sl.registerSingleton<ProductBloc>(ProductBloc(sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
-  sl.registerSingleton<GroupBloc>(GroupBloc(sl<GroupRepository>(), sl<BlackoutPreferences>()));
-  sl.registerSingleton<HomeBloc>(HomeBloc(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>()));
-  sl.registerSingleton<SpeedDialBloc>(SpeedDialBloc(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ChangeRepository>(), sl<GroupRepository>()));
+  sl.registerLazySingleton<ChargeBloc>(() => ChargeBloc(sl<ChangeRepository>(), sl<ChargeRepository>(), sl<BlackoutPreferences>()));
+  sl.registerLazySingleton<ProductBloc>(() => ProductBloc(sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
+  sl.registerLazySingleton<GroupBloc>(() => GroupBloc(sl<GroupRepository>(), sl<BlackoutPreferences>()));
+  sl.registerLazySingleton<HomeBloc>(() => HomeBloc(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>()));
+  sl.registerLazySingleton<SpeedDialBloc>(() => SpeedDialBloc(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ChangeRepository>(), sl<GroupRepository>()));
 }
