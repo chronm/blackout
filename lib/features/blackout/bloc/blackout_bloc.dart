@@ -55,38 +55,43 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
     }
   }
 
+  Future<bool> hasStoragePermission() async {
+    return Permission.storage.isGranted;
+  }
+
+  Stream<BlackoutState> importDatabaseOrGoToSetup() async* {
+    File file = await getDatabasePath();
+    if (file.existsSync()) {
+      yield AskForImportDatabase();
+    } else {
+      await prepareApplication();
+      await prepareSetup();
+      yield GoToSetup();
+    }
+  }
+
   @override
   Stream<BlackoutState> mapEventToState(BlackoutEvent event) async* {
     if (event is InitializeApp) {
-      if (await appIsInitialized()) {
-        yield* goToHome();
-        yield* maybeShowChangelog();
-      } else {
-        if (await Permission.storage.shouldShowRequestRationale) {
-          yield AskForStorageRationale();
+      if (await hasStoragePermission()) {
+        if (await appIsInitialized()) {
+          yield* goToHome();
+          yield* maybeShowChangelog();
         } else {
-          yield* mapEventToState(CheckPermissions());
+          yield* importDatabaseOrGoToSetup();
         }
-      }
-    }
-    if (event is CheckPermissions) {
-      if (await Permission.storage.isUndetermined || await Permission.storage.isDenied) {
-        await Permission.storage.request();
-      }
-      if (await Permission.storage.isPermanentlyDenied) {
-        yield AskForRedirectToSettings();
-        return;
-      }
-      if (await Permission.storage.isDenied) {
-        yield* mapEventToState(EndApp());
       } else {
-        File file = await getDatabasePath();
-        if (file.existsSync()) {
-          yield AskForImportDatabase();
+        if (await Permission.storage.isUndetermined || await Permission.storage.isDenied) {
+          await Permission.storage.request();
+        }
+        if (await Permission.storage.isPermanentlyDenied) {
+          yield AskForRedirectToSettings();
+          return;
+        }
+        if (await Permission.storage.isDenied) {
+          yield* mapEventToState(EndApp());
         } else {
-          await prepareApplication();
-          await prepareSetup();
-          yield GoToSetup();
+          yield* importDatabaseOrGoToSetup();
         }
       }
     }
