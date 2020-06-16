@@ -1,3 +1,4 @@
+import 'package:Blackout/features/setup/widgets/blackout_header.dart';
 import 'package:Blackout/features/setup/widgets/create_home.dart';
 import 'package:Blackout/features/setup/widgets/setup_home.dart';
 import 'package:Blackout/features/setup/widgets/setup_user.dart';
@@ -5,7 +6,6 @@ import 'package:Blackout/features/setup/widgets/welcome_widget.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/features/setup/bloc/setup_bloc.dart';
-import 'file:///C:/Users/kevin/Projekte/blackout/lib/features/setup/widgets/blackout_header.dart';
 import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart' show BuildContext, Colors, Column, Flexible, FocusNode, Key, Navigator, Scaffold, State, StatefulWidget, Theme, Widget;
