@@ -103,6 +103,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
       await blackoutPreferences.setHome(home);
       await prepareApplication();
       sl<HomeBloc>().add(LoadAll());
+      sl<DrawerBloc>().add(InitializeDrawer());
       yield GoToHome();
     }
     if (event is DropDatabaseAndSetup) {

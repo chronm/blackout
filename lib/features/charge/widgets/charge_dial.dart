@@ -21,7 +21,7 @@ class ChargeDial extends StatelessWidget {
       bloc: sl<SpeedDialBloc>(),
       listener: (context, state) {
         if (state is GoToHome) {
-          Navigator.push(context, RouteBuilder.build(Routes.HomeRoute));
+          Navigator.pushNamed(context, Routes.home);
         }
       },
       child: BlocBuilder<ChargeBloc, ChargeState>(

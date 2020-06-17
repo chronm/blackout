@@ -24,7 +24,7 @@ class HomeDial extends StatelessWidget {
       bloc: sl<SpeedDialBloc>(),
       listener: (context, state) async {
         if (state is GoToProduct) {
-          Navigator.push(context, RouteBuilder.build(Routes.ProductOverviewRoute));
+          Navigator.pushNamed(context, Routes.product);
         }
         if (state is ShowCreateGroup) {
           await showDialog(
@@ -34,7 +34,7 @@ class HomeDial extends StatelessWidget {
               newGroup: true,
               action: (group) async {
                 sl<GroupBloc>().add(SaveGroup(group));
-                await Navigator.push(context, RouteBuilder.build(Routes.GroupOverviewRoute));
+                await Navigator.pushNamed(context, Routes.group);
                 Navigator.pop(context);
               },
             ),
@@ -50,7 +50,7 @@ class HomeDial extends StatelessWidget {
               groups: state.groups,
               action: (product) async {
                 sl<ProductBloc>().add(SaveProduct(product));
-                await Navigator.push(context, RouteBuilder.build(Routes.ProductOverviewRoute));
+                await Navigator.pushNamed(context, Routes.product);
                 Navigator.pop(context);
               },
             ),

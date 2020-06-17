@@ -12,14 +12,14 @@ import 'package:flutter/material.dart' show BuildContext, Container, GlobalKey, 
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChargeOverviewScreen extends StatefulWidget {
-  const ChargeOverviewScreen({Key key}) : super(key: key);
+class ChargeScreen extends StatefulWidget {
+  const ChargeScreen({Key key}) : super(key: key);
 
   @override
-  _ChargeOverviewScreenState createState() => _ChargeOverviewScreenState();
+  _ChargeScreenState createState() => _ChargeScreenState();
 }
 
-class _ChargeOverviewScreenState extends State<ChargeOverviewScreen> {
+class _ChargeScreenState extends State<ChargeScreen> {
   GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
   @override

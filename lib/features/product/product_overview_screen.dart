@@ -13,14 +13,14 @@ import 'package:flutter/material.dart'
     show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Navigator, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductOverviewScreen extends StatefulWidget {
-  ProductOverviewScreen({Key key}) : super(key: key);
+class ProductScreen extends StatefulWidget {
+  ProductScreen({Key key}) : super(key: key);
 
   @override
-  _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
+  _ProductScreenState createState() => _ProductScreenState();
 }
 
-class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+class _ProductScreenState extends State<ProductScreen> {
   GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
   @override
@@ -29,7 +29,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       bloc: sl<ProductBloc>(),
       listener: (context, state) async {
         if (state is GoToCharge) {
-          await Navigator.push(context, RouteBuilder.build(Routes.ChargeOverviewRoute));
+          await Navigator.pushNamed(context, Routes.charge);
           sl<ProductBloc>().add(LoadProduct(state.currentProduct));
         }
       },
