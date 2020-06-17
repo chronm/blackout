@@ -43,6 +43,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -51,8 +53,4 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-feature android:name="android.hardware.camera" />
 
-<<<<<<< HEAD
 </manifest>
-=======
-</manifest>
->>>>>>> ea97230... feat(icons): launcher icons for android

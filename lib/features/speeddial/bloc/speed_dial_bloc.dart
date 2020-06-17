@@ -38,7 +38,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
   Stream<SpeedDialState> mapEventToState(SpeedDialEvent event) async* {
     if (event is TapOnScanEan) {
       String ean;
-      if (isEmulator) {
+      if (emulator) {
         ean = "someEan";
       } else {
         var options = ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
