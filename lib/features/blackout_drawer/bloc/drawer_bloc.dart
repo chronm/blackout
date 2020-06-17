@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
+import 'package:Blackout/features/settings/bloc/settings_bloc.dart';
 import 'package:Blackout/main.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/user.dart';
-import 'package:Blackout/routes.dart';
-import 'package:Blackout/features/settings/bloc/settings_bloc.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart' show BuildContext, Navigator;
 
 part 'drawer_event.dart';
 

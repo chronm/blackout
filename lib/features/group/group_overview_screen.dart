@@ -12,14 +12,14 @@ import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart' show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Navigator, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GroupOverviewScreen extends StatefulWidget {
-  const GroupOverviewScreen({Key key}) : super(key: key);
+class GroupScreen extends StatefulWidget {
+  const GroupScreen({Key key}) : super(key: key);
 
   @override
-  _GroupOverviewScreenState createState() => _GroupOverviewScreenState();
+  _GroupScreenState createState() => _GroupScreenState();
 }
 
-class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
+class _GroupScreenState extends State<GroupScreen> {
   GlobalKey<ScaffoldState> _scaffold = GlobalKey();
   String searchString = "";
 
@@ -29,7 +29,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       bloc: sl<GroupBloc>(),
       listener: (context, state) async {
         if (state is GoToProduct) {
-          await Navigator.push(context, RouteBuilder.build(Routes.ProductOverviewRoute));
+          await Navigator.pushNamed(context, Routes.product);
           sl<GroupBloc>().add(LoadGroup(state.currentGroup));
         }
       },

@@ -15,7 +15,7 @@ class BlackoutDrawer extends StatelessWidget {
       bloc: sl<DrawerBloc>(),
       listener: (context, state) async {
         if (state is GoToSettings) {
-          await Navigator.push(context, RouteBuilder.build(Routes.SettingsRoute));
+          await Navigator.pushNamed(context, Routes.settings);
           sl<DrawerBloc>().add(InitializeDrawer());
         }
       },
