@@ -36,6 +36,7 @@ class ProductConfiguration extends StatefulWidget {
 class _ProductConfigurationState extends State<ProductConfiguration> {
   Product _oldProduct;
   Product _product;
+  bool _errorInDescription;
   bool _errorInEan = false;
   bool _errorInRefillLimit = false;
   bool _errorInPeriod = false;
@@ -61,9 +62,10 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
               children: [
                 DescriptionTextField(
                   initialValue: widget.product.description,
-                  callback: (value) {
+                  callback: (value, error) {
+                    _product.description = value;
                     setState(() {
-                      _product.description = value;
+                      _errorInDescription = error;
                     });
                   },
                 ),
@@ -167,7 +169,7 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                       child: FlatButton(
                         color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_SAVE),
-                        onPressed: _product.isValid() && !_errorInPeriod && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
+                        onPressed: _product.isValid() && !_errorInDescription && !_errorInPeriod && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
                       ),
                     ),
                   ].where((element) => element != null).toList(),

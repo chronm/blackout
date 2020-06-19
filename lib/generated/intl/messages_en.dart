@@ -63,9 +63,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m21(amount) => "${amount} is not valid";
 
-  static m22(expirationDate) => "${expirationDate} is not valid";
+  static m22(expirationDate) => "${expirationDate} is not a valid date";
 
   static m23(notificationDate) => "${notificationDate} is not valid";
+
+  static m24(period) => "${period} is not a valid time span";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -159,6 +161,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED" : m22,
     "WARN_NAME_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Name must not be empty"),
     "WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED" : m23,
+    "WARN_PERIOD_COULD_NOT_BE_PARSED" : m24,
+    "WARN_PERIOD_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Period must not be empty"),
+    "WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Plural form must not be empty"),
+    "WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Refill limit must not be empty"),
     "WARN_USERNAME_MUST_NOT_BE_EMPTY" : MessageLookupByLibrary.simpleMessage("Username must not be empty")
   };
 }

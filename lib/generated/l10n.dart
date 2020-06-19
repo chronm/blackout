@@ -930,10 +930,10 @@ class S {
     );
   }
 
-  /// `{expirationDate} is not valid`
+  /// `{expirationDate} is not a valid date`
   String WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED(Object expirationDate) {
     return Intl.message(
-      '$expirationDate is not valid',
+      '$expirationDate is not a valid date',
       name: 'WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED',
       desc: '',
       args: [expirationDate],
@@ -957,6 +957,46 @@ class S {
       name: 'WARN_NOTIFICATION_DATE_COULD_NOT_BE_PARSED',
       desc: '',
       args: [notificationDate],
+    );
+  }
+
+  /// `{period} is not a valid time span`
+  String WARN_PERIOD_COULD_NOT_BE_PARSED(Object period) {
+    return Intl.message(
+      '$period is not a valid time span',
+      name: 'WARN_PERIOD_COULD_NOT_BE_PARSED',
+      desc: '',
+      args: [period],
+    );
+  }
+
+  /// `Period must not be empty`
+  String get WARN_PERIOD_MUST_NOT_BE_EMPTY {
+    return Intl.message(
+      'Period must not be empty',
+      name: 'WARN_PERIOD_MUST_NOT_BE_EMPTY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plural form must not be empty`
+  String get WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY {
+    return Intl.message(
+      'Plural form must not be empty',
+      name: 'WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refill limit must not be empty`
+  String get WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY {
+    return Intl.message(
+      'Refill limit must not be empty',
+      name: 'WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY',
+      desc: '',
+      args: [],
     );
   }
 

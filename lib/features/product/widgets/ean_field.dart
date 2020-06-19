@@ -24,7 +24,7 @@ class EanField extends StatefulWidget {
 class _EanFieldState extends State<EanField> {
   TextEditingController _controller;
   bool _checked;
-  bool _error = false;
+  String _errorText;
 
   @override
   void initState() {
@@ -37,16 +37,21 @@ class _EanFieldState extends State<EanField> {
   }
 
   void invokeCallback() {
-    if (_checked && _controller.text == "") {
-      setState(() {
-        _error = true;
-      });
+    if (_checked) {
+      String input = _controller.text.trim();
+      if (input == "") {
+        setState(() {
+          _errorText = S.of(context).WARN_EAN_MUST_NOT_BE_EMPTY;
+        });
+      } else {
+        setState(() {
+          _errorText = null;
+        });
+      }
+      widget.callback(input, _errorText != null);
     } else {
-      setState(() {
-        _error = false;
-      });
+      widget.callback(null, false);
     }
-    widget.callback(_checked ? _controller.text : null, _error);
   }
 
   @override
@@ -79,7 +84,7 @@ class _EanFieldState extends State<EanField> {
                     controller: _controller,
                     decoration: InputDecoration(
                       labelText: S.of(context).PRODUCT_EAN,
-                      errorText: _error ? S.of(context).WARN_EAN_MUST_NOT_BE_EMPTY : null,
+                      errorText: _errorText,
                     ),
                   ),
                 )

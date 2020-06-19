@@ -2,7 +2,7 @@ import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:flutter/material.dart';
 
-typedef void PluralNameCallback(String pluralName);
+typedef void PluralNameCallback(String pluralName, bool error);
 
 class PluralNameWidget extends StatefulWidget {
   final String initialValue;
@@ -20,6 +20,7 @@ class PluralNameWidget extends StatefulWidget {
 
 class _PluralNameWidgetState extends State<PluralNameWidget> {
   TextEditingController _controller;
+  String _errorText;
   bool _checked;
 
   @override
@@ -33,7 +34,15 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
   }
 
   void invokeCallback() {
-    widget.callback(_checked ? _controller.text : null);
+    if (_checked) {
+      String input = _controller.text.trim();
+      setState(() {
+        _errorText = input == "" ? S.of(context).WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY : null;
+      });
+      widget.callback(input, _errorText != null);
+    } else {
+      widget.callback(null, false);
+    }
   }
 
   @override
@@ -42,12 +51,13 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Checkable(
-          initialChecked: widget.initialValue != null,
+          initialChecked: _checked,
           checkedCallback: (context) => Expanded(
             child: TextField(
               controller: _controller,
               decoration: InputDecoration(
                 labelText: S.of(context).GROUP_PLURAL_NAME,
+                errorText: _errorText,
               ),
             ),
           ),
