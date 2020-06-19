@@ -850,6 +850,16 @@ class S {
     );
   }
 
+  /// `Weight`
+  String get UNITENUM_WEIGHT {
+    return Intl.message(
+      'Weight',
+      name: 'UNITENUM_WEIGHT',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Best before`
   String get UNIT_EXPIRATION_DATE {
     return Intl.message(

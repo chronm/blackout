@@ -248,6 +248,8 @@
       "creationDate": {}
     }
   },
+  "UNITENUM_WEIGHT": "Weight",
+  "@UNITENUM_WEIGHT": {},
   "UNIT_EXPIRATION_DATE": "Best before",
   "@UNIT_EXPIRATION_DATE": {},
   "UNIT_NOTIFICATION_DATE": "Notify at",
