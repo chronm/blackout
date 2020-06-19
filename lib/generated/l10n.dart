@@ -394,6 +394,16 @@ class S {
     );
   }
 
+  /// `Unit`
+  String get GENERAL_UNIT {
+    return Intl.message(
+      'Unit',
+      name: 'GENERAL_UNIT',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{weeks, plural, zero{} one{1 week} other{{weeks} weeks}}`
   String GENERAL_WEEKS(num weeks) {
     return Intl.plural(
