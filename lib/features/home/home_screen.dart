@@ -1,10 +1,10 @@
 import 'package:Blackout/features/blackout_drawer/blackout_drawer.dart';
+import 'package:Blackout/features/home/bloc/home_bloc.dart';
 import 'package:Blackout/features/home/widgets/home_dial.dart';
 import 'package:Blackout/features/home/widgets/home_list.dart';
 import 'package:Blackout/features/home/widgets/home_search_bar.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/main.dart';
-import 'package:Blackout/features/home/bloc/home_bloc.dart';
 import 'package:Blackout/routes.dart';
 import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
 import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';

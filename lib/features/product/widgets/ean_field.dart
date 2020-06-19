@@ -63,7 +63,7 @@ class _EanFieldState extends State<EanField> {
                   icon: const Icon(Icons.center_focus_weak),
                   onPressed: _checked
                       ? () async {
-                          if (isEmulator) {
+                          if (emulator) {
                             _controller.text = "someEan";
                           } else {
                             var options = const ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
