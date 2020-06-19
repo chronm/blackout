@@ -268,7 +268,7 @@
   "@WARN_DESCRIPTION_MUST_NOT_BE_EMPTY": {},
   "WARN_EAN_MUST_NOT_BE_EMPTY": "Product code must not be empty",
   "@WARN_EAN_MUST_NOT_BE_EMPTY": {},
-  "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": "{expirationDate} is not valid",
+  "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": "{expirationDate} is not a valid date",
   "@WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": {
     "placeholders": {
       "expirationDate": {}
@@ -282,6 +282,14 @@
       "notificationDate": {}
     }
   },
+  "WARN_PERIOD_COULD_NOT_BE_PARSED": "{period} is not a valid time span",
+  "@WARN_PERIOD_COULD_NOT_BE_PARSED": {},
+  "WARN_PERIOD_MUST_NOT_BE_EMPTY": "Period must not be empty",
+  "@WARN_PERIOD_MUST_NOT_BE_EMPTY": {},
+  "WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY": "Plural form must not be empty",
+  "@WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY": {},
+  "WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY": "Refill limit must not be empty",
+  "@WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY": {},
   "WARN_USERNAME_MUST_NOT_BE_EMPTY": "Username must not be empty",
   "@WARN_USERNAME_MUST_NOT_BE_EMPTY": {}
 }

@@ -23,9 +23,10 @@ class RefillLimitWidget extends StatefulWidget {
 
 class _RefillLimitWidgetState extends State<RefillLimitWidget> {
   TextEditingController _controller;
-  bool _error = false;
+  String _errorText;
   UnitEnum _unit;
   bool _checked;
+  double value;
 
   @override
   void initState() {
@@ -39,27 +40,28 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
   }
 
   void invokeCallback() {
-    double value;
-    try {
-      if (_checked) {
-        if (_controller.text == "") {
+    if (_checked) {
+      String input = _controller.text.trim();
+      try {
+        if (input == "") {
           setState(() {
-            _error = true;
+            _errorText = S.of(context).WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY;
           });
         } else {
-          value = UnitConverter.toSi(Amount.fromInput(_controller.text, _unit)).value;
+          value = UnitConverter.toSi(Amount.fromInput(input, _unit)).value;
           setState(() {
-            _error = false;
+            _errorText = S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text);
           });
         }
+      } on NoSuchMethodError {
+        setState(() {
+          _errorText = S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text);
+        });
+      } finally {
+        widget.callback(value, _errorText != null);
       }
-    } on NoSuchMethodError {
-      value = null;
-      setState(() {
-        _error = true;
-      });
-    } finally {
-      widget.callback(value, _error);
+    } else {
+      widget.callback(null, false);
     }
   }
 
@@ -78,7 +80,7 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: S.of(context).GROUP_MINIMUM_AMOUNT,
-                        errorText: _error ? S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text) : null,
+                        errorText: _errorText,
                       ),
                       controller: _controller,
                     ),

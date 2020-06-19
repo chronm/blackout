@@ -19,23 +19,23 @@ class NameTextField extends StatefulWidget {
 
 class _NameTextFieldState extends State<NameTextField> {
   TextEditingController _controller = TextEditingController();
-  bool _error;
+  String _errorText;
 
   @override
   void initState() {
     super.initState();
     _controller.text = widget.initialValue.trim();
-    _error = _controller.text == "";
     _controller.addListener(() {
-      invokeCallback(_controller.text.trim());
+      invokeCallback();
     });
   }
 
-  void invokeCallback(String value) {
+  void invokeCallback() {
+    String input = _controller.text.trim();
     setState(() {
-      _error = value == "";
+      _errorText = input == "" ? S.of(context).WARN_NAME_MUST_NOT_BE_EMPTY : null;
     });
-    widget.callback(_error ? null : value, _error);
+    widget.callback(input, _errorText != null);
   }
 
   @override
@@ -47,7 +47,7 @@ class _NameTextFieldState extends State<NameTextField> {
           controller: _controller,
           decoration: InputDecoration(
             labelText: S.of(context).GROUP_NAME,
-            errorText: _error ? S.of(context).WARN_NAME_MUST_NOT_BE_EMPTY : null,
+            errorText: _errorText,
           ),
         ),
       ),

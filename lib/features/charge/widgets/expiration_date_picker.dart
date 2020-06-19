@@ -23,7 +23,7 @@ class ExpirationDatePicker extends StatefulWidget {
 class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
   bool _checked;
   TextEditingController _controller;
-  bool _error = false;
+  String _errorText;
 
   @override
   void initState() {
@@ -36,22 +36,23 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
   }
 
   void invokeCallback() {
-    LocalDate dateTime;
-    try {
-      dateTime = LocalDate.dateTime(DateFormat.yMd().parse(_controller.text));
-      setState(() {
-        _error = false;
-      });
-    } on FormatException {
-      setState(() {
-        _error = true;
-      });
-    } on AssertionError {
-      setState(() {
-        _error = true;
-      });
+    if (_checked) {
+      String input = _controller.text.trim();
+      LocalDate dateTime;
+      try {
+        dateTime = LocalDate.dateTime(DateFormat.yMd().parse(input));
+        setState(() {
+          _errorText = null;
+        });
+      } on FormatException {
+        setState(() {
+          _errorText = S.of(context).WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED(input);
+        });
+      }
+      widget.callback(dateTime, _errorText != null);
+    } else {
+      widget.callback(null, false);
     }
-    widget.callback(_checked ? dateTime : null, _error);
   }
 
   @override
@@ -81,7 +82,7 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      errorText: _error ? S.of(context).WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED(_controller.text) : null,
+                      errorText: _errorText,
                     ),
                   ),
                 ),

@@ -26,7 +26,6 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
   Charge _charge;
   Charge _oldCharge;
   bool _errorInExpirationDate = false;
-  bool _errorInNotificationDate = false;
 
   @override
   void initState() {
@@ -54,7 +53,7 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
             child: FlatButton(
               color: Theme.of(context).accentColor,
               child: Text(S.of(context).GENERAL_SAVE),
-              onPressed: !_errorInNotificationDate && !_errorInExpirationDate && (_charge != _oldCharge || widget.newCharge) ? () => widget.action(_charge) : null,
+              onPressed:!_errorInExpirationDate && (_charge != _oldCharge || widget.newCharge) ? () => widget.action(_charge) : null,
             ),
           ),
         ],

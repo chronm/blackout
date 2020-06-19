@@ -35,6 +35,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
   bool _errorInPeriod = false;
   bool _errorInRefillLimit = false;
   bool _errorInName = false;
+  bool _errorInPluralName = false;
 
   @override
   void initState() {
@@ -56,25 +57,26 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                 NameTextField(
                   initialValue: _group.name,
                   callback: (value, error) {
+                    _group.name = value;
                     setState(() {
-                      _group.name = value;
                       _errorInName = error;
                     });
                   },
                 ),
                 PluralNameWidget(
                   initialValue: _group.pluralName,
-                  callback: (value) {
+                  callback: (value, error) {
+                    _group.pluralName = value;
                     setState(() {
-                      _group.pluralName = value;
+                      _errorInPluralName = error;
                     });
                   },
                 ),
                 PeriodWidget(
                   initialPeriod: _group.warnInterval,
                   callback: (period, error) {
+                    _group.warnInterval = period;
                     setState(() {
-                      _group.warnInterval = period;
                       _errorInPeriod = error;
                     });
                   },
@@ -97,8 +99,8 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                         initialUnit: _group.unit,
                         initialRefillLimit: _group.refillLimit,
                         callback: (amount, error) {
+                          _group.refillLimit = amount;
                           setState(() {
-                            _group.refillLimit = amount;
                             _errorInRefillLimit = error;
                           });
                         },
@@ -146,7 +148,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                       child: FlatButton(
                         color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_SAVE),
-                        onPressed: _group.isValid() && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
+                        onPressed: _group.isValid() && !_errorInPluralName && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
                       ),
                     ),
                   ].where((element) => element != null).toList(),

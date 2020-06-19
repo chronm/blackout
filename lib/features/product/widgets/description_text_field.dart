@@ -1,7 +1,7 @@
 import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef void DescriptionCallback(String description);
+typedef void DescriptionCallback(String description, bool error);
 
 class DescriptionTextField extends StatefulWidget {
   final String initialValue;
@@ -19,29 +19,29 @@ class DescriptionTextField extends StatefulWidget {
 
 class _DescriptionTextFieldState extends State<DescriptionTextField> {
   TextEditingController _controller = TextEditingController();
-  bool _error;
+  String _errorText;
 
   @override
   void initState() {
     super.initState();
     _controller.text = widget.initialValue.trim();
-    _error = _controller.text == "";
     _controller.addListener(() {
-      callCallback(_controller.text.trim());
+      invokeCallback();
     });
   }
 
-  void callCallback(String value) {
-    if (value == "") {
+  void invokeCallback() {
+    String input = _controller.text.trim();
+    if (input == "") {
       setState(() {
-        _error = true;
+        _errorText = S.of(context).WARN_DESCRIPTION_MUST_NOT_BE_EMPTY;
       });
-      widget.callback(null);
+      widget.callback(null, true);
     } else {
       setState(() {
-        _error = false;
+        _errorText = null;
       });
-      widget.callback(value);
+      widget.callback(input, false);
     }
   }
 
@@ -54,7 +54,7 @@ class _DescriptionTextFieldState extends State<DescriptionTextField> {
           controller: _controller,
           decoration: InputDecoration(
             labelText: S.of(context).PRODUCT_DESCRIPTION,
-            errorText: _error ? S.of(context).WARN_DESCRIPTION_MUST_NOT_BE_EMPTY : null,
+            errorText: _errorText,
           ),
         ),
       ),
