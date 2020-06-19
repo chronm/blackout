@@ -53,6 +53,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
         yield GoToProduct();
       } else {
         List<Group> groups = await groupRepository.findAllByHomeId(home.id);
+        if (ean == "") ean = null;
         yield ShowCreateProduct(home, groups, ean);
       }
     }
