@@ -130,6 +130,8 @@
       "seconds": {}
     }
   },
+  "GENERAL_UNIT": "Unit",
+  "@GENERAL_UNIT": {},
   "GENERAL_WEEKS": "{weeks, plural, zero{} one{1 week} other{{weeks} weeks}}",
   "@GENERAL_WEEKS": {
     "placeholders": {

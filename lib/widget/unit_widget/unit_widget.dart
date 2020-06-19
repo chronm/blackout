@@ -45,20 +45,26 @@ class _UnitWidgetState extends State<UnitWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: DropdownButton<UnitEnum>(
-            items: enums
-                .map((u) => DropdownMenuItem(
-                      value: u,
-                      child: Text(enumToString(context, u)),
-                    ))
-                .toList(),
-            onChanged: (unit) {
-              setState(() {
-                _unit = unit;
-              });
-              widget.callback(unit);
-            },
-            value: _unit,
+          child: SizedBox(
+            width: 100,
+            child: DropdownButtonFormField<UnitEnum>(
+              decoration: InputDecoration(
+                labelText: S.of(context).GENERAL_UNIT,
+              ),
+              items: enums
+                  .map((u) => DropdownMenuItem(
+                        value: u,
+                        child: Text(enumToString(context, u)),
+                      ))
+                  .toList(),
+              onChanged: (unit) {
+                setState(() {
+                  _unit = unit;
+                });
+                widget.callback(unit);
+              },
+              value: _unit,
+            ),
           ),
         ),
       ),

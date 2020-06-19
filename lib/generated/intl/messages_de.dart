@@ -103,6 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "GENERAL_SAVE" : MessageLookupByLibrary.simpleMessage("Speichern"),
     "GENERAL_SEARCH" : MessageLookupByLibrary.simpleMessage("Suche ..."),
     "GENERAL_SECONDS" : m14,
+    "GENERAL_UNIT" : MessageLookupByLibrary.simpleMessage("Einheit"),
     "GENERAL_WEEKS" : m15,
     "GENERAL_YEARS" : m16,
     "GROUP_BEST_BEFORE" : MessageLookupByLibrary.simpleMessage("Ablaufdatum"),
