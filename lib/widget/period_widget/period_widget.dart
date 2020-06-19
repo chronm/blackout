@@ -24,7 +24,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
   TextEditingController _controller;
   Period _period;
   bool _checked;
-  bool _error = false;
+  String _errorText;
 
   @override
   void initState() {
@@ -38,17 +38,21 @@ class _PeriodWidgetState extends State<PeriodWidget> {
   }
 
   void invokeCallback() {
-    if (_controller.text == "" && _checked) {
-      setState(() {
-        _error = true;
-      });
-      widget.callback(null, true);
+    if (_checked) {
+      String input = _controller.text.trim();
+      if (input == "") {
+        setState(() {
+          _errorText = S.of(context).WARN_PERIOD_MUST_NOT_BE_EMPTY;
+        });
+      } else {
+        setState(() {
+          _period = periodFromISO8601String(input);
+          _errorText = _period == null ? S.of(context).WARN_PERIOD_COULD_NOT_BE_PARSED(input) : null;
+        });
+      }
+      widget.callback(_period, _errorText != null);
     } else {
-      setState(() {
-        _period = periodFromISO8601String(_controller.text);
-        _error = _period == null;
-      });
-      widget.callback(_checked ? _period : null, _error);
+      widget.callback(null, false);
     }
   }
 
@@ -66,7 +70,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
                 decoration: InputDecoration(
                   labelText: S.of(context).GROUP_BEST_BEFORE,
                   helperText: _period.prettyPrint(context),
-                  errorText: _error ? "Error" : null,
+                  errorText: _errorText,
                 ),
               ),
             );

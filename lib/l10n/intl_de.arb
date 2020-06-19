@@ -268,7 +268,7 @@
   "@WARN_DESCRIPTION_MUST_NOT_BE_EMPTY": {},
   "WARN_EAN_MUST_NOT_BE_EMPTY": "Productcode darf nicht leer sein",
   "@WARN_EAN_MUST_NOT_BE_EMPTY": {},
-  "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": "{expirationDate} ist kein gültiger Wert",
+  "WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": "{expirationDate} ist kein gültiges Datum",
   "@WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED": {
     "placeholders": {
       "expirationDate": {}
@@ -282,6 +282,14 @@
       "notificationDate": {}
     }
   },
+  "WARN_PERIOD_COULD_NOT_BE_PARSED": "{period} ist kein gültiger Zeitraum",
+  "@WARN_PERIOD_COULD_NOT_BE_PARSED": {},
+  "WARN_PERIOD_MUST_NOT_BE_EMPTY": "Zeitraum darf nicht leer sein",
+  "@WARN_PERIOD_MUST_NOT_BE_EMPTY": {},
+  "WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY": "Pluralform darf nicht leer sein",
+  "@WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY": {},
+  "WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY": "Mindestmenge darf nicht leer sein",
+  "@WARN_REFILL_LIMIT_MUST_NOT_BE_EMPTY": {},
   "WARN_USERNAME_MUST_NOT_BE_EMPTY": "Benutzername darf nicht leer sein",
   "@WARN_USERNAME_MUST_NOT_BE_EMPTY": {}
 }
