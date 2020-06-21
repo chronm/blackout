@@ -1,6 +1,7 @@
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:Blackout/widget/checkable/checkable.dart';
+import 'package:Blackout/widget/tooltip_icon/tooltip_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -25,6 +26,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
   Period _period;
   bool _checked;
   String _errorText;
+  FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -44,11 +46,15 @@ class _PeriodWidgetState extends State<PeriodWidget> {
         setState(() {
           _errorText = S.of(context).WARN_PERIOD_MUST_NOT_BE_EMPTY;
         });
+        _controller.text = "P";
       } else {
         setState(() {
           _period = periodFromISO8601String(input);
           _errorText = _period == null ? S.of(context).WARN_PERIOD_COULD_NOT_BE_PARSED(input) : null;
         });
+      }
+      if (_controller.selection.start < 1) {
+        _controller.selection = TextSelection.fromPosition(TextPosition(offset: 1));
       }
       widget.callback(_period, _errorText != null);
     } else {
@@ -66,11 +72,17 @@ class _PeriodWidgetState extends State<PeriodWidget> {
           checkedCallback: (context) {
             return Expanded(
               child: TextField(
+                focusNode: _focusNode,
                 controller: _controller,
                 decoration: InputDecoration(
                   labelText: S.of(context).GROUP_BEST_BEFORE,
                   helperText: _period.prettyPrint(context),
                   errorText: _errorText,
+                  suffixIcon: TooltipIcon(
+                    focusNode: _focusNode,
+                    title: S.of(context).GROUP_BEST_BEFORE,
+                    tooltip: S.of(context).GROUP_BEST_BEFORE_HELP,
+                  ),
                 ),
               ),
             );

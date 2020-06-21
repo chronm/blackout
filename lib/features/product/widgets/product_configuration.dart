@@ -36,7 +36,7 @@ class ProductConfiguration extends StatefulWidget {
 class _ProductConfigurationState extends State<ProductConfiguration> {
   Product _oldProduct;
   Product _product;
-  bool _errorInDescription;
+  bool _errorInDescription = false;
   bool _errorInEan = false;
   bool _errorInRefillLimit = false;
   bool _errorInPeriod = false;

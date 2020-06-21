@@ -1,5 +1,6 @@
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/widget/checkable/checkable.dart';
+import 'package:Blackout/widget/tooltip_icon/tooltip_icon.dart';
 import 'package:flutter/material.dart';
 
 typedef void PluralNameCallback(String pluralName, bool error);
@@ -22,6 +23,7 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
   TextEditingController _controller;
   String _errorText;
   bool _checked;
+  FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -54,10 +56,16 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
           initialChecked: _checked,
           checkedCallback: (context) => Expanded(
             child: TextField(
+              focusNode: _focusNode,
               controller: _controller,
               decoration: InputDecoration(
                 labelText: S.of(context).GROUP_PLURAL_NAME,
                 errorText: _errorText,
+                suffixIcon: TooltipIcon(
+                  focusNode: _focusNode,
+                  title: S.of(context).GROUP_PLURAL_NAME,
+                  tooltip: S.of(context).GROUP_PLURAL_NAME_INFO,
+                )
               ),
             ),
           ),
