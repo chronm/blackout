@@ -26,7 +26,6 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
   String _errorText;
   UnitEnum _unit;
   bool _checked;
-  double value;
 
   @override
   void initState() {
@@ -42,6 +41,7 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
   void invokeCallback() {
     if (_checked) {
       String input = _controller.text.trim();
+      double value;
       try {
         if (input == "") {
           setState(() {
@@ -50,7 +50,7 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
         } else {
           value = UnitConverter.toSi(Amount.fromInput(input, _unit)).value;
           setState(() {
-            _errorText = S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text);
+            _errorText = value == null ? S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text) : null;
           });
         }
       } on NoSuchMethodError {
