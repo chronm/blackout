@@ -440,6 +440,16 @@ class S {
     );
   }
 
+  /// `Example: "P1Y2M3W4D" corresponds to 1 year, 2 months, 3 weeks and 4 days`
+  String get GROUP_BEST_BEFORE_HELP {
+    return Intl.message(
+      'Example: "P1Y2M3W4D" corresponds to 1 year, 2 months, 3 weeks and 4 days',
+      name: 'GROUP_BEST_BEFORE_HELP',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Minimum amount`
   String get GROUP_MINIMUM_AMOUNT {
     return Intl.message(
@@ -465,6 +475,16 @@ class S {
     return Intl.message(
       'Plural form of name',
       name: 'GROUP_PLURAL_NAME',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Will be used when amount is zero or greater than one.`
+  String get GROUP_PLURAL_NAME_INFO {
+    return Intl.message(
+      'Will be used when amount is zero or greater than one.',
+      name: 'GROUP_PLURAL_NAME_INFO',
       desc: '',
       args: [],
     );
