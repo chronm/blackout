@@ -1,53 +1,36 @@
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/preferences/constants/preferences.dart';
+import 'package:Blackout/models/home.dart';
+import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../blackout_test_base.dart';
 
-class SharedPreferencesMock extends Mock implements SharedPreferences {}
-
 void main() {
-  SharedPreferences sharedPreferences;
   BlackoutPreferences preferences;
-
   setUp(() {
-    sharedPreferences = SharedPreferencesMock();
-    preferences = BlackoutPreferences(sharedPreferences);
+    preferences = BlackoutPreferences(SharedPreferencesMock());
   });
 
-  test('set a user and then get it from cache', () async {
-    await preferences.setUser(createDefaultUser());
-
-    verify(sharedPreferences.setString(Preferences.user, argThat(isA<String>()))).called(1);
-
-    await preferences.getUser();
-
-    verifyNever(sharedPreferences.getString(Preferences.user));
-  });
-
-  test('set a home and then get it from cache', () async {
+  test('store and retrieve home', () async {
     await preferences.setHome(createDefaultHome());
+    Home home = await preferences.getHome();
 
-    verify(sharedPreferences.setString(Preferences.home, argThat(isA<String>()))).called(1);
-
-    await preferences.getHome();
-
-    verifyNever(sharedPreferences.getString(Preferences.home));
+    expect(home.id, equals(DEFAULT_HOME_ID));
+    expect(home.name, equals(DEFAULT_HOME_NAME));
   });
 
-  test('Get a user from sharedPreferences', () async {
-    SharedPreferences.setMockInitialValues({Preferences.user: createDefaultUser()});
-    await preferences.getUser();
+  test('store and retrieve user', () async {
+    await preferences.setUser(User(name: DEFAULT_USER_NAME, id: DEFAULT_USER_ID));
+    User user = await preferences.getUser();
 
-    verify(sharedPreferences.getString(Preferences.user)).called(1);
+    expect(user.id, equals(DEFAULT_USER_ID));
+    expect(user.name, equals(DEFAULT_USER_NAME));
   });
 
-  test('Get a home from sharedPreferences', () async {
-    SharedPreferences.setMockInitialValues({Preferences.home: createDefaultHome()});
-    await preferences.getHome();
+  test('store and retrieve version', () async {
+    await preferences.setVersion(DEFAULT_APP_VERSION);
+    String version = await preferences.getVersion();
 
-    verify(sharedPreferences.getString(Preferences.home)).called(1);
+    expect(version, equals(DEFAULT_APP_VERSION));
   });
 }

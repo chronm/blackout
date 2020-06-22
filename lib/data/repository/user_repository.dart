@@ -10,9 +10,10 @@ part 'user_repository.g.dart';
 class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMixin {
   UserRepository(Database db) : super(db);
 
-  Future<User> findOneByOtherFalse() async {
-    var query = select(userTable)..where((u) => u.other.not());
+  Future<User> findOneByActiveTrue() async {
+    var query = select(userTable)..where((u) => u.active);
     UserEntry entry = await query.getSingle();
+    if (entry == null) return null;
     return User.fromEntry(entry);
   }
 
@@ -24,10 +25,10 @@ class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMix
     return User.fromEntry(userEntry);
   }
 
-  Future<User> save(User user, {bool other = true}) async {
+  Future<User> save(User user, {bool active = false}) async {
     user.id ??= Uuid().v4();
 
-    await into(userTable).insertOnConflictUpdate(user.toCompanion(other: other));
+    await into(userTable).insertOnConflictUpdate(user.toCompanion(active: active));
 
     return await findOneByUserId(user.id);
   }

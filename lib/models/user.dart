@@ -26,11 +26,11 @@ class User {
     );
   }
 
-  UserTableCompanion toCompanion({bool other}) {
+  UserTableCompanion toCompanion({bool active}) {
     return UserTableCompanion(
       id: Value(id),
       name: Value(name),
-      other: Value(other),
+      active: Value(active),
     );
   }
 

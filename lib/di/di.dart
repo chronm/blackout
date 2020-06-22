@@ -5,7 +5,6 @@ import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/data/repository/sync_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:Blackout/features/blackout_drawer/bloc/drawer_bloc.dart';
 import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
@@ -60,7 +59,6 @@ void registerDatabase() async {
   sl.registerLazySingleton<ChangeRepository>(() => database.changeRepository);
   sl.registerLazySingleton<ChargeRepository>(() => database.chargeRepository);
   sl.registerLazySingleton<ProductRepository>(() => database.productRepository);
-  sl.registerLazySingleton<SyncRepository>(() => database.syncRepository);
 }
 
 void registerBloc() async {

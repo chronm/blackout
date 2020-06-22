@@ -4,7 +4,7 @@ description: Keep track of your supplies
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.9.0-10.0.dev.flutter-7706afbcf5"
+  sdk: ">=2.9.0-17.0.dev.flutter-7e72c9ae7e"
 
 dependencies:
   flutter:

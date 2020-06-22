@@ -1,5 +1,3 @@
-import 'package:Blackout/features/blackout_drawer/bloc/drawer_bloc.dart';
-import 'package:Blackout/main.dart';
 import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {

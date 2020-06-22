@@ -45,17 +45,6 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
     return charge;
   }
 
-  Future<List<Charge>> findAll({bool recurseChanges = true}) async {
-    List<ChargeEntry> entries = await select(chargeTable).get();
-
-    List<Charge> charges = [];
-    for (ChargeEntry entry in entries) {
-      charges.add(await createCharge(entry, recurseChanges: recurseChanges));
-    }
-
-    return charges;
-  }
-
   Future<Charge> findOneByChargeId(String chargeId, {bool recurseProduct = true, bool recurseChanges = true}) async {
     var query = select(chargeTable)..where((i) => i.id.equals(chargeId));
     ChargeEntry chargeEntry = (await query.getSingle());
