@@ -1,5 +1,7 @@
 # Blackout
 
+[![Join the chat at https://gitter.im/blackout-mobile/community](https://badges.gitter.im/blackout-mobile/community.svg)](https://gitter.im/blackout-mobile/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Keep track of your supplies
 
 ## Getting Started
