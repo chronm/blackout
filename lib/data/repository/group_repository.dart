@@ -23,7 +23,7 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
       products = await db.productRepository.findAllByGroupId(groupEntry.id, recurseGroup: false);
     }
 
-    Home home = await db.homeRepository.findHomeById(groupEntry.homeId);
+    Home home = await db.homeRepository.findOneById(groupEntry.homeId);
 
     List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByGroupId(groupEntry.id);
 

@@ -47,7 +47,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       }
 
       Home home = await blackoutPreferences.getHome();
-      Product product = await productRepository.findOneByEanAndHomeId(ean, home.id);
+      Product product = await productRepository.findOneByPatternAndHomeId(ean, home.id);
       if (product != null) {
         sl<ProductBloc>().add(LoadProduct(product.id));
         yield GoToProduct();

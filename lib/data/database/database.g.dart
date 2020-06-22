@@ -1958,256 +1958,11 @@ class $ModelChangeTableTable extends ModelChangeTable
   }
 }
 
-class SyncEntry extends DataClass implements Insertable<SyncEntry> {
-  final DateTime synchronizationDate;
-  final String userId;
-  final String homeId;
-  SyncEntry(
-      {@required this.synchronizationDate,
-      @required this.userId,
-      @required this.homeId});
-  factory SyncEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
-    final effectivePrefix = prefix ?? '';
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final stringType = db.typeSystem.forDartType<String>();
-    return SyncEntry(
-      synchronizationDate: dateTimeType.mapFromDatabaseResponse(
-          data['${effectivePrefix}synchronization_date']),
-      userId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (!nullToAbsent || synchronizationDate != null) {
-      map['synchronization_date'] = Variable<DateTime>(synchronizationDate);
-    }
-    if (!nullToAbsent || userId != null) {
-      map['user_id'] = Variable<String>(userId);
-    }
-    if (!nullToAbsent || homeId != null) {
-      map['home_id'] = Variable<String>(homeId);
-    }
-    return map;
-  }
-
-  SyncTableCompanion toCompanion(bool nullToAbsent) {
-    return SyncTableCompanion(
-      synchronizationDate: synchronizationDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(synchronizationDate),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
-    );
-  }
-
-  factory SyncEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return SyncEntry(
-      synchronizationDate:
-          serializer.fromJson<DateTime>(json['synchronizationDate']),
-      userId: serializer.fromJson<String>(json['userId']),
-      homeId: serializer.fromJson<String>(json['homeId']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'synchronizationDate': serializer.toJson<DateTime>(synchronizationDate),
-      'userId': serializer.toJson<String>(userId),
-      'homeId': serializer.toJson<String>(homeId),
-    };
-  }
-
-  SyncEntry copyWith(
-          {DateTime synchronizationDate, String userId, String homeId}) =>
-      SyncEntry(
-        synchronizationDate: synchronizationDate ?? this.synchronizationDate,
-        userId: userId ?? this.userId,
-        homeId: homeId ?? this.homeId,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('SyncEntry(')
-          ..write('synchronizationDate: $synchronizationDate, ')
-          ..write('userId: $userId, ')
-          ..write('homeId: $homeId')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => $mrjf($mrjc(
-      synchronizationDate.hashCode, $mrjc(userId.hashCode, homeId.hashCode)));
-  @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is SyncEntry &&
-          other.synchronizationDate == this.synchronizationDate &&
-          other.userId == this.userId &&
-          other.homeId == this.homeId);
-}
-
-class SyncTableCompanion extends UpdateCompanion<SyncEntry> {
-  final Value<DateTime> synchronizationDate;
-  final Value<String> userId;
-  final Value<String> homeId;
-  const SyncTableCompanion({
-    this.synchronizationDate = const Value.absent(),
-    this.userId = const Value.absent(),
-    this.homeId = const Value.absent(),
-  });
-  SyncTableCompanion.insert({
-    @required DateTime synchronizationDate,
-    @required String userId,
-    @required String homeId,
-  })  : synchronizationDate = Value(synchronizationDate),
-        userId = Value(userId),
-        homeId = Value(homeId);
-  static Insertable<SyncEntry> custom({
-    Expression<DateTime> synchronizationDate,
-    Expression<String> userId,
-    Expression<String> homeId,
-  }) {
-    return RawValuesInsertable({
-      if (synchronizationDate != null)
-        'synchronization_date': synchronizationDate,
-      if (userId != null) 'user_id': userId,
-      if (homeId != null) 'home_id': homeId,
-    });
-  }
-
-  SyncTableCompanion copyWith(
-      {Value<DateTime> synchronizationDate,
-      Value<String> userId,
-      Value<String> homeId}) {
-    return SyncTableCompanion(
-      synchronizationDate: synchronizationDate ?? this.synchronizationDate,
-      userId: userId ?? this.userId,
-      homeId: homeId ?? this.homeId,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (synchronizationDate.present) {
-      map['synchronization_date'] =
-          Variable<DateTime>(synchronizationDate.value);
-    }
-    if (userId.present) {
-      map['user_id'] = Variable<String>(userId.value);
-    }
-    if (homeId.present) {
-      map['home_id'] = Variable<String>(homeId.value);
-    }
-    return map;
-  }
-}
-
-class $SyncTableTable extends SyncTable
-    with TableInfo<$SyncTableTable, SyncEntry> {
-  final GeneratedDatabase _db;
-  final String _alias;
-  $SyncTableTable(this._db, [this._alias]);
-  final VerificationMeta _synchronizationDateMeta =
-      const VerificationMeta('synchronizationDate');
-  GeneratedDateTimeColumn _synchronizationDate;
-  @override
-  GeneratedDateTimeColumn get synchronizationDate =>
-      _synchronizationDate ??= _constructSynchronizationDate();
-  GeneratedDateTimeColumn _constructSynchronizationDate() {
-    return GeneratedDateTimeColumn(
-      'synchronization_date',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _userIdMeta = const VerificationMeta('userId');
-  GeneratedTextColumn _userId;
-  @override
-  GeneratedTextColumn get userId => _userId ??= _constructUserId();
-  GeneratedTextColumn _constructUserId() {
-    return GeneratedTextColumn(
-      'user_id',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
-  GeneratedTextColumn _homeId;
-  @override
-  GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
-  GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
-  }
-
-  @override
-  List<GeneratedColumn> get $columns => [synchronizationDate, userId, homeId];
-  @override
-  $SyncTableTable get asDslTable => this;
-  @override
-  String get $tableName => _alias ?? 'sync_table';
-  @override
-  final String actualTableName = 'sync_table';
-  @override
-  VerificationContext validateIntegrity(Insertable<SyncEntry> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('synchronization_date')) {
-      context.handle(
-          _synchronizationDateMeta,
-          synchronizationDate.isAcceptableOrUnknown(
-              data['synchronization_date'], _synchronizationDateMeta));
-    } else if (isInserting) {
-      context.missing(_synchronizationDateMeta);
-    }
-    if (data.containsKey('user_id')) {
-      context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
-    } else if (isInserting) {
-      context.missing(_userIdMeta);
-    }
-    if (data.containsKey('home_id')) {
-      context.handle(_homeIdMeta,
-          homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
-    } else if (isInserting) {
-      context.missing(_homeIdMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {userId};
-  @override
-  SyncEntry map(Map<String, dynamic> data, {String tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return SyncEntry.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  $SyncTableTable createAlias(String alias) {
-    return $SyncTableTable(_db, alias);
-  }
-}
-
 class UserEntry extends DataClass implements Insertable<UserEntry> {
   final String id;
   final String name;
-  final bool other;
-  UserEntry({@required this.id, @required this.name, @required this.other});
+  final bool active;
+  UserEntry({@required this.id, @required this.name, @required this.active});
   factory UserEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -2216,7 +1971,8 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return UserEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
-      other: boolType.mapFromDatabaseResponse(data['${effectivePrefix}other']),
+      active:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}active']),
     );
   }
   @override
@@ -2228,8 +1984,8 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     if (!nullToAbsent || name != null) {
       map['name'] = Variable<String>(name);
     }
-    if (!nullToAbsent || other != null) {
-      map['other'] = Variable<bool>(other);
+    if (!nullToAbsent || active != null) {
+      map['active'] = Variable<bool>(active);
     }
     return map;
   }
@@ -2238,8 +1994,8 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return UserTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      other:
-          other == null && nullToAbsent ? const Value.absent() : Value(other),
+      active:
+          active == null && nullToAbsent ? const Value.absent() : Value(active),
     );
   }
 
@@ -2249,7 +2005,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return UserEntry(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
-      other: serializer.fromJson<bool>(json['other']),
+      active: serializer.fromJson<bool>(json['active']),
     );
   }
   @override
@@ -2258,71 +2014,71 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
-      'other': serializer.toJson<bool>(other),
+      'active': serializer.toJson<bool>(active),
     };
   }
 
-  UserEntry copyWith({String id, String name, bool other}) => UserEntry(
+  UserEntry copyWith({String id, String name, bool active}) => UserEntry(
         id: id ?? this.id,
         name: name ?? this.name,
-        other: other ?? this.other,
+        active: active ?? this.active,
       );
   @override
   String toString() {
     return (StringBuffer('UserEntry(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('other: $other')
+          ..write('active: $active')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, other.hashCode)));
+      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, active.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is UserEntry &&
           other.id == this.id &&
           other.name == this.name &&
-          other.other == this.other);
+          other.active == this.active);
 }
 
 class UserTableCompanion extends UpdateCompanion<UserEntry> {
   final Value<String> id;
   final Value<String> name;
-  final Value<bool> other;
+  final Value<bool> active;
   const UserTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
-    this.other = const Value.absent(),
+    this.active = const Value.absent(),
   });
   UserTableCompanion.insert({
     @required String id,
     @required String name,
-    @required bool other,
+    @required bool active,
   })  : id = Value(id),
         name = Value(name),
-        other = Value(other);
+        active = Value(active);
   static Insertable<UserEntry> custom({
     Expression<String> id,
     Expression<String> name,
-    Expression<bool> other,
+    Expression<bool> active,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (other != null) 'other': other,
+      if (active != null) 'active': active,
     });
   }
 
   UserTableCompanion copyWith(
-      {Value<String> id, Value<String> name, Value<bool> other}) {
+      {Value<String> id, Value<String> name, Value<bool> active}) {
     return UserTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
-      other: other ?? this.other,
+      active: active ?? this.active,
     );
   }
 
@@ -2335,8 +2091,8 @@ class UserTableCompanion extends UpdateCompanion<UserEntry> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
-    if (other.present) {
-      map['other'] = Variable<bool>(other.value);
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
     }
     return map;
   }
@@ -2371,20 +2127,20 @@ class $UserTableTable extends UserTable
     );
   }
 
-  final VerificationMeta _otherMeta = const VerificationMeta('other');
-  GeneratedBoolColumn _other;
+  final VerificationMeta _activeMeta = const VerificationMeta('active');
+  GeneratedBoolColumn _active;
   @override
-  GeneratedBoolColumn get other => _other ??= _constructOther();
-  GeneratedBoolColumn _constructOther() {
+  GeneratedBoolColumn get active => _active ??= _constructActive();
+  GeneratedBoolColumn _constructActive() {
     return GeneratedBoolColumn(
-      'other',
+      'active',
       $tableName,
       false,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, name, other];
+  List<GeneratedColumn> get $columns => [id, name, active];
   @override
   $UserTableTable get asDslTable => this;
   @override
@@ -2407,11 +2163,11 @@ class $UserTableTable extends UserTable
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('other')) {
-      context.handle(
-          _otherMeta, other.isAcceptableOrUnknown(data['other'], _otherMeta));
+    if (data.containsKey('active')) {
+      context.handle(_activeMeta,
+          active.isAcceptableOrUnknown(data['active'], _activeMeta));
     } else if (isInserting) {
-      context.missing(_otherMeta);
+      context.missing(_activeMeta);
     }
     return context;
   }
@@ -2995,8 +2751,6 @@ abstract class _$Database extends GeneratedDatabase {
   $ModelChangeTableTable _modelChangeTable;
   $ModelChangeTableTable get modelChangeTable =>
       _modelChangeTable ??= $ModelChangeTableTable(this);
-  $SyncTableTable _syncTable;
-  $SyncTableTable get syncTable => _syncTable ??= $SyncTableTable(this);
   $UserTableTable _userTable;
   $UserTableTable get userTable => _userTable ??= $UserTableTable(this);
   $HomeTableTable _homeTable;
@@ -3019,9 +2773,6 @@ abstract class _$Database extends GeneratedDatabase {
   ModelChangeRepository _modelChangeRepository;
   ModelChangeRepository get modelChangeRepository =>
       _modelChangeRepository ??= ModelChangeRepository(this as Database);
-  SyncRepository _syncRepository;
-  SyncRepository get syncRepository =>
-      _syncRepository ??= SyncRepository(this as Database);
   UserRepository _userRepository;
   UserRepository get userRepository =>
       _userRepository ??= UserRepository(this as Database);
@@ -3040,7 +2791,6 @@ abstract class _$Database extends GeneratedDatabase {
         groupTable,
         changeTable,
         modelChangeTable,
-        syncTable,
         userTable,
         homeTable,
         modificationTable

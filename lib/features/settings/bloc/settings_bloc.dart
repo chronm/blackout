@@ -27,7 +27,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
     if (event is SaveSettings) {
       await blackoutPreferences.setUser(event.settings.user);
-      await userRepository.save(event.settings.user, other: false);
+      await userRepository.save(event.settings.user, active: false);
       yield GoBack();
     }
   }

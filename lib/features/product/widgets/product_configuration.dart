@@ -1,4 +1,3 @@
-import 'package:Blackout/features/group/bloc/group_bloc.dart';
 import 'package:Blackout/features/product/bloc/product_bloc.dart';
 import 'package:Blackout/features/product/widgets/description_text_field.dart';
 import 'package:Blackout/features/product/widgets/ean_field.dart';

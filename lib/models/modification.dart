@@ -1,5 +1,4 @@
 import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';

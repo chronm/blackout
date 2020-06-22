@@ -32,7 +32,7 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
       charges = charges.where((c) => c.amount > 0).toList();
     }
 
-    Home home = await db.homeRepository.findHomeById(productEntry.homeId);
+    Home home = await db.homeRepository.findOneById(productEntry.homeId);
 
     List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByProductId(productEntry.id);
 
@@ -60,17 +60,6 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
     return products;
   }
 
-  Future<List<Product>> findAllByHomeId(String homeId, {bool recurseCharges = true}) async {
-    List<ProductEntry> entries = await (select(productTable)..where((p) => p.homeId.equals(homeId))).get();
-
-    List<Product> products = [];
-    for (ProductEntry entry in entries) {
-      products.add(await createProduct(entry, recurseCharges: recurseCharges));
-    }
-
-    return products;
-  }
-
   Future<Product> findOneByProductId(String productId, {bool recurseGroup = true, bool recurseCharges = true}) async {
     var query = select(productTable)..where((p) => p.id.equals(productId));
     ProductEntry productEntry = (await query.getSingle());
@@ -79,8 +68,8 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
     return await createProduct(productEntry, recurseGroup: recurseGroup, recurseCharges: recurseCharges);
   }
 
-  Future<Product> findOneByEanAndHomeId(String ean, String homeId, {bool recurseGroup = true, bool recurseCharges = true}) async {
-    var query = select(productTable)..where((p) => p.ean.equals(ean));
+  Future<Product> findOneByPatternAndHomeId(String pattern, String homeId, {bool recurseGroup = true, bool recurseCharges = true}) async {
+    var query = select(productTable)..where((p) => p.ean.equals(pattern));
     ProductEntry productEntry = (await query.getSingle());
     if (productEntry == null) return null;
 

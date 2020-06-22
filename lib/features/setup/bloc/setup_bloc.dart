@@ -46,7 +46,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
       home = await homeRepository.save(home, active: true);
 
       User user = User(id: Uuid().v4(), name: event.username);
-      user = await userRepository.save(user, other: false);
+      user = await userRepository.save(user, active: false);
       await blackoutPreferences.setUser(user);
       await blackoutPreferences.setHome(home);
       if (kDebugMode) {

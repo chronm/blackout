@@ -3,7 +3,6 @@ import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/models/change.dart';
 import 'package:Blackout/models/charge.dart';
 import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/model_change.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
@@ -25,7 +24,7 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
 
     User user = await db.userRepository.findOneByUserId(changeEntry.userId);
 
-    Home home = await db.homeRepository.findHomeById(changeEntry.homeId);
+    Home home = await db.homeRepository.findOneById(changeEntry.homeId);
 
     change = Change.fromEntry(changeEntry, user, home, charge: charge);
 
@@ -34,17 +33,6 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
     }
 
     return change;
-  }
-
-  Future<List<Change>> findAllByHomeId(String homeId) async {
-    List<ChangeEntry> entries = await (select(changeTable)..where((c) => c.homeId.equals(homeId))).get();
-
-    List<Change> changes = [];
-    for (ChangeEntry entry in entries) {
-      changes.add(await createChange(entry));
-    }
-
-    return changes;
   }
 
   Future<List<Change>> findAllByChangeDateAfterAndHomeId(LocalDate changeDate, String homeId) async {

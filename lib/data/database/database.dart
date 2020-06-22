@@ -7,7 +7,6 @@ import 'package:Blackout/data/database/charge_table.dart';
 import 'package:Blackout/data/database/model_change_table.dart';
 import 'package:Blackout/data/database/modification_table.dart';
 import 'package:Blackout/data/database/product_table.dart';
-import 'package:Blackout/data/database/sync_table.dart';
 import 'package:Blackout/data/database/user_table.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
@@ -16,7 +15,6 @@ import 'package:Blackout/data/repository/charge_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/modification_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/data/repository/sync_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
@@ -46,12 +44,12 @@ LazyDatabase _openConnection() {
 }
 
 @UseMoor(
-    tables: [ChargeTable, ProductTable, GroupTable, ChangeTable, ModelChangeTable, SyncTable, UserTable, HomeTable, ModificationTable],
-    daos: [ChargeRepository, ProductRepository, GroupRepository, ChangeRepository, ModelChangeRepository, SyncRepository, UserRepository, HomeRepository, ModificationRepository])
+    tables: [ChargeTable, ProductTable, GroupTable, ChangeTable, ModelChangeTable, UserTable, HomeTable, ModificationTable],
+    daos: [ChargeRepository, ProductRepository, GroupRepository, ChangeRepository, ModelChangeRepository, UserRepository, HomeRepository, ModificationRepository])
 class Database<T> extends _$Database {
   Database() : super(_openConnection());
 
-  Database.forTesting(QueryExecutor e) : super(e);
+  Database.forTesting() : super(VmDatabase.memory());
 
   @override
   int get schemaVersion => 1;

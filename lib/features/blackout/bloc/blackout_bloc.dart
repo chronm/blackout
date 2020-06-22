@@ -97,8 +97,8 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
     }
     if (event is ImportDatabase) {
       await prepareImport();
-      User user = await sl<UserRepository>().findOneByOtherFalse();
-      Home home = await sl<HomeRepository>().findHomeByActiveTrue();
+      User user = await sl<UserRepository>().findOneByActiveTrue();
+      Home home = await sl<HomeRepository>().findOneByActiveTrue();
       await blackoutPreferences.setUser(user);
       await blackoutPreferences.setHome(home);
       await prepareApplication();
