@@ -1,7 +1,8 @@
-import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef UsernameCallback(String value, bool error);
+import '../../../generated/l10n.dart';
+
+typedef UsernameCallback = Function(String value, bool error);
 
 class UsernameField extends StatefulWidget {
   final String initialValue;
@@ -18,7 +19,7 @@ class UsernameField extends StatefulWidget {
 }
 
 class _UsernameFieldState extends State<UsernameField> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   bool _error;
 
   @override

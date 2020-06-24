@@ -1,6 +1,6 @@
-import 'package:Blackout/models/unit/unitless.dart';
-import 'package:Blackout/models/unit/weight.dart';
-import 'package:Blackout/util/double_extension.dart';
+import '../../util/double_extension.dart';
+import 'unitless.dart';
+import 'weight.dart';
 
 enum UnitEnum {
   weight,
@@ -14,13 +14,13 @@ class Amount {
   Amount(this.value, this.unit);
 
   Amount.fromSi(double value, UnitEnum unitEnum) {
-    this.unit = Unit.fromSi(unitEnum);
-    this.value = value;
+    unit = Unit.fromSi(unitEnum);
+    value = value;
   }
 
   Amount.fromInput(String input, UnitEnum unitEnum) {
-    this.unit = Unit.fromInput(input, unitEnum);
-    this.value = unit.parseInput(input);
+    unit = Unit.fromInput(input, unitEnum);
+    value = unit.parseInput(input);
   }
 
   String toString() {
@@ -28,13 +28,17 @@ class Amount {
   }
 
   @override
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     return UnitConverter.toScientific(this).value == UnitConverter.toScientific(other).value;
   }
 
-  bool operator <=(other) {
+  bool operator <=(dynamic other) {
     return UnitConverter.toScientific(this).value <= UnitConverter.toScientific(other).value;
   }
+
+  @override
+  int get hashCode => super.hashCode;
+
 }
 
 abstract class Unit {
@@ -74,7 +78,7 @@ abstract class Unit {
 
 class UnitConverter {
   static Amount toSi(Amount amount) {
-    double value = amount.value * amount.unit.factor;
+    var value = amount.value * amount.unit.factor;
     return Amount(value, amount.unit.si);
   }
 
@@ -85,12 +89,12 @@ class UnitConverter {
   static Amount toScientific(Amount amount) {
     if (amount.value == null) return amount;
     if (amount.value == 0) return amount;
-    List<Unit> units = amount.unit.units;
+    var units = amount.unit.units;
     if (units.length == 1) {
       return amount;
     }
-    double value = _convertTo(amount.value, units[0]);
-    int i = 0;
+    var value = _convertTo(amount.value, units[0]);
+    var i = 0;
     while (i < amount.unit.units.length && _convertTo(_toSi(value, units[i]), units[i + 1]) < 1000) {
       value = _convertTo(_toSi(value, units[i]), units[i + 1]);
       i++;

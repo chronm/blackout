@@ -1,3 +1,4 @@
+import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/generated/l10n_extension.dart';
 import 'package:Blackout/models/change.dart';
@@ -15,61 +16,108 @@ import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_machine/time_machine.dart';
 
-const String DEFAULT_APP_VERSION = "version";
+const String defaultAppVersion = "version";
 
 // Home
-const String DEFAULT_HOME_NAME = "homeName";
-const String DEFAULT_HOME_ID = "homeId";
+const String defaultHomeName = "homeName";
+const String defaultHomeId = "homeId";
 
-Home createDefaultHome() => Home(id: DEFAULT_HOME_ID, name: DEFAULT_HOME_NAME);
+Home createDefaultHome() => Home(id: defaultHomeId, name: defaultHomeName);
 
 // User
-const String DEFAULT_USER_NAME = "userName";
-const String DEFAULT_USER_ID = "userId";
+const String defaultUserName = "userName";
+const String defaultUserId = "userId";
 
-User createDefaultUser() => User(id: DEFAULT_USER_ID, name: DEFAULT_USER_NAME);
+User createDefaultUser() => User(id: defaultUserId, name: defaultUserName);
 
 // ModelChange
-const String DEFAULT_MODEL_CHANGE_ID = "modelChangeId";
-LocalDate DEFAULT_MODEL_CHANGE_DATE = LocalDate(2020, 06, 21);
-ModelChange createDefaultGroupModelChange() => ModelChange(id: DEFAULT_MODEL_CHANGE_ID, user: createDefaultUser(), modification: ModelChangeType.create, modificationDate: DEFAULT_MODEL_CHANGE_DATE, home: createDefaultHome(), groupId: DEFAULT_GROUP_ID);
-ModelChange createDefaultProductModelChange() => ModelChange(id: DEFAULT_MODEL_CHANGE_ID, user: createDefaultUser(), modification: ModelChangeType.create, modificationDate: DEFAULT_MODEL_CHANGE_DATE, home: createDefaultHome(), productId: DEFAULT_PRODUCT_ID);
-ModelChange createDefaultChargeModelChange() => ModelChange(id: DEFAULT_MODEL_CHANGE_ID, user: createDefaultUser(), modification: ModelChangeType.create, modificationDate: DEFAULT_MODEL_CHANGE_DATE, home: createDefaultHome(), chargeId: DEFAULT_CHARGE_ID);
+const String defaultModelChangeId = "modelChangeId";
+LocalDate defaultModelChangeDate = LocalDate(2020, 06, 21);
+
+ModelChange createDefaultGroupModelChange() => ModelChange(id: defaultModelChangeId, user: createDefaultUser(), modification: ModelChangeType.create, modificationDate: defaultModelChangeDate, home: createDefaultHome(), groupId: defaultGroupId);
+
+ModelChange createDefaultProductModelChange() => ModelChange(
+      id: defaultModelChangeId,
+      user: createDefaultUser(),
+      modification: ModelChangeType.create,
+      modificationDate: defaultModelChangeDate,
+      home: createDefaultHome(),
+      productId: defaultProductId,
+    );
+
+ModelChange createDefaultChargeModelChange() => ModelChange(
+      id: defaultModelChangeId,
+      user: createDefaultUser(),
+      modification: ModelChangeType.create,
+      modificationDate: defaultModelChangeDate,
+      home: createDefaultHome(),
+      chargeId: defaultChargeId,
+    );
 
 // Group
-const String DEFAULT_GROUP_ID = "groupId";
-const String DEFAULT_GROUP_NAME= "groupName";
-const String DEFAULT_GROUP_PLURAL_NAME = "groupPluralName";
-Period DEFAULT_GROUP_WARN_INTERVAL = Period(days: 2);
-const double DEFAULT_GROUP_REFILL_LIMIT = 2.0;
-Group createDefaultGroup() => Group(id:DEFAULT_GROUP_ID, name: DEFAULT_GROUP_NAME, pluralName: DEFAULT_GROUP_PLURAL_NAME, warnInterval: DEFAULT_GROUP_WARN_INTERVAL, refillLimit: DEFAULT_GROUP_REFILL_LIMIT, unit: UnitEnum.unitless, home: createDefaultHome(), modelChanges: [createDefaultGroupModelChange()]);
+const String defaultGroupId = "groupId";
+const String defaultGroupName = "groupName";
+const String defaultGroupPluralName = "groupPluralName";
+Period defaultGroupWarnInterval = Period(days: 2);
+const double defaultGroupRefillLimit = 2.0;
+
+Group createDefaultGroup() => Group(
+      id: defaultGroupId,
+      name: defaultGroupName,
+      pluralName: defaultGroupPluralName,
+      warnInterval: defaultGroupWarnInterval,
+      refillLimit: defaultGroupRefillLimit,
+      unit: UnitEnum.unitless,
+      home: createDefaultHome(),
+      modelChanges: [createDefaultGroupModelChange()],
+    );
 
 // Product
-const String DEFAULT_PRODUCT_ID = "productId";
-const String DEFAULT_PRODUCT_EAN = "productEan";
-Period DEFAULT_PRODUCT_WARN_INTERVAL = Period(days: 2);
-const double DEFAULT_PRODUCT_REFILL_LIMIT = 2.0;
-const String DEFAULT_PRODUCT_DESCRIPTION = "productDescription";
-Product createDefaultProduct() => Product(id: DEFAULT_PRODUCT_ID, ean: DEFAULT_PRODUCT_EAN, group: createDefaultGroup(), warnInterval: DEFAULT_PRODUCT_WARN_INTERVAL, refillLimit: DEFAULT_PRODUCT_REFILL_LIMIT, unit: UnitEnum.unitless, home: createDefaultHome(), description: DEFAULT_PRODUCT_DESCRIPTION, modelChanges: [createDefaultProductModelChange()]);
+const String defaultProductId = "productId";
+const String defaultProductEan = "productEan";
+Period defaultProductWarnInterval = Period(days: 2);
+const double defaultProductRefillLimit = 2.0;
+const String defaultProductDescription = "productDescription";
+
+Product createDefaultProduct() => Product(
+    id: defaultProductId,
+    ean: defaultProductEan,
+    group: createDefaultGroup(),
+    warnInterval: defaultProductWarnInterval,
+    refillLimit: defaultProductRefillLimit,
+    unit: UnitEnum.unitless,
+    home: createDefaultHome(),
+    description: defaultProductDescription,
+    modelChanges: [createDefaultProductModelChange()]);
 
 // Charge
-const String DEFAULT_CHARGE_ID = "chargeId";
-LocalDate DEFAULT_CHARGE_EXPIRATION_DATE = LocalDate(2020, 06, 30);
+const String defaultChargeId = "chargeId";
+LocalDate defaultChargeExpirationDate = LocalDate(2020, 06, 30);
 
-Charge createDefaultCharge() => Charge(id: DEFAULT_CHANGE_ID, expirationDate: DEFAULT_CHARGE_EXPIRATION_DATE, product: createDefaultProduct(), modelChanges: [createDefaultChargeModelChange()]);
+Charge createDefaultCharge() => Charge(
+      id: defaultChangeId,
+      expirationDate: defaultChargeExpirationDate,
+      product: createDefaultProduct(),
+      modelChanges: [createDefaultChargeModelChange()],
+    );
 
 // Change
-const String DEFAULT_CHANGE_ID = "changeId";
-const double DEFAULT_CHANGE_VALUE = 1.0;
-LocalDate DEFAULT_CHANGE_DATE = LocalDate(2020, 06, 21);
+const String defaultChangeId = "changeId";
+const double defaultChangeValue = 1.0;
+LocalDate defaultChangeDate = LocalDate(2020, 06, 21);
 
-Change createDefaultChange() => Change(id: DEFAULT_CHANGE_ID, user: createDefaultUser(), value: DEFAULT_CHANGE_VALUE, changeDate: DEFAULT_CHANGE_DATE, home: createDefaultHome(), charge: createDefaultCharge());
+Change createDefaultChange() => Change(
+      id: defaultChangeId,
+      user: createDefaultUser(),
+      value: defaultChangeValue,
+      changeDate: defaultChangeDate,
+      home: createDefaultHome(),
+      charge: createDefaultCharge(),
+    );
 
-class SharedPreferencesMock extends Mock implements SharedPreferences {}
+typedef ContextFactory = void Function(BuildContext buildContext);
 
-typedef void ContextFactory(BuildContext buildContext);
-
-Future<BuildContext> DEFAULT_BUILD_CONTEXT(WidgetTester tester) async {
+Future<BuildContext> defaultBuildContext(WidgetTester tester) async {
   BuildContext context;
   await tester.pumpWidget(
     _TestApp(
@@ -124,3 +172,7 @@ class _HomeState extends State<_Home> {
     return Container();
   }
 }
+
+class SharedPreferencesMock extends Mock implements SharedPreferences {}
+
+class BlackoutPreferencesMock extends Mock implements BlackoutPreferences {}

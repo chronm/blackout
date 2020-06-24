@@ -1,7 +1,8 @@
-import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef void DescriptionCallback(String description, bool error);
+import '../../../generated/l10n.dart';
+
+typedef DescriptionCallback = void Function(String description, bool error);
 
 class DescriptionTextField extends StatefulWidget {
   final String initialValue;
@@ -18,20 +19,18 @@ class DescriptionTextField extends StatefulWidget {
 }
 
 class _DescriptionTextFieldState extends State<DescriptionTextField> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   String _errorText;
 
   @override
   void initState() {
     super.initState();
     _controller.text = widget.initialValue.trim();
-    _controller.addListener(() {
-      invokeCallback();
-    });
+    _controller.addListener(invokeCallback);
   }
 
   void invokeCallback() {
-    String input = _controller.text.trim();
+    var input = _controller.text.trim();
     if (input == "") {
       setState(() {
         _errorText = S.of(context).WARN_DESCRIPTION_MUST_NOT_BE_EMPTY;

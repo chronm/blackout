@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/home.dart';
+import '../../models/user.dart';
 
 abstract class Preferences {
   Preferences._();

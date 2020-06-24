@@ -1,26 +1,25 @@
 import 'dart:async';
 
-import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/change_repository.dart';
-import 'package:Blackout/data/repository/group_repository.dart';
-import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
-import 'package:Blackout/features/product/bloc/product_bloc.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/product.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/models/user.dart';
-import 'package:Blackout/features/home/bloc/home_bloc.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:bloc/bloc.dart';
 import 'package:time_machine/time_machine.dart';
 
-part 'speed_dial_event.dart';
+import '../../../data/preferences/blackout_preferences.dart';
+import '../../../data/repository/change_repository.dart';
+import '../../../data/repository/group_repository.dart';
+import '../../../data/repository/product_repository.dart';
+import '../../../main.dart';
+import '../../../models/change.dart';
+import '../../../models/charge.dart';
+import '../../../models/group.dart';
+import '../../../models/home.dart';
+import '../../../models/product.dart';
+import '../../../models/unit/unit.dart';
+import '../../charge/bloc/charge_bloc.dart';
+import '../../home/bloc/home_bloc.dart';
+import '../../product/bloc/product_bloc.dart';
 
+part 'speed_dial_event.dart';
 part 'speed_dial_state.dart';
 
 class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
@@ -46,13 +45,13 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
         ean = result.rawContent;
       }
 
-      Home home = await blackoutPreferences.getHome();
-      Product product = await productRepository.findOneByPatternAndHomeId(ean, home.id);
+      var home = await blackoutPreferences.getHome();
+      var product = await productRepository.findOneByPatternAndHomeId(ean, home.id);
       if (product != null) {
         sl<ProductBloc>().add(LoadProduct(product.id));
         yield GoToProduct();
       } else {
-        List<Group> groups = await groupRepository.findAllByHomeId(home.id);
+        var groups = await groupRepository.findAllByHomeId(home.id);
         if (ean == "") ean = null;
         yield ShowCreateProduct(home, groups, ean);
       }
@@ -61,21 +60,21 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       yield ShowCreateCharge(event.product, event.product.id);
     }
     if (event is TapOnCreateProduct) {
-      Home home = await blackoutPreferences.getHome();
-      List<Group> groups = await groupRepository.findAllByHomeId(home.id);
+      var home = await blackoutPreferences.getHome();
+      var groups = await groupRepository.findAllByHomeId(home.id);
       yield ShowCreateProduct(home, groups, null);
     }
     if (event is TapOnCreateProductInGroup) {
-      Home home = await blackoutPreferences.getHome();
-      List<Group> groups = await groupRepository.findAllByHomeId(home.id);
+      var home = await blackoutPreferences.getHome();
+      var groups = await groupRepository.findAllByHomeId(home.id);
       yield ShowCreateProductInGroup(home, groups, event.group, event.group.id);
     }
     if (event is TapOnCreateGroup) {
-      Home home = await blackoutPreferences.getHome();
+      var home = await blackoutPreferences.getHome();
       yield ShowCreateGroup(home);
     }
     if (event is TapOnCreateGroupForProduct) {
-      Home home = await blackoutPreferences.getHome();
+      var home = await blackoutPreferences.getHome();
       yield ShowCreateGroupForProduct(home);
     }
     if (event is TapOnGotoHome) {
@@ -83,11 +82,11 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       yield GoToHome();
     }
     if (event is AddToCharge) {
-      Charge charge = event.charge;
-      Home home = await blackoutPreferences.getHome();
-      User user = await blackoutPreferences.getUser();
-      Amount amount = Amount.fromInput(event.amount, charge.product.unit);
-      Change change = Change(
+      var charge = event.charge;
+      var home = await blackoutPreferences.getHome();
+      var user = await blackoutPreferences.getUser();
+      var amount = Amount.fromInput(event.amount, charge.product.unit);
+      var change = Change(
         changeDate: LocalDate.today(),
         user: user,
         charge: charge,
@@ -98,11 +97,11 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       sl<ChargeBloc>().add(LoadCharge(charge.id));
     }
     if (event is TakeFromCharge) {
-      Charge charge = event.charge;
-      Home home = await blackoutPreferences.getHome();
-      User user = await blackoutPreferences.getUser();
-      Amount amount = Amount.fromInput(event.amount, charge.product.unit);
-      Change change = Change(
+      var charge = event.charge;
+      var home = await blackoutPreferences.getHome();
+      var user = await blackoutPreferences.getUser();
+      var amount = Amount.fromInput(event.amount, charge.product.unit);
+      var change = Change(
         changeDate: LocalDate.today(),
         user: user,
         charge: charge,

@@ -14,7 +14,7 @@ class BlackoutHeader extends StatelessWidget {
           const Text(
             "Blackout",
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 60,
               color: Colors.white10,

@@ -1,8 +1,9 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/model_change.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:uuid/uuid.dart';
+
+import '../data/database/database.dart';
+import 'model_change.dart';
 
 class Modification {
   String id;

@@ -1,8 +1,9 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/database/user_table.dart';
-import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../models/user.dart';
+import '../database/database.dart';
+import '../database/user_table.dart';
 
 part 'user_repository.g.dart';
 
@@ -12,14 +13,14 @@ class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMix
 
   Future<User> findOneByActiveTrue() async {
     var query = select(userTable)..where((u) => u.active);
-    UserEntry entry = await query.getSingle();
+    var entry = await query.getSingle();
     if (entry == null) return null;
     return User.fromEntry(entry);
   }
 
   Future<User> findOneByUserId(String userId) async {
     var query = select(userTable)..where((u) => u.id.equals(userId));
-    UserEntry userEntry = await query.getSingle();
+    var userEntry = await query.getSingle();
     if (userEntry == null) return null;
 
     return User.fromEntry(userEntry);

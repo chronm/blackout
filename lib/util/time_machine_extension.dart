@@ -1,10 +1,11 @@
 import 'dart:core';
 
-import 'package:Blackout/generated/l10n.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:time_machine/time_machine.dart';
+
+import '../generated/l10n.dart';
 
 int parseFromRegex(RegExpMatch match, int group, String character) {
   var result = match.group(group);
@@ -43,8 +44,8 @@ LocalDate localDateFromDateTime(DateTime dateTime) {
 
 extension LocalDateExtension on LocalDate {
   String prettyPrintShortDifference(BuildContext context) {
-    DateTime now = LocalDate.today().toDateTimeUnspecified();
-    DateTime other = this.toDateTimeUnspecified();
+    var now = LocalDate.today().toDateTimeUnspecified();
+    var other = toDateTimeUnspecified();
 
     if (now.day == other.day) {
       return S.of(context).GENERAL_EVENT_TODAY;
@@ -75,39 +76,39 @@ extension LocalDateExtension on LocalDate {
 
 extension PeriodExtension on Period {
   Duration toDuration() {
-    int days = this.years * 365;
-    days += this.months * 30;
-    days += this.weeks * 7;
-    days += this.days;
+    var days = years * 365;
+    days += months * 30;
+    days += weeks * 7;
+    days += days;
 
-    return Duration(days: days, hours: this.hours, minutes: this.minutes, seconds: this.seconds, milliseconds: this.milliseconds, microseconds: this.microseconds);
+    return Duration(days: days, hours: hours, minutes: minutes, seconds: seconds, milliseconds: milliseconds, microseconds: microseconds);
   }
 
   String prettyPrint(BuildContext context) {
     if (this == null) {
       return "";
     }
-    List<String> parts = [];
-    if (this.years != 0) {
-      parts.add(S.of(context).GENERAL_YEARS(this.years));
+    var parts = <String>[];
+    if (years != 0) {
+      parts.add(S.of(context).GENERAL_YEARS(years));
     }
-    if (this.months != 0) {
-      parts.add(S.of(context).GENERAL_MONTHS(this.months));
+    if (months != 0) {
+      parts.add(S.of(context).GENERAL_MONTHS(months));
     }
-    if (this.weeks != 0) {
-      parts.add(S.of(context).GENERAL_WEEKS(this.weeks));
+    if (weeks != 0) {
+      parts.add(S.of(context).GENERAL_WEEKS(weeks));
     }
-    if (this.days != 0) {
-      parts.add(S.of(context).GENERAL_DAYS(this.days));
+    if (days != 0) {
+      parts.add(S.of(context).GENERAL_DAYS(days));
     }
-    if (this.hours != 0) {
-      parts.add(S.of(context).GENERAL_HOURS(this.hours));
+    if (hours != 0) {
+      parts.add(S.of(context).GENERAL_HOURS(hours));
     }
-    if (this.minutes != 0) {
-      parts.add(S.of(context).GENERAL_MINUTES(this.minutes));
+    if (minutes != 0) {
+      parts.add(S.of(context).GENERAL_MINUTES(minutes));
     }
-    if (this.seconds != 0) {
-      parts.add(S.of(context).GENERAL_SECONDS(this.seconds));
+    if (seconds != 0) {
+      parts.add(S.of(context).GENERAL_SECONDS(seconds));
     }
 
     return parts.join(", ");

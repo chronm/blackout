@@ -1,5 +1,4 @@
 import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -13,24 +12,24 @@ void main() {
 
   test('store and retrieve home', () async {
     await preferences.setHome(createDefaultHome());
-    Home home = await preferences.getHome();
+    var home = await preferences.getHome();
 
-    expect(home.id, equals(DEFAULT_HOME_ID));
-    expect(home.name, equals(DEFAULT_HOME_NAME));
+    expect(home.id, equals(defaultHomeId));
+    expect(home.name, equals(defaultHomeName));
   });
 
   test('store and retrieve user', () async {
-    await preferences.setUser(User(name: DEFAULT_USER_NAME, id: DEFAULT_USER_ID));
-    User user = await preferences.getUser();
+    await preferences.setUser(User(name: defaultUserName, id: defaultUserId));
+    var user = await preferences.getUser();
 
-    expect(user.id, equals(DEFAULT_USER_ID));
-    expect(user.name, equals(DEFAULT_USER_NAME));
+    expect(user.id, equals(defaultUserId));
+    expect(user.name, equals(defaultUserName));
   });
 
   test('store and retrieve version', () async {
-    await preferences.setVersion(DEFAULT_APP_VERSION);
-    String version = await preferences.getVersion();
+    await preferences.setVersion(defaultAppVersion);
+    var version = await preferences.getVersion();
 
-    expect(version, equals(DEFAULT_APP_VERSION));
+    expect(version, equals(defaultAppVersion));
   });
 }

@@ -1,5 +1,6 @@
-import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
+
+import '../../../generated/l10n.dart';
 
 class AskForImportDatabaseDialog extends StatelessWidget {
   const AskForImportDatabaseDialog({Key key}): super(key: key);

@@ -1,11 +1,12 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/util/string_extension.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart';
+
+import '../generated/l10n.dart';
+import '../models/charge.dart';
+import '../models/model_change.dart';
+import '../models/unit/unit.dart';
+import 'string_extension.dart';
+import 'time_machine_extension.dart';
 
 enum ChargeStatus {
   none,

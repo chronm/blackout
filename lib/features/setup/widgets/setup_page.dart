@@ -1,5 +1,6 @@
-import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:flutter/material.dart';
+
+import '../../../widget/relative_height_container/relative_height_container.dart';
 
 class SetupPage extends StatelessWidget {
   final String description;

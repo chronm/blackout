@@ -1,9 +1,10 @@
-import 'package:Blackout/features/setup/setup_screen.dart';
-import 'package:Blackout/features/setup/widgets/setup_page.dart';
-import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef void SetupHomeCallback(SetupHomeAction action);
+import '../../../generated/l10n.dart';
+import '../setup_screen.dart';
+import 'setup_page.dart';
+
+typedef SetupHomeCallback = void Function(SetupHomeAction action);
 
 class SetupHome extends StatefulWidget {
   final SetupHomeCallback callback;
@@ -47,6 +48,7 @@ class _SetupHomeState extends State<SetupHome> {
           ),
           Column(
             children: <Widget>[
+              // ignore: missing_required_param
               Radio<SetupHomeAction>(
                 value: SetupHomeAction.join,
                 groupValue: _action,

@@ -1,12 +1,13 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/product.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
+
+import '../data/database/database.dart';
+import '../util/time_machine_extension.dart';
+import 'change.dart';
+import 'model_change.dart';
+import 'modification.dart';
+import 'product.dart';
 
 class Charge {
   String id;
@@ -25,7 +26,7 @@ class Charge {
         modelChanges: modelChanges);
   }
 
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     return expirationDate == other.expirationDate;
   }
 
@@ -48,11 +49,14 @@ class Charge {
   }
 
   List<Modification> getModifications(Charge charge) {
-    List<Modification> modifications = [];
+    var modifications = <Modification>[];
     if (expirationDate != charge.expirationDate) {
-      String from = expirationDate != null ? expirationDate.toString() : null;
+      var from = expirationDate != null ? expirationDate.toString() : null;
       modifications.add(Modification(fieldName: "expirationDate", from: from, to: charge.expirationDate.toString()));
     }
     return modifications;
   }
+
+  @override
+  int get hashCode => super.hashCode;
 }

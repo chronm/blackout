@@ -1,17 +1,18 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/home_listable.dart';
-import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/product.dart' show Product;
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/util/group_extension.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
+
+import '../data/database/database.dart';
+import '../util/charge_extension.dart';
+import '../util/group_extension.dart';
+import '../util/time_machine_extension.dart';
+import 'home.dart';
+import 'home_listable.dart';
+import 'model_change.dart';
+import 'modification.dart';
+import 'product.dart' show Product;
+import 'unit/unit.dart';
 
 class Group implements HomeListable {
   String id;
@@ -24,7 +25,7 @@ class Group implements HomeListable {
   UnitEnum unit;
   List<ModelChange> modelChanges = [];
 
-  Group({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, List<Product> products, @required this.home, this.modelChanges}) : products = products;
+  Group({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, this.products, @required this.home, this.modelChanges});
 
   @override
   String get title => amount != 1 ? (pluralName != null ? pluralName : name) : name;
@@ -72,7 +73,7 @@ class Group implements HomeListable {
     return unit != null && name != null && name != "";
   }
 
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     return name == other.name && pluralName == other.pluralName && warnInterval == other.warnInterval && unit == other.unit && refillLimit == other.refillLimit;
   }
 
@@ -103,9 +104,9 @@ class Group implements HomeListable {
   }
 
   List<Modification> getModifications(Group other) {
-    List<Modification> modifications = [];
+    var modifications = <Modification>[];
     if (unit != other.unit) {
-      String from = unit != null ? describeEnum(unit) : null;
+      var from = unit != null ? describeEnum(unit) : null;
       modifications.add(Modification(fieldName: "unit", from: from, to: describeEnum(other.unit)));
     }
     if (name != other.name) {
@@ -115,13 +116,16 @@ class Group implements HomeListable {
       modifications.add(Modification(fieldName: "pluralName", from: pluralName, to: other.pluralName));
     }
     if (warnInterval != other.warnInterval) {
-      String from = warnInterval != null ? warnInterval.toString() : null;
+      var from = warnInterval != null ? warnInterval.toString() : null;
       modifications.add(Modification(fieldName: "warnInterval", from: from, to: other.warnInterval.toString()));
     }
     if (refillLimit != other.refillLimit) {
-      String from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString() : null;
+      var from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString() : null;
       modifications.add(Modification(fieldName: "refillLimit", from: from, to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
     }
     return modifications;
   }
+
+  @override
+  int get hashCode => super.hashCode;
 }

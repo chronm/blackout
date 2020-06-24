@@ -1,16 +1,16 @@
-import 'package:Blackout/features/blackout_drawer/blackout_drawer.dart';
-import 'package:Blackout/features/group/bloc/group_bloc.dart';
-import 'package:Blackout/features/group/widgets/group_dial.dart';
-import 'package:Blackout/features/group/widgets/group_title.dart';
-import 'package:Blackout/features/group/widgets/products_list.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/routes.dart';
-import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
-import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart' show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Navigator, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../generated/l10n.dart';
+import '../../main.dart';
+import '../../routes.dart';
+import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
+import '../../widget/scrollable_container/scrollable_container.dart';
+import '../blackout_drawer/blackout_drawer.dart';
+import 'bloc/group_bloc.dart';
+import 'widgets/group_dial.dart';
+import 'widgets/group_title.dart';
+import 'widgets/products_list.dart';
 
 class GroupScreen extends StatefulWidget {
   const GroupScreen({Key key}) : super(key: key);
@@ -20,7 +20,7 @@ class GroupScreen extends StatefulWidget {
 }
 
 class _GroupScreenState extends State<GroupScreen> {
-  GlobalKey<ScaffoldState> _scaffold = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffold = GlobalKey();
   String searchString = "";
 
   @override
@@ -42,7 +42,7 @@ class _GroupScreenState extends State<GroupScreen> {
             bloc: sl<GroupBloc>(),
             builder: (context, state) {
               if (state is ShowGroup) {
-                Group group = state.group;
+                var group = state.group;
                 return Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [

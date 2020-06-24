@@ -1,11 +1,12 @@
-import 'package:Blackout/features/home/bloc/home_bloc.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/home_listable.dart';
-import 'package:Blackout/models/product.dart';
-import 'package:Blackout/util/charge_extension.dart';
 import 'package:flutter/material.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/group.dart';
+import '../../../models/home_listable.dart';
+import '../../../models/product.dart';
+import '../../../util/charge_extension.dart';
+import '../bloc/home_bloc.dart';
 
 class HomeList extends StatelessWidget {
   final List<HomeListable> cards;
@@ -23,9 +24,9 @@ class HomeList extends StatelessWidget {
           : ListView.builder(
               itemCount: cards.length,
               itemBuilder: (context, index) {
-                HomeListable listable = cards[index];
+                var listable = cards[index];
 
-                List<Widget> trailing = <Widget>[];
+                var trailing = <Widget>[];
                 if (listable.tooFewAvailable) {
                   trailing.add(const Icon(Icons.trending_down));
                 }
@@ -33,7 +34,7 @@ class HomeList extends StatelessWidget {
                   trailing.add(Icon(Icons.event, color: listable.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
-                String status = listable.buildStatus(context);
+                var status = listable.buildStatus(context);
 
                 return Hero(
                   tag: listable.id,

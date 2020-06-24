@@ -1,12 +1,12 @@
-import 'package:Blackout/features/product/bloc/product_bloc.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/util/string_extension.dart';
-import 'package:Blackout/models/product.dart';
 import 'package:flutter/material.dart' show BuildContext, Card, Center, Column, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Row, SingleChildScrollView, StatelessWidget, Text, Theme, Widget, required;
 import 'package:intl/intl.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/product.dart';
+import '../../../util/charge_extension.dart';
+import '../../../util/string_extension.dart';
+import '../bloc/product_bloc.dart';
 
 class ChargesList extends StatelessWidget {
   final Product product;
@@ -26,14 +26,14 @@ class ChargesList extends StatelessWidget {
           : ListView.builder(
               itemCount: product.charges.length,
               itemBuilder: (context, index) {
-                Charge charge = product.charges[index];
+                var charge = product.charges[index];
 
-                List<Widget> trailing = <Widget>[];
+                var trailing = <Widget>[];
                 if (charge.expired || charge.warn) {
                   trailing.add(Icon(Icons.event, color: charge.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
-                String status = charge.buildStatus(context);
+                var status = charge.buildStatus(context);
 
                 return Hero(
                   tag: charge.id,

@@ -1,16 +1,16 @@
-import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
-import 'package:Blackout/features/speeddial/bloc/speed_dial_bloc.dart';
-import 'package:Blackout/features/speeddial/speeddial.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/routes.dart';
-import 'package:Blackout/widget/charge_dialog/charge_dialog.dart';
 import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Theme, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/unit/unit.dart';
+import '../../../routes.dart';
+import '../../../util/charge_extension.dart';
+import '../../../widget/charge_dialog/charge_dialog.dart';
+import '../../speeddial/bloc/speed_dial_bloc.dart';
+import '../../speeddial/speeddial.dart';
+import '../bloc/charge_bloc.dart';
 
 class ChargeDial extends StatelessWidget {
   const ChargeDial({Key key}) : super(key: key);
@@ -29,7 +29,7 @@ class ChargeDial extends StatelessWidget {
         builder: (context, state) {
           return BlackoutDial(
             builder: (context) {
-              List<SpeedDialChild> children = [
+              var children = <SpeedDialChild>[
                 SpeedDialChild(
                   child: const Icon(Icons.home),
                   backgroundColor: Theme.of(context).accentColor,
@@ -42,7 +42,7 @@ class ChargeDial extends StatelessWidget {
                 ),
               ];
               if (state is ShowCharge) {
-                Charge charge = state.charge;
+                var charge = state.charge;
                 children.addAll([
                   SpeedDialChild(
                     child: const Icon(Icons.add),

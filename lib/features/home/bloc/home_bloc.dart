@@ -1,17 +1,16 @@
-import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/group_repository.dart';
-import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/features/group/bloc/group_bloc.dart';
-import 'package:Blackout/features/product/bloc/product_bloc.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/home_listable.dart';
-import 'package:Blackout/models/product.dart';
 import 'package:bloc/bloc.dart';
 
-part 'home_event.dart';
+import '../../../data/preferences/blackout_preferences.dart';
+import '../../../data/repository/group_repository.dart';
+import '../../../data/repository/product_repository.dart';
+import '../../../main.dart';
+import '../../../models/group.dart';
+import '../../../models/home_listable.dart';
+import '../../../models/product.dart';
+import '../../group/bloc/group_bloc.dart';
+import '../../product/bloc/product_bloc.dart';
 
+part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
@@ -36,10 +35,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     if (event is LoadAll) {
       yield Loading();
-      Home home = await blackoutPreferences.getHome();
-      List<Group> groups = await groupRepository.findAllByHomeId(home.id);
-      List<Product> products = await productRepository.findAllByHomeIdAndGroupIsNull(home.id);
-      List<HomeListable> cards = <HomeListable>[]
+      var home = await blackoutPreferences.getHome();
+      var groups = await groupRepository.findAllByHomeId(home.id);
+      var products = await productRepository.findAllByHomeIdAndGroupIsNull(home.id);
+      var cards = <HomeListable>[]
         ..addAll(products)
         ..addAll(groups)
         ..sort((a, b) => a.title.compareTo(b.title));

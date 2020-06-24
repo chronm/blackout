@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:Blackout/data/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
+
+import '../data/database/database.dart';
 
 class Home {
   String id;
@@ -11,7 +12,7 @@ class Home {
   Home({@required this.id, @required this.name});
 
   @override
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     return id == other.id && name == other.name;
   }
 
@@ -37,4 +38,8 @@ class Home {
       active: Value(active),
     );
   }
+
+  @override
+  int get hashCode => super.hashCode;
+
 }

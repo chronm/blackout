@@ -1,7 +1,8 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/database/home_table.dart';
-import 'package:Blackout/models/home.dart';
 import 'package:moor/moor.dart';
+
+import '../../models/home.dart';
+import '../database/database.dart';
+import '../database/home_table.dart';
 
 part 'home_repository.g.dart';
 
@@ -15,14 +16,14 @@ class HomeRepository extends DatabaseAccessor<Database> with _$HomeRepositoryMix
 
   Future<Home> findOneByActiveTrue() async {
     var query = select(homeTable)..where((h) => h.active);
-    HomeEntry entry = await query.getSingle();
+    var entry = await query.getSingle();
     if (entry == null) return null;
     return Home.fromEntry(entry);
   }
 
   Future<Home> findOneById(String homeId) async {
     var query = select(homeTable)..where((h) => h.id.equals(homeId));
-    HomeEntry entry = await query.getSingle();
+    var entry = await query.getSingle();
     return Home.fromEntry(entry);
   }
 

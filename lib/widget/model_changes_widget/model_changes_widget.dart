@@ -1,8 +1,8 @@
-import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../models/model_change.dart';
+import '../scrollable_container/scrollable_container.dart';
 
 class ModelChangesWidget extends StatelessWidget {
   final List<ModelChange> changes;

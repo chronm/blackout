@@ -1,19 +1,20 @@
-import 'package:Blackout/features/group/bloc/group_bloc.dart' show GroupBloc, SaveGroup;
-import 'package:Blackout/features/group/widgets/group_configuration.dart';
-import 'package:Blackout/features/home/bloc/home_bloc.dart' show HomeBloc, HomeInitialState, HomeState, LoadAll;
-import 'package:Blackout/features/product/bloc/product_bloc.dart';
-import 'package:Blackout/features/product/widgets/product_configuration.dart';
-import 'package:Blackout/features/speeddial/bloc/speed_dial_bloc.dart' show GoToProduct, ShowCreateGroup, ShowCreateProduct, SpeedDialBloc, SpeedDialState, TapOnCreateGroup, TapOnCreateProduct, TapOnScanEan;
-import 'package:Blackout/features/speeddial/speeddial.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/product.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/routes.dart';
 import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Theme, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/group.dart';
+import '../../../models/product.dart';
+import '../../../models/unit/unit.dart';
+import '../../../routes.dart';
+import '../../group/bloc/group_bloc.dart' show GroupBloc, SaveGroup;
+import '../../group/widgets/group_configuration.dart';
+import '../../product/bloc/product_bloc.dart';
+import '../../product/widgets/product_configuration.dart';
+import '../../speeddial/bloc/speed_dial_bloc.dart' show GoToProduct, ShowCreateGroup, ShowCreateProduct, SpeedDialBloc, SpeedDialState, TapOnCreateGroup, TapOnCreateProduct, TapOnScanEan;
+import '../../speeddial/speeddial.dart';
+import '../bloc/home_bloc.dart' show HomeBloc, HomeInitialState, HomeState, LoadAll;
 
 class HomeDial extends StatelessWidget {
   const HomeDial({Key key}): super(key: key);

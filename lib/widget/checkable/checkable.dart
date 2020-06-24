@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef CheckedCallback(bool checked);
+typedef CheckedCallback = Function(bool checked);
 
 class Checkable extends StatefulWidget {
   final bool initialChecked;

@@ -23,7 +23,7 @@ class Header extends StatelessWidget {
             Center(
               child: const Text(
                 "Blackout",
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                   color: Colors.white30,
