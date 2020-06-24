@@ -1,4 +1,16 @@
-import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Theme, Widget, showDialog;
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        Colors,
+        Icon,
+        Icons,
+        Key,
+        Navigator,
+        StatelessWidget,
+        TextStyle,
+        Theme,
+        Widget,
+        showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -80,11 +92,14 @@ class ChargeDial extends StatelessWidget {
                           title: S.of(context).DIALOG_TAKE_FROM_CHARGE,
                           initialValue: charge.scientificAmount,
                           validation: (value) {
-                            var siValue = UnitConverter.toSi(Amount.fromInput(value, charge.product.unit)).value;
+                            var siValue = UnitConverter.toSi(Amount.fromInput(
+                                    value, charge.product.unit))
+                                .value;
                             return siValue <= charge.amount && siValue > 0;
                           },
                           callback: (value) async {
-                            sl<SpeedDialBloc>().add(TakeFromCharge(charge, value));
+                            sl<SpeedDialBloc>()
+                                .add(TakeFromCharge(charge, value));
                             Navigator.pop(context);
                           },
                         ),

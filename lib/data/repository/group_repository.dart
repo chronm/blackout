@@ -12,21 +12,26 @@ import '../database/group_table.dart';
 part 'group_repository.g.dart';
 
 @UseDao(tables: [GroupTable])
-class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryMixin {
+class GroupRepository extends DatabaseAccessor<Database>
+    with _$GroupRepositoryMixin {
   GroupRepository(Database db) : super(db);
 
-  Future<Group> createGroup(GroupEntry groupEntry, {bool recurseProducts = true}) async {
+  Future<Group> createGroup(GroupEntry groupEntry,
+      {bool recurseProducts = true}) async {
     Group group;
     var products = <Product>[];
     if (recurseProducts) {
-      products = await db.productRepository.findAllByGroupId(groupEntry.id, recurseGroup: false);
+      products = await db.productRepository
+          .findAllByGroupId(groupEntry.id, recurseGroup: false);
     }
 
     var home = await db.homeRepository.findOneById(groupEntry.homeId);
 
-    var modelChanges = await db.modelChangeRepository.findAllByGroupId(groupEntry.id);
+    var modelChanges =
+        await db.modelChangeRepository.findAllByGroupId(groupEntry.id);
 
-    group = Group.fromEntry(groupEntry, home, products: products, modelChanges: modelChanges);
+    group = Group.fromEntry(groupEntry, home,
+        products: products, modelChanges: modelChanges);
 
     if (recurseProducts) {
       for (var product in products) {
@@ -37,8 +42,10 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     return group;
   }
 
-  Future<List<Group>> findAllByHomeId(String homeId, {bool recurseProducts = true}) async {
-    var entries = await (select(groupTable)..where((c) => c.homeId.equals(homeId))).get();
+  Future<List<Group>> findAllByHomeId(String homeId,
+      {bool recurseProducts = true}) async {
+    var entries =
+        await (select(groupTable)..where((c) => c.homeId.equals(homeId))).get();
 
     var groups = <Group>[];
     for (var entry in entries) {
@@ -48,8 +55,13 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     return groups;
   }
 
-  Future<List<Group>> findAllByPatternAndHomeId(String pattern, String homeId, {bool recurseProducts = true}) async {
-    var entries = await (select(groupTable)..where((c) => (c.name.contains(pattern) | c.pluralName.contains(pattern)) & c.homeId.equals(homeId))).get();
+  Future<List<Group>> findAllByPatternAndHomeId(String pattern, String homeId,
+      {bool recurseProducts = true}) async {
+    var entries = await (select(groupTable)
+          ..where((c) =>
+              (c.name.contains(pattern) | c.pluralName.contains(pattern)) &
+              c.homeId.equals(homeId)))
+        .get();
 
     var groups = <Group>[];
     for (var entry in entries) {
@@ -59,7 +71,8 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     return groups;
   }
 
-  Future<Group> findOneByGroupId(String groupId, {bool recurseProducts = true}) async {
+  Future<Group> findOneByGroupId(String groupId,
+      {bool recurseProducts = true}) async {
     if (groupId == null) return null;
     var query = select(groupTable)..where((c) => c.id.equals(groupId));
     var entry = await query.getSingle();
@@ -71,10 +84,20 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
   Future<Group> save(Group group, User user) async {
     if (group.id == null) {
       group.id = Uuid().v4();
-      var change = ModelChange(modificationDate: LocalDate.today(), home: group.home, user: user, modification: ModelChangeType.create, groupId: group.id);
+      var change = ModelChange(
+          modificationDate: LocalDate.today(),
+          home: group.home,
+          user: user,
+          modification: ModelChangeType.create,
+          groupId: group.id);
       await db.modelChangeRepository.save(change);
     } else {
-      var change = ModelChange(modificationDate: LocalDate.today(), home: group.home, user: user, modification: ModelChangeType.modify, groupId: group.id);
+      var change = ModelChange(
+          modificationDate: LocalDate.today(),
+          home: group.home,
+          user: user,
+          modification: ModelChangeType.modify,
+          groupId: group.id);
       await db.modelChangeRepository.save(change);
 
       var oldGroup = await findOneByGroupId(group.id);
@@ -97,7 +120,12 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
       db.productRepository.drop(product, user);
     }
 
-    var change = ModelChange(user: user, modificationDate: LocalDate.today(), modification: ModelChangeType.delete, home: group.home, groupId: group.id);
+    var change = ModelChange(
+        user: user,
+        modificationDate: LocalDate.today(),
+        modification: ModelChangeType.delete,
+        home: group.home,
+        groupId: group.id);
     db.modelChangeRepository.save(change);
 
     return await (delete(groupTable)..where((c) => c.id.equals(group.id))).go();

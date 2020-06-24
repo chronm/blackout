@@ -131,45 +131,62 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                 ),
                 Row(
                   children: [
-                    !widget.newProduct ? Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: FlatButton(
-                        color: Theme.of(context).accentColor,
-                        child: Text(S.of(context).GENERAL_DELETE),
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(S.of(context).GENERAL_DELETE_CONFIRMATION),
-                              actions: [
-                                FlatButton(
-                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_NO),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_YES),
-                                  onPressed: () {
-                                    sl<ProductBloc>().add(TapOnDeleteProduct(widget.product));
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
+                    !widget.newProduct
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: FlatButton(
+                              color: Theme.of(context).accentColor,
+                              child: Text(S.of(context).GENERAL_DELETE),
+                              onPressed: () async {
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text(S
+                                        .of(context)
+                                        .GENERAL_DELETE_CONFIRMATION),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text(S
+                                            .of(context)
+                                            .GENERAL_DELETE_CONFIRMATION_NO),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text(S
+                                            .of(context)
+                                            .GENERAL_DELETE_CONFIRMATION_YES),
+                                        onPressed: () {
+                                          sl<ProductBloc>().add(
+                                              TapOnDeleteProduct(
+                                                  widget.product));
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ) : null,
+                          )
+                        : null,
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: FlatButton(
                         color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_SAVE),
-                        onPressed: _product.isValid() && !_errorInDescription && !_errorInPeriod && !_errorInEan && !_errorInRefillLimit && (_product != _oldProduct || widget.newProduct) ? () => widget.action(_product) : null,
+                        onPressed: _product.isValid() &&
+                                !_errorInDescription &&
+                                !_errorInPeriod &&
+                                !_errorInEan &&
+                                !_errorInRefillLimit &&
+                                (_product != _oldProduct || widget.newProduct)
+                            ? () => widget.action(_product)
+                            : null,
                       ),
                     ),
                   ].where((element) => element != null).toList(),

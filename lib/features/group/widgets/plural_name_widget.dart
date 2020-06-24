@@ -38,7 +38,9 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
     if (_checked) {
       var input = _controller.text.trim();
       setState(() {
-        _errorText = input == "" ? S.of(context).WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY : null;
+        _errorText = input == ""
+            ? S.of(context).WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY
+            : null;
       });
       widget.callback(input, _errorText != null);
     } else {
@@ -58,14 +60,13 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
               focusNode: _focusNode,
               controller: _controller,
               decoration: InputDecoration(
-                labelText: S.of(context).GROUP_PLURAL_NAME,
-                errorText: _errorText,
-                suffixIcon: TooltipIcon(
-                  focusNode: _focusNode,
-                  title: S.of(context).GROUP_PLURAL_NAME,
-                  tooltip: S.of(context).GROUP_PLURAL_NAME_INFO,
-                )
-              ),
+                  labelText: S.of(context).GROUP_PLURAL_NAME,
+                  errorText: _errorText,
+                  suffixIcon: TooltipIcon(
+                    focusNode: _focusNode,
+                    title: S.of(context).GROUP_PLURAL_NAME,
+                    tooltip: S.of(context).GROUP_PLURAL_NAME_INFO,
+                  )),
             ),
           ),
           uncheckedCallback: (context) => Expanded(

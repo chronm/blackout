@@ -1,4 +1,22 @@
-import 'package:flutter/material.dart' show Align, Alignment, BuildContext, Card, Column, Container, Drawer, Expanded, Icon, Icons, ListTile, ListView, MediaQuery, Navigator, StatelessWidget, Text, Widget;
+import 'package:flutter/material.dart'
+    show
+        Align,
+        Alignment,
+        BuildContext,
+        Card,
+        Column,
+        Container,
+        Drawer,
+        Expanded,
+        Icon,
+        Icons,
+        ListTile,
+        ListView,
+        MediaQuery,
+        Navigator,
+        StatelessWidget,
+        Text,
+        Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../generated/l10n.dart';
@@ -41,7 +59,10 @@ class BlackoutDrawer extends StatelessWidget {
                           return Card(
                             child: ListTile(
                               title: Text(home.name),
-                              leading: state.activeHome == state.homes.indexOf(home) ? Icon(Icons.home) : null,
+                              leading:
+                                  state.activeHome == state.homes.indexOf(home)
+                                      ? Icon(Icons.home)
+                                      : null,
                             ),
                           );
                         },

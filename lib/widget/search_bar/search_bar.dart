@@ -51,16 +51,21 @@ class _SearchBarState extends State<SearchBar> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: DecoratedBox(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(1.0), border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.0), color: Colors.white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(1.0),
+                    border: Border.all(
+                        color: Colors.grey.withOpacity(0.5), width: 1.0),
+                    color: Colors.white),
                 child: Row(
                   children: [
                     widget.scaffold != null
                         ? IconButton(
-                            icon:  Icon(
+                            icon: Icon(
                               Icons.menu,
                               color: Theme.of(context).accentColor,
                             ),
-                            onPressed: () => widget.scaffold.currentState.openDrawer(),
+                            onPressed: () =>
+                                widget.scaffold.currentState.openDrawer(),
                           )
                         : null,
                     Expanded(
@@ -74,7 +79,9 @@ class _SearchBarState extends State<SearchBar> {
                           decoration: InputDecoration(
                             labelText: S.of(context).GENERAL_SEARCH,
                             labelStyle: TextStyle(
-                              color: widget.callback != null ? Colors.black : Colors.grey,
+                              color: widget.callback != null
+                                  ? Colors.black
+                                  : Colors.grey,
                             ),
                           ),
                           style: const TextStyle(
@@ -92,7 +99,9 @@ class _SearchBarState extends State<SearchBar> {
                         ? IconButton(
                             icon: Icon(
                               Icons.close,
-                              color: widget.callback != null ? Theme.of(context).accentColor : Colors.grey,
+                              color: widget.callback != null
+                                  ? Theme.of(context).accentColor
+                                  : Colors.grey,
                             ),
                             onPressed: widget.callback != null
                                 ? () {
@@ -107,7 +116,9 @@ class _SearchBarState extends State<SearchBar> {
                         : IconButton(
                             icon: Icon(
                               Icons.search,
-                              color: widget.callback != null ? Theme.of(context).accentColor : Colors.grey,
+                              color: widget.callback != null
+                                  ? Theme.of(context).accentColor
+                                  : Colors.grey,
                             ),
                             onPressed: widget.callback != null
                                 ? () {

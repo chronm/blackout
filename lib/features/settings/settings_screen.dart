@@ -25,7 +25,6 @@ class Settings {
 
   @override
   int get hashCode => super.hashCode;
-
 }
 
 class SettingsScreen extends StatefulWidget {
@@ -69,7 +68,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: [
             IconButton(
               icon: const Icon(Icons.save),
-              onPressed: _settings != _oldSettings && !_errorInUsername ? () => sl<SettingsBloc>().add(SaveSettings(_settings)) : null,
+              onPressed: _settings != _oldSettings && !_errorInUsername
+                  ? () => sl<SettingsBloc>().add(SaveSettings(_settings))
+                  : null,
             )
           ],
         ),

@@ -28,7 +28,8 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
   final ProductRepository productRepository;
   final GroupRepository groupRepository;
 
-  SpeedDialBloc(this.productRepository, this.blackoutPreferences, this.changeRepository, this.groupRepository);
+  SpeedDialBloc(this.productRepository, this.blackoutPreferences,
+      this.changeRepository, this.groupRepository);
 
   @override
   SpeedDialState get initialState => InitialSpeedDialState();
@@ -40,13 +41,15 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       if (emulator) {
         ean = "someEan";
       } else {
-        var options = ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
+        var options = ScanOptions(
+            restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
         var result = await BarcodeScanner.scan(options: options);
         ean = result.rawContent;
       }
 
       var home = await blackoutPreferences.getHome();
-      var product = await productRepository.findOneByPatternAndHomeId(ean, home.id);
+      var product =
+          await productRepository.findOneByPatternAndHomeId(ean, home.id);
       if (product != null) {
         sl<ProductBloc>().add(LoadProduct(product.id));
         yield GoToProduct();

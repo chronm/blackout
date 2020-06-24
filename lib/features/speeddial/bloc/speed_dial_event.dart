@@ -1,6 +1,6 @@
 part of 'speed_dial_bloc.dart';
 
-abstract class SpeedDialEvent{}
+abstract class SpeedDialEvent {}
 
 class TapOnScanEan extends SpeedDialEvent {}
 

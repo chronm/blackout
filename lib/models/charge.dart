@@ -16,10 +16,16 @@ class Charge {
   List<Change> changes = [];
   List<ModelChange> modelChanges = [];
 
-  Charge({this.id, this.expirationDate, @required this.product, this.changes, this.modelChanges});
+  Charge(
+      {this.id,
+      this.expirationDate,
+      @required this.product,
+      this.changes,
+      this.modelChanges});
 
   Charge clone() {
-    return Charge(id: id,
+    return Charge(
+        id: id,
         expirationDate: expirationDate,
         product: product,
         changes: changes,
@@ -30,10 +36,13 @@ class Charge {
     return expirationDate == other.expirationDate;
   }
 
-  factory Charge.fromEntry(ChargeEntry entry, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
+  factory Charge.fromEntry(ChargeEntry entry,
+      {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
     return Charge(
       id: entry.id,
-      expirationDate: entry.expirationDate == null ? null : localDateFromDateTime(entry.expirationDate),
+      expirationDate: entry.expirationDate == null
+          ? null
+          : localDateFromDateTime(entry.expirationDate),
       product: product,
       changes: changes,
       modelChanges: modelChanges,
@@ -44,7 +53,9 @@ class Charge {
     return ChargeTableCompanion(
       id: Value(id),
       productId: Value(product.id),
-      expirationDate: expirationDate == null ? Value.absent() : Value(expirationDate.toDateTimeUnspecified()),
+      expirationDate: expirationDate == null
+          ? Value.absent()
+          : Value(expirationDate.toDateTimeUnspecified()),
     );
   }
 
@@ -52,7 +63,10 @@ class Charge {
     var modifications = <Modification>[];
     if (expirationDate != charge.expirationDate) {
       var from = expirationDate != null ? expirationDate.toString() : null;
-      modifications.add(Modification(fieldName: "expirationDate", from: from, to: charge.expirationDate.toString()));
+      modifications.add(Modification(
+          fieldName: "expirationDate",
+          from: from,
+          to: charge.expirationDate.toString()));
     }
     return modifications;
   }

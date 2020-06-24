@@ -14,7 +14,8 @@ class ShowCreateProductInGroup extends SpeedDialState {
   final List<Group> groups;
   final Group group;
 
-  ShowCreateProductInGroup(this.home, this.groups, this.group, this.currentGroup);
+  ShowCreateProductInGroup(
+      this.home, this.groups, this.group, this.currentGroup);
 }
 
 class ShowCreateProduct extends SpeedDialState {

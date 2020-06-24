@@ -16,7 +16,8 @@ class ChargeBloc extends Bloc<ChargeEvent, ChargeState> {
   final ChargeRepository chargeRepository;
   final BlackoutPreferences blackoutPreferences;
 
-  ChargeBloc(this.changeRepository, this.chargeRepository, this.blackoutPreferences);
+  ChargeBloc(
+      this.changeRepository, this.chargeRepository, this.blackoutPreferences);
 
   @override
   ChargeState get initialState => InitialChargeState();

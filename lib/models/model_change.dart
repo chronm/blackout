@@ -36,12 +36,15 @@ class ModelChange {
     String productId,
     String chargeId,
     this.modifications,
-  })  : assert((groupId != null && productId == null && chargeId == null) || (groupId == null && productId != null && chargeId == null) || (groupId == null && productId == null && chargeId != null)),
+  })  : assert((groupId != null && productId == null && chargeId == null) ||
+            (groupId == null && productId != null && chargeId == null) ||
+            (groupId == null && productId == null && chargeId != null)),
         groupId = groupId,
         productId = productId,
         chargeId = chargeId;
 
-  factory ModelChange.fromEntry(ModelChangeEntry entry, User user, Home home, List<Modification> modifications) {
+  factory ModelChange.fromEntry(ModelChangeEntry entry, User user, Home home,
+      List<Modification> modifications) {
     return ModelChange(
       id: entry.id,
       user: user,
@@ -75,12 +78,16 @@ class ModelChange {
       case ModelChangeType.modify:
         return modifications.map((m) {
           if (m.from != "" && (m.to == "" || m.to == null)) {
-            return S.of(context).MODEL_CHANGE_FIELD_DISABLED(m.fieldName, m.from);
+            return S
+                .of(context)
+                .MODEL_CHANGE_FIELD_DISABLED(m.fieldName, m.from);
           }
           if ((m.from == "" || m.from == null) && m.to != "") {
             return S.of(context).MODEL_CHANGE_FIELD_ENABLED(m.fieldName, m.to);
           }
-          return S.of(context).MODEL_CHANGE_FIELD_MODIFIED(m.fieldName, m.from, m.to);
+          return S
+              .of(context)
+              .MODEL_CHANGE_FIELD_MODIFIED(m.fieldName, m.from, m.to);
         }).join("\n");
       case ModelChangeType.delete:
         return "";

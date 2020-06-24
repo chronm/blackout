@@ -1,4 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
+import 'package:shared_preferences/shared_preferences.dart'
+    show SharedPreferences;
 
 import '../data/database/database.dart';
 import '../data/preferences/blackout_preferences.dart';
@@ -26,8 +27,10 @@ bool application = true;
 
 void prepareMain() async {
   if (main) {
-    sl.registerSingleton(BlackoutPreferences(await SharedPreferences.getInstance()));
-    sl.registerLazySingleton<BlackoutBloc>(() => BlackoutBloc(sl<BlackoutPreferences>()));
+    sl.registerSingleton(
+        BlackoutPreferences(await SharedPreferences.getInstance()));
+    sl.registerLazySingleton<BlackoutBloc>(
+        () => BlackoutBloc(sl<BlackoutPreferences>()));
     main = false;
   }
 }
@@ -52,7 +55,16 @@ void prepareApplication() async {
 }
 
 void prepareSetup() async {
-  sl.registerLazySingleton<SetupBloc>(() => SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<ChargeRepository>(), sl<ChangeRepository>(), sl<DrawerBloc>()));
+  sl.registerLazySingleton<SetupBloc>(() => SetupBloc(
+      sl<BlackoutPreferences>(),
+      sl<HomeBloc>(),
+      sl<HomeRepository>(),
+      sl<UserRepository>(),
+      sl<GroupRepository>(),
+      sl<ProductRepository>(),
+      sl<ChargeRepository>(),
+      sl<ChangeRepository>(),
+      sl<DrawerBloc>()));
 }
 
 void registerDatabase() async {
@@ -63,13 +75,23 @@ void registerDatabase() async {
 }
 
 void registerBloc() async {
-  sl.registerLazySingleton<SettingsBloc>(() => SettingsBloc(sl<BlackoutPreferences>(), sl<UserRepository>()));
+  sl.registerLazySingleton<SettingsBloc>(
+      () => SettingsBloc(sl<BlackoutPreferences>(), sl<UserRepository>()));
 
-  sl.registerLazySingleton<DrawerBloc>(() => DrawerBloc(sl<BlackoutPreferences>(), sl<HomeRepository>()));
+  sl.registerLazySingleton<DrawerBloc>(
+      () => DrawerBloc(sl<BlackoutPreferences>(), sl<HomeRepository>()));
 
-  sl.registerLazySingleton<ChargeBloc>(() => ChargeBloc(sl<ChangeRepository>(), sl<ChargeRepository>(), sl<BlackoutPreferences>()));
-  sl.registerLazySingleton<ProductBloc>(() => ProductBloc(sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
-  sl.registerLazySingleton<GroupBloc>(() => GroupBloc(sl<GroupRepository>(), sl<BlackoutPreferences>()));
-  sl.registerLazySingleton<HomeBloc>(() => HomeBloc(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>()));
-  sl.registerLazySingleton<SpeedDialBloc>(() => SpeedDialBloc(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ChangeRepository>(), sl<GroupRepository>()));
+  sl.registerLazySingleton<ChargeBloc>(() => ChargeBloc(sl<ChangeRepository>(),
+      sl<ChargeRepository>(), sl<BlackoutPreferences>()));
+  sl.registerLazySingleton<ProductBloc>(() => ProductBloc(sl<GroupRepository>(),
+      sl<BlackoutPreferences>(), sl<ProductRepository>()));
+  sl.registerLazySingleton<GroupBloc>(
+      () => GroupBloc(sl<GroupRepository>(), sl<BlackoutPreferences>()));
+  sl.registerLazySingleton<HomeBloc>(() => HomeBloc(sl<BlackoutPreferences>(),
+      sl<GroupRepository>(), sl<ProductRepository>()));
+  sl.registerLazySingleton<SpeedDialBloc>(() => SpeedDialBloc(
+      sl<ProductRepository>(),
+      sl<BlackoutPreferences>(),
+      sl<ChangeRepository>(),
+      sl<GroupRepository>()));
 }

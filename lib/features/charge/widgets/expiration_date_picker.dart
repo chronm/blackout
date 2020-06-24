@@ -5,7 +5,8 @@ import 'package:time_machine/time_machine.dart';
 import '../../../generated/l10n.dart';
 import '../../../widget/checkable/checkable.dart';
 
-typedef ExpirationDateCallback = void Function(LocalDate expirationDate, bool error);
+typedef ExpirationDateCallback = void Function(
+    LocalDate expirationDate, bool error);
 
 class ExpirationDatePicker extends StatefulWidget {
   final LocalDate initialExpirationDate;
@@ -30,7 +31,10 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
   void initState() {
     super.initState();
     _checked = widget.initialExpirationDate != null;
-    _controller = TextEditingController(text: DateFormat.yMd().format(_checked ? widget.initialExpirationDate.toDateTimeUnspecified() : LocalDate.today().toDateTimeUnspecified()));
+    _controller = TextEditingController(
+        text: DateFormat.yMd().format(_checked
+            ? widget.initialExpirationDate.toDateTimeUnspecified()
+            : LocalDate.today().toDateTimeUnspecified()));
     _controller.addListener(invokeCallback);
   }
 
@@ -45,7 +49,8 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
         });
       } on FormatException {
         setState(() {
-          _errorText = S.of(context).WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED(input);
+          _errorText =
+              S.of(context).WARN_EXPIRATION_DATE_COULD_NOT_BE_PARSED(input);
         });
       }
       widget.callback(dateTime, _errorText != null);
@@ -69,9 +74,13 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
                   onPressed: () async {
                     var picked = await showDatePicker(
                       context: context,
-                      initialDate: _controller.text != "" ? DateFormat.yMd().parse(_controller.text) : DateTime.now(),
+                      initialDate: _controller.text != ""
+                          ? DateFormat.yMd().parse(_controller.text)
+                          : DateTime.now(),
                       firstDate: DateTime.now(),
-                      lastDate: LocalDate.today().addYears(100).toDateTimeUnspecified(),
+                      lastDate: LocalDate.today()
+                          .addYears(100)
+                          .toDateTimeUnspecified(),
                     );
                     _controller.text = DateFormat.yMd().format(picked);
                     invokeCallback();

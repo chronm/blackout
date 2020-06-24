@@ -1,4 +1,16 @@
-import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Theme, Widget, showDialog;
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        Colors,
+        Icon,
+        Icons,
+        Key,
+        Navigator,
+        StatelessWidget,
+        TextStyle,
+        Theme,
+        Widget,
+        showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -12,12 +24,22 @@ import '../../group/bloc/group_bloc.dart' show GroupBloc, SaveGroup;
 import '../../group/widgets/group_configuration.dart';
 import '../../product/bloc/product_bloc.dart';
 import '../../product/widgets/product_configuration.dart';
-import '../../speeddial/bloc/speed_dial_bloc.dart' show GoToProduct, ShowCreateGroup, ShowCreateProduct, SpeedDialBloc, SpeedDialState, TapOnCreateGroup, TapOnCreateProduct, TapOnScanEan;
+import '../../speeddial/bloc/speed_dial_bloc.dart'
+    show
+        GoToProduct,
+        ShowCreateGroup,
+        ShowCreateProduct,
+        SpeedDialBloc,
+        SpeedDialState,
+        TapOnCreateGroup,
+        TapOnCreateProduct,
+        TapOnScanEan;
 import '../../speeddial/speeddial.dart';
-import '../bloc/home_bloc.dart' show HomeBloc, HomeInitialState, HomeState, LoadAll;
+import '../bloc/home_bloc.dart'
+    show HomeBloc, HomeInitialState, HomeState, LoadAll;
 
 class HomeDial extends StatelessWidget {
-  const HomeDial({Key key}): super(key: key);
+  const HomeDial({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +68,12 @@ class HomeDial extends StatelessWidget {
           await showDialog(
             context: context,
             builder: (context) => ProductConfiguration(
-              product: Product(home: state.home, description: "", unit: UnitEnum.unitless, group: null, ean: state.ean),
+              product: Product(
+                  home: state.home,
+                  description: "",
+                  unit: UnitEnum.unitless,
+                  group: null,
+                  ean: state.ean),
               newProduct: true,
               groups: state.groups,
               action: (product) async {
@@ -56,7 +83,7 @@ class HomeDial extends StatelessWidget {
               },
             ),
           );
-        sl<HomeBloc>().add(LoadAll());
+          sl<HomeBloc>().add(LoadAll());
         }
       },
       child: BlocBuilder<HomeBloc, HomeState>(

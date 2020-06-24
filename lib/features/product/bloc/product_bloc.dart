@@ -17,7 +17,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
   final BlackoutPreferences blackoutPreferences;
 
-  ProductBloc(this.groupRepository, this.blackoutPreferences, this.productRepository);
+  ProductBloc(
+      this.groupRepository, this.blackoutPreferences, this.productRepository);
 
   @override
   ProductState get initialState => ProductInitialState();
