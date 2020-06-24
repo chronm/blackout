@@ -29,16 +29,17 @@ class Amount {
 
   @override
   bool operator ==(dynamic other) {
-    return UnitConverter.toScientific(this).value == UnitConverter.toScientific(other).value;
+    return UnitConverter.toScientific(this).value ==
+        UnitConverter.toScientific(other).value;
   }
 
   bool operator <=(dynamic other) {
-    return UnitConverter.toScientific(this).value <= UnitConverter.toScientific(other).value;
+    return UnitConverter.toScientific(this).value <=
+        UnitConverter.toScientific(other).value;
   }
 
   @override
   int get hashCode => super.hashCode;
-
 }
 
 abstract class Unit {
@@ -82,7 +83,8 @@ class UnitConverter {
     return Amount(value, amount.unit.si);
   }
 
-  static double _toSi(double value, Unit from) => toSi(Amount(value, from)).value;
+  static double _toSi(double value, Unit from) =>
+      toSi(Amount(value, from)).value;
 
   static double _convertTo(double amount, Unit to) => amount / to.factor;
 
@@ -95,7 +97,8 @@ class UnitConverter {
     }
     var value = _convertTo(amount.value, units[0]);
     var i = 0;
-    while (i < amount.unit.units.length && _convertTo(_toSi(value, units[i]), units[i + 1]) < 1000) {
+    while (i < amount.unit.units.length &&
+        _convertTo(_toSi(value, units[i]), units[i + 1]) < 1000) {
       value = _convertTo(_toSi(value, units[i]), units[i + 1]);
       i++;
     }

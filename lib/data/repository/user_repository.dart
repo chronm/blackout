@@ -8,7 +8,8 @@ import '../database/user_table.dart';
 part 'user_repository.g.dart';
 
 @UseDao(tables: [UserTable])
-class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMixin {
+class UserRepository extends DatabaseAccessor<Database>
+    with _$UserRepositoryMixin {
   UserRepository(Database db) : super(db);
 
   Future<User> findOneByActiveTrue() async {
@@ -29,7 +30,8 @@ class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMix
   Future<User> save(User user, {bool active = false}) async {
     user.id ??= Uuid().v4();
 
-    await into(userTable).insertOnConflictUpdate(user.toCompanion(active: active));
+    await into(userTable)
+        .insertOnConflictUpdate(user.toCompanion(active: active));
 
     return await findOneByUserId(user.id);
   }

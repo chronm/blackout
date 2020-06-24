@@ -19,7 +19,9 @@ extension l10n_extension on AppLocalizationDelegate {
     final Locale languageLocale = Locale(locale.languageCode, "");
     if (supported.contains(locale)) {
       return locale;
-    } else if (supported.map((l) => l.languageCode).contains(locale.languageCode)) {
+    } else if (supported
+        .map((l) => l.languageCode)
+        .contains(locale.languageCode)) {
       return languageLocale;
     } else {
       final Locale fallbackLocale = fallback ?? supported.first;

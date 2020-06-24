@@ -34,7 +34,8 @@ class _QRViewWidgetState extends State<QRViewWidget> {
     if (emulator) {
       return FlatButton(
         child: const Text("Click here to emulate captured qr code"),
-        onPressed: () => widget.callback(Home.fromJson("{\"id\": \"testHomeId\", \"name\": \"MyHome\"}")),
+        onPressed: () => widget.callback(
+            Home.fromJson("{\"id\": \"testHomeId\", \"name\": \"MyHome\"}")),
       );
     } else {
       return QRView(

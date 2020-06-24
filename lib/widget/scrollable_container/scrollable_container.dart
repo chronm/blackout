@@ -1,4 +1,14 @@
-import 'package:flutter/material.dart' show AlwaysScrollableScrollPhysics, BuildContext, Container, Key, MediaQuery, SingleChildScrollView, StatelessWidget, Widget, required;
+import 'package:flutter/material.dart'
+    show
+        AlwaysScrollableScrollPhysics,
+        BuildContext,
+        Container,
+        Key,
+        MediaQuery,
+        SingleChildScrollView,
+        StatelessWidget,
+        Widget,
+        required;
 
 class ScrollableContainer extends StatelessWidget {
   final Widget child;

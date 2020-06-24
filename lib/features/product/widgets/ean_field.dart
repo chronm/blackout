@@ -70,8 +70,12 @@ class _EanFieldState extends State<EanField> {
                           if (emulator) {
                             _controller.text = "someEan";
                           } else {
-                            var options = const ScanOptions(restrictFormat: [BarcodeFormat.ean8, BarcodeFormat.ean13]);
-                            var result = await BarcodeScanner.scan(options: options);
+                            var options = const ScanOptions(restrictFormat: [
+                              BarcodeFormat.ean8,
+                              BarcodeFormat.ean13
+                            ]);
+                            var result =
+                                await BarcodeScanner.scan(options: options);
                             _controller.text = result.rawContent;
                           }
                           invokeCallback();

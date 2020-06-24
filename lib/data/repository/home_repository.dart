@@ -7,11 +7,14 @@ import '../database/home_table.dart';
 part 'home_repository.g.dart';
 
 @UseDao(tables: [HomeTable])
-class HomeRepository extends DatabaseAccessor<Database> with _$HomeRepositoryMixin {
+class HomeRepository extends DatabaseAccessor<Database>
+    with _$HomeRepositoryMixin {
   HomeRepository(Database db) : super(db);
 
   Future<List<Home>> findAll() async {
-    return (await select(homeTable).get()).map((h) => Home.fromEntry(h)).toList();
+    return (await select(homeTable).get())
+        .map((h) => Home.fromEntry(h))
+        .toList();
   }
 
   Future<Home> findOneByActiveTrue() async {
@@ -28,7 +31,8 @@ class HomeRepository extends DatabaseAccessor<Database> with _$HomeRepositoryMix
   }
 
   Future<Home> save(Home home, {bool active = false}) async {
-    await into(homeTable).insertOnConflictUpdate(home.toCompanion(active: active));
+    await into(homeTable)
+        .insertOnConflictUpdate(home.toCompanion(active: active));
 
     return home;
   }

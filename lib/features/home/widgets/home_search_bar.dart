@@ -26,7 +26,10 @@ class HomeSearchBar extends StatelessWidget {
         child: const Center(
           child: Text(
             "Blackout",
-            style: TextStyle(color: Colors.white70, fontSize: 20.0, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white70,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold),
           ),
         ),
       ),

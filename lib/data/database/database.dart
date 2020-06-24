@@ -27,7 +27,9 @@ import 'user_table.dart';
 part 'database.g.dart';
 
 Future<File> getDatabasePath() async {
-  var directory = Directory(Platform.isAndroid ? p.join('/storage/emulated/0/Blackout') : (await getApplicationDocumentsDirectory()).path);
+  var directory = Directory(Platform.isAndroid
+      ? p.join('/storage/emulated/0/Blackout')
+      : (await getApplicationDocumentsDirectory()).path);
   if (!directory.existsSync()) {
     directory.createSync();
   }
@@ -44,9 +46,25 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(
-    tables: [ChargeTable, ProductTable, GroupTable, ChangeTable, ModelChangeTable, UserTable, HomeTable, ModificationTable],
-    daos: [ChargeRepository, ProductRepository, GroupRepository, ChangeRepository, ModelChangeRepository, UserRepository, HomeRepository, ModificationRepository])
+@UseMoor(tables: [
+  ChargeTable,
+  ProductTable,
+  GroupTable,
+  ChangeTable,
+  ModelChangeTable,
+  UserTable,
+  HomeTable,
+  ModificationTable
+], daos: [
+  ChargeRepository,
+  ProductRepository,
+  GroupRepository,
+  ChangeRepository,
+  ModelChangeRepository,
+  UserRepository,
+  HomeRepository,
+  ModificationRepository
+])
 class Database<T> extends _$Database {
   Database() : super(_openConnection());
 

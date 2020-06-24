@@ -32,7 +32,8 @@ class _NameTextFieldState extends State<NameTextField> {
   void invokeCallback() {
     var input = _controller.text.trim();
     setState(() {
-      _errorText = input == "" ? S.of(context).WARN_NAME_MUST_NOT_BE_EMPTY : null;
+      _errorText =
+          input == "" ? S.of(context).WARN_NAME_MUST_NOT_BE_EMPTY : null;
     });
     widget.callback(input, _errorText != null);
   }

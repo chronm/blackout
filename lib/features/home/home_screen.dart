@@ -1,4 +1,17 @@
-import 'package:flutter/material.dart' show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Navigator, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        Column,
+        Container,
+        GlobalKey,
+        Key,
+        MainAxisSize,
+        Navigator,
+        Scaffold,
+        ScaffoldState,
+        State,
+        StatefulWidget,
+        Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../generated/l10n.dart';
@@ -61,7 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, state) {
                   if (state is LoadedAll) {
                     return HomeList(
-                      cards: state.cards.where((card) => card.title.toLowerCase().contains(searchString)).toList(),
+                      cards: state.cards
+                          .where((card) =>
+                              card.title.toLowerCase().contains(searchString))
+                          .toList(),
                     );
                   }
                   return Container();

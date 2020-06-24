@@ -27,7 +27,11 @@ class GroupTitle extends StatelessWidget {
       scaffold: scaffold,
       title: group.title,
       tag: group.id,
-      trendingDown: group.tooFewAvailable ? S.of(context).GENERAL_LESS_THAN_AVAILABLE(group.scientificRefillLimit) : null,
+      trendingDown: group.tooFewAvailable
+          ? S
+              .of(context)
+              .GENERAL_LESS_THAN_AVAILABLE(group.scientificRefillLimit)
+          : null,
       available: S.of(context).GENERAL_AMOUNT_AVAILABLE(group.scientificAmount),
       event: group.buildStatus(context),
       modifyAction: () => showDialog(

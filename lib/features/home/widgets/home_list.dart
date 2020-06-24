@@ -31,14 +31,19 @@ class HomeList extends StatelessWidget {
                   trailing.add(const Icon(Icons.trending_down));
                 }
                 if (listable.expired || listable.warn) {
-                  trailing.add(Icon(Icons.event, color: listable.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
+                  trailing.add(Icon(Icons.event,
+                      color: listable.status == ChargeStatus.expired
+                          ? Theme.of(context).accentColor
+                          : null));
                 }
 
                 var status = listable.buildStatus(context);
 
                 return Hero(
                   tag: listable.id,
-                  flightShuttleBuilder: (context, animation, flightDirection, fromHeroContext, toHeroContext) => Material(
+                  flightShuttleBuilder: (context, animation, flightDirection,
+                          fromHeroContext, toHeroContext) =>
+                      Material(
                     child: SingleChildScrollView(
                       child: toHeroContext.widget,
                     ),
@@ -49,7 +54,11 @@ class HomeList extends StatelessWidget {
                       title: Text(listable.title),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(listable.scientificAmount)), status != null ? Text(status) : null].where((element) => element != null).toList(),
+                        children: [
+                          Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(
+                              listable.scientificAmount)),
+                          status != null ? Text(status) : null
+                        ].where((element) => element != null).toList(),
                       ),
                       trailing: Row(
                         children: trailing,

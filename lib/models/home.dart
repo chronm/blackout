@@ -41,5 +41,4 @@ class Home {
 
   @override
   int get hashCode => super.hashCode;
-
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../generated/l10n.dart';
 
 class AskForRedirectToSettingsDialog extends StatelessWidget {
-  const AskForRedirectToSettingsDialog({Key key}): super(key: key);
+  const AskForRedirectToSettingsDialog({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

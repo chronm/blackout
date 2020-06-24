@@ -37,7 +37,8 @@ class _ChargeDialogState extends State<ChargeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var validate = widget.validation != null ? widget.validation(_controller.text) : true;
+    var validate =
+        widget.validation != null ? widget.validation(_controller.text) : true;
     return AlertDialog(
       title: Text(widget.title),
       content: TextField(

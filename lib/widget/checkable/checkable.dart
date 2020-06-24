@@ -33,7 +33,9 @@ class _CheckableState extends State<Checkable> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _checked ? widget.checkedCallback(context) : widget.uncheckedCallback(context),
+        _checked
+            ? widget.checkedCallback(context)
+            : widget.uncheckedCallback(context),
         Container(
           height: 59,
           child: const VerticalDivider(

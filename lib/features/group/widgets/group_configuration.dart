@@ -111,45 +111,61 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                 ),
                 Row(
                   children: [
-                    !widget.newGroup ? Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: FlatButton(
-                        color: Theme.of(context).accentColor,
-                        child: Text(S.of(context).GENERAL_DELETE),
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(S.of(context).GENERAL_DELETE_CONFIRMATION),
-                              actions: [
-                                FlatButton(
-                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_NO),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_YES),
-                                  onPressed: () {
-                                    sl<GroupBloc>().add(TapOnDeleteGroup(widget.group));
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
+                    !widget.newGroup
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: FlatButton(
+                              color: Theme.of(context).accentColor,
+                              child: Text(S.of(context).GENERAL_DELETE),
+                              onPressed: () async {
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text(S
+                                        .of(context)
+                                        .GENERAL_DELETE_CONFIRMATION),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text(S
+                                            .of(context)
+                                            .GENERAL_DELETE_CONFIRMATION_NO),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text(S
+                                            .of(context)
+                                            .GENERAL_DELETE_CONFIRMATION_YES),
+                                        onPressed: () {
+                                          sl<GroupBloc>().add(
+                                              TapOnDeleteGroup(widget.group));
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ) : null,
+                          )
+                        : null,
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: FlatButton(
                         color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_SAVE),
-                        onPressed: _group.isValid() && !_errorInPluralName && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
+                        onPressed: _group.isValid() &&
+                                !_errorInPluralName &&
+                                !_errorInPeriod &&
+                                !_errorInRefillLimit &&
+                                !_errorInName &&
+                                (_group != _oldGroup || widget.newGroup)
+                            ? () => widget.action(_group)
+                            : null,
                       ),
                     ),
                   ].where((element) => element != null).toList(),

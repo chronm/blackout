@@ -1,4 +1,17 @@
-import 'package:flutter/material.dart' show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Navigator, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        Column,
+        Container,
+        GlobalKey,
+        Key,
+        MainAxisSize,
+        Navigator,
+        Scaffold,
+        ScaffoldState,
+        State,
+        StatefulWidget,
+        Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../generated/l10n.dart';
@@ -60,7 +73,11 @@ class _GroupScreenState extends State<GroupScreen> {
                     ),
                     ProductsList(
                       group: group,
-                      products: group.products.where((product) => product.title.toLowerCase().contains(searchString)).toList(),
+                      products: group.products
+                          .where((product) => product.title
+                              .toLowerCase()
+                              .contains(searchString))
+                          .toList(),
                     )
                   ],
                 );
