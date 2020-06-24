@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:Blackout/data/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
+
+import '../data/database/database.dart';
 
 class User {
   String id;
@@ -15,7 +16,7 @@ class User {
   }
 
   @override
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     return name == other.name;
   }
 
@@ -44,10 +45,13 @@ class User {
   }
 
   String toJson() {
-    Map<String, dynamic> map = {
+    var map = <String, dynamic>{
       "id": id,
       "name": name,
     };
     return jsonEncode(map);
   }
+
+  @override
+  int get hashCode => super.hashCode;
 }

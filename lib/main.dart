@@ -1,12 +1,13 @@
 import 'dart:io';
 
-import 'package:Blackout/di/di.dart';
-import 'package:Blackout/features/blackout/blackout_app.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:time_machine/time_machine.dart';
+
+import 'di/di.dart';
+import 'features/blackout/blackout_app.dart';
 
 GetIt sl = GetIt.instance;
 bool emulator;

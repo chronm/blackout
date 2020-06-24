@@ -1,9 +1,10 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/widget/checkable/checkable.dart';
-import 'package:Blackout/widget/tooltip_icon/tooltip_icon.dart';
 import 'package:flutter/material.dart';
 
-typedef void PluralNameCallback(String pluralName, bool error);
+import '../../../generated/l10n.dart';
+import '../../../widget/checkable/checkable.dart';
+import '../../../widget/tooltip_icon/tooltip_icon.dart';
+
+typedef PluralNameCallback = void Function(String pluralName, bool error);
 
 class PluralNameWidget extends StatefulWidget {
   final String initialValue;
@@ -23,21 +24,19 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
   TextEditingController _controller;
   String _errorText;
   bool _checked;
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _checked = widget.initialValue != null;
     _controller = TextEditingController(text: widget.initialValue);
-    _controller.addListener(() {
-      invokeCallback();
-    });
+    _controller.addListener(invokeCallback);
   }
 
   void invokeCallback() {
     if (_checked) {
-      String input = _controller.text.trim();
+      var input = _controller.text.trim();
       setState(() {
         _errorText = input == "" ? S.of(context).WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY : null;
       });

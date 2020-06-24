@@ -1,23 +1,24 @@
-import 'package:Blackout/features/blackout/bloc/blackout_bloc.dart';
-import 'package:Blackout/features/blackout/widgets/ask_for_import_database.dart';
-import 'package:Blackout/features/blackout/widgets/ask_for_redirect_to_settings.dart';
-import 'package:Blackout/features/blackout/widgets/ask_for_storage_rationale.dart';
-import 'package:Blackout/features/charge/charge_overview_screen.dart';
-import 'package:Blackout/features/group/group_overview_screen.dart';
-import 'package:Blackout/features/home/home_screen.dart';
-import 'package:Blackout/features/product/product_overview_screen.dart';
-import 'package:Blackout/features/settings/settings_screen.dart';
-import 'package:Blackout/features/setup/setup_screen.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/generated/l10n_extension.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/routes.dart';
-import 'package:Blackout/themes.dart';
-import 'package:Blackout/widget/changelog/changelog.dart';
 import 'package:flutter/material.dart' show Brightness, BuildContext, Colors, Container, Key, Locale, MaterialApp, Navigator, State, StatefulWidget, StatelessWidget, ThemeData, Widget, WidgetsBinding, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../generated/l10n.dart';
+import '../../generated/l10n_extension.dart';
+import '../../main.dart';
+import '../../routes.dart';
+import '../../themes.dart';
+import '../../widget/changelog/changelog.dart';
+import '../charge/charge_overview_screen.dart';
+import '../group/group_overview_screen.dart';
+import '../home/home_screen.dart';
+import '../product/product_overview_screen.dart';
+import '../settings/settings_screen.dart';
+import '../setup/setup_screen.dart';
+import 'bloc/blackout_bloc.dart';
+import 'widgets/ask_for_import_database.dart';
+import 'widgets/ask_for_redirect_to_settings.dart';
+import 'widgets/ask_for_storage_rationale.dart';
 
 class BlackoutApp extends StatefulWidget {
   const BlackoutApp({Key key}) : super(key: key);
@@ -69,6 +70,7 @@ class _BlackoutAppState extends State<BlackoutApp> {
   }
 }
 
+// ignore: public_member_api_docs
 class InitialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class InitialScreen extends StatelessWidget {
             sl<BlackoutBloc>().add(CheckPermissions());
             break;
           case AskForRedirectToSettings:
-            bool forward = await showDialog<bool>(
+            var forward = await showDialog<bool>(
               context: context,
               builder: (_) => const AskForRedirectToSettingsDialog(),
             );
@@ -92,11 +94,15 @@ class InitialScreen extends StatelessWidget {
             sl<BlackoutBloc>().add(EndApp());
             break;
           case AskForImportDatabase:
-            bool import = await showDialog<bool>(
+            var import = await showDialog<bool>(
               context: context,
               builder: (_) => const AskForImportDatabaseDialog(),
             );
-            import ? sl<BlackoutBloc>().add(ImportDatabase()) : sl<BlackoutBloc>().add(DropDatabaseAndSetup());
+            if (import) {
+              sl<BlackoutBloc>().add(ImportDatabase());
+            } else {
+              sl<BlackoutBloc>().add(DropDatabaseAndSetup());
+            }
             break;
           case GoToSetup:
             Navigator.pushReplacementNamed(context, Routes.setup);

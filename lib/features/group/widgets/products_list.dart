@@ -1,10 +1,11 @@
-import 'package:Blackout/features/group/bloc/group_bloc.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/product.dart';
-import 'package:Blackout/util/charge_extension.dart';
 import 'package:flutter/material.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/group.dart';
+import '../../../models/product.dart';
+import '../../../util/charge_extension.dart';
+import '../bloc/group_bloc.dart';
 
 class ProductsList extends StatelessWidget {
   final Group group;
@@ -26,9 +27,9 @@ class ProductsList extends StatelessWidget {
           : ListView.builder(
               itemCount: products.length,
               itemBuilder: (context, index) {
-                Product product = products[index];
+                var product = products[index];
 
-                List<Widget> trailing = <Widget>[];
+                var trailing = <Widget>[];
                 if (product.tooFewAvailable) {
                   trailing.add(const Icon(Icons.trending_down));
                 }
@@ -36,7 +37,7 @@ class ProductsList extends StatelessWidget {
                   trailing.add(Icon(Icons.event, color: product.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
-                String status = product.buildStatus(context);
+                var status = product.buildStatus(context);
 
                 return Hero(
                   tag: product.id,

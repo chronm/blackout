@@ -1,10 +1,11 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_machine/time_machine.dart';
 
-typedef void ExpirationDateCallback(LocalDate expirationDate, bool error);
+import '../../../generated/l10n.dart';
+import '../../../widget/checkable/checkable.dart';
+
+typedef ExpirationDateCallback = void Function(LocalDate expirationDate, bool error);
 
 class ExpirationDatePicker extends StatefulWidget {
   final LocalDate initialExpirationDate;
@@ -30,14 +31,12 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
     super.initState();
     _checked = widget.initialExpirationDate != null;
     _controller = TextEditingController(text: DateFormat.yMd().format(_checked ? widget.initialExpirationDate.toDateTimeUnspecified() : LocalDate.today().toDateTimeUnspecified()));
-    _controller.addListener(() {
-      invokeCallback();
-    });
+    _controller.addListener(invokeCallback);
   }
 
   void invokeCallback() {
     if (_checked) {
-      String input = _controller.text.trim();
+      var input = _controller.text.trim();
       LocalDate dateTime;
       try {
         dateTime = LocalDate.dateTime(DateFormat.yMd().parse(input));
@@ -68,7 +67,7 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
                 IconButton(
                   icon: const Icon(Icons.calendar_today),
                   onPressed: () async {
-                    DateTime picked = await showDatePicker(
+                    var picked = await showDatePicker(
                       context: context,
                       initialDate: _controller.text != "" ? DateFormat.yMd().parse(_controller.text) : DateTime.now(),
                       firstDate: DateTime.now(),

@@ -1,8 +1,9 @@
-import 'package:Blackout/features/setup/widgets/setup_page.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/typedefs.dart';
-import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
 import 'package:flutter/material.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../typedefs.dart';
+import '../../../widget/relative_height_container/relative_height_container.dart';
+import 'setup_page.dart';
 
 class CreateHome extends StatefulWidget {
   final StringCallback callback;
@@ -20,7 +21,7 @@ class CreateHome extends StatefulWidget {
 
 class _CreateHomeState extends State<CreateHome> {
   TextEditingController _controller;
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {

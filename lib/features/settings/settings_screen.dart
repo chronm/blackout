@@ -1,14 +1,16 @@
-import 'package:Blackout/features/settings/widgets/username_field.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/user.dart';
-import 'package:Blackout/features/settings/bloc/settings_bloc.dart';
-import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../generated/l10n.dart';
+import '../../main.dart';
+import '../../models/user.dart';
+import '../../widget/scrollable_container/scrollable_container.dart';
+import 'bloc/settings_bloc.dart';
+import 'widgets/username_field.dart';
+
+@immutable
 class Settings {
-  User user;
+  final User user;
 
   Settings(this.user);
 
@@ -17,9 +19,13 @@ class Settings {
   }
 
   @override
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     return user == other.user;
   }
+
+  @override
+  int get hashCode => super.hashCode;
+
 }
 
 class SettingsScreen extends StatefulWidget {

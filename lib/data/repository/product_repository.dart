@@ -1,16 +1,15 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/database/product_table.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/product.dart';
-import 'package:Blackout/models/user.dart';
-import 'package:Blackout/util/charge_extension.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../models/charge.dart';
+import '../../models/group.dart';
+import '../../models/model_change.dart';
+import '../../models/product.dart';
+import '../../models/user.dart';
+import '../../util/charge_extension.dart';
+import '../database/database.dart';
+import '../database/product_table.dart';
 
 part 'product_repository.g.dart';
 
@@ -26,20 +25,22 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
       group = await db.groupRepository.findOneByGroupId(productEntry.groupId, recurseProducts: false);
     }
 
-    List<Charge> charges = [];
+    var charges = <Charge>[];
     if (recurseCharges) {
       charges = await db.chargeRepository.findAllByProductId(productEntry.id, recurseProduct: false);
       charges = charges.where((c) => c.amount > 0).toList();
     }
 
-    Home home = await db.homeRepository.findOneById(productEntry.homeId);
+    var home = await db.homeRepository.findOneById(productEntry.homeId);
 
-    List<ModelChange> modelChanges = await db.modelChangeRepository.findAllByProductId(productEntry.id);
+    var modelChanges = await db.modelChangeRepository.findAllByProductId(productEntry.id);
 
     product = Product.fromEntry(productEntry, home, group: group, charges: charges, modelChanges: modelChanges);
 
     if (recurseCharges) {
-      product.charges.forEach((i) => i.product = product);
+      for (var charge in product.charges) {
+        charge.product = product;
+      }
     }
 
     if (recurseGroup && product.group != null) {
@@ -50,10 +51,10 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
   }
 
   Future<List<Product>> findAllByHomeIdAndGroupIsNull(String homeId, {bool recurseCharges = true}) async {
-    List<ProductEntry> entries = await (select(productTable)..where((p) => p.homeId.equals(homeId))..where((p) => isNull(p.groupId))).get();
+    var entries = await (select(productTable)..where((p) => p.homeId.equals(homeId))..where((p) => isNull(p.groupId))).get();
 
-    List<Product> products = [];
-    for (ProductEntry entry in entries) {
+    var products = <Product>[];
+    for (var entry in entries) {
       products.add(await createProduct(entry, recurseGroup: false, recurseCharges: recurseCharges));
     }
 
@@ -62,7 +63,7 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
 
   Future<Product> findOneByProductId(String productId, {bool recurseGroup = true, bool recurseCharges = true}) async {
     var query = select(productTable)..where((p) => p.id.equals(productId));
-    ProductEntry productEntry = (await query.getSingle());
+    var productEntry = (await query.getSingle());
     if (productEntry == null) return null;
 
     return await createProduct(productEntry, recurseGroup: recurseGroup, recurseCharges: recurseCharges);
@@ -70,14 +71,14 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
 
   Future<Product> findOneByPatternAndHomeId(String pattern, String homeId, {bool recurseGroup = true, bool recurseCharges = true}) async {
     var query = select(productTable)..where((p) => p.ean.equals(pattern));
-    ProductEntry productEntry = (await query.getSingle());
+    var productEntry = (await query.getSingle());
     if (productEntry == null) return null;
 
     return await createProduct(productEntry, recurseGroup: recurseGroup, recurseCharges: recurseCharges);
   }
 
   Future<List<Product>> findAllByGroupId(String groupId, {bool recurseGroup = true}) async {
-    List<Product> products = [];
+    var products = <Product>[];
 
     Group group;
     if (recurseGroup) {
@@ -86,8 +87,8 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
 
     var query = select(productTable)..where((p) => p.groupId.equals(groupId));
     var result = await query.get();
-    for (ProductEntry entry in result) {
-      Product product = await createProduct(entry, recurseGroup: false, recurseCharges: true);
+    for (var entry in result) {
+      var product = await createProduct(entry, recurseGroup: false, recurseCharges: true);
       product.group = group;
       products.add(product);
     }
@@ -102,15 +103,15 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
   Future<Product> save(Product product, User user) async {
     if (product.id == null) {
       product.id ??= Uuid().v4();
-      ModelChange change = ModelChange(modificationDate: LocalDate.today(), home: product.home, user: user, modification: ModelChangeType.create, productId: product.id);
+      var change = ModelChange(modificationDate: LocalDate.today(), home: product.home, user: user, modification: ModelChangeType.create, productId: product.id);
       await db.modelChangeRepository.save(change);
     } else {
-      ModelChange change = ModelChange(modificationDate: LocalDate.today(), home: product.home, user: user, modification: ModelChangeType.modify, productId: product.id);
+      var change = ModelChange(modificationDate: LocalDate.today(), home: product.home, user: user, modification: ModelChangeType.modify, productId: product.id);
       await db.modelChangeRepository.save(change);
 
-      Product oldProduct = await findOneByProductId(product.id);
-      List<Modification> modifications = oldProduct.getModifications(product);
-      for (Modification modification in modifications) {
+      var oldProduct = await findOneByProductId(product.id);
+      var modifications = oldProduct.getModifications(product);
+      for (var modification in modifications) {
         modification.modelChange = change;
         db.modificationRepository.save(modification);
       }
@@ -124,9 +125,11 @@ class ProductRepository extends DatabaseAccessor<Database> with _$ProductReposit
   Future<int> drop(Product product, User user) async {
     assert(product.id != null, "Product is no database object");
 
-    product.charges.forEach((c) => db.chargeRepository.drop(c, user));
+    for (var charge in product.charges) {
+      db.chargeRepository.drop(charge, user);
+    }
 
-    ModelChange change = ModelChange(user: user, modificationDate: LocalDate.today(), modification: ModelChangeType.delete, home: product.home, productId: product.id);
+    var change = ModelChange(user: user, modificationDate: LocalDate.today(), modification: ModelChangeType.delete, home: product.home, productId: product.id);
     db.modelChangeRepository.save(change);
 
     return await (delete(productTable)..where((p) => p.id.equals(product.id))).go();

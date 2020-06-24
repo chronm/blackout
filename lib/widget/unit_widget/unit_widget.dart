@@ -1,9 +1,9 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-typedef UnitCallback(UnitEnum unit);
+import '../../generated/l10n.dart';
+import '../../models/unit/unit.dart';
+
+typedef UnitCallback = Function(UnitEnum unit);
 
 class UnitWidget extends StatefulWidget {
   final UnitEnum initialUnit;
@@ -40,7 +40,7 @@ class _UnitWidgetState extends State<UnitWidget> {
 
   @override
   Widget build(BuildContext context) {
-    List<UnitEnum> enums = List.from(UnitEnum.values)..sort((a, b) => enumToString(context, a).compareTo(enumToString(context, b)));
+    var enums = List.from(UnitEnum.values)..sort((a, b) => enumToString(context, a).compareTo(enumToString(context, b)));
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

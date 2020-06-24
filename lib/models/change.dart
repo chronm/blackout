@@ -1,15 +1,16 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/models/user.dart';
-import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/util/string_extension.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
+
+import '../data/database/database.dart';
+import '../generated/l10n.dart';
+import '../util/charge_extension.dart';
+import '../util/string_extension.dart';
+import '../util/time_machine_extension.dart';
+import 'charge.dart';
+import 'home.dart';
+import 'unit/unit.dart';
+import 'user.dart';
 
 class Change {
   String id;

@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:Blackout/data/preferences/blackout_preferences.dart';
-import 'package:Blackout/data/repository/home_repository.dart';
-import 'package:Blackout/features/settings/bloc/settings_bloc.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/user.dart';
 import 'package:bloc/bloc.dart';
 
-part 'drawer_event.dart';
+import '../../../data/preferences/blackout_preferences.dart';
+import '../../../data/repository/home_repository.dart';
+import '../../../main.dart';
+import '../../../models/home.dart';
+import '../../settings/bloc/settings_bloc.dart';
 
+part 'drawer_event.dart';
 part 'drawer_state.dart';
 
 class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
@@ -24,9 +23,9 @@ class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
   @override
   Stream<DrawerState> mapEventToState(DrawerEvent event) async* {
     if (event is InitializeDrawer) {
-      User user = await blackoutPreferences.getUser();
-      Home home = await blackoutPreferences.getHome();
-      List<Home> other = await homeRepository.findAll();
+      var user = await blackoutPreferences.getUser();
+      var home = await blackoutPreferences.getHome();
+      var other = await homeRepository.findAll();
       if (user != null && home != null) {
         yield LoadedDrawer(user.name, other, other.indexOf(home));
       }

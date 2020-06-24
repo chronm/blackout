@@ -1,14 +1,15 @@
-import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
-import 'package:Blackout/features/charge/widgets/charge_configuration.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/util/string_extension.dart';
-import 'package:Blackout/widget/model_changes_widget/model_changes_widget.dart';
-import 'package:Blackout/widget/title_card/title_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/charge.dart';
+import '../../../util/charge_extension.dart';
+import '../../../util/string_extension.dart';
+import '../../../widget/model_changes_widget/model_changes_widget.dart';
+import '../../../widget/title_card/title_card.dart';
+import '../bloc/charge_bloc.dart';
+import 'charge_configuration.dart';
 
 class ChargeTitle extends StatelessWidget {
   final Charge charge;

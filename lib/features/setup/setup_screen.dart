@@ -1,16 +1,17 @@
-import 'package:Blackout/features/setup/widgets/blackout_header.dart';
-import 'package:Blackout/features/setup/widgets/create_home.dart';
-import 'package:Blackout/features/setup/widgets/setup_home.dart';
-import 'package:Blackout/features/setup/widgets/setup_user.dart';
-import 'package:Blackout/features/setup/widgets/welcome_widget.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/routes.dart';
-import 'package:Blackout/features/setup/bloc/setup_bloc.dart';
-import 'package:Blackout/widget/relative_height_container/relative_height_container.dart';
-import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart' show BuildContext, Colors, Column, Flexible, FocusNode, Key, Navigator, Scaffold, State, StatefulWidget, Theme, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+
+import '../../main.dart';
+import '../../routes.dart';
+import '../../widget/relative_height_container/relative_height_container.dart';
+import '../../widget/scrollable_container/scrollable_container.dart';
+import 'bloc/setup_bloc.dart';
+import 'widgets/blackout_header.dart';
+import 'widgets/create_home.dart';
+import 'widgets/setup_home.dart';
+import 'widgets/setup_user.dart';
+import 'widgets/welcome_widget.dart';
 
 class SetupScreen extends StatefulWidget {
   const SetupScreen({
@@ -26,7 +27,7 @@ enum SetupHomeAction { create, join }
 class _SetupScreenState extends State<SetupScreen> {
   String username = "";
   String homeName = "";
-  FocusNode _userFocus = FocusNode();
+  final FocusNode _userFocus = FocusNode();
   SetupHomeAction _action;
   int _pageCount = 2;
 
@@ -68,7 +69,7 @@ class _SetupScreenState extends State<SetupScreen> {
                     }
                   },
                   itemBuilder: (context, index) {
-                    List<Widget> body = <Widget>[];
+                    var body = <Widget>[];
                     switch (index) {
                       case 0:
                         return const WelcomeWidget();

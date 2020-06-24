@@ -1,12 +1,12 @@
-import 'package:Blackout/features/group/bloc/group_bloc.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-typedef void GroupCallback(Group group);
+import '../../../main.dart';
+import '../../../models/group.dart';
+import '../../../widget/checkable/checkable.dart';
+import '../../group/bloc/group_bloc.dart';
+
+typedef GroupCallback = void Function(Group group);
 
 class GroupSelector extends StatefulWidget {
   final Group initialGroup;
@@ -55,7 +55,7 @@ class _GroupSelectorState extends State<GroupSelector> {
                 controller: _controller,
               ),
               suggestionsCallback: (pattern) async {
-                Home home = await sl<GroupBloc>().blackoutPreferences.getHome();
+                var home = await sl<GroupBloc>().blackoutPreferences.getHome();
                 return await sl<GroupBloc>().groupRepository.findAllByPatternAndHomeId(pattern, home.id);
               },
               itemBuilder: (context, suggestion) {

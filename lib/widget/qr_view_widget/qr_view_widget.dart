@@ -1,10 +1,10 @@
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-typedef void QRViewCallback(Home home);
+import '../../main.dart';
+import '../../models/home.dart';
+
+typedef QRViewCallback = void Function(Home home);
 
 class QRViewWidget extends StatefulWidget {
   final QRViewCallback callback;
@@ -23,7 +23,7 @@ class _QRViewWidgetState extends State<QRViewWidget> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
 
   void _onQRViewCreated(QRViewController controller) {
-    this._controller = controller;
+    _controller = controller;
     controller.scannedDataStream.listen((scanData) {
       widget.callback(Home.fromJson(scanData));
     });

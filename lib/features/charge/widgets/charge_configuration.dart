@@ -1,10 +1,11 @@
-import 'package:Blackout/features/charge/widgets/expiration_date_picker.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/widget/scrollable_material_dialog/scrollable_material_dialog.dart';
 import 'package:flutter/material.dart';
 
-typedef ChargeSaveAction(Charge charge);
+import '../../../generated/l10n.dart';
+import '../../../models/charge.dart';
+import '../../../widget/scrollable_material_dialog/scrollable_material_dialog.dart';
+import 'expiration_date_picker.dart';
+
+typedef ChargeSaveAction = Function(Charge charge);
 
 class ChargeConfiguration extends StatefulWidget {
   final Charge charge;

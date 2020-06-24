@@ -1,12 +1,13 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/user.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
+
+import '../data/database/database.dart';
+import '../generated/l10n.dart';
+import '../util/time_machine_extension.dart';
+import 'home.dart';
+import 'modification.dart';
+import 'user.dart';
 
 enum ModelChangeType {
   create,
@@ -36,9 +37,9 @@ class ModelChange {
     String chargeId,
     this.modifications,
   })  : assert((groupId != null && productId == null && chargeId == null) || (groupId == null && productId != null && chargeId == null) || (groupId == null && productId == null && chargeId != null)),
-        this.groupId = groupId,
-        this.productId = productId,
-        this.chargeId = chargeId;
+        groupId = groupId,
+        productId = productId,
+        chargeId = chargeId;
 
   factory ModelChange.fromEntry(ModelChangeEntry entry, User user, Home home, List<Modification> modifications) {
     return ModelChange(

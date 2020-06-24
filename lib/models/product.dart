@@ -1,18 +1,19 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/models/charge.dart' show Charge;
-import 'package:Blackout/models/group.dart' show Group;
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/home_listable.dart';
-import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/util/charge_extension.dart';
-import 'package:Blackout/util/product_extension.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
 import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
+
+import '../data/database/database.dart';
+import '../util/charge_extension.dart';
+import '../util/product_extension.dart';
+import '../util/time_machine_extension.dart';
+import 'charge.dart' show Charge;
+import 'group.dart' show Group;
+import 'home.dart';
+import 'home_listable.dart';
+import 'model_change.dart';
+import 'modification.dart';
+import 'unit/unit.dart';
 
 class Product implements HomeListable {
   String id;
@@ -28,7 +29,7 @@ class Product implements HomeListable {
 
   Product({this.id, this.ean, @required this.description, this.group, this.warnInterval, this.charges, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
 
-  void set unit(UnitEnum unit) => _unit = unit;
+  set unit(UnitEnum unit) => _unit = unit;
 
   UnitEnum get unit => group != null ? group.unit : _unit;
 
@@ -78,7 +79,7 @@ class Product implements HomeListable {
     return description != null && description != "";
   }
 
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     return ean == other.ean && description == other.description && refillLimit == other.refillLimit && group == other.group && warnInterval == other.warnInterval;
   }
 
@@ -111,27 +112,30 @@ class Product implements HomeListable {
   }
 
   List<Modification> getModifications(Product other) {
-    List<Modification> modifications = [];
+    var modifications = <Modification>[];
     if (ean != other.ean) {
       modifications.add(Modification(fieldName: "ean", from: ean, to: other.ean));
     }
     if (warnInterval != other.warnInterval) {
-      String from = warnInterval != null ? warnInterval.toString() : null;
+      var from = warnInterval != null ? warnInterval.toString() : null;
       modifications.add(Modification(fieldName: "warnInterval", from: from, to: other.warnInterval.toString()));
     }
     if (description != other.description) {
       modifications.add(Modification(fieldName: "description", from: description, to: other.description));
     }
     if (refillLimit != other.refillLimit) {
-      String from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, _unit)).toString() : null;
+      var from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, _unit)).toString() : null;
       modifications.add(Modification(fieldName: "refillLimit", from: from, to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
     }
     if (unit != other.unit) {
-      String from = unit != null ? describeEnum(_unit) : null;
+      var from = unit != null ? describeEnum(_unit) : null;
       modifications.add(Modification(fieldName: "unit", from: from, to: describeEnum(group.unit)));
     }
 
 
     return modifications;
   }
+
+  @override
+  int get hashCode => super.hashCode;
 }

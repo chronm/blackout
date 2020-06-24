@@ -1,5 +1,6 @@
-import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
 import 'package:flutter/material.dart';
+
+import '../scrollable_container/scrollable_container.dart';
 
 class ScrollableMaterialDialog extends StatelessWidget {
   final Widget child;

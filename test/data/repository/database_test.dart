@@ -6,16 +6,11 @@ import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
 import 'package:Blackout/data/repository/product_repository.dart';
 import 'package:Blackout/data/repository/user_repository.dart';
-import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:time_machine/time_machine.dart';
 
 import '../../blackout_test_base.dart';
-
-Future<void> insertAll() async {}
 
 void main() {
   Database _database;
@@ -80,13 +75,13 @@ void main() {
     expect(group.name, equals("otherName"));
     expect(group.modelChanges[1].modification, equals(ModelChangeType.modify));
     expect(group.modelChanges[1].modifications[0].fieldName, equals("name"));
-    expect(group.modelChanges[1].modifications[0].from, equals(DEFAULT_GROUP_NAME));
+    expect(group.modelChanges[1].modifications[0].from, equals(defaultGroupName));
     expect(group.modelChanges[1].modifications[0].to, equals("otherName"));
     expect(group.products[0] == product, isTrue);
     expect(product.description, equals("otherDescription"));
     expect(product.modelChanges[1].modification, equals(ModelChangeType.modify));
     expect(product.modelChanges[1].modifications[0].fieldName, equals("description"));
-    expect(product.modelChanges[1].modifications[0].from, equals(DEFAULT_PRODUCT_DESCRIPTION));
+    expect(product.modelChanges[1].modifications[0].from, equals(defaultProductDescription));
     expect(product.modelChanges[1].modifications[0].to, equals("otherDescription"));
     expect(product.charges[0] == charge, isTrue);
     expect(charge.expirationDate, equals(LocalDate(2000, 1, 1)));
@@ -95,23 +90,23 @@ void main() {
     expect(charge.modelChanges[1].modifications[0].from, equals("Tuesday, 30 June 2020"));
     expect(charge.modelChanges[1].modifications[0].to, equals("Saturday, 01 January 2000"));
 
-    List<Change> changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate.today(), DEFAULT_HOME_ID);
+    var changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate.today(), defaultHomeId);
     expect(changes.length, equals(0));
-    changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate(2000, 1, 1), DEFAULT_HOME_ID);
+    changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate(2000, 1, 1), defaultHomeId);
     expect(changes.length, equals(1));
     expect(changes[0].charge.expirationDate, equals(LocalDate(2000, 1, 1)));
     expect(changes[0].charge.product.description, equals("otherDescription"));
     expect(changes[0].charge.product.group.name, equals("otherName"));
 
-    List<ModelChange> modelChanges = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate.today(), DEFAULT_HOME_ID);
+    var modelChanges = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate.today(), defaultHomeId);
     expect(modelChanges.length, equals(0));
 
-    modelChanges = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate(2000, 1, 1), DEFAULT_MODEL_CHANGE_ID);
+    modelChanges = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate(2000, 1, 1), defaultModelChangeId);
     expect(modelChanges.length, equals(6));
   });
 
   test('Find active home', () async {
-    Home home = createDefaultHome();
+    var home = createDefaultHome();
     await homeRepository.save(home);
     var result = await homeRepository.findOneByActiveTrue();
     expect(result, isNull);
@@ -122,7 +117,7 @@ void main() {
   });
 
   test('Find active user', () async {
-    User user = createDefaultUser();
+    var user = createDefaultUser();
     await userRepository.save(user);
     var result = await userRepository.findOneByActiveTrue();
     expect(result, isNull);

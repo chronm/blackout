@@ -1,11 +1,12 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/util/time_machine_extension.dart';
-import 'package:Blackout/widget/checkable/checkable.dart';
-import 'package:Blackout/widget/tooltip_icon/tooltip_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart';
 
-typedef void PeriodCallback(Period period, bool error);
+import '../../generated/l10n.dart';
+import '../../util/time_machine_extension.dart';
+import '../checkable/checkable.dart';
+import '../tooltip_icon/tooltip_icon.dart';
+
+typedef PeriodCallback = void Function(Period period, bool error);
 
 class PeriodWidget extends StatefulWidget {
   final Period initialPeriod;
@@ -26,7 +27,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
   Period _period;
   bool _checked;
   String _errorText;
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -34,14 +35,12 @@ class _PeriodWidgetState extends State<PeriodWidget> {
     _period = widget.initialPeriod;
     _checked = _period != null;
     _controller = TextEditingController(text: _checked ? _period.toString() : "");
-    _controller.addListener(() {
-      invokeCallback();
-    });
+    _controller.addListener(invokeCallback);
   }
 
   void invokeCallback() {
     if (_checked) {
-      String input = _controller.text.trim();
+      var input = _controller.text.trim();
       if (input == "") {
         setState(() {
           _errorText = S.of(context).WARN_PERIOD_MUST_NOT_BE_EMPTY;

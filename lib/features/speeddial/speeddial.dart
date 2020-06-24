@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' show AnimatedIcons, BuildContext, CircleB
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 
-typedef List<SpeedDialChild> BlackoutDialBuilder(BuildContext context);
+typedef BlackoutDialBuilder = List<SpeedDialChild> Function(BuildContext context);
 
 class BlackoutDial extends StatelessWidget {
   final BlackoutDialBuilder builder;

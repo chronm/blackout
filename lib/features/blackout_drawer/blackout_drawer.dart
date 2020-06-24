@@ -1,10 +1,11 @@
-import 'package:Blackout/features/blackout_drawer/bloc/drawer_bloc.dart';
-import 'package:Blackout/features/blackout_drawer/widgets/header.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/routes.dart';
 import 'package:flutter/material.dart' show Align, Alignment, BuildContext, Card, Column, Container, Drawer, Expanded, Icon, Icons, ListTile, ListView, MediaQuery, Navigator, StatelessWidget, Text, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../generated/l10n.dart';
+import '../../main.dart';
+import '../../routes.dart';
+import 'bloc/drawer_bloc.dart';
+import 'widgets/header.dart';
 
 class BlackoutDrawer extends StatelessWidget {
   const BlackoutDrawer();

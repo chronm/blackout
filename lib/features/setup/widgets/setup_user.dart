@@ -1,7 +1,8 @@
-import 'package:Blackout/features/setup/widgets/setup_page.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/typedefs.dart';
 import 'package:flutter/material.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../typedefs.dart';
+import 'setup_page.dart';
 
 class SetupUser extends StatefulWidget {
   final StringCallback callback;

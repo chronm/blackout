@@ -1,7 +1,7 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/charge.dart';
 import 'package:flutter/material.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../models/charge.dart';
 
 class ChangesList extends StatelessWidget {
   final Charge charge;
@@ -21,7 +21,7 @@ class ChangesList extends StatelessWidget {
           : ListView.builder(
               itemCount: charge.changes.length,
               itemBuilder: (context, index) {
-                Change change = charge.changes[index];
+                var change = charge.changes[index];
 
                 return Card(
                   child: ListTile(

@@ -1,16 +1,15 @@
-import 'package:Blackout/features/blackout_drawer/blackout_drawer.dart';
-import 'package:Blackout/features/charge/bloc/charge_bloc.dart';
-import 'package:Blackout/features/charge/widgets/changes_list.dart';
-import 'package:Blackout/features/charge/widgets/charge_dial.dart';
-import 'package:Blackout/features/charge/widgets/charge_title.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/charge.dart';
-import 'package:Blackout/widget/horizontal_text_divider/horizontal_text_divider.dart';
-import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:flutter/material.dart' show BuildContext, Container, GlobalKey, Key, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
-import 'package:flutter/src/widgets/basic.dart';
+import 'package:flutter/material.dart' show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../generated/l10n.dart';
+import '../../main.dart';
+import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
+import '../../widget/scrollable_container/scrollable_container.dart';
+import '../blackout_drawer/blackout_drawer.dart';
+import 'bloc/charge_bloc.dart';
+import 'widgets/changes_list.dart';
+import 'widgets/charge_dial.dart';
+import 'widgets/charge_title.dart';
 
 class ChargeScreen extends StatefulWidget {
   const ChargeScreen({Key key}) : super(key: key);
@@ -20,7 +19,7 @@ class ChargeScreen extends StatefulWidget {
 }
 
 class _ChargeScreenState extends State<ChargeScreen> {
-  GlobalKey<ScaffoldState> _scaffold = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class _ChargeScreenState extends State<ChargeScreen> {
             bloc: sl<ChargeBloc>(),
             builder: (context, state) {
               if (state is ShowCharge) {
-                Charge charge = state.charge;
+                var charge = state.charge;
                 return Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [

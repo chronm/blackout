@@ -1,7 +1,8 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/database/modification_table.dart';
-import 'package:Blackout/models/modification.dart';
 import 'package:moor/moor.dart';
+
+import '../../models/modification.dart';
+import '../database/database.dart';
+import '../database/modification_table.dart';
 
 part 'modification_repository.g.dart';
 
@@ -11,7 +12,7 @@ class ModificationRepository extends DatabaseAccessor<Database> with _$Modificat
 
   Future<List<Modification>> findAllByModelChangeId(String modelChangeId) async {
     var query = select(modificationTable)..where((m) => m.modelChangeId.equals(modelChangeId));
-    List<ModificationEntry> entries = (await query.get());
+    var entries = (await query.get());
     return entries.map((m) => Modification.fromEntry(m)).toList();
   }
 

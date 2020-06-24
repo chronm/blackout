@@ -1,4 +1,4 @@
-import 'package:Blackout/models/unit/unit.dart';
+import 'unit.dart';
 
 class Unitless extends Unit {
   Unitless() : super(1, "");

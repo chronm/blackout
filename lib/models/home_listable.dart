@@ -1,5 +1,6 @@
-import 'package:Blackout/util/charge_extension.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../util/charge_extension.dart';
 
 abstract class HomeListable {
   String get title;

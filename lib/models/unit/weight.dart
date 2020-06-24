@@ -1,4 +1,4 @@
-import 'package:Blackout/models/unit/unit.dart';
+import 'unit.dart';
 
 abstract class Weight extends Unit {
   static RegExp get regExp => RegExp(r"^(\d*([.,]*\d*))\s*(t|kg|g|mg)$");

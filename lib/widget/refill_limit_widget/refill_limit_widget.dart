@@ -1,9 +1,10 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/models/unit/unit.dart';
-import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:flutter/material.dart';
 
-typedef void RefillLimitCallback(double amount, bool error);
+import '../../generated/l10n.dart';
+import '../../models/unit/unit.dart';
+import '../checkable/checkable.dart';
+
+typedef RefillLimitCallback = void Function(double amount, bool error);
 
 class RefillLimitWidget extends StatefulWidget {
   final UnitEnum initialUnit;
@@ -33,14 +34,12 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
     _unit = widget.initialUnit;
     _checked = widget.initialRefillLimit != null;
     _controller = TextEditingController(text: UnitConverter.toScientific(Amount.fromSi(widget.initialRefillLimit, _unit)).toString().trim());
-    _controller.addListener(() {
-      invokeCallback();
-    });
+    _controller.addListener(invokeCallback);
   }
 
   void invokeCallback() {
     if (_checked) {
-      String input = _controller.text.trim();
+      var input = _controller.text.trim();
       double value;
       try {
         if (input == "") {
@@ -53,6 +52,7 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
             _errorText = value == null ? S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text) : null;
           });
         }
+      // ignore: avoid_catching_errors
       } on NoSuchMethodError {
         setState(() {
           _errorText = S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text);

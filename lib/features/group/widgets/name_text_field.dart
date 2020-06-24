@@ -1,7 +1,8 @@
-import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef void NameCallback(String name, bool error);
+import '../../../generated/l10n.dart';
+
+typedef NameCallback = void Function(String name, bool error);
 
 class NameTextField extends StatefulWidget {
   final String initialValue;
@@ -18,20 +19,18 @@ class NameTextField extends StatefulWidget {
 }
 
 class _NameTextFieldState extends State<NameTextField> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   String _errorText;
 
   @override
   void initState() {
     super.initState();
     _controller.text = widget.initialValue.trim();
-    _controller.addListener(() {
-      invokeCallback();
-    });
+    _controller.addListener(invokeCallback);
   }
 
   void invokeCallback() {
-    String input = _controller.text.trim();
+    var input = _controller.text.trim();
     setState(() {
       _errorText = input == "" ? S.of(context).WARN_NAME_MUST_NOT_BE_EMPTY : null;
     });

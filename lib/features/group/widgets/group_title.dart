@@ -1,12 +1,13 @@
-import 'package:Blackout/features/group/bloc/group_bloc.dart';
-import 'package:Blackout/features/group/widgets/group_configuration.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/typedefs.dart';
-import 'package:Blackout/widget/model_changes_widget/model_changes_widget.dart';
-import 'package:Blackout/widget/title_card/title_card.dart';
 import 'package:flutter/material.dart';
+
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/group.dart';
+import '../../../typedefs.dart';
+import '../../../widget/model_changes_widget/model_changes_widget.dart';
+import '../../../widget/title_card/title_card.dart';
+import '../bloc/group_bloc.dart';
+import 'group_configuration.dart';
 
 class GroupTitle extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffold;

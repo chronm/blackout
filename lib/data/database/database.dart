@@ -1,21 +1,5 @@
 import 'dart:io';
 
-import 'package:Blackout/data/database/group_table.dart';
-import 'package:Blackout/data/database/change_table.dart';
-import 'package:Blackout/data/database/home_table.dart';
-import 'package:Blackout/data/database/charge_table.dart';
-import 'package:Blackout/data/database/model_change_table.dart';
-import 'package:Blackout/data/database/modification_table.dart';
-import 'package:Blackout/data/database/product_table.dart';
-import 'package:Blackout/data/database/user_table.dart';
-import 'package:Blackout/data/repository/group_repository.dart';
-import 'package:Blackout/data/repository/change_repository.dart';
-import 'package:Blackout/data/repository/home_repository.dart';
-import 'package:Blackout/data/repository/charge_repository.dart';
-import 'package:Blackout/data/repository/model_change_repository.dart';
-import 'package:Blackout/data/repository/modification_repository.dart';
-import 'package:Blackout/data/repository/product_repository.dart';
-import 'package:Blackout/data/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -23,10 +7,27 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../repository/change_repository.dart';
+import '../repository/charge_repository.dart';
+import '../repository/group_repository.dart';
+import '../repository/home_repository.dart';
+import '../repository/model_change_repository.dart';
+import '../repository/modification_repository.dart';
+import '../repository/product_repository.dart';
+import '../repository/user_repository.dart';
+import 'change_table.dart';
+import 'charge_table.dart';
+import 'group_table.dart';
+import 'home_table.dart';
+import 'model_change_table.dart';
+import 'modification_table.dart';
+import 'product_table.dart';
+import 'user_table.dart';
+
 part 'database.g.dart';
 
 Future<File> getDatabasePath() async {
-  Directory directory = Directory(Platform.isAndroid ? p.join('/storage/emulated/0/Blackout') : (await getApplicationDocumentsDirectory()).path);
+  var directory = Directory(Platform.isAndroid ? p.join('/storage/emulated/0/Blackout') : (await getApplicationDocumentsDirectory()).path);
   if (!directory.existsSync()) {
     directory.createSync();
   }

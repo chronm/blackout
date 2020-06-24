@@ -1,7 +1,8 @@
-import 'package:Blackout/widget/search_bar/search_bar.dart';
 import 'package:flutter/material.dart';
 
-typedef SearchCallback(String searchString);
+import '../search_bar/search_bar.dart';
+
+typedef SearchCallback = Function(String searchString);
 
 class TitleCard extends StatelessWidget {
   final Object tag;
@@ -33,7 +34,7 @@ class TitleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).padding.top + 48.0 + 48.0 + 20.0 + (trendingDown != null ? 48.0 : 0) + (event != null ? 48.0 : 0) + (productName != null ? 48.0 : 0) + (groupName != null ? 48.0 : 0);
+    var height = MediaQuery.of(context).padding.top + 48.0 + 48.0 + 20.0 + (trendingDown != null ? 48.0 : 0) + (event != null ? 48.0 : 0) + (productName != null ? 48.0 : 0) + (groupName != null ? 48.0 : 0);
     return Hero(
       tag: tag,
       child: SearchBar(

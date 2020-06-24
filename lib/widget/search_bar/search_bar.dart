@@ -1,7 +1,8 @@
-import 'package:Blackout/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-typedef void SearchCallback(String searchString);
+import '../../generated/l10n.dart';
+
+typedef SearchCallback = void Function(String searchString);
 
 class SearchBar extends StatefulWidget {
   final Widget child;
@@ -24,7 +25,7 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   TextEditingController _controller;
   bool _searching = false;
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {

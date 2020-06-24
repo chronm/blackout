@@ -1,11 +1,12 @@
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/widget/checkable/checkable.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-typedef void EanCallback(String value, bool error);
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../widget/checkable/checkable.dart';
+
+typedef EanCallback = void Function(String value, bool error);
 
 class EanField extends StatefulWidget {
   final String initialEan;
@@ -31,14 +32,12 @@ class _EanFieldState extends State<EanField> {
     super.initState();
     _checked = widget.initialEan != null;
     _controller = TextEditingController(text: widget.initialEan);
-    _controller.addListener(() {
-      invokeCallback();
-    });
+    _controller.addListener(invokeCallback);
   }
 
   void invokeCallback() {
     if (_checked) {
-      String input = _controller.text.trim();
+      var input = _controller.text.trim();
       if (input == "") {
         setState(() {
           _errorText = S.of(context).WARN_EAN_MUST_NOT_BE_EMPTY;

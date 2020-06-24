@@ -1,16 +1,17 @@
-import 'package:Blackout/features/group/bloc/group_bloc.dart';
-import 'package:Blackout/features/group/widgets/name_text_field.dart';
-import 'package:Blackout/features/group/widgets/plural_name_widget.dart';
-import 'package:Blackout/generated/l10n.dart';
-import 'package:Blackout/main.dart';
-import 'package:Blackout/models/group.dart';
-import 'package:Blackout/widget/period_widget/period_widget.dart';
-import 'package:Blackout/widget/refill_limit_widget/refill_limit_widget.dart';
-import 'package:Blackout/widget/scrollable_container/scrollable_container.dart';
-import 'package:Blackout/widget/unit_widget/unit_widget.dart';
 import 'package:flutter/material.dart';
 
-typedef GroupSaveAction(Group group);
+import '../../../generated/l10n.dart';
+import '../../../main.dart';
+import '../../../models/group.dart';
+import '../../../widget/period_widget/period_widget.dart';
+import '../../../widget/refill_limit_widget/refill_limit_widget.dart';
+import '../../../widget/scrollable_container/scrollable_container.dart';
+import '../../../widget/unit_widget/unit_widget.dart';
+import '../bloc/group_bloc.dart';
+import 'name_text_field.dart';
+import 'plural_name_widget.dart';
+
+typedef GroupSaveAction = Function(Group group);
 
 class GroupConfiguration extends StatefulWidget {
   final Group group;

@@ -1,12 +1,10 @@
-import 'package:Blackout/data/database/database.dart';
-import 'package:Blackout/data/database/model_change_table.dart';
-import 'package:Blackout/models/home.dart';
-import 'package:Blackout/models/model_change.dart';
-import 'package:Blackout/models/modification.dart';
-import 'package:Blackout/models/user.dart';
 import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../models/model_change.dart';
+import '../database/database.dart';
+import '../database/model_change_table.dart';
 
 part 'model_change_repository.g.dart';
 
@@ -16,13 +14,13 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
   Future<List<ModelChange>> findAllByGroupId(String groupId) async {
     var query = select(modelChangeTable)..where((c) => c.groupId.equals(groupId));
-    List<ModelChangeEntry> entries = await query.get();
+    var entries = await query.get();
 
-    List<ModelChange> changes = [];
-    for (ModelChangeEntry entry in entries) {
-      User user = await db.userRepository.findOneByUserId(entry.userId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      Home home = await db.homeRepository.findOneById(entry.homeId);
+    var changes = <ModelChange>[];
+    for (var entry in entries) {
+      var user = await db.userRepository.findOneByUserId(entry.userId);
+      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await db.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -31,13 +29,13 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
   Future<List<ModelChange>> findAllByProductId(String productId) async {
     var query = select(modelChangeTable)..where((c) => c.productId.equals(productId));
-    List<ModelChangeEntry> entries = await query.get();
+    var entries = await query.get();
 
-    List<ModelChange> changes = [];
-    for (ModelChangeEntry entry in entries) {
-      User user = await db.userRepository.findOneByUserId(entry.userId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      Home home = await db.homeRepository.findOneById(entry.homeId);
+    var changes = <ModelChange>[];
+    for (var entry in entries) {
+      var user = await db.userRepository.findOneByUserId(entry.userId);
+      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await db.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -46,13 +44,13 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
   Future<List<ModelChange>> findAllByChargeId(String chargeId) async {
     var query = select(modelChangeTable)..where((c) => c.chargeId.equals(chargeId));
-    List<ModelChangeEntry> entries = await query.get();
+    var entries = await query.get();
 
-    List<ModelChange> changes = [];
-    for (ModelChangeEntry entry in entries) {
-      User user = await db.userRepository.findOneByUserId(entry.userId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      Home home = await db.homeRepository.findOneById(entry.homeId);
+    var changes = <ModelChange>[];
+    for (var entry in entries) {
+      var user = await db.userRepository.findOneByUserId(entry.userId);
+      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await db.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -61,13 +59,13 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
   Future<List<ModelChange>> findAllByModificationDateAfterAndHomeId(LocalDate modificationDate, String homeId) async {
     var query = select(modelChangeTable)..where((c) => c.modificationDate.isBiggerThanValue(modificationDate.toDateTimeUnspecified()));
-    List<ModelChangeEntry> entries = await query.get();
+    var entries = await query.get();
 
-    List<ModelChange> changes = [];
-    for (ModelChangeEntry entry in entries) {
-      User user = await db.userRepository.findOneByUserId(entry.userId);
-      List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      Home home = await db.homeRepository.findOneById(entry.homeId);
+    var changes = <ModelChange>[];
+    for (var entry in entries) {
+      var user = await db.userRepository.findOneByUserId(entry.userId);
+      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await db.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -76,14 +74,14 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
   Future<ModelChange> findOneByChangeId(String changeId) async {
     var query = select(modelChangeTable)..where((c) => c.id.equals(changeId));
-    ModelChangeEntry changeEntry = (await query.getSingle());
+    var changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;
 
-    User user = await db.userRepository.findOneByUserId(changeEntry.userId);
+    var user = await db.userRepository.findOneByUserId(changeEntry.userId);
 
-    List<Modification> modifications = await db.modificationRepository.findAllByModelChangeId(changeEntry.id);
+    var modifications = await db.modificationRepository.findAllByModelChangeId(changeEntry.id);
 
-    Home home = await db.homeRepository.findOneById(changeEntry.homeId);
+    var home = await db.homeRepository.findOneById(changeEntry.homeId);
     return ModelChange.fromEntry(changeEntry, user, home, modifications);
   }
 
