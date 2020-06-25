@@ -28,7 +28,7 @@ class HomeRepository extends DatabaseAccessor<Database> with _$HomeRepositoryMix
   }
 
   Future<Home> save(Home home, {bool active = false}) async {
-    await into(homeTable).insertOnConflictUpdate(home.toCompanion(active: active));
+    await into(homeTable).insert(home.toCompanion(active: active), mode: InsertMode.replace);
 
     return home;
   }

@@ -29,7 +29,7 @@ class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMix
   Future<User> save(User user, {bool active = false}) async {
     user.id ??= Uuid().v4();
 
-    await into(userTable).insertOnConflictUpdate(user.toCompanion(active: active));
+    await into(userTable).insert(user.toCompanion(active: active), mode: InsertMode.replace);
 
     return await findOneByUserId(user.id);
   }

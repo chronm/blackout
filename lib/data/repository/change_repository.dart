@@ -81,7 +81,7 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
   Future<Change> save(Change change) async {
     change.id ??= Uuid().v4();
 
-    await into(changeTable).insertOnConflictUpdate(change.toCompanion());
+    await into(changeTable).insert(change.toCompanion(), mode: InsertMode.replace);
 
     return findOneByChangeId(change.id);
   }

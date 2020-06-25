@@ -85,7 +85,7 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
       }
     }
 
-    await into(groupTable).insertOnConflictUpdate(group.toCompanion());
+    await into(groupTable).insert(group.toCompanion(), mode: InsertMode.replace);
 
     return await findOneByGroupId(group.id);
   }
