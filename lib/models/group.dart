@@ -103,6 +103,7 @@ class Group implements HomeListable {
     return unit != null && name != null && name != "";
   }
 
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(dynamic other) {
     return name == other.name &&
         pluralName == other.pluralName &&
@@ -176,5 +177,6 @@ class Group implements HomeListable {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => super.hashCode;
 }

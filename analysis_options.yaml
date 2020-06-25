@@ -1,4 +1,8 @@
 analyzer:
+  exclude:
+    - lib/generated/*.dart
+    - lib/generated/*/*.dart
+    - lib/data/*/*.g.dart
   enable-experiment:
     - extension-methods
 

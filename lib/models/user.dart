@@ -16,6 +16,7 @@ class User {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(dynamic other) {
     return name == other.name;
   }
@@ -53,5 +54,6 @@ class User {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => super.hashCode;
 }

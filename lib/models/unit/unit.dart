@@ -28,17 +28,17 @@ class Amount {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(dynamic other) {
-    return UnitConverter.toScientific(this).value ==
-        UnitConverter.toScientific(other).value;
+    return UnitConverter.toScientific(this).value == UnitConverter.toScientific(other).value;
   }
 
   bool operator <=(dynamic other) {
-    return UnitConverter.toScientific(this).value <=
-        UnitConverter.toScientific(other).value;
+    return UnitConverter.toScientific(this).value <= UnitConverter.toScientific(other).value;
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => super.hashCode;
 }
 
@@ -59,7 +59,7 @@ abstract class Unit {
   static Unit fromSi(UnitEnum unitEnum) {
     switch (unitEnum) {
       case UnitEnum.weight:
-        return Weight.SI;
+        return Weight.getSi();
       case UnitEnum.unitless:
         return Unitless();
     }
@@ -83,10 +83,7 @@ class UnitConverter {
     return Amount(value, amount.unit.si);
   }
 
-  static double _toSi(double value, Unit from) =>
-      toSi(Amount(value, from)).value;
-
-  static double _convertTo(double amount, Unit to) => amount / to.factor;
+  static double _convert(double amount, Unit to) => amount / to.factor;
 
   static Amount toScientific(Amount amount) {
     if (amount.value == null) return amount;
@@ -95,11 +92,10 @@ class UnitConverter {
     if (units.length == 1) {
       return amount;
     }
-    var value = _convertTo(amount.value, units[0]);
+    var value = _convert(amount.value, units[0]);
     var i = 0;
-    while (i < amount.unit.units.length &&
-        _convertTo(_toSi(value, units[i]), units[i + 1]) < 1000) {
-      value = _convertTo(_toSi(value, units[i]), units[i + 1]);
+    while (i < amount.unit.units.length && _convert(toSi(Amount(value, units[i])).value, units[i + 1]) < 1000) {
+      value = _convert(toSi(Amount(value, units[i])).value, units[i + 1]);
       i++;
     }
 

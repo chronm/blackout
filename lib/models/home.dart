@@ -12,6 +12,7 @@ class Home {
   Home({@required this.id, @required this.name});
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(dynamic other) {
     return id == other.id && name == other.name;
   }
@@ -40,5 +41,6 @@ class Home {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => super.hashCode;
 }

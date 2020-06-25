@@ -114,6 +114,7 @@ class Product implements HomeListable {
     return description != null && description != "";
   }
 
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(dynamic other) {
     return ean == other.ean &&
         description == other.description &&
@@ -191,5 +192,6 @@ class Product implements HomeListable {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => super.hashCode;
 }

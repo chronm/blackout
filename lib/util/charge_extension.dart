@@ -59,18 +59,20 @@ extension ChargeExtension on Charge {
   }
 
   String buildStatus(BuildContext context) {
-    if (expired)
+    if (expired) {
       return S
           .of(context)
           .GENERAL_EXPIRED_AGO(
-              expirationDate.prettyPrintShortDifference(context))
+          expirationDate.prettyPrintShortDifference(context))
           .capitalize();
-    if (warn)
+    }
+    if (warn) {
       return S
           .of(context)
           .GENERAL_EXPIRES_IN(
-              expirationDate.prettyPrintShortDifference(context))
+          expirationDate.prettyPrintShortDifference(context))
           .capitalize();
+    }
     if (expirationDate != null) {
       return S
           .of(context)
