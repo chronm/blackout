@@ -19,8 +19,10 @@ jobs:
       # Setup the flutter environment.
       - uses: subosito/flutter-action@v1
         with:
-          channel: 'stable' # 'dev', 'alpha', default to: 'stable'
+          channel: 'dev' # 'dev', 'alpha', default to: 'stable'
           # flutter-version: '1.12.x' # you can also specify exact version of flutter
+
+      - run: flutter upgrade
 
       - run: sudo apt-get install -y libsqlite3-dev
 

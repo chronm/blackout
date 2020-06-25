@@ -32,7 +32,7 @@ dependencies:
   moor: 3.1.0
   moor_ffi: 0.6.0
   package_info: 0.4.1
-  path: 1.6.4
+  path: 1.7.0
   path_provider: 1.6.10
   permission_handler: 5.0.1
   pub_semver: 1.4.4
