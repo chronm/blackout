@@ -34,14 +34,7 @@ class TitleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).padding.top +
-        48.0 +
-        48.0 +
-        20.0 +
-        (trendingDown != null ? 48.0 : 0) +
-        (event != null ? 48.0 : 0) +
-        (productName != null ? 48.0 : 0) +
-        (groupName != null ? 48.0 : 0);
+    var height = MediaQuery.of(context).padding.top + 48.0 + 48.0 + 20.0 + (trendingDown != null ? 48.0 : 0) + (event != null ? 48.0 : 0) + (productName != null ? 48.0 : 0) + (groupName != null ? 48.0 : 0);
     return Hero(
       tag: tag,
       child: SearchBar(

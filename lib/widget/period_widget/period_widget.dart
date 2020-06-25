@@ -34,8 +34,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
     super.initState();
     _period = widget.initialPeriod;
     _checked = _period != null;
-    _controller =
-        TextEditingController(text: _checked ? _period.toString() : "");
+    _controller = TextEditingController(text: _checked ? _period.toString() : "");
     _controller.addListener(invokeCallback);
   }
 
@@ -50,14 +49,11 @@ class _PeriodWidgetState extends State<PeriodWidget> {
       } else {
         setState(() {
           _period = periodFromISO8601String(input);
-          _errorText = _period == null
-              ? S.of(context).WARN_PERIOD_COULD_NOT_BE_PARSED(input)
-              : null;
+          _errorText = _period == null ? S.of(context).WARN_PERIOD_COULD_NOT_BE_PARSED(input) : null;
         });
       }
       if (_controller.selection.start < 1) {
-        _controller.selection =
-            TextSelection.fromPosition(TextPosition(offset: 1));
+        _controller.selection = TextSelection.fromPosition(TextPosition(offset: 1));
       }
       widget.callback(_period, _errorText != null);
     } else {

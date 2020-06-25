@@ -1,17 +1,4 @@
-import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        Colors,
-        Column,
-        Flexible,
-        FocusNode,
-        Key,
-        Navigator,
-        Scaffold,
-        State,
-        StatefulWidget,
-        Theme,
-        Widget;
+import 'package:flutter/material.dart' show BuildContext, Colors, Column, Flexible, FocusNode, Key, Navigator, Scaffold, State, StatefulWidget, Theme, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -121,8 +108,7 @@ class _SetupScreenState extends State<SetupScreen> {
                                 homeName = value;
                               });
                             },
-                            finishAction: () => sl<SetupBloc>()
-                                .add(CreateHomeAndFinish(username, homeName)),
+                            finishAction: () => sl<SetupBloc>().add(CreateHomeAndFinish(username, homeName)),
                           );
                         } else if (_action == SetupHomeAction.join) {}
                         break;

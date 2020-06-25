@@ -25,28 +25,15 @@ class Group implements HomeListable {
   UnitEnum unit;
   List<ModelChange> modelChanges = [];
 
-  Group(
-      {this.id,
-      @required this.name,
-      this.pluralName,
-      this.warnInterval,
-      this.refillLimit,
-      @required this.unit,
-      this.products,
-      @required this.home,
-      this.modelChanges});
+  Group({this.id, @required this.name, this.pluralName, this.warnInterval, this.refillLimit, @required this.unit, this.products, @required this.home, this.modelChanges});
 
   @override
-  String get title =>
-      amount != 1 ? (pluralName != null ? pluralName : name) : name;
+  String get title => amount != 1 ? (pluralName != null ? pluralName : name) : name;
 
   @override
-  String get scientificAmount =>
-      UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString();
+  String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString();
 
-  String get scientificRefillLimit =>
-      UnitConverter.toScientific(Amount(refillLimit, Unit.fromSi(unit)))
-          .toString();
+  String get scientificRefillLimit => UnitConverter.toScientific(Amount(refillLimit, Unit.fromSi(unit))).toString();
 
   @override
   String get subtitleBestBeforeNotification => "";
@@ -68,15 +55,7 @@ class Group implements HomeListable {
 
   @override
   String buildStatus(BuildContext context) {
-    return products.length != 0
-        ? (products
-              ..sort((a, b) => (a.expirationDate ??
-                      LocalDate.today().addYears(100))
-                  .compareTo(
-                      (b.expirationDate ?? LocalDate.today().addYears(100)))))
-            .first
-            .buildStatus(context)
-        : null;
+    return products.length != 0 ? (products..sort((a, b) => (a.expirationDate ?? LocalDate.today().addYears(100)).compareTo((b.expirationDate ?? LocalDate.today().addYears(100))))).first.buildStatus(context) : null;
   }
 
   @override
@@ -87,16 +66,7 @@ class Group implements HomeListable {
   }
 
   Group clone() {
-    return Group(
-        id: id,
-        name: name,
-        pluralName: pluralName,
-        warnInterval: warnInterval,
-        refillLimit: refillLimit,
-        unit: unit,
-        products: products,
-        home: home,
-        modelChanges: modelChanges);
+    return Group(id: id, name: name, pluralName: pluralName, warnInterval: warnInterval, refillLimit: refillLimit, unit: unit, products: products, home: home, modelChanges: modelChanges);
   }
 
   bool isValid() {
@@ -105,15 +75,10 @@ class Group implements HomeListable {
 
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(dynamic other) {
-    return name == other.name &&
-        pluralName == other.pluralName &&
-        warnInterval == other.warnInterval &&
-        unit == other.unit &&
-        refillLimit == other.refillLimit;
+    return name == other.name && pluralName == other.pluralName && warnInterval == other.warnInterval && unit == other.unit && refillLimit == other.refillLimit;
   }
 
-  factory Group.fromEntry(GroupEntry groupEntry, Home home,
-      {List<Product> products, List<ModelChange> modelChanges}) {
+  factory Group.fromEntry(GroupEntry groupEntry, Home home, {List<Product> products, List<ModelChange> modelChanges}) {
     return Group(
       id: groupEntry.id,
       name: groupEntry.name,
@@ -143,35 +108,21 @@ class Group implements HomeListable {
     var modifications = <Modification>[];
     if (unit != other.unit) {
       var from = unit != null ? describeEnum(unit) : null;
-      modifications.add(Modification(
-          fieldName: "unit", from: from, to: describeEnum(other.unit)));
+      modifications.add(Modification(fieldName: "unit", from: from, to: describeEnum(other.unit)));
     }
     if (name != other.name) {
-      modifications
-          .add(Modification(fieldName: "name", from: name, to: other.name));
+      modifications.add(Modification(fieldName: "name", from: name, to: other.name));
     }
     if (pluralName != other.pluralName) {
-      modifications.add(Modification(
-          fieldName: "pluralName", from: pluralName, to: other.pluralName));
+      modifications.add(Modification(fieldName: "pluralName", from: pluralName, to: other.pluralName));
     }
     if (warnInterval != other.warnInterval) {
       var from = warnInterval != null ? warnInterval.toString() : null;
-      modifications.add(Modification(
-          fieldName: "warnInterval",
-          from: from,
-          to: other.warnInterval.toString()));
+      modifications.add(Modification(fieldName: "warnInterval", from: from, to: other.warnInterval.toString()));
     }
     if (refillLimit != other.refillLimit) {
-      var from = refillLimit != null
-          ? UnitConverter.toScientific(Amount.fromSi(refillLimit, unit))
-              .toString()
-          : null;
-      modifications.add(Modification(
-          fieldName: "refillLimit",
-          from: from,
-          to: UnitConverter.toScientific(
-                  Amount.fromSi(other.refillLimit, other.unit))
-              .toString()));
+      var from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString() : null;
+      modifications.add(Modification(fieldName: "refillLimit", from: from, to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
     }
     return modifications;
   }

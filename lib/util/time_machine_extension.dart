@@ -14,8 +14,7 @@ int parseFromRegex(RegExpMatch match, int group, String character) {
 
 Period periodFromISO8601String(String period) {
   period = period.toUpperCase();
-  final regexp = RegExp(
-      r"^P(?=\d+[YMWD])(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d+[HMS])(\d+H)?(\d+M)?(\d+S)?)?$");
+  final regexp = RegExp(r"^P(?=\d+[YMWD])(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d+[HMS])(\d+H)?(\d+M)?(\d+S)?)?$");
   if (!regexp.hasMatch(period)) {
     return null;
   }
@@ -62,14 +61,10 @@ extension LocalDateExtension on LocalDate {
       return DateFormat.EEEE().format(other);
     }
     if (Jiffy(now).diff(other, Units.MONTH) == 0) {
-      return S
-          .of(context)
-          .GENERAL_EVENT_IN_WEEKS(Jiffy(now).diff(other, Units.WEEK).abs());
+      return S.of(context).GENERAL_EVENT_IN_WEEKS(Jiffy(now).diff(other, Units.WEEK).abs());
     }
     if (Jiffy(now).diff(other, Units.YEAR) == 0) {
-      return S
-          .of(context)
-          .GENERAL_EVENT_IN_MONTHS(Jiffy(now).diff(other, Units.MONTH).abs());
+      return S.of(context).GENERAL_EVENT_IN_MONTHS(Jiffy(now).diff(other, Units.MONTH).abs());
     }
     if (Jiffy(now).diff(other, Units.YEAR) < 0) {
       return S.of(context).GENERAL_EVENT_IN_OVER_A_YEAR;
@@ -86,13 +81,7 @@ extension PeriodExtension on Period {
     days += weeks * 7;
     days += days;
 
-    return Duration(
-        days: days,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds,
-        milliseconds: milliseconds,
-        microseconds: microseconds);
+    return Duration(days: days, hours: hours, minutes: minutes, seconds: seconds, milliseconds: milliseconds, microseconds: microseconds);
   }
 
   String prettyPrint(BuildContext context) {

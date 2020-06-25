@@ -48,8 +48,7 @@ class _UsernameFieldState extends State<UsernameField> {
           controller: _controller,
           decoration: InputDecoration(
             labelText: S.of(context).SETTINGS_USERNAME,
-            errorText:
-                _error ? S.of(context).WARN_USERNAME_MUST_NOT_BE_EMPTY : null,
+            errorText: _error ? S.of(context).WARN_USERNAME_MUST_NOT_BE_EMPTY : null,
           ),
         ),
       ),

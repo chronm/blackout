@@ -34,19 +34,14 @@ class ProductsList extends StatelessWidget {
                   trailing.add(const Icon(Icons.trending_down));
                 }
                 if (product.expired || product.warn) {
-                  trailing.add(Icon(Icons.event,
-                      color: product.status == ChargeStatus.expired
-                          ? Theme.of(context).accentColor
-                          : null));
+                  trailing.add(Icon(Icons.event, color: product.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
                 var status = product.buildStatus(context);
 
                 return Hero(
                   tag: product.id,
-                  flightShuttleBuilder: (context, animation, flightDirection,
-                          fromHeroContext, toHeroContext) =>
-                      Material(
+                  flightShuttleBuilder: (context, animation, flightDirection, fromHeroContext, toHeroContext) => Material(
                     child: SingleChildScrollView(
                       child: toHeroContext.widget,
                     ),
@@ -58,8 +53,7 @@ class ProductsList extends StatelessWidget {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(
-                              product.scientificAmount)),
+                          Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(product.scientificAmount)),
                           status != null ? Text(status) : null,
                         ].where((element) => element != null).toList(),
                       ),
@@ -67,8 +61,7 @@ class ProductsList extends StatelessWidget {
                         children: trailing,
                         mainAxisSize: MainAxisSize.min,
                       ),
-                      onTap: () =>
-                          sl<GroupBloc>().add(TapOnProduct(product, group)),
+                      onTap: () => sl<GroupBloc>().add(TapOnProduct(product, group)),
                     ),
                   ),
                 );

@@ -25,14 +25,9 @@ class ChargeTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return TitleCard(
       scaffold: scaffold,
-      title: S
-          .of(context)
-          .UNIT_CREATED_AT(DateFormat.yMd()
-              .format(charge.creationDate.toDateTimeUnspecified()))
-          .capitalize(),
+      title: S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(charge.creationDate.toDateTimeUnspecified())).capitalize(),
       tag: charge.id,
-      available:
-          S.of(context).GENERAL_AMOUNT_AVAILABLE(charge.scientificAmount),
+      available: S.of(context).GENERAL_AMOUNT_AVAILABLE(charge.scientificAmount),
       event: charge.buildStatus(context),
       productName: charge.product.title,
       groupName: charge.product.group?.title,

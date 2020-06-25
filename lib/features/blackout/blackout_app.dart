@@ -1,20 +1,4 @@
-import 'package:flutter/material.dart'
-    show
-        Brightness,
-        BuildContext,
-        Colors,
-        Container,
-        Key,
-        Locale,
-        MaterialApp,
-        Navigator,
-        State,
-        StatefulWidget,
-        StatelessWidget,
-        ThemeData,
-        Widget,
-        WidgetsBinding,
-        showDialog;
+import 'package:flutter/material.dart' show Brightness, BuildContext, Colors, Container, Key, Locale, MaterialApp, Navigator, State, StatefulWidget, StatelessWidget, ThemeData, Widget, WidgetsBinding, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -64,8 +48,7 @@ class _BlackoutAppState extends State<BlackoutApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      localeResolutionCallback:
-          S.delegate.resolution(fallback: Locale("en", "")),
+      localeResolutionCallback: S.delegate.resolution(fallback: Locale("en", "")),
       theme: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: createMaterialColor(Colors.redAccent),

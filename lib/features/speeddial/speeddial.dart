@@ -1,20 +1,7 @@
-import 'package:flutter/material.dart'
-    show
-        AnimatedIcons,
-        BuildContext,
-        CircleBorder,
-        Colors,
-        Curves,
-        IconThemeData,
-        Key,
-        StatelessWidget,
-        Theme,
-        Widget,
-        required;
+import 'package:flutter/material.dart' show AnimatedIcons, BuildContext, CircleBorder, Colors, Curves, IconThemeData, Key, StatelessWidget, Theme, Widget, required;
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-typedef BlackoutDialBuilder = List<SpeedDialChild> Function(
-    BuildContext context);
+typedef BlackoutDialBuilder = List<SpeedDialChild> Function(BuildContext context);
 
 class BlackoutDial extends StatelessWidget {
   final BlackoutDialBuilder builder;

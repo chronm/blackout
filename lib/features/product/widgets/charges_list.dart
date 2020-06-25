@@ -1,26 +1,4 @@
-import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        Card,
-        Center,
-        Column,
-        CrossAxisAlignment,
-        Expanded,
-        Hero,
-        Icon,
-        Icons,
-        Key,
-        ListTile,
-        ListView,
-        MainAxisSize,
-        Material,
-        Row,
-        SingleChildScrollView,
-        StatelessWidget,
-        Text,
-        Theme,
-        Widget,
-        required;
+import 'package:flutter/material.dart' show BuildContext, Card, Center, Column, CrossAxisAlignment, Expanded, Hero, Icon, Icons, Key, ListTile, ListView, MainAxisSize, Material, Row, SingleChildScrollView, StatelessWidget, Text, Theme, Widget, required;
 import 'package:intl/intl.dart';
 
 import '../../../generated/l10n.dart';
@@ -52,19 +30,14 @@ class ChargesList extends StatelessWidget {
 
                 var trailing = <Widget>[];
                 if (charge.expired || charge.warn) {
-                  trailing.add(Icon(Icons.event,
-                      color: charge.status == ChargeStatus.expired
-                          ? Theme.of(context).accentColor
-                          : null));
+                  trailing.add(Icon(Icons.event, color: charge.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
                 var status = charge.buildStatus(context);
 
                 return Hero(
                   tag: charge.id,
-                  flightShuttleBuilder: (context, animation, flightDirection,
-                          fromHeroContext, toHeroContext) =>
-                      Material(
+                  flightShuttleBuilder: (context, animation, flightDirection, fromHeroContext, toHeroContext) => Material(
                     child: SingleChildScrollView(
                       child: toHeroContext.widget,
                     ),
@@ -72,16 +45,11 @@ class ChargesList extends StatelessWidget {
                   child: Card(
                     child: ListTile(
                       isThreeLine: status != null,
-                      title: Text(S
-                          .of(context)
-                          .UNIT_CREATED_AT(DateFormat.yMd().format(
-                              charge.creationDate.toDateTimeUnspecified()))
-                          .capitalize()),
+                      title: Text(S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(charge.creationDate.toDateTimeUnspecified())).capitalize()),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(
-                              charge.scientificAmount)),
+                          Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(charge.scientificAmount)),
                           status != null ? Text(status) : null,
                         ].where((element) => element != null).toList(),
                       ),

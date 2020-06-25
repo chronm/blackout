@@ -38,9 +38,7 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
     if (_checked) {
       var input = _controller.text.trim();
       setState(() {
-        _errorText = input == ""
-            ? S.of(context).WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY
-            : null;
+        _errorText = input == "" ? S.of(context).WARN_PLURAL_NAME_MUST_NOT_BE_EMPTY : null;
       });
       widget.callback(input, _errorText != null);
     } else {

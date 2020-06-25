@@ -1,16 +1,4 @@
-import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        Column,
-        Container,
-        GlobalKey,
-        Key,
-        MainAxisSize,
-        Scaffold,
-        ScaffoldState,
-        State,
-        StatefulWidget,
-        Widget;
+import 'package:flutter/material.dart' show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Scaffold, ScaffoldState, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../generated/l10n.dart';

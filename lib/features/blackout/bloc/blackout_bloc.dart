@@ -40,8 +40,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
   }
 
   Stream<BlackoutState> maybeShowChangelog() async* {
-    var currentVersion =
-        Version.parse((await PackageInfo.fromPlatform()).version);
+    var currentVersion = Version.parse((await PackageInfo.fromPlatform()).version);
     Version latestVersion;
     try {
       latestVersion = Version.parse(await blackoutPreferences.getVersion());
@@ -81,8 +80,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
           yield* importDatabaseOrGoToSetup();
         }
       } else {
-        if (await Permission.storage.isUndetermined ||
-            await Permission.storage.isDenied) {
+        if (await Permission.storage.isUndetermined || await Permission.storage.isDenied) {
           await Permission.storage.request();
         }
         if (await Permission.storage.isPermanentlyDenied) {

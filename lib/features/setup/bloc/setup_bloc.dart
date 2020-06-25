@@ -35,16 +35,7 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final ChargeRepository chargeRepository;
   final ChangeRepository changeRepository;
 
-  SetupBloc(
-      this.blackoutPreferences,
-      this.homeBloc,
-      this.homeRepository,
-      this.userRepository,
-      this.groupRepository,
-      this.productRepository,
-      this.chargeRepository,
-      this.changeRepository,
-      this.drawerBloc);
+  SetupBloc(this.blackoutPreferences, this.homeBloc, this.homeRepository, this.userRepository, this.groupRepository, this.productRepository, this.chargeRepository, this.changeRepository, this.drawerBloc);
 
   @override
   SetupState get initialState => InitialSetupState();
@@ -75,26 +66,12 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
 
   Future<void> createProduct(Home home) async {
     var user = await blackoutPreferences.getUser();
-    var product = Product(
-        description: "Marmorkuchen",
-        unit: UnitEnum.weight,
-        home: home,
-        refillLimit: 0.8);
+    var product = Product(description: "Marmorkuchen", unit: UnitEnum.weight, home: home, refillLimit: 0.8);
     await productRepository.save(product, user);
     var charge = Charge(product: product);
     await chargeRepository.save(charge, user);
-    var change = Change(
-        user: user,
-        home: charge.product.home,
-        changeDate: LocalDate.today(),
-        value: 1,
-        charge: charge);
-    var change2 = Change(
-        user: user,
-        home: charge.product.home,
-        changeDate: LocalDate.today(),
-        value: -0.50505,
-        charge: charge);
+    var change = Change(user: user, home: charge.product.home, changeDate: LocalDate.today(), value: 1, charge: charge);
+    var change2 = Change(user: user, home: charge.product.home, changeDate: LocalDate.today(), value: -0.50505, charge: charge);
     product.charges = [charge];
     charge.changes = [change, change2];
 
@@ -104,55 +81,21 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
 
   Future<void> createGroup(Home home) async {
     var user = await blackoutPreferences.getUser();
-    var group = Group(
-        name: "Ei",
-        pluralName: "Eier",
-        refillLimit: 6,
-        warnInterval: Period(days: 8),
-        unit: UnitEnum.unitless,
-        home: home);
+    var group = Group(name: "Ei", pluralName: "Eier", refillLimit: 6, warnInterval: Period(days: 8), unit: UnitEnum.unitless, home: home);
     await groupRepository.save(group, user);
     group.warnInterval = Period(days: 5);
     await groupRepository.save(group, user);
-    var product = Product(
-        ean: "lalelu",
-        description: "Freilandeier 10 Stück M",
-        group: group,
-        home: home);
+    var product = Product(ean: "lalelu", description: "Freilandeier 10 Stück M", group: group, home: home);
     await productRepository.save(product, user);
-    var product2 = Product(
-        ean: "lalelu2",
-        description: "Freilandeier 10 Stück L",
-        group: group,
-        home: home);
+    var product2 = Product(ean: "lalelu2", description: "Freilandeier 10 Stück L", group: group, home: home);
     await productRepository.save(product2, user);
-    var charge =
-        Charge(expirationDate: LocalDate.today().addDays(1), product: product);
+    var charge = Charge(expirationDate: LocalDate.today().addDays(1), product: product);
     await chargeRepository.save(charge, user);
-    var charge2 = Charge(
-        expirationDate: LocalDate.today().addDays(20), product: product2);
+    var charge2 = Charge(expirationDate: LocalDate.today().addDays(20), product: product2);
     await chargeRepository.save(charge2, user);
-    var change = Change(
-        id: Uuid().v4(),
-        home: charge.product.home,
-        user: user,
-        changeDate: LocalDate.today(),
-        value: 10,
-        charge: charge);
-    var change2 = Change(
-        id: Uuid().v4(),
-        home: charge.product.home,
-        user: user,
-        changeDate: LocalDate.today(),
-        value: -5,
-        charge: charge);
-    var change3 = Change(
-        id: Uuid().v4(),
-        home: charge.product.home,
-        user: user,
-        changeDate: LocalDate.today(),
-        value: 10,
-        charge: charge2);
+    var change = Change(id: Uuid().v4(), home: charge.product.home, user: user, changeDate: LocalDate.today(), value: 10, charge: charge);
+    var change2 = Change(id: Uuid().v4(), home: charge.product.home, user: user, changeDate: LocalDate.today(), value: -5, charge: charge);
+    var change3 = Change(id: Uuid().v4(), home: charge.product.home, user: user, changeDate: LocalDate.today(), value: 10, charge: charge2);
     group.products = [product, product2];
     product.charges = [charge];
     product2.charges = [charge2];

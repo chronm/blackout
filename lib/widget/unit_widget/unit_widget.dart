@@ -40,9 +40,7 @@ class _UnitWidgetState extends State<UnitWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var enums = List.from(UnitEnum.values)
-      ..sort((a, b) =>
-          enumToString(context, a).compareTo(enumToString(context, b)));
+    var enums = List.from(UnitEnum.values)..sort((a, b) => enumToString(context, a).compareTo(enumToString(context, b)));
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

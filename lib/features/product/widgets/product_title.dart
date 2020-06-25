@@ -27,13 +27,8 @@ class ProductTitle extends StatelessWidget {
       scaffold: scaffold,
       title: product.title,
       tag: product.id,
-      trendingDown: product.tooFewAvailable
-          ? S
-              .of(context)
-              .GENERAL_LESS_THAN_AVAILABLE(product.scientificRefillLimit)
-          : null,
-      available:
-          S.of(context).GENERAL_AMOUNT_AVAILABLE(product.scientificAmount),
+      trendingDown: product.tooFewAvailable ? S.of(context).GENERAL_LESS_THAN_AVAILABLE(product.scientificRefillLimit) : null,
+      available: S.of(context).GENERAL_AMOUNT_AVAILABLE(product.scientificAmount),
       event: product.buildStatus(context),
       groupName: product.group != null ? product.group.title : null,
       modifyAction: () => showDialog(

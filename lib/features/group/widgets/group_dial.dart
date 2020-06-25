@@ -1,16 +1,4 @@
-import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        Colors,
-        Icon,
-        Icons,
-        Key,
-        Navigator,
-        StatelessWidget,
-        TextStyle,
-        Theme,
-        Widget,
-        showDialog;
+import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Theme, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -40,11 +28,7 @@ class GroupDial extends StatelessWidget {
           await showDialog(
             context: context,
             builder: (context) => ProductConfiguration(
-              product: Product(
-                  home: state.home,
-                  description: "",
-                  unit: UnitEnum.unitless,
-                  group: state.group),
+              product: Product(home: state.home, description: "", unit: UnitEnum.unitless, group: state.group),
               newProduct: true,
               groups: state.groups,
               action: (product) async {
@@ -84,8 +68,7 @@ class GroupDial extends StatelessWidget {
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
-                    onTap: () => sl<SpeedDialBloc>()
-                        .add(TapOnCreateProductInGroup(state.group)),
+                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateProductInGroup(state.group)),
                   ),
                 ]);
               }
