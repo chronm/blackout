@@ -55,8 +55,7 @@ void main() {
     expect(charge.id, isNotNull);
     expect(charge.modelChanges[0].modification, equals(ModelChangeType.create));
     expect(product.id, isNotNull);
-    expect(
-        product.modelChanges[0].modification, equals(ModelChangeType.create));
+    expect(product.modelChanges[0].modification, equals(ModelChangeType.create));
     expect(group.id, isNotNull);
     expect(group.modelChanges[0].modification, equals(ModelChangeType.create));
 
@@ -76,47 +75,33 @@ void main() {
     expect(group.name, equals("otherName"));
     expect(group.modelChanges[1].modification, equals(ModelChangeType.modify));
     expect(group.modelChanges[1].modifications[0].fieldName, equals("name"));
-    expect(
-        group.modelChanges[1].modifications[0].from, equals(defaultGroupName));
+    expect(group.modelChanges[1].modifications[0].from, equals(defaultGroupName));
     expect(group.modelChanges[1].modifications[0].to, equals("otherName"));
     expect(group.products[0] == product, isTrue);
     expect(product.description, equals("otherDescription"));
-    expect(
-        product.modelChanges[1].modification, equals(ModelChangeType.modify));
-    expect(product.modelChanges[1].modifications[0].fieldName,
-        equals("description"));
-    expect(product.modelChanges[1].modifications[0].from,
-        equals(defaultProductDescription));
-    expect(product.modelChanges[1].modifications[0].to,
-        equals("otherDescription"));
+    expect(product.modelChanges[1].modification, equals(ModelChangeType.modify));
+    expect(product.modelChanges[1].modifications[0].fieldName, equals("description"));
+    expect(product.modelChanges[1].modifications[0].from, equals(defaultProductDescription));
+    expect(product.modelChanges[1].modifications[0].to, equals("otherDescription"));
     expect(product.charges[0] == charge, isTrue);
     expect(charge.expirationDate, equals(LocalDate(2000, 1, 1)));
     expect(charge.modelChanges[1].modification, equals(ModelChangeType.modify));
-    expect(charge.modelChanges[1].modifications[0].fieldName,
-        equals("expirationDate"));
-    expect(charge.modelChanges[1].modifications[0].from,
-        equals("Tuesday, 30 June 2020"));
-    expect(charge.modelChanges[1].modifications[0].to,
-        equals("Saturday, 01 January 2000"));
+    expect(charge.modelChanges[1].modifications[0].fieldName, equals("expirationDate"));
+    expect(charge.modelChanges[1].modifications[0].from, equals("Tuesday, 30 June 2020"));
+    expect(charge.modelChanges[1].modifications[0].to, equals("Saturday, 01 January 2000"));
 
-    var changes = await changeRepository.findAllByChangeDateAfterAndHomeId(
-        LocalDate.today(), defaultHomeId);
+    var changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate.today(), defaultHomeId);
     expect(changes.length, equals(0));
-    changes = await changeRepository.findAllByChangeDateAfterAndHomeId(
-        LocalDate(2000, 1, 1), defaultHomeId);
+    changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate(2000, 1, 1), defaultHomeId);
     expect(changes.length, equals(1));
     expect(changes[0].charge.expirationDate, equals(LocalDate(2000, 1, 1)));
     expect(changes[0].charge.product.description, equals("otherDescription"));
     expect(changes[0].charge.product.group.name, equals("otherName"));
 
-    var modelChanges =
-        await modelChangeRepository.findAllByModificationDateAfterAndHomeId(
-            LocalDate.today(), defaultHomeId);
+    var modelChanges = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate.today(), defaultHomeId);
     expect(modelChanges.length, equals(0));
 
-    modelChanges =
-        await modelChangeRepository.findAllByModificationDateAfterAndHomeId(
-            LocalDate(2000, 1, 1), defaultModelChangeId);
+    modelChanges = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate(2000, 1, 1), defaultModelChangeId);
     expect(modelChanges.length, equals(6));
   });
 
