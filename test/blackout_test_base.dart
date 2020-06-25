@@ -34,13 +34,7 @@ User createDefaultUser() => User(id: defaultUserId, name: defaultUserName);
 const String defaultModelChangeId = "modelChangeId";
 LocalDate defaultModelChangeDate = LocalDate(2020, 06, 21);
 
-ModelChange createDefaultGroupModelChange() => ModelChange(
-    id: defaultModelChangeId,
-    user: createDefaultUser(),
-    modification: ModelChangeType.create,
-    modificationDate: defaultModelChangeDate,
-    home: createDefaultHome(),
-    groupId: defaultGroupId);
+ModelChange createDefaultGroupModelChange() => ModelChange(id: defaultModelChangeId, user: createDefaultUser(), modification: ModelChangeType.create, modificationDate: defaultModelChangeDate, home: createDefaultHome(), groupId: defaultGroupId);
 
 ModelChange createDefaultProductModelChange() => ModelChange(
       id: defaultModelChangeId,
@@ -154,8 +148,7 @@ class _TestApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      localeResolutionCallback:
-          S.delegate.resolution(fallback: Locale("en", "")),
+      localeResolutionCallback: S.delegate.resolution(fallback: Locale("en", "")),
       home: _Home(
         factory: factory,
       ),
