@@ -16,6 +16,11 @@ jobs:
 #        with:
 #          java-version: '12.x'
 
+      - run: |
+          echo "${{ secrets.GOOGLE_PLAY_SIGNING_KEY }}" > key.jks.asc
+          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_SIGNING_KEY_PASSWORD }}" --batch key.jks.asc > key.jks
+          echo "${{ secrets.GOOGLE_PLAY_KEY_PROPERTIES }}" > android/key.properties
+
       # Setup the flutter environment.
       - uses: subosito/flutter-action@v1
         with:
