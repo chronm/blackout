@@ -32,6 +32,7 @@ class Charge {
         modelChanges: modelChanges);
   }
 
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(dynamic other) {
     return expirationDate == other.expirationDate;
   }
@@ -72,5 +73,6 @@ class Charge {
   }
 
   @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => super.hashCode;
 }

@@ -5,8 +5,8 @@ abstract class Weight extends Unit {
   static List<Unit> get _units => [T(), Kg(), G(), Mg()];
   List<Unit> get units => _units;
   UnitEnum get unitEnum => UnitEnum.weight;
-  Unit get si => SI;
-  static get SI => _units[1];
+  Unit get si => getSi();
+  static Unit getSi() => _units[1];
 
   Weight(double factor, String symbol) : super(factor, symbol);
 
