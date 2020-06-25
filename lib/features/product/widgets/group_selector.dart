@@ -56,9 +56,7 @@ class _GroupSelectorState extends State<GroupSelector> {
               ),
               suggestionsCallback: (pattern) async {
                 var home = await sl<GroupBloc>().blackoutPreferences.getHome();
-                return await sl<GroupBloc>()
-                    .groupRepository
-                    .findAllByPatternAndHomeId(pattern, home.id);
+                return await sl<GroupBloc>().groupRepository.findAllByPatternAndHomeId(pattern, home.id);
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(

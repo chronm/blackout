@@ -18,8 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ProductRepository productRepository;
   final BlackoutPreferences blackoutPreferences;
 
-  HomeBloc(
-      this.blackoutPreferences, this.groupRepository, this.productRepository);
+  HomeBloc(this.blackoutPreferences, this.groupRepository, this.productRepository);
 
   @override
   HomeState get initialState => HomeInitialState();
@@ -38,8 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield Loading();
       var home = await blackoutPreferences.getHome();
       var groups = await groupRepository.findAllByHomeId(home.id);
-      var products =
-          await productRepository.findAllByHomeIdAndGroupIsNull(home.id);
+      var products = await productRepository.findAllByHomeIdAndGroupIsNull(home.id);
       var cards = <HomeListable>[]
         ..addAll(products)
         ..addAll(groups)

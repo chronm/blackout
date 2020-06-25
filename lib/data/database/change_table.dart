@@ -11,8 +11,7 @@ class ChangeTable extends Table {
 
   DateTimeColumn get changeDate => dateTime()();
 
-  TextColumn get chargeId =>
-      text().customConstraint('references ChargeTable(id)')();
+  TextColumn get chargeId => text().customConstraint('references ChargeTable(id)')();
 
   TextColumn get homeId => text().customConstraint('references Home(id)')();
 

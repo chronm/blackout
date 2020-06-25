@@ -34,8 +34,7 @@ class ModelChangesWidget extends StatelessWidget {
                               Row(
                                 children: [
                                   const Icon(Icons.date_range),
-                                  Text(
-                                      "${DateFormat.yMd().format(c.modificationDate.toDateTimeUnspecified())}"),
+                                  Text("${DateFormat.yMd().format(c.modificationDate.toDateTimeUnspecified())}"),
                                 ],
                               ),
                               Row(

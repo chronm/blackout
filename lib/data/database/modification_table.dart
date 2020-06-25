@@ -4,8 +4,7 @@ import 'package:moor/moor.dart';
 class ModificationTable extends Table {
   TextColumn get id => text()();
 
-  TextColumn get modelChangeId =>
-      text().customConstraint('references ModelChangeTable(id)')();
+  TextColumn get modelChangeId => text().customConstraint('references ModelChangeTable(id)')();
 
   TextColumn get fieldName => text()();
 

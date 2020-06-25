@@ -1,16 +1,4 @@
-import 'package:flutter/material.dart'
-    show
-        BuildContext,
-        Colors,
-        Icon,
-        Icons,
-        Key,
-        Navigator,
-        StatelessWidget,
-        TextStyle,
-        Theme,
-        Widget,
-        showDialog;
+import 'package:flutter/material.dart' show BuildContext, Colors, Icon, Icons, Key, Navigator, StatelessWidget, TextStyle, Theme, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -99,8 +87,7 @@ class ProductDial extends StatelessWidget {
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
-                    onTap: () => sl<SpeedDialBloc>()
-                        .add(TapOnCreateCharge(state.product)),
+                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateCharge(state.product)),
                   ),
                   SpeedDialChild(
                     child: const Icon(Icons.create_new_folder),
@@ -110,8 +97,7 @@ class ProductDial extends StatelessWidget {
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
-                    onTap: () =>
-                        sl<SpeedDialBloc>().add(TapOnCreateGroupForProduct()),
+                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateGroupForProduct()),
                   ),
                 ]);
               }

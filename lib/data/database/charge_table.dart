@@ -4,8 +4,7 @@ import 'package:moor/moor.dart';
 class ChargeTable extends Table {
   TextColumn get id => text()();
 
-  TextColumn get productId =>
-      text().customConstraint('references ProductTable(id)')();
+  TextColumn get productId => text().customConstraint('references ProductTable(id)')();
 
   DateTimeColumn get expirationDate => dateTime().nullable()();
 

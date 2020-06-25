@@ -121,25 +121,18 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                                 await showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
-                                    title: Text(S
-                                        .of(context)
-                                        .GENERAL_DELETE_CONFIRMATION),
+                                    title: Text(S.of(context).GENERAL_DELETE_CONFIRMATION),
                                     actions: [
                                       FlatButton(
-                                        child: Text(S
-                                            .of(context)
-                                            .GENERAL_DELETE_CONFIRMATION_NO),
+                                        child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_NO),
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
                                       ),
                                       FlatButton(
-                                        child: Text(S
-                                            .of(context)
-                                            .GENERAL_DELETE_CONFIRMATION_YES),
+                                        child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_YES),
                                         onPressed: () {
-                                          sl<GroupBloc>().add(
-                                              TapOnDeleteGroup(widget.group));
+                                          sl<GroupBloc>().add(TapOnDeleteGroup(widget.group));
                                           Navigator.pop(context);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
@@ -158,14 +151,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                       child: FlatButton(
                         color: Theme.of(context).accentColor,
                         child: Text(S.of(context).GENERAL_SAVE),
-                        onPressed: _group.isValid() &&
-                                !_errorInPluralName &&
-                                !_errorInPeriod &&
-                                !_errorInRefillLimit &&
-                                !_errorInName &&
-                                (_group != _oldGroup || widget.newGroup)
-                            ? () => widget.action(_group)
-                            : null,
+                        onPressed: _group.isValid() && !_errorInPluralName && !_errorInPeriod && !_errorInRefillLimit && !_errorInName && (_group != _oldGroup || widget.newGroup) ? () => widget.action(_group) : null,
                       ),
                     ),
                   ].where((element) => element != null).toList(),

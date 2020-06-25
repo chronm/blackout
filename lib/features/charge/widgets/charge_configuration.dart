@@ -54,10 +54,7 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
             child: FlatButton(
               color: Theme.of(context).accentColor,
               child: Text(S.of(context).GENERAL_SAVE),
-              onPressed: !_errorInExpirationDate &&
-                      (_charge != _oldCharge || widget.newCharge)
-                  ? () => widget.action(_charge)
-                  : null,
+              onPressed: !_errorInExpirationDate && (_charge != _oldCharge || widget.newCharge) ? () => widget.action(_charge) : null,
             ),
           ),
         ],

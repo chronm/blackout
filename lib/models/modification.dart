@@ -12,12 +12,7 @@ class Modification {
   String to;
   ModelChange modelChange;
 
-  Modification(
-      {this.id,
-      @required this.fieldName,
-      @required this.from,
-      @required this.to,
-      this.modelChange});
+  Modification({this.id, @required this.fieldName, @required this.from, @required this.to, this.modelChange});
 
   factory Modification.fromEntry(ModificationEntry entry) {
     return Modification(

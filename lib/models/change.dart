@@ -20,30 +20,15 @@ class Change {
   Charge charge;
   Home home;
 
-  Change(
-      {this.id,
-      @required this.user,
-      @required this.value,
-      @required this.changeDate,
-      @required this.charge,
-      @required this.home});
+  Change({this.id, @required this.user, @required this.value, @required this.changeDate, @required this.charge, @required this.home});
 
-  String get scientificAmount =>
-      UnitConverter.toScientific(Amount.fromSi(value.abs(), unit)).toString();
+  String get scientificAmount => UnitConverter.toScientific(Amount.fromSi(value.abs(), unit)).toString();
 
   String buildTitle(BuildContext context) {
     if (value < 0) {
-      return S
-          .of(context)
-          .CHANGE_TOOK(
-              scientificAmount, changeDate.prettyPrintShortDifference(context))
-          .capitalize();
+      return S.of(context).CHANGE_TOOK(scientificAmount, changeDate.prettyPrintShortDifference(context)).capitalize();
     } else {
-      return S
-          .of(context)
-          .CHANGE_ADDED(
-              scientificAmount, changeDate.prettyPrintShortDifference(context))
-          .capitalize();
+      return S.of(context).CHANGE_ADDED(scientificAmount, changeDate.prettyPrintShortDifference(context)).capitalize();
     }
   }
 
@@ -51,8 +36,7 @@ class Change {
 
   UnitEnum get unit => charge.unit;
 
-  factory Change.fromEntry(ChangeEntry entry, User user, Home home,
-      {Charge charge}) {
+  factory Change.fromEntry(ChangeEntry entry, User user, Home home, {Charge charge}) {
     return Change(
       id: entry.id,
       user: user,

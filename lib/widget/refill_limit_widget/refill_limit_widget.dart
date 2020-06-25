@@ -33,11 +33,7 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
     super.initState();
     _unit = widget.initialUnit;
     _checked = widget.initialRefillLimit != null;
-    _controller = TextEditingController(
-        text: UnitConverter.toScientific(
-                Amount.fromSi(widget.initialRefillLimit, _unit))
-            .toString()
-            .trim());
+    _controller = TextEditingController(text: UnitConverter.toScientific(Amount.fromSi(widget.initialRefillLimit, _unit)).toString().trim());
     _controller.addListener(invokeCallback);
   }
 
@@ -53,18 +49,13 @@ class _RefillLimitWidgetState extends State<RefillLimitWidget> {
         } else {
           value = UnitConverter.toSi(Amount.fromInput(input, _unit)).value;
           setState(() {
-            _errorText = value == null
-                ? S
-                    .of(context)
-                    .WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text)
-                : null;
+            _errorText = value == null ? S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text) : null;
           });
         }
         // ignore: avoid_catching_errors
       } on NoSuchMethodError {
         setState(() {
-          _errorText =
-              S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text);
+          _errorText = S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text);
         });
       } finally {
         widget.callback(value, _errorText != null);
