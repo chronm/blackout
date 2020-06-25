@@ -95,7 +95,7 @@ class ChargeRepository extends DatabaseAccessor<Database> with _$ChargeRepositor
       }
     }
 
-    await into(chargeTable).insertOnConflictUpdate(charge.toCompanion());
+    await into(chargeTable).insert(charge.toCompanion(), mode: InsertMode.replace);
 
     return await findOneByChargeId(charge.id);
   }
