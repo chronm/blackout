@@ -18,7 +18,7 @@ jobs:
 
       - run: |
           echo "${{ secrets.GOOGLE_PLAY_SIGNING_KEY }}" > key.jks.asc
-          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_SIGNING_KEY_PASSWORD }}" --batch key.jks.asc > key.jks
+          gpg -d --passphrase "${{ secrets.GOOGLE_PLAY_SIGNING_KEY_PASSWORD }}" --batch key.jks.asc > android/app/key.jks
           echo "${{ secrets.GOOGLE_PLAY_KEY_PROPERTIES }}" > android/key.properties
 
       # Setup the flutter environment.
@@ -43,11 +43,19 @@ jobs:
       # Run widget tests for our flutter project.
       - run: flutter test
 
+      # Build bundle.
+      - run: flutter build appbundle --target-platform android-arm,android-arm64
+
       # Build apk.
-      - run: flutter build apk --release
+      - run: flutter build apk --target-platform android-arm64 --split-per-abi
 
       # Upload generated apk to the artifacts.
       - uses: actions/upload-artifact@v1
         with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+          name: arm64-v8a.apk
+          path: build/app/outputs/apk/release/app-arm64-v8a-release.apk
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: bundle.aab
+          path: build/app/outputs/bundle/release/app-release.aab
