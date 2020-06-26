@@ -52,7 +52,7 @@ class _UnitWidgetState extends State<UnitWidget> {
                 labelText: S.of(context).GENERAL_UNIT,
               ),
               items: enums
-                  .map((u) => DropdownMenuItem(
+                  .map((u) => DropdownMenuItem<UnitEnum>(
                         value: u,
                         child: Text(enumToString(context, u)),
                       ))
