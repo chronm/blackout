@@ -1,10 +1,12 @@
 import '../../util/double_extension.dart';
 import 'unitless.dart';
+import 'volume.dart';
 import 'weight.dart';
 
 enum UnitEnum {
   weight,
   unitless,
+  volume,
 }
 
 class Amount {
@@ -62,6 +64,8 @@ abstract class Unit {
         return Weight.getSi();
       case UnitEnum.unitless:
         return Unitless();
+      case UnitEnum.volume:
+        return Volume.getSi();
     }
     return null;
   }
@@ -72,6 +76,8 @@ abstract class Unit {
         return Weight.parseSymbol(input);
       case UnitEnum.unitless:
         return Unitless();
+      case UnitEnum.volume:
+        return Volume.parseSymbol(input);
     }
     return null;
   }
@@ -94,7 +100,7 @@ class UnitConverter {
     }
     var value = _convert(amount.value, units[0]);
     var i = 0;
-    while (i < amount.unit.units.length && _convert(toSi(Amount(value, units[i])).value, units[i + 1]) < 1000) {
+    while (i < amount.unit.units.length - 1 && _convert(toSi(Amount(value, units[i])).value, units[i + 1]) < 1000) {
       value = _convert(toSi(Amount(value, units[i])).value, units[i + 1]);
       i++;
     }
