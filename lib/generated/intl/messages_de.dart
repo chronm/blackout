@@ -152,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "SPEEDDIAL_GOTO_HOME" : MessageLookupByLibrary.simpleMessage("Start"),
     "SPEEDDIAL_SCAN" : MessageLookupByLibrary.simpleMessage("Barcode scannen"),
     "SPEEDDIAL_TAKE_FROM_BATCH" : MessageLookupByLibrary.simpleMessage("Entnehmen"),
+    "UNITENUM_VOLUME" : MessageLookupByLibrary.simpleMessage("Volumen"),
     "UNITENUM_WEIGHT" : MessageLookupByLibrary.simpleMessage("Gewicht"),
     "UNITS" : MessageLookupByLibrary.simpleMessage("Batchn"),
     "UNIT_CREATED_AT" : m20,

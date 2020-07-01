@@ -890,6 +890,16 @@ class S {
     );
   }
 
+  /// `Volume`
+  String get UNITENUM_VOLUME {
+    return Intl.message(
+      'Volume',
+      name: 'UNITENUM_VOLUME',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Best before`
   String get UNIT_EXPIRATION_DATE {
     return Intl.message(

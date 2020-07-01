@@ -34,6 +34,8 @@ class _UnitWidgetState extends State<UnitWidget> {
         return "------";
       case UnitEnum.weight:
         return S.of(context).UNITENUM_WEIGHT;
+      case UnitEnum.volume:
+        return S.of(context).UNITENUM_VOLUME;
     }
     return "";
   }

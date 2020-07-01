@@ -256,6 +256,8 @@
   },
   "UNITENUM_WEIGHT": "Gewicht",
   "@UNITENUM_WEIGHT": {},
+  "UNITENUM_VOLUME": "Volumen",
+  "@UNITENUM_VOLUME": {},
   "UNIT_EXPIRATION_DATE": "Mindesthaltbarkeitsdatum",
   "@UNIT_EXPIRATION_DATE": {},
   "UNIT_NOTIFICATION_DATE": "Benachrichtigungsdatum",
