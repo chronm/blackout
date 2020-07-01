@@ -262,8 +262,8 @@
   "@UNIT_EXPIRATION_DATE": {},
   "UNIT_NOTIFICATION_DATE": "Notify at",
   "@UNIT_NOTIFICATION_DATE": {},
-  "UNITS": "Batches",
-  "@UNITS": {},
+  "BATCHES": "Batches",
+  "@BATCHES": {},
   "WARN_AMOUNT_COULD_NOT_BE_PARSED": "{amount} is not valid",
   "@WARN_AMOUNT_COULD_NOT_BE_PARSED": {
     "placeholders": {

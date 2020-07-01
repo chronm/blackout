@@ -51,7 +51,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       groups: state.groups,
                     ),
                     HorizontalTextDivider(
-                      text: S.of(context).UNITS,
+                      text: S.of(context).BATCHES,
                     ),
                     BatchesList(
                       product: product,

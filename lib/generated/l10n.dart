@@ -921,10 +921,10 @@ class S {
   }
 
   /// `Batches`
-  String get UNITS {
+  String get BATCHES {
     return Intl.message(
       'Batches',
-      name: 'UNITS',
+      name: 'BATCHES',
       desc: '',
       args: [],
     );
