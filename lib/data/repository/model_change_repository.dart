@@ -10,7 +10,7 @@ part 'model_change_repository.g.dart';
 
 @UseDao(tables: [ModelChangeTable])
 class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChangeRepositoryMixin {
-  ModelChangeRepository(Database db) : super(db);
+  ModelChangeRepository(Database attachedDatabase) : super(attachedDatabase);
 
   Future<List<ModelChange>> findAllByGroupId(String groupId) async {
     var query = select(modelChangeTable)..where((c) => c.groupId.equals(groupId));
@@ -18,9 +18,9 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
     var changes = <ModelChange>[];
     for (var entry in entries) {
-      var user = await db.userRepository.findOneByUserId(entry.userId);
-      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      var home = await db.homeRepository.findOneById(entry.homeId);
+      var user = await attachedDatabase.userRepository.findOneByUserId(entry.userId);
+      var modifications = await attachedDatabase.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await attachedDatabase.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -33,24 +33,24 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
     var changes = <ModelChange>[];
     for (var entry in entries) {
-      var user = await db.userRepository.findOneByUserId(entry.userId);
-      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      var home = await db.homeRepository.findOneById(entry.homeId);
+      var user = await attachedDatabase.userRepository.findOneByUserId(entry.userId);
+      var modifications = await attachedDatabase.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await attachedDatabase.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
     return changes;
   }
 
-  Future<List<ModelChange>> findAllByChargeId(String chargeId) async {
-    var query = select(modelChangeTable)..where((c) => c.chargeId.equals(chargeId));
+  Future<List<ModelChange>> findAllByBatchId(String batchId) async {
+    var query = select(modelChangeTable)..where((c) => c.batchId.equals(batchId));
     var entries = await query.get();
 
     var changes = <ModelChange>[];
     for (var entry in entries) {
-      var user = await db.userRepository.findOneByUserId(entry.userId);
-      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      var home = await db.homeRepository.findOneById(entry.homeId);
+      var user = await attachedDatabase.userRepository.findOneByUserId(entry.userId);
+      var modifications = await attachedDatabase.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await attachedDatabase.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -63,9 +63,9 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
 
     var changes = <ModelChange>[];
     for (var entry in entries) {
-      var user = await db.userRepository.findOneByUserId(entry.userId);
-      var modifications = await db.modificationRepository.findAllByModelChangeId(entry.id);
-      var home = await db.homeRepository.findOneById(entry.homeId);
+      var user = await attachedDatabase.userRepository.findOneByUserId(entry.userId);
+      var modifications = await attachedDatabase.modificationRepository.findAllByModelChangeId(entry.id);
+      var home = await attachedDatabase.homeRepository.findOneById(entry.homeId);
       changes.add(ModelChange.fromEntry(entry, user, home, modifications));
     }
 
@@ -77,11 +77,11 @@ class ModelChangeRepository extends DatabaseAccessor<Database> with _$ModelChang
     var changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;
 
-    var user = await db.userRepository.findOneByUserId(changeEntry.userId);
+    var user = await attachedDatabase.userRepository.findOneByUserId(changeEntry.userId);
 
-    var modifications = await db.modificationRepository.findAllByModelChangeId(changeEntry.id);
+    var modifications = await attachedDatabase.modificationRepository.findAllByModelChangeId(changeEntry.id);
 
-    var home = await db.homeRepository.findOneById(changeEntry.homeId);
+    var home = await attachedDatabase.homeRepository.findOneById(changeEntry.homeId);
     return ModelChange.fromEntry(changeEntry, user, home, modifications);
   }
 

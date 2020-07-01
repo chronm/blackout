@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
-import '../../../models/charge.dart';
+import '../../../models/batch.dart';
 
 class ChangesList extends StatelessWidget {
-  final Charge charge;
+  final Batch batch;
 
   const ChangesList({
     Key key,
-    @required this.charge,
+    @required this.batch,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: charge.changes.length == 0
+      child: batch.changes.length == 0
           ? Center(
               child: Text(S.of(context).GENERAL_NOTHING_HERE),
             )
           : ListView.builder(
-              itemCount: charge.changes.length,
+              itemCount: batch.changes.length,
               itemBuilder: (context, index) {
-                var change = charge.changes[index];
+                var change = batch.changes[index];
 
                 return Card(
                   child: ListTile(

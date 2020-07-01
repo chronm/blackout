@@ -4,7 +4,7 @@ import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
 import '../data/database/database.dart';
-import '../util/charge_extension.dart';
+import '../util/batch_extension.dart';
 import '../util/group_extension.dart';
 import '../util/time_machine_extension.dart';
 import 'home.dart';
@@ -59,10 +59,10 @@ class Group implements HomeListable {
   }
 
   @override
-  ChargeStatus get status {
-    if (expired) return ChargeStatus.expired;
-    if (warn) return ChargeStatus.warn;
-    return ChargeStatus.none;
+  BatchStatus get status {
+    if (expired) return BatchStatus.expired;
+    if (warn) return BatchStatus.warn;
+    return BatchStatus.none;
   }
 
   Group clone() {

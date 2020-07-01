@@ -9,17 +9,17 @@ import 'model_change.dart';
 import 'modification.dart';
 import 'product.dart';
 
-class Charge {
+class Batch {
   String id;
   Product product;
   LocalDate expirationDate;
   List<Change> changes = [];
   List<ModelChange> modelChanges = [];
 
-  Charge({this.id, this.expirationDate, @required this.product, this.changes, this.modelChanges});
+  Batch({this.id, this.expirationDate, @required this.product, this.changes, this.modelChanges});
 
-  Charge clone() {
-    return Charge(id: id, expirationDate: expirationDate, product: product, changes: changes, modelChanges: modelChanges);
+  Batch clone() {
+    return Batch(id: id, expirationDate: expirationDate, product: product, changes: changes, modelChanges: modelChanges);
   }
 
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
@@ -27,8 +27,8 @@ class Charge {
     return expirationDate == other.expirationDate;
   }
 
-  factory Charge.fromEntry(ChargeEntry entry, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
-    return Charge(
+  factory Batch.fromEntry(BatchEntry entry, {Product product, List<Change> changes, List<ModelChange> modelChanges}) {
+    return Batch(
       id: entry.id,
       expirationDate: entry.expirationDate == null ? null : localDateFromDateTime(entry.expirationDate),
       product: product,
@@ -37,19 +37,19 @@ class Charge {
     );
   }
 
-  ChargeTableCompanion toCompanion() {
-    return ChargeTableCompanion(
+  BatchTableCompanion toCompanion() {
+    return BatchTableCompanion(
       id: Value(id),
       productId: Value(product.id),
       expirationDate: expirationDate == null ? Value.absent() : Value(expirationDate.toDateTimeUnspecified()),
     );
   }
 
-  List<Modification> getModifications(Charge charge) {
+  List<Modification> getModifications(Batch batch) {
     var modifications = <Modification>[];
-    if (expirationDate != charge.expirationDate) {
+    if (expirationDate != batch.expirationDate) {
       var from = expirationDate != null ? expirationDate.toString() : null;
-      modifications.add(Modification(fieldName: "expirationDate", from: from, to: charge.expirationDate.toString()));
+      modifications.add(Modification(fieldName: "expirationDate", from: from, to: batch.expirationDate.toString()));
     }
     return modifications;
   }

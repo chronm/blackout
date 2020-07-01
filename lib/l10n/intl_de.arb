@@ -22,12 +22,12 @@
   },
   "DIALOG_ACCEPT_BUTTON": "Annehmen",
   "@DIALOG_ACCEPT_BUTTON": {},
-  "DIALOG_ADD_TO_CHARGE": "Zur Charge hinzufügen",
-  "@DIALOG_ADD_TO_CHARGE": {},
+  "DIALOG_ADD_TO_BATCH": "Zur Batch hinzufügen",
+  "@DIALOG_ADD_TO_BATCH": {},
   "DIALOG_CANCEL_BUTTON": "Abbrechen",
   "@DIALOG_CANCEL_BUTTON": {},
-  "DIALOG_TAKE_FROM_CHARGE": "Von Charge entnehmen",
-  "@DIALOG_TAKE_FROM_CHARGE": {},
+  "DIALOG_TAKE_FROM_BATCH": "Von Batch entnehmen",
+  "@DIALOG_TAKE_FROM_BATCH": {},
   "GENERAL_AMOUNT_AVAILABLE": "Verfügbar: {amount}",
   "@GENERAL_AMOUNT_AVAILABLE": {
     "placeholders": {
@@ -132,6 +132,10 @@
   },
   "GENERAL_UNIT": "Einheit",
   "@GENERAL_UNIT": {},
+  "GENERAL_WARN_INTERVAL": "Warnzeitraum",
+  "@GENERAL_WARN_INTERVAL": {},
+  "GENERAL_WARN_INTERVAL_HELP": "Wenn eine Charge ein Mindesthaltbarkeitsdatum besitzt wird Blackout dich diesen Zeitraum vorher benachrichtigen.\nBeispiel: \"P1Y2M3W4D\" entspricht 1 Jahr, 2 Monaten, 3 Wochen und 4 Tagen",
+  "@GENERAL_WARN_INTERVAL_HELP": {},
   "GENERAL_WEEKS": "{weeks, plural, zero{} one{1 Woche} other{{weeks} Wochen}}",
   "@GENERAL_WEEKS": {
     "placeholders": {
@@ -144,10 +148,6 @@
       "years": {}
     }
   },
-  "GROUP_BEST_BEFORE": "Ablaufdatum",
-  "@GROUP_BEST_BEFORE": {},
-  "GROUP_BEST_BEFORE_HELP": "Beispiel: \"P1Y2M3W4D\" entspricht 1 Jahr, 2 Monaten, 3 Wochen und 4 Tagen",
-  "@GROUP_BEST_BEFORE_HELP": {},
   "GROUP_MINIMUM_AMOUNT": "Mindestmenge",
   "@GROUP_MINIMUM_AMOUNT": {},
   "GROUP_NAME": "Name der Kategorie",
@@ -234,10 +234,10 @@
   "@SETUP_USERNAME_CARD_TITLE": {},
   "SETUP_WELCOME_CARD_TITLE": "Willkommen bei Blackout.\nWir richten eben die App ein, dann kann es auch schon losgehen.",
   "@SETUP_WELCOME_CARD_TITLE": {},
-  "SPEEDDIAL_ADD_TO_CHARGE": "Hinzufügen",
-  "@SPEEDDIAL_ADD_TO_CHARGE": {},
-  "SPEEDDIAL_CREATE_CHARGE": "Charge erstellen",
-  "@SPEEDDIAL_CREATE_CHARGE": {},
+  "SPEEDDIAL_ADD_TO_BATCH": "Hinzufügen",
+  "@SPEEDDIAL_ADD_TO_BATCH": {},
+  "SPEEDDIAL_CREATE_BATCH": "Batch erstellen",
+  "@SPEEDDIAL_CREATE_BATCH": {},
   "SPEEDDIAL_CREATE_GROUP": "Gruppe erstellen",
   "@SPEEDDIAL_CREATE_GROUP": {},
   "SPEEDDIAL_CREATE_PRODUCT": "Produkt erstellen",
@@ -246,8 +246,8 @@
   "@SPEEDDIAL_GOTO_HOME": {},
   "SPEEDDIAL_SCAN": "Barcode scannen",
   "@SPEEDDIAL_SCAN": {},
-  "SPEEDDIAL_TAKE_FROM_CHARGE": "Entnehmen",
-  "@SPEEDDIAL_TAKE_FROM_CHARGE": {},
+  "SPEEDDIAL_TAKE_FROM_BATCH": "Entnehmen",
+  "@SPEEDDIAL_TAKE_FROM_BATCH": {},
   "UNIT_CREATED_AT": "{creationDate} erstellt",
   "@UNIT_CREATED_AT": {
     "placeholders": {
@@ -260,7 +260,7 @@
   "@UNIT_EXPIRATION_DATE": {},
   "UNIT_NOTIFICATION_DATE": "Benachrichtigungsdatum",
   "@UNIT_NOTIFICATION_DATE": {},
-  "UNITS": "Chargen",
+  "UNITS": "Batchn",
   "@UNITS": {},
   "WARN_AMOUNT_COULD_NOT_BE_PARSED": "{amount} ist kein gültiger Wert",
   "@WARN_AMOUNT_COULD_NOT_BE_PARSED": {

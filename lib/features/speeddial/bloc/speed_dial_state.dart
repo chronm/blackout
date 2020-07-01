@@ -37,9 +37,9 @@ class ShowCreateGroupForProduct extends SpeedDialState {
   ShowCreateGroupForProduct(this.home);
 }
 
-class ShowCreateCharge extends SpeedDialState {
+class ShowCreateBatch extends SpeedDialState {
   final String currentProduct;
   final Product product;
 
-  ShowCreateCharge(this.product, this.currentProduct);
+  ShowCreateBatch(this.product, this.currentProduct);
 }

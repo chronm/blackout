@@ -4,15 +4,15 @@ import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../data/preferences/blackout_preferences.dart';
+import '../../../data/repository/batch_repository.dart';
 import '../../../data/repository/change_repository.dart';
-import '../../../data/repository/charge_repository.dart';
 import '../../../data/repository/group_repository.dart';
 import '../../../data/repository/home_repository.dart';
 import '../../../data/repository/product_repository.dart';
 import '../../../data/repository/user_repository.dart';
 import '../../../main.dart';
+import '../../../models/batch.dart';
 import '../../../models/change.dart';
-import '../../../models/charge.dart';
 import '../../../models/group.dart';
 import '../../../models/home.dart';
 import '../../../models/product.dart';
@@ -32,10 +32,10 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
   final UserRepository userRepository;
   final GroupRepository groupRepository;
   final ProductRepository productRepository;
-  final ChargeRepository chargeRepository;
+  final BatchRepository batchRepository;
   final ChangeRepository changeRepository;
 
-  SetupBloc(this.blackoutPreferences, this.homeBloc, this.homeRepository, this.userRepository, this.groupRepository, this.productRepository, this.chargeRepository, this.changeRepository, this.drawerBloc);
+  SetupBloc(this.blackoutPreferences, this.homeBloc, this.homeRepository, this.userRepository, this.groupRepository, this.productRepository, this.batchRepository, this.changeRepository, this.drawerBloc);
 
   @override
   SetupState get initialState => InitialSetupState();
@@ -68,12 +68,12 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     var user = await blackoutPreferences.getUser();
     var product = Product(description: "Marmorkuchen", unit: UnitEnum.weight, home: home, refillLimit: 0.8);
     await productRepository.save(product, user);
-    var charge = Charge(product: product);
-    await chargeRepository.save(charge, user);
-    var change = Change(user: user, home: charge.product.home, changeDate: LocalDate.today(), value: 1, charge: charge);
-    var change2 = Change(user: user, home: charge.product.home, changeDate: LocalDate.today(), value: -0.50505, charge: charge);
-    product.charges = [charge];
-    charge.changes = [change, change2];
+    var batch = Batch(product: product);
+    await batchRepository.save(batch, user);
+    var change = Change(user: user, home: batch.product.home, changeDate: LocalDate.today(), value: 1, batch: batch);
+    var change2 = Change(user: user, home: batch.product.home, changeDate: LocalDate.today(), value: -0.50505, batch: batch);
+    product.batches = [batch];
+    batch.changes = [change, change2];
 
     await changeRepository.save(change);
     await changeRepository.save(change2);
@@ -89,18 +89,18 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     await productRepository.save(product, user);
     var product2 = Product(ean: "lalelu2", description: "Freilandeier 10 Stück L", group: group, home: home);
     await productRepository.save(product2, user);
-    var charge = Charge(expirationDate: LocalDate.today().addDays(1), product: product);
-    await chargeRepository.save(charge, user);
-    var charge2 = Charge(expirationDate: LocalDate.today().addDays(20), product: product2);
-    await chargeRepository.save(charge2, user);
-    var change = Change(id: Uuid().v4(), home: charge.product.home, user: user, changeDate: LocalDate.today(), value: 10, charge: charge);
-    var change2 = Change(id: Uuid().v4(), home: charge.product.home, user: user, changeDate: LocalDate.today(), value: -5, charge: charge);
-    var change3 = Change(id: Uuid().v4(), home: charge.product.home, user: user, changeDate: LocalDate.today(), value: 10, charge: charge2);
+    var batch = Batch(expirationDate: LocalDate.today().addDays(1), product: product);
+    await batchRepository.save(batch, user);
+    var batch2 = Batch(expirationDate: LocalDate.today().addDays(20), product: product2);
+    await batchRepository.save(batch2, user);
+    var change = Change(id: Uuid().v4(), home: batch.product.home, user: user, changeDate: LocalDate.today(), value: 10, batch: batch);
+    var change2 = Change(id: Uuid().v4(), home: batch.product.home, user: user, changeDate: LocalDate.today(), value: -5, batch: batch);
+    var change3 = Change(id: Uuid().v4(), home: batch.product.home, user: user, changeDate: LocalDate.today(), value: 10, batch: batch2);
     group.products = [product, product2];
-    product.charges = [charge];
-    product2.charges = [charge2];
-    charge.changes = [change, change2];
-    charge2.changes = [change3];
+    product.batches = [batch];
+    product2.batches = [batch2];
+    batch.changes = [change, change2];
+    batch2.changes = [change3];
 
     await changeRepository.save(change);
     await changeRepository.save(change2);

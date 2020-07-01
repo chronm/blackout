@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart' show describeEnum;
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' show Value, required;
 import 'package:time_machine/time_machine.dart';
 
 import '../data/database/database.dart';
-import '../util/charge_extension.dart';
+import '../util/batch_extension.dart';
 import '../util/product_extension.dart';
 import '../util/time_machine_extension.dart';
-import 'charge.dart' show Charge;
+import 'batch.dart' show Batch;
 import 'group.dart' show Group;
 import 'home.dart';
 import 'home_listable.dart';
@@ -21,13 +21,13 @@ class Product implements HomeListable {
   Group group;
   String description;
   Period warnInterval;
-  List<Charge> charges = [];
+  List<Batch> batches = [];
   Home home;
   double refillLimit;
   UnitEnum _unit;
   List<ModelChange> modelChanges = [];
 
-  Product({this.id, this.ean, @required this.description, this.group, this.warnInterval, this.charges, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
+  Product({this.id, this.ean, @required this.description, this.group, this.warnInterval, this.batches, this.refillLimit, UnitEnum unit, @required this.home, this.modelChanges}) : _unit = unit;
 
   set unit(UnitEnum unit) => _unit = unit;
 
@@ -45,10 +45,10 @@ class Product implements HomeListable {
   String get subtitleBestBeforeNotification => "";
 
   @override
-  bool get expired => charges.any((element) => element.expired);
+  bool get expired => batches.any((element) => element.expired);
 
   @override
-  bool get warn => charges.any((element) => element.warn);
+  bool get warn => batches.any((element) => element.warn);
 
   @override
   bool get tooFewAvailable {
@@ -57,22 +57,22 @@ class Product implements HomeListable {
 
   @override
   String buildStatus(BuildContext context) {
-    return charges.length != 0 ? (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context) : null;
+    return batches.length != 0 ? (batches..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context) : null;
   }
 
   LocalDate get expirationDate {
-    return charges.length != 0 ? (charges..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.expirationDate : null;
+    return batches.length != 0 ? (batches..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.expirationDate : null;
   }
 
   @override
-  ChargeStatus get status {
-    if (expired) return ChargeStatus.expired;
-    if (warn) return ChargeStatus.warn;
-    return ChargeStatus.none;
+  BatchStatus get status {
+    if (expired) return BatchStatus.expired;
+    if (warn) return BatchStatus.warn;
+    return BatchStatus.none;
   }
 
   Product clone() {
-    return Product(id: id, ean: ean, group: group, description: description, warnInterval: warnInterval, charges: charges, home: home, refillLimit: refillLimit, unit: _unit, modelChanges: modelChanges);
+    return Product(id: id, ean: ean, group: group, description: description, warnInterval: warnInterval, batches: batches, home: home, refillLimit: refillLimit, unit: _unit, modelChanges: modelChanges);
   }
 
   bool isValid() {
@@ -84,7 +84,7 @@ class Product implements HomeListable {
     return ean == other.ean && description == other.description && refillLimit == other.refillLimit && group == other.group && warnInterval == other.warnInterval;
   }
 
-  factory Product.fromEntry(ProductEntry entry, Home home, {Group group, List<Charge> charges, List<ModelChange> modelChanges}) {
+  factory Product.fromEntry(ProductEntry entry, Home home, {Group group, List<Batch> batches, List<ModelChange> modelChanges}) {
     return Product(
       id: entry.id,
       ean: entry.ean,
@@ -92,7 +92,7 @@ class Product implements HomeListable {
       refillLimit: entry.refillLimit,
       unit: entry.unit == null ? null : UnitEnum.values[entry.unit],
       group: group,
-      charges: charges,
+      batches: batches,
       home: home,
       modelChanges: modelChanges,
       warnInterval: periodFromISO8601String(entry.warnInterval),

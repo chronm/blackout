@@ -2,7 +2,7 @@ import 'package:Blackout/data/preferences/blackout_preferences.dart';
 import 'package:Blackout/generated/l10n.dart';
 import 'package:Blackout/generated/l10n_extension.dart';
 import 'package:Blackout/models/change.dart';
-import 'package:Blackout/models/charge.dart';
+import 'package:Blackout/models/batch.dart';
 import 'package:Blackout/models/group.dart';
 import 'package:Blackout/models/home.dart';
 import 'package:Blackout/models/model_change.dart';
@@ -45,13 +45,13 @@ ModelChange createDefaultProductModelChange() => ModelChange(
       productId: defaultProductId,
     );
 
-ModelChange createDefaultChargeModelChange() => ModelChange(
+ModelChange createDefaultBatchModelChange() => ModelChange(
       id: defaultModelChangeId,
       user: createDefaultUser(),
       modification: ModelChangeType.create,
       modificationDate: defaultModelChangeDate,
       home: createDefaultHome(),
-      chargeId: defaultChargeId,
+      batchId: defaultBatchId,
     );
 
 // Group
@@ -90,15 +90,15 @@ Product createDefaultProduct() => Product(
     description: defaultProductDescription,
     modelChanges: [createDefaultProductModelChange()]);
 
-// Charge
-const String defaultChargeId = "chargeId";
-LocalDate defaultChargeExpirationDate = LocalDate(2020, 06, 30);
+// Batch
+const String defaultBatchId = "batchId";
+LocalDate defaultBatchExpirationDate = LocalDate(2020, 06, 30);
 
-Charge createDefaultCharge() => Charge(
+Batch createDefaultBatch() => Batch(
       id: defaultChangeId,
-      expirationDate: defaultChargeExpirationDate,
+      expirationDate: defaultBatchExpirationDate,
       product: createDefaultProduct(),
-      modelChanges: [createDefaultChargeModelChange()],
+      modelChanges: [createDefaultBatchModelChange()],
     );
 
 // Change
@@ -112,7 +112,7 @@ Change createDefaultChange() => Change(
       value: defaultChangeValue,
       changeDate: defaultChangeDate,
       home: createDefaultHome(),
-      charge: createDefaultCharge(),
+      batch: createDefaultBatch(),
     );
 
 typedef ContextFactory = void Function(BuildContext buildContext);

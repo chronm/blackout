@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart';
 
 import '../generated/l10n.dart';
-import '../models/charge.dart';
+import '../models/batch.dart';
 import '../models/model_change.dart';
 import '../models/unit/unit.dart';
 import 'string_extension.dart';
 import 'time_machine_extension.dart';
 
-enum ChargeStatus {
+enum BatchStatus {
   none,
   warn,
   expired,
 }
 
-extension ChargeExtension on Charge {
+extension BatchExtension on Batch {
   LocalDate get creationDate {
     return modelChanges.firstWhere((element) => element.modification == ModelChangeType.create).modificationDate;
   }
@@ -39,10 +39,10 @@ extension ChargeExtension on Charge {
     return false;
   }
 
-  ChargeStatus get status {
-    if (expired) return ChargeStatus.expired;
-    if (warn) return ChargeStatus.warn;
-    return ChargeStatus.none;
+  BatchStatus get status {
+    if (expired) return BatchStatus.expired;
+    if (warn) return BatchStatus.warn;
+    return BatchStatus.none;
   }
 
   String buildStatus(BuildContext context) {

@@ -8,7 +8,7 @@ part 'modification_repository.g.dart';
 
 @UseDao(tables: [ModificationTable])
 class ModificationRepository extends DatabaseAccessor<Database> with _$ModificationRepositoryMixin {
-  ModificationRepository(Database db) : super(db);
+  ModificationRepository(Database attachedDatabase) : super(attachedDatabase);
 
   Future<List<Modification>> findAllByModelChangeId(String modelChangeId) async {
     var query = select(modificationTable)..where((m) => m.modelChangeId.equals(modelChangeId));

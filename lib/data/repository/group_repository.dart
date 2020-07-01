@@ -13,18 +13,18 @@ part 'group_repository.g.dart';
 
 @UseDao(tables: [GroupTable])
 class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryMixin {
-  GroupRepository(Database db) : super(db);
+  GroupRepository(Database attachedDatabase) : super(attachedDatabase);
 
   Future<Group> createGroup(GroupEntry groupEntry, {bool recurseProducts = true}) async {
     Group group;
     var products = <Product>[];
     if (recurseProducts) {
-      products = await db.productRepository.findAllByGroupId(groupEntry.id, recurseGroup: false);
+      products = await attachedDatabase.productRepository.findAllByGroupId(groupEntry.id, recurseGroup: false);
     }
 
-    var home = await db.homeRepository.findOneById(groupEntry.homeId);
+    var home = await attachedDatabase.homeRepository.findOneById(groupEntry.homeId);
 
-    var modelChanges = await db.modelChangeRepository.findAllByGroupId(groupEntry.id);
+    var modelChanges = await attachedDatabase.modelChangeRepository.findAllByGroupId(groupEntry.id);
 
     group = Group.fromEntry(groupEntry, home, products: products, modelChanges: modelChanges);
 
@@ -72,16 +72,16 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     if (group.id == null) {
       group.id = Uuid().v4();
       var change = ModelChange(modificationDate: LocalDate.today(), home: group.home, user: user, modification: ModelChangeType.create, groupId: group.id);
-      await db.modelChangeRepository.save(change);
+      await attachedDatabase.modelChangeRepository.save(change);
     } else {
       var change = ModelChange(modificationDate: LocalDate.today(), home: group.home, user: user, modification: ModelChangeType.modify, groupId: group.id);
-      await db.modelChangeRepository.save(change);
+      await attachedDatabase.modelChangeRepository.save(change);
 
       var oldGroup = await findOneByGroupId(group.id);
       var modifications = oldGroup.getModifications(group);
       for (var modification in modifications) {
         modification.modelChange = change;
-        db.modificationRepository.save(modification);
+        attachedDatabase.modificationRepository.save(modification);
       }
     }
 
@@ -94,11 +94,11 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     assert(group.id != null, "Group is no database object.");
 
     for (var product in group.products) {
-      db.productRepository.drop(product, user);
+      attachedDatabase.productRepository.drop(product, user);
     }
 
     var change = ModelChange(user: user, modificationDate: LocalDate.today(), modification: ModelChangeType.delete, home: group.home, groupId: group.id);
-    db.modelChangeRepository.save(change);
+    attachedDatabase.modelChangeRepository.save(change);
 
     return await (delete(groupTable)..where((c) => c.id.equals(group.id))).go();
   }

@@ -1,9 +1,11 @@
-import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' show DatabaseAccessor, InsertMode, UseDao;
+// ignore: implementation_imports
+import 'package:moor/src/runtime/query_builder/query_builder.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../models/batch.dart';
 import '../../models/change.dart';
-import '../../models/charge.dart';
 import '../../models/user.dart';
 import '../database/change_table.dart';
 import '../database/database.dart';
@@ -12,24 +14,24 @@ part 'change_repository.g.dart';
 
 @UseDao(tables: [ChangeTable])
 class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositoryMixin {
-  ChangeRepository(Database db) : super(db);
+  ChangeRepository(Database attachedDatabase) : super(attachedDatabase);
 
-  Future<Change> createChange(ChangeEntry changeEntry, {bool recurseCharge = true}) async {
+  Future<Change> createChange(ChangeEntry changeEntry, {bool recurseBatch = true}) async {
     Change change;
 
-    Charge charge;
-    if (recurseCharge) {
-      charge = await db.chargeRepository.findOneByChargeId(changeEntry.chargeId, recurseChanges: false);
+    Batch batch;
+    if (recurseBatch) {
+      batch = await attachedDatabase.batchRepository.findOneByBatchId(changeEntry.batchId, recurseChanges: false);
     }
 
-    var user = await db.userRepository.findOneByUserId(changeEntry.userId);
+    var user = await attachedDatabase.userRepository.findOneByUserId(changeEntry.userId);
 
-    var home = await db.homeRepository.findOneById(changeEntry.homeId);
+    var home = await attachedDatabase.homeRepository.findOneById(changeEntry.homeId);
 
-    change = Change.fromEntry(changeEntry, user, home, charge: charge);
+    change = Change.fromEntry(changeEntry, user, home, batch: batch);
 
-    if (recurseCharge && change.charge != null) {
-      change.charge.changes = [change];
+    if (recurseBatch && change.batch != null) {
+      change.batch.changes = [change];
     }
 
     return change;
@@ -47,32 +49,32 @@ class ChangeRepository extends DatabaseAccessor<Database> with _$ChangeRepositor
     return changes;
   }
 
-  Future<Change> findOneByChangeId(String changeId, {bool recurseCharge = true}) async {
+  Future<Change> findOneByChangeId(String changeId, {bool recurseBatch = true}) async {
     var query = select(changeTable)..where((c) => c.id.equals(changeId));
     var changeEntry = (await query.getSingle());
     if (changeEntry == null) return null;
 
-    return createChange(changeEntry, recurseCharge: recurseCharge);
+    return createChange(changeEntry, recurseBatch: recurseBatch);
   }
 
-  Future<List<Change>> findAllByChargeId(String chargeId, {bool recurseCharge = true}) async {
+  Future<List<Change>> findAllByBatchId(String batchId, {bool recurseBatch = true}) async {
     var changes = <Change>[];
 
-    Charge charge;
-    if (recurseCharge) {
-      charge = await db.chargeRepository.findOneByChargeId(chargeId, recurseProduct: false, recurseChanges: false);
+    Batch batch;
+    if (recurseBatch) {
+      batch = await attachedDatabase.batchRepository.findOneByBatchId(batchId, recurseProduct: false, recurseChanges: false);
     }
 
-    var query = select(changeTable)..where((c) => c.chargeId.equals(chargeId));
+    var query = select(changeTable)..where((c) => c.batchId.equals(batchId));
     var result = await query.get();
     for (var changeEntry in result) {
-      var change = await createChange(changeEntry, recurseCharge: false);
-      change.charge = charge;
+      var change = await createChange(changeEntry, recurseBatch: false);
+      change.batch = batch;
       changes.add(change);
     }
 
-    if (recurseCharge) {
-      charge.changes = changes;
+    if (recurseBatch) {
+      batch.changes = changes;
     }
 
     return changes;

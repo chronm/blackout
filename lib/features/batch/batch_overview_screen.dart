@@ -6,48 +6,48 @@ import '../../main.dart';
 import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
 import '../blackout_drawer/blackout_drawer.dart';
-import 'bloc/charge_bloc.dart';
+import 'bloc/batch_bloc.dart';
+import 'widgets/batch_dial.dart';
+import 'widgets/batch_title.dart';
 import 'widgets/changes_list.dart';
-import 'widgets/charge_dial.dart';
-import 'widgets/charge_title.dart';
 
-class ChargeScreen extends StatefulWidget {
-  const ChargeScreen({Key key}) : super(key: key);
+class BatchScreen extends StatefulWidget {
+  const BatchScreen({Key key}) : super(key: key);
 
   @override
-  _ChargeScreenState createState() => _ChargeScreenState();
+  _BatchScreenState createState() => _BatchScreenState();
 }
 
-class _ChargeScreenState extends State<ChargeScreen> {
+class _BatchScreenState extends State<BatchScreen> {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChargeBloc, ChargeState>(
-      bloc: sl<ChargeBloc>(),
+    return BlocListener<BatchBloc, BatchState>(
+      bloc: sl<BatchBloc>(),
       listener: (context, state) {},
       child: Scaffold(
         key: _scaffold,
         drawer: BlackoutDrawer(),
         body: ScrollableContainer(
           fullscreen: true,
-          child: BlocBuilder<ChargeBloc, ChargeState>(
-            bloc: sl<ChargeBloc>(),
+          child: BlocBuilder<BatchBloc, BatchState>(
+            bloc: sl<BatchBloc>(),
             builder: (context, state) {
-              if (state is ShowCharge) {
-                var charge = state.charge;
+              if (state is ShowBatch) {
+                var batch = state.batch;
                 return Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    ChargeTitle(
+                    BatchTitle(
                       scaffold: _scaffold,
-                      charge: charge,
+                      batch: batch,
                     ),
                     HorizontalTextDivider(
                       text: S.of(context).CHANGES,
                     ),
                     ChangesList(
-                      charge: charge,
+                      batch: batch,
                     ),
                   ],
                 );
@@ -56,7 +56,7 @@ class _ChargeScreenState extends State<ChargeScreen> {
             },
           ),
         ),
-        floatingActionButton: const ChargeDial(),
+        floatingActionButton: const BatchDial(),
       ),
     );
   }

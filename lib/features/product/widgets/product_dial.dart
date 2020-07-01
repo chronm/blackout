@@ -4,12 +4,12 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
-import '../../../models/charge.dart';
+import '../../../models/batch.dart';
 import '../../../models/group.dart';
 import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
-import '../../charge/bloc/charge_bloc.dart';
-import '../../charge/widgets/charge_configuration.dart';
+import '../../batch/bloc/batch_bloc.dart';
+import '../../batch/widgets/batch_configuration.dart';
 import '../../group/bloc/group_bloc.dart';
 import '../../group/widgets/group_configuration.dart';
 import '../../home/bloc/home_bloc.dart';
@@ -44,15 +44,15 @@ class ProductDial extends StatelessWidget {
           sl<HomeBloc>().add(LoadAll());
         }
 
-        if (state is ShowCreateCharge) {
+        if (state is ShowCreateBatch) {
           await showDialog(
             context: context,
-            builder: (context) => ChargeConfiguration(
-              charge: Charge(product: state.product),
-              newCharge: true,
-              action: (charge) async {
-                sl<ChargeBloc>().add(SaveCharge(charge));
-                await Navigator.pushNamed(context, Routes.charge);
+            builder: (context) => BatchConfiguration(
+              batch: Batch(product: state.product),
+              newBatch: true,
+              action: (batch) async {
+                sl<BatchBloc>().add(SaveBatch(batch));
+                await Navigator.pushNamed(context, Routes.batch);
                 Navigator.pop(context);
               },
             ),
@@ -82,12 +82,12 @@ class ProductDial extends StatelessWidget {
                   SpeedDialChild(
                     child: const Icon(Icons.insert_drive_file),
                     backgroundColor: Theme.of(context).accentColor,
-                    label: S.of(context).SPEEDDIAL_CREATE_CHARGE,
+                    label: S.of(context).SPEEDDIAL_CREATE_BATCH,
                     labelStyle: const TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
-                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateCharge(state.product)),
+                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateBatch(state.product)),
                   ),
                   SpeedDialChild(
                     child: const Icon(Icons.create_new_folder),

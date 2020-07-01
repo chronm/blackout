@@ -8,5 +8,5 @@ abstract class Routes {
   static const String settings = "/settings";
   static const String group = "/group";
   static const String product = "/product";
-  static const String charge = "/charge";
+  static const String batch = "/batch";
 }

@@ -9,7 +9,7 @@ part 'user_repository.g.dart';
 
 @UseDao(tables: [UserTable])
 class UserRepository extends DatabaseAccessor<Database> with _$UserRepositoryMixin {
-  UserRepository(Database db) : super(db);
+  UserRepository(Database attachedDatabase) : super(attachedDatabase);
 
   Future<User> findOneByActiveTrue() async {
     var query = select(userTable)..where((u) => u.active);

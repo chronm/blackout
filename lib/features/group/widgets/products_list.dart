@@ -4,7 +4,7 @@ import '../../../generated/l10n.dart';
 import '../../../main.dart';
 import '../../../models/group.dart';
 import '../../../models/product.dart';
-import '../../../util/charge_extension.dart';
+import '../../../util/batch_extension.dart';
 import '../bloc/group_bloc.dart';
 
 class ProductsList extends StatelessWidget {
@@ -34,7 +34,7 @@ class ProductsList extends StatelessWidget {
                   trailing.add(const Icon(Icons.trending_down));
                 }
                 if (product.expired || product.warn) {
-                  trailing.add(Icon(Icons.event, color: product.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
+                  trailing.add(Icon(Icons.event, color: product.status == BatchStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
                 var status = product.buildStatus(context);

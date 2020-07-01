@@ -5,13 +5,13 @@ import '../../typedefs.dart';
 
 typedef ValidationCallback = bool Function(String value);
 
-class ChargeDialog extends StatefulWidget {
+class BatchDialog extends StatefulWidget {
   final StringCallback callback;
   final ValidationCallback validation;
   final String initialValue;
   final String title;
 
-  const ChargeDialog({
+  const BatchDialog({
     Key key,
     @required this.callback,
     @required this.title,
@@ -20,10 +20,10 @@ class ChargeDialog extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ChargeDialogState createState() => _ChargeDialogState();
+  _BatchDialogState createState() => _BatchDialogState();
 }
 
-class _ChargeDialogState extends State<ChargeDialog> {
+class _BatchDialogState extends State<BatchDialog> {
   TextEditingController _controller;
 
   @override

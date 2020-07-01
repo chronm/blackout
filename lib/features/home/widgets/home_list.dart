@@ -5,7 +5,7 @@ import '../../../main.dart';
 import '../../../models/group.dart';
 import '../../../models/home_listable.dart';
 import '../../../models/product.dart';
-import '../../../util/charge_extension.dart';
+import '../../../util/batch_extension.dart';
 import '../bloc/home_bloc.dart';
 
 class HomeList extends StatelessWidget {
@@ -31,7 +31,7 @@ class HomeList extends StatelessWidget {
                   trailing.add(const Icon(Icons.trending_down));
                 }
                 if (listable.expired || listable.warn) {
-                  trailing.add(Icon(Icons.event, color: listable.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
+                  trailing.add(Icon(Icons.event, color: listable.status == BatchStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
                 var status = listable.buildStatus(context);

@@ -74,13 +74,13 @@ class _PeriodWidgetState extends State<PeriodWidget> {
                 focusNode: _focusNode,
                 controller: _controller,
                 decoration: InputDecoration(
-                  labelText: S.of(context).GROUP_BEST_BEFORE,
+                  labelText: S.of(context).GENERAL_WARN_INTERVAL,
                   helperText: _period.prettyPrint(context),
                   errorText: _errorText,
                   suffixIcon: TooltipIcon(
                     focusNode: _focusNode,
-                    title: S.of(context).GROUP_BEST_BEFORE,
-                    tooltip: S.of(context).GROUP_BEST_BEFORE_HELP,
+                    title: S.of(context).GENERAL_WARN_INTERVAL,
+                    tooltip: S.of(context).GENERAL_WARN_INTERVAL_HELP,
                   ),
                 ),
               ),
@@ -88,7 +88,7 @@ class _PeriodWidgetState extends State<PeriodWidget> {
           },
           uncheckedCallback: (context) => Expanded(
             child: Text(
-              S.of(context).GROUP_BEST_BEFORE,
+              S.of(context).GENERAL_WARN_INTERVAL,
               textAlign: TextAlign.center,
             ),
           ),

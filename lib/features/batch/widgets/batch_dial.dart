@@ -6,14 +6,14 @@ import '../../../generated/l10n.dart';
 import '../../../main.dart';
 import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
-import '../../../util/charge_extension.dart';
-import '../../../widget/charge_dialog/charge_dialog.dart';
+import '../../../util/batch_extension.dart';
+import '../../../widget/batch_dialog/batch_dialog.dart';
 import '../../speeddial/bloc/speed_dial_bloc.dart';
 import '../../speeddial/speeddial.dart';
-import '../bloc/charge_bloc.dart';
+import '../bloc/batch_bloc.dart';
 
-class ChargeDial extends StatelessWidget {
-  const ChargeDial({Key key}) : super(key: key);
+class BatchDial extends StatelessWidget {
+  const BatchDial({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class ChargeDial extends StatelessWidget {
           Navigator.pushNamed(context, Routes.home);
         }
       },
-      child: BlocBuilder<ChargeBloc, ChargeState>(
-        bloc: sl<ChargeBloc>(),
+      child: BlocBuilder<BatchBloc, BatchState>(
+        bloc: sl<BatchBloc>(),
         builder: (context, state) {
           return BlackoutDial(
             builder: (context) {
@@ -41,13 +41,13 @@ class ChargeDial extends StatelessWidget {
                   onTap: () => sl<SpeedDialBloc>().add(TapOnGotoHome()),
                 ),
               ];
-              if (state is ShowCharge) {
-                var charge = state.charge;
+              if (state is ShowBatch) {
+                var batch = state.batch;
                 children.addAll([
                   SpeedDialChild(
                     child: const Icon(Icons.add),
                     backgroundColor: Theme.of(context).accentColor,
-                    label: S.of(context).SPEEDDIAL_ADD_TO_CHARGE,
+                    label: S.of(context).SPEEDDIAL_ADD_TO_BATCH,
                     labelStyle: const TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
@@ -55,10 +55,10 @@ class ChargeDial extends StatelessWidget {
                     onTap: () async {
                       await showDialog(
                         context: context,
-                        builder: (context) => ChargeDialog(
-                          title: S.of(context).DIALOG_ADD_TO_CHARGE,
+                        builder: (context) => BatchDialog(
+                          title: S.of(context).DIALOG_ADD_TO_BATCH,
                           callback: (value) async {
-                            sl<SpeedDialBloc>().add(AddToCharge(charge, value));
+                            sl<SpeedDialBloc>().add(AddToBatch(batch, value));
                             Navigator.pop(context);
                           },
                         ),
@@ -68,7 +68,7 @@ class ChargeDial extends StatelessWidget {
                   SpeedDialChild(
                     child: const Icon(Icons.remove),
                     backgroundColor: Theme.of(context).accentColor,
-                    label: S.of(context).SPEEDDIAL_TAKE_FROM_CHARGE,
+                    label: S.of(context).SPEEDDIAL_TAKE_FROM_BATCH,
                     labelStyle: const TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
@@ -76,15 +76,15 @@ class ChargeDial extends StatelessWidget {
                     onTap: () async {
                       await showDialog(
                         context: context,
-                        builder: (context) => ChargeDialog(
-                          title: S.of(context).DIALOG_TAKE_FROM_CHARGE,
-                          initialValue: charge.scientificAmount,
+                        builder: (context) => BatchDialog(
+                          title: S.of(context).DIALOG_TAKE_FROM_BATCH,
+                          initialValue: batch.scientificAmount,
                           validation: (value) {
-                            var siValue = UnitConverter.toSi(Amount.fromInput(value, charge.product.unit)).value;
-                            return siValue <= charge.amount && siValue > 0;
+                            var siValue = UnitConverter.toSi(Amount.fromInput(value, batch.product.unit)).value;
+                            return siValue <= batch.amount && siValue > 0;
                           },
                           callback: (value) async {
-                            sl<SpeedDialBloc>().add(TakeFromCharge(charge, value));
+                            sl<SpeedDialBloc>().add(TakeFromBatch(batch, value));
                             Navigator.pop(context);
                           },
                         ),

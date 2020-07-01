@@ -4,14 +4,14 @@ import 'package:intl/intl.dart';
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
 import '../../../models/product.dart';
-import '../../../util/charge_extension.dart';
+import '../../../util/batch_extension.dart';
 import '../../../util/string_extension.dart';
 import '../bloc/product_bloc.dart';
 
-class ChargesList extends StatelessWidget {
+class BatchesList extends StatelessWidget {
   final Product product;
 
-  const ChargesList({
+  const BatchesList({
     Key key,
     @required this.product,
   }) : super(key: key);
@@ -19,24 +19,24 @@ class ChargesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: product.charges.length == 0
+      child: product.batches.length == 0
           ? Center(
               child: Text(S.of(context).GENERAL_NOTHING_HERE),
             )
           : ListView.builder(
-              itemCount: product.charges.length,
+              itemCount: product.batches.length,
               itemBuilder: (context, index) {
-                var charge = product.charges[index];
+                var batch = product.batches[index];
 
                 var trailing = <Widget>[];
-                if (charge.expired || charge.warn) {
-                  trailing.add(Icon(Icons.event, color: charge.status == ChargeStatus.expired ? Theme.of(context).accentColor : null));
+                if (batch.expired || batch.warn) {
+                  trailing.add(Icon(Icons.event, color: batch.status == BatchStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
-                var status = charge.buildStatus(context);
+                var status = batch.buildStatus(context);
 
                 return Hero(
-                  tag: charge.id,
+                  tag: batch.id,
                   flightShuttleBuilder: (context, animation, flightDirection, fromHeroContext, toHeroContext) => Material(
                     child: SingleChildScrollView(
                       child: toHeroContext.widget,
@@ -45,11 +45,11 @@ class ChargesList extends StatelessWidget {
                   child: Card(
                     child: ListTile(
                       isThreeLine: status != null,
-                      title: Text(S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(charge.creationDate.toDateTimeUnspecified())).capitalize()),
+                      title: Text(S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(batch.creationDate.toDateTimeUnspecified())).capitalize()),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(charge.scientificAmount)),
+                          Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(batch.scientificAmount)),
                           status != null ? Text(status) : null,
                         ].where((element) => element != null).toList(),
                       ),
@@ -57,7 +57,7 @@ class ChargesList extends StatelessWidget {
                         children: trailing,
                         mainAxisSize: MainAxisSize.min,
                       ),
-                      onTap: () => sl<ProductBloc>().add(TapOnCharge(charge)),
+                      onTap: () => sl<ProductBloc>().add(TapOnBatch(batch)),
                     ),
                   ),
                 );
