@@ -8,7 +8,7 @@ import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
 import '../blackout_drawer/blackout_drawer.dart';
 import 'bloc/product_bloc.dart';
-import 'widgets/charges_list.dart';
+import 'widgets/batches_list.dart';
 import 'widgets/product_dial.dart';
 import 'widgets/product_title.dart';
 
@@ -27,8 +27,8 @@ class _ProductScreenState extends State<ProductScreen> {
     return BlocListener<ProductBloc, ProductState>(
       bloc: sl<ProductBloc>(),
       listener: (context, state) async {
-        if (state is GoToCharge) {
-          await Navigator.pushNamed(context, Routes.charge);
+        if (state is GoToBatch) {
+          await Navigator.pushNamed(context, Routes.batch);
           sl<ProductBloc>().add(LoadProduct(state.currentProduct));
         }
       },
@@ -53,7 +53,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     HorizontalTextDivider(
                       text: S.of(context).UNITS,
                     ),
-                    ChargesList(
+                    BatchesList(
                       product: product,
                     ),
                   ],

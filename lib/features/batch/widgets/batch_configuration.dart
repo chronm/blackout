@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
-import '../../../models/charge.dart';
+import '../../../models/batch.dart';
 import '../../../widget/scrollable_material_dialog/scrollable_material_dialog.dart';
 import 'expiration_date_picker.dart';
 
-typedef ChargeSaveAction = Function(Charge charge);
+typedef BatchSaveAction = Function(Batch batch);
 
-class ChargeConfiguration extends StatefulWidget {
-  final Charge charge;
-  final bool newCharge;
-  final ChargeSaveAction action;
+class BatchConfiguration extends StatefulWidget {
+  final Batch batch;
+  final bool newBatch;
+  final BatchSaveAction action;
 
-  const ChargeConfiguration({
+  const BatchConfiguration({
     Key key,
-    @required this.charge,
+    @required this.batch,
     @required this.action,
-    this.newCharge = false,
+    this.newBatch = false,
   }) : super(key: key);
 
   @override
-  _ChargeConfigurationState createState() => _ChargeConfigurationState();
+  _BatchConfigurationState createState() => _BatchConfigurationState();
 }
 
-class _ChargeConfigurationState extends State<ChargeConfiguration> {
-  Charge _charge;
-  Charge _oldCharge;
+class _BatchConfigurationState extends State<BatchConfiguration> {
+  Batch _batch;
+  Batch _oldBatch;
   bool _errorInExpirationDate = false;
 
   @override
   void initState() {
     super.initState();
-    _charge = widget.charge.clone();
-    _oldCharge = widget.charge.clone();
+    _batch = widget.batch.clone();
+    _oldBatch = widget.batch.clone();
   }
 
   @override
@@ -41,10 +41,10 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
       child: Column(
         children: [
           ExpirationDatePicker(
-            initialExpirationDate: _charge.expirationDate,
+            initialExpirationDate: _batch.expirationDate,
             callback: (expirationDate, error) {
               setState(() {
-                _charge.expirationDate = expirationDate;
+                _batch.expirationDate = expirationDate;
                 _errorInExpirationDate = error;
               });
             },
@@ -54,7 +54,7 @@ class _ChargeConfigurationState extends State<ChargeConfiguration> {
             child: FlatButton(
               color: Theme.of(context).accentColor,
               child: Text(S.of(context).GENERAL_SAVE),
-              onPressed: !_errorInExpirationDate && (_charge != _oldCharge || widget.newCharge) ? () => widget.action(_charge) : null,
+              onPressed: !_errorInExpirationDate && (_batch != _oldBatch || widget.newBatch) ? () => widget.action(_batch) : null,
             ),
           ),
         ],

@@ -9,13 +9,13 @@ import '../../../data/repository/change_repository.dart';
 import '../../../data/repository/group_repository.dart';
 import '../../../data/repository/product_repository.dart';
 import '../../../main.dart';
+import '../../../models/batch.dart';
 import '../../../models/change.dart';
-import '../../../models/charge.dart';
 import '../../../models/group.dart';
 import '../../../models/home.dart';
 import '../../../models/product.dart';
 import '../../../models/unit/unit.dart';
-import '../../charge/bloc/charge_bloc.dart';
+import '../../batch/bloc/batch_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../product/bloc/product_bloc.dart';
 
@@ -56,8 +56,8 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
         yield ShowCreateProduct(home, groups, ean);
       }
     }
-    if (event is TapOnCreateCharge) {
-      yield ShowCreateCharge(event.product, event.product.id);
+    if (event is TapOnCreateBatch) {
+      yield ShowCreateBatch(event.product, event.product.id);
     }
     if (event is TapOnCreateProduct) {
       var home = await blackoutPreferences.getHome();
@@ -81,35 +81,35 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       sl<HomeBloc>().add(LoadAll());
       yield GoToHome();
     }
-    if (event is AddToCharge) {
-      var charge = event.charge;
+    if (event is AddToBatch) {
+      var batch = event.batch;
       var home = await blackoutPreferences.getHome();
       var user = await blackoutPreferences.getUser();
-      var amount = Amount.fromInput(event.amount, charge.product.unit);
+      var amount = Amount.fromInput(event.amount, batch.product.unit);
       var change = Change(
         changeDate: LocalDate.today(),
         user: user,
-        charge: charge,
+        batch: batch,
         value: UnitConverter.toSi(amount).value,
         home: home,
       );
       await changeRepository.save(change);
-      sl<ChargeBloc>().add(LoadCharge(charge.id));
+      sl<BatchBloc>().add(LoadBatch(batch.id));
     }
-    if (event is TakeFromCharge) {
-      var charge = event.charge;
+    if (event is TakeFromBatch) {
+      var batch = event.batch;
       var home = await blackoutPreferences.getHome();
       var user = await blackoutPreferences.getUser();
-      var amount = Amount.fromInput(event.amount, charge.product.unit);
+      var amount = Amount.fromInput(event.amount, batch.product.unit);
       var change = Change(
         changeDate: LocalDate.today(),
         user: user,
-        charge: charge,
+        batch: batch,
         value: UnitConverter.toSi(amount).value,
         home: home,
       );
       await changeRepository.save(change);
-      sl<ChargeBloc>().add(LoadCharge(charge.id));
+      sl<BatchBloc>().add(LoadBatch(batch.id));
     }
   }
 }

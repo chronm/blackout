@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../util/charge_extension.dart';
+import '../util/batch_extension.dart';
 
 abstract class HomeListable {
   String get title;
@@ -19,5 +19,5 @@ abstract class HomeListable {
 
   String buildStatus(BuildContext context);
 
-  ChargeStatus get status;
+  BatchStatus get status;
 }

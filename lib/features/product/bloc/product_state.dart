@@ -11,8 +11,8 @@ class ShowProduct extends ProductState {
   ShowProduct(this.product, this.groups);
 }
 
-class GoToCharge extends ProductState {
+class GoToBatch extends ProductState {
   final String currentProduct;
 
-  GoToCharge(this.currentProduct);
+  GoToBatch(this.currentProduct);
 }

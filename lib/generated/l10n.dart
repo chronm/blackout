@@ -12,21 +12,22 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
+  
   static S current;
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
     final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-
+      
       return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -92,11 +93,11 @@ class S {
     );
   }
 
-  /// `Add to charge`
-  String get DIALOG_ADD_TO_CHARGE {
+  /// `Add tobatch`
+  String get DIALOG_ADD_TO_BATCH {
     return Intl.message(
-      'Add to charge',
-      name: 'DIALOG_ADD_TO_CHARGE',
+      'Add tobatch',
+      name: 'DIALOG_ADD_TO_BATCH',
       desc: '',
       args: [],
     );
@@ -112,11 +113,11 @@ class S {
     );
   }
 
-  /// `Take from charge`
-  String get DIALOG_TAKE_FROM_CHARGE {
+  /// `Take frombatch`
+  String get DIALOG_TAKE_FROM_BATCH {
     return Intl.message(
-      'Take from charge',
-      name: 'DIALOG_TAKE_FROM_CHARGE',
+      'Take frombatch',
+      name: 'DIALOG_TAKE_FROM_BATCH',
       desc: '',
       args: [],
     );
@@ -403,6 +404,26 @@ class S {
     );
   }
 
+  /// `Warn period`
+  String get GENERAL_WARN_INTERVAL {
+    return Intl.message(
+      'Warn period',
+      name: 'GENERAL_WARN_INTERVAL',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If abatch has an expiration date, Blackout will notify you of this period in advance.\nExample: "P1Y2M3W4D" corresponds to 1 year, 2 months, 3 weeks and 4 days`
+  String get GENERAL_WARN_INTERVAL_HELP {
+    return Intl.message(
+      'If abatch has an expiration date, Blackout will notify you of this period in advance.\nExample: "P1Y2M3W4D" corresponds to 1 year, 2 months, 3 weeks and 4 days',
+      name: 'GENERAL_WARN_INTERVAL_HELP',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{weeks, plural, zero{} one{1 week} other{{weeks} weeks}}`
   String GENERAL_WEEKS(num weeks) {
     return Intl.plural(
@@ -426,26 +447,6 @@ class S {
       name: 'GENERAL_YEARS',
       desc: '',
       args: [years],
-    );
-  }
-
-  /// `Warn me before expiration`
-  String get GROUP_BEST_BEFORE {
-    return Intl.message(
-      'Warn me before expiration',
-      name: 'GROUP_BEST_BEFORE',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Example: "P1Y2M3W4D" corresponds to 1 year, 2 months, 3 weeks and 4 days`
-  String get GROUP_BEST_BEFORE_HELP {
-    return Intl.message(
-      'Example: "P1Y2M3W4D" corresponds to 1 year, 2 months, 3 weeks and 4 days',
-      name: 'GROUP_BEST_BEFORE_HELP',
-      desc: '',
-      args: [],
     );
   }
 
@@ -800,20 +801,20 @@ class S {
   }
 
   /// `Add`
-  String get SPEEDDIAL_ADD_TO_CHARGE {
+  String get SPEEDDIAL_ADD_TO_BATCH {
     return Intl.message(
       'Add',
-      name: 'SPEEDDIAL_ADD_TO_CHARGE',
+      name: 'SPEEDDIAL_ADD_TO_BATCH',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create charge`
-  String get SPEEDDIAL_CREATE_CHARGE {
+  /// `Createbatch`
+  String get SPEEDDIAL_CREATE_BATCH {
     return Intl.message(
-      'Create charge',
-      name: 'SPEEDDIAL_CREATE_CHARGE',
+      'Createbatch',
+      name: 'SPEEDDIAL_CREATE_BATCH',
       desc: '',
       args: [],
     );
@@ -860,10 +861,10 @@ class S {
   }
 
   /// `Take`
-  String get SPEEDDIAL_TAKE_FROM_CHARGE {
+  String get SPEEDDIAL_TAKE_FROM_BATCH {
     return Intl.message(
       'Take',
-      name: 'SPEEDDIAL_TAKE_FROM_CHARGE',
+      name: 'SPEEDDIAL_TAKE_FROM_BATCH',
       desc: '',
       args: [],
     );
@@ -909,10 +910,10 @@ class S {
     );
   }
 
-  /// `Charges`
+  /// `Batches`
   String get UNITS {
     return Intl.message(
-      'Charges',
+      'Batches',
       name: 'UNITS',
       desc: '',
       args: [],

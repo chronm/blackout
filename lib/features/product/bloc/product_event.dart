@@ -14,10 +14,10 @@ class SaveProduct extends ProductEvent {
   SaveProduct(this.product);
 }
 
-class TapOnCharge extends ProductEvent {
-  final Charge charge;
+class TapOnBatch extends ProductEvent {
+  final Batch batch;
 
-  TapOnCharge(this.charge);
+  TapOnBatch(this.batch);
 }
 
 class TapOnDeleteProduct extends ProductEvent {

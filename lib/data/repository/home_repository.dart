@@ -8,7 +8,7 @@ part 'home_repository.g.dart';
 
 @UseDao(tables: [HomeTable])
 class HomeRepository extends DatabaseAccessor<Database> with _$HomeRepositoryMixin {
-  HomeRepository(Database db) : super(db);
+  HomeRepository(Database attachedDatabase) : super(attachedDatabase);
 
   Future<List<Home>> findAll() async {
     return (await select(homeTable).get()).map((h) => Home.fromEntry(h)).toList();

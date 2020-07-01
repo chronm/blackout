@@ -9,7 +9,7 @@ import '../../main.dart';
 import '../../routes.dart';
 import '../../themes.dart';
 import '../../widget/changelog/changelog.dart';
-import '../charge/charge_overview_screen.dart';
+import '../batch/batch_overview_screen.dart';
 import '../group/group_overview_screen.dart';
 import '../home/home_screen.dart';
 import '../product/product_overview_screen.dart';
@@ -64,7 +64,7 @@ class _BlackoutAppState extends State<BlackoutApp> {
         Routes.settings: (context) => SettingsScreen(),
         Routes.group: (context) => GroupScreen(),
         Routes.product: (context) => ProductScreen(),
-        Routes.charge: (context) => ChargeScreen(),
+        Routes.batch: (context) => BatchScreen(),
       },
     );
   }

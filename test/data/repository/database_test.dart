@@ -1,6 +1,6 @@
 import 'package:Blackout/data/database/database.dart';
 import 'package:Blackout/data/repository/change_repository.dart';
-import 'package:Blackout/data/repository/charge_repository.dart';
+import 'package:Blackout/data/repository/batch_repository.dart';
 import 'package:Blackout/data/repository/group_repository.dart';
 import 'package:Blackout/data/repository/home_repository.dart';
 import 'package:Blackout/data/repository/model_change_repository.dart';
@@ -15,7 +15,7 @@ import '../../blackout_test_base.dart';
 void main() {
   Database _database;
   ChangeRepository changeRepository;
-  ChargeRepository chargeRepository;
+  BatchRepository batchRepository;
   ProductRepository productRepository;
   GroupRepository groupRepository;
   UserRepository userRepository;
@@ -25,7 +25,7 @@ void main() {
   setUp(() {
     _database = Database.forTesting();
     changeRepository = _database.changeRepository;
-    chargeRepository = _database.chargeRepository;
+    batchRepository = _database.batchRepository;
     productRepository = _database.productRepository;
     groupRepository = _database.groupRepository;
     userRepository = _database.userRepository;
@@ -39,8 +39,8 @@ void main() {
 
   test('Inserting and updating', () async {
     var change = createDefaultChange()..id = null;
-    var charge = change.charge..id = null;
-    var product = charge.product..id = null;
+    var batch = change.batch..id = null;
+    var product = batch.product..id = null;
     var group = product.group..id = null;
     var home = change.home;
     var user = change.user;
@@ -48,12 +48,12 @@ void main() {
     home = await homeRepository.save(home);
     group = await groupRepository.save(group, user);
     product = await productRepository.save(product, user);
-    charge = await chargeRepository.save(charge, user);
+    batch = await batchRepository.save(batch, user);
     change = await changeRepository.save(change);
 
     expect(change.id, isNotNull);
-    expect(charge.id, isNotNull);
-    expect(charge.modelChanges[0].modification, equals(ModelChangeType.create));
+    expect(batch.id, isNotNull);
+    expect(batch.modelChanges[0].modification, equals(ModelChangeType.create));
     expect(product.id, isNotNull);
     expect(product.modelChanges[0].modification, equals(ModelChangeType.create));
     expect(group.id, isNotNull);
@@ -62,12 +62,12 @@ void main() {
     user.name = "otherName";
     group.name = "otherName";
     product.description = "otherDescription";
-    charge.expirationDate = LocalDate(2000, 1, 1);
+    batch.expirationDate = LocalDate(2000, 1, 1);
 
     user = await userRepository.save(user);
-    charge = await chargeRepository.save(charge, user);
+    batch = await batchRepository.save(batch, user);
     product = await productRepository.save(product, user);
-    charge.product = product;
+    batch.product = product;
     group = await groupRepository.save(group, user);
     product.group = group;
 
@@ -83,20 +83,20 @@ void main() {
     expect(product.modelChanges[1].modifications[0].fieldName, equals("description"));
     expect(product.modelChanges[1].modifications[0].from, equals(defaultProductDescription));
     expect(product.modelChanges[1].modifications[0].to, equals("otherDescription"));
-    expect(product.charges[0] == charge, isTrue);
-    expect(charge.expirationDate, equals(LocalDate(2000, 1, 1)));
-    expect(charge.modelChanges[1].modification, equals(ModelChangeType.modify));
-    expect(charge.modelChanges[1].modifications[0].fieldName, equals("expirationDate"));
-    expect(charge.modelChanges[1].modifications[0].from, equals("Tuesday, 30 June 2020"));
-    expect(charge.modelChanges[1].modifications[0].to, equals("Saturday, 01 January 2000"));
+    expect(product.batches[0] == batch, isTrue);
+    expect(batch.expirationDate, equals(LocalDate(2000, 1, 1)));
+    expect(batch.modelChanges[1].modification, equals(ModelChangeType.modify));
+    expect(batch.modelChanges[1].modifications[0].fieldName, equals("expirationDate"));
+    expect(batch.modelChanges[1].modifications[0].from, equals("Tuesday, 30 June 2020"));
+    expect(batch.modelChanges[1].modifications[0].to, equals("Saturday, 01 January 2000"));
 
     var changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate.today(), defaultHomeId);
     expect(changes.length, equals(0));
     changes = await changeRepository.findAllByChangeDateAfterAndHomeId(LocalDate(2000, 1, 1), defaultHomeId);
     expect(changes.length, equals(1));
-    expect(changes[0].charge.expirationDate, equals(LocalDate(2000, 1, 1)));
-    expect(changes[0].charge.product.description, equals("otherDescription"));
-    expect(changes[0].charge.product.group.name, equals("otherName"));
+    expect(changes[0].batch.expirationDate, equals(LocalDate(2000, 1, 1)));
+    expect(changes[0].batch.product.description, equals("otherDescription"));
+    expect(changes[0].batch.product.group.name, equals("otherName"));
 
     var modelChanges = await modelChangeRepository.findAllByModificationDateAfterAndHomeId(LocalDate.today(), defaultHomeId);
     expect(modelChanges.length, equals(0));

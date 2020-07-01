@@ -4,10 +4,10 @@ abstract class SpeedDialEvent {}
 
 class TapOnScanEan extends SpeedDialEvent {}
 
-class TapOnCreateCharge extends SpeedDialEvent {
+class TapOnCreateBatch extends SpeedDialEvent {
   final Product product;
 
-  TapOnCreateCharge(this.product);
+  TapOnCreateBatch(this.product);
 }
 
 class TapOnCreateProduct extends SpeedDialEvent {}
@@ -24,16 +24,16 @@ class TapOnCreateGroupForProduct extends SpeedDialEvent {}
 
 class TapOnGotoHome extends SpeedDialEvent {}
 
-class AddToCharge extends SpeedDialEvent {
-  final Charge charge;
+class AddToBatch extends SpeedDialEvent {
+  final Batch batch;
   final String amount;
 
-  AddToCharge(this.charge, this.amount);
+  AddToBatch(this.batch, this.amount);
 }
 
-class TakeFromCharge extends SpeedDialEvent {
-  final Charge charge;
+class TakeFromBatch extends SpeedDialEvent {
+  final Batch batch;
   final String amount;
 
-  TakeFromCharge(this.charge, this.amount);
+  TakeFromBatch(this.batch, this.amount);
 }
