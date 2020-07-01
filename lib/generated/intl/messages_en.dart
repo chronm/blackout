@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "BATCHES" : MessageLookupByLibrary.simpleMessage("Batches"),
     "CHANGELOG" : MessageLookupByLibrary.simpleMessage("Changelog"),
     "CHANGELOG_OKAY" : MessageLookupByLibrary.simpleMessage("Okay"),
     "CHANGES" : MessageLookupByLibrary.simpleMessage("Changes"),
@@ -154,7 +155,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "SPEEDDIAL_TAKE_FROM_BATCH" : MessageLookupByLibrary.simpleMessage("Take"),
     "UNITENUM_VOLUME" : MessageLookupByLibrary.simpleMessage("Volume"),
     "UNITENUM_WEIGHT" : MessageLookupByLibrary.simpleMessage("Weight"),
-    "UNITS" : MessageLookupByLibrary.simpleMessage("Batches"),
     "UNIT_CREATED_AT" : m20,
     "UNIT_EXPIRATION_DATE" : MessageLookupByLibrary.simpleMessage("Best before"),
     "UNIT_NOTIFICATION_DATE" : MessageLookupByLibrary.simpleMessage("Notify at"),

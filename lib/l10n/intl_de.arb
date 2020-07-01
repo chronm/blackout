@@ -22,11 +22,11 @@
   },
   "DIALOG_ACCEPT_BUTTON": "Annehmen",
   "@DIALOG_ACCEPT_BUTTON": {},
-  "DIALOG_ADD_TO_BATCH": "Zur Batch hinzufügen",
+  "DIALOG_ADD_TO_BATCH": "Zur Charge hinzufügen",
   "@DIALOG_ADD_TO_BATCH": {},
   "DIALOG_CANCEL_BUTTON": "Abbrechen",
   "@DIALOG_CANCEL_BUTTON": {},
-  "DIALOG_TAKE_FROM_BATCH": "Von Batch entnehmen",
+  "DIALOG_TAKE_FROM_BATCH": "Von Charge entnehmen",
   "@DIALOG_TAKE_FROM_BATCH": {},
   "GENERAL_AMOUNT_AVAILABLE": "Verfügbar: {amount}",
   "@GENERAL_AMOUNT_AVAILABLE": {
@@ -236,7 +236,7 @@
   "@SETUP_WELCOME_CARD_TITLE": {},
   "SPEEDDIAL_ADD_TO_BATCH": "Hinzufügen",
   "@SPEEDDIAL_ADD_TO_BATCH": {},
-  "SPEEDDIAL_CREATE_BATCH": "Batch erstellen",
+  "SPEEDDIAL_CREATE_BATCH": "Charge erstellen",
   "@SPEEDDIAL_CREATE_BATCH": {},
   "SPEEDDIAL_CREATE_GROUP": "Gruppe erstellen",
   "@SPEEDDIAL_CREATE_GROUP": {},
@@ -262,8 +262,8 @@
   "@UNIT_EXPIRATION_DATE": {},
   "UNIT_NOTIFICATION_DATE": "Benachrichtigungsdatum",
   "@UNIT_NOTIFICATION_DATE": {},
-  "UNITS": "Batchn",
-  "@UNITS": {},
+  "BATCHES": "Chargen",
+  "@BATCHES": {},
   "WARN_AMOUNT_COULD_NOT_BE_PARSED": "{amount} ist kein gültiger Wert",
   "@WARN_AMOUNT_COULD_NOT_BE_PARSED": {
     "placeholders": {
