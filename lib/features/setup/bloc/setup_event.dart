@@ -5,8 +5,9 @@ abstract class SetupEvent {}
 class CreateHomeAndFinish extends SetupEvent {
   final String username;
   final String home;
+  final String password;
 
-  CreateHomeAndFinish(this.username, this.home);
+  CreateHomeAndFinish(this.username, this.home, this.password);
 }
 
 class JoinHomeAndFinish extends SetupEvent {

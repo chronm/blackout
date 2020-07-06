@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import '../../../generated/l10n.dart';
 import '../../../typedefs.dart';
 
-class CreateHome extends StatefulWidget {
+class SetupHome extends StatefulWidget {
   final StringCallback callback;
   final FocusNode focus;
 
-  const CreateHome({
+  const SetupHome({
     Key key,
     @required this.callback,
     @required this.focus,
   }) : super(key: key);
 
   @override
-  _CreateHomeState createState() => _CreateHomeState();
+  _SetupHomeState createState() => _SetupHomeState();
 }
 
-class _CreateHomeState extends State<CreateHome> {
+class _SetupHomeState extends State<SetupHome> {
   TextEditingController _controller;
 
   @override
@@ -25,9 +25,7 @@ class _CreateHomeState extends State<CreateHome> {
     super.initState();
     _controller = TextEditingController()
       ..addListener(() {
-        setState(() {
-
-        });
+        setState(() {});
         widget.callback(_controller.text);
       });
   }
@@ -36,13 +34,13 @@ class _CreateHomeState extends State<CreateHome> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(S.of(context).SETUP_CREATE_HOME_CARD_TITLE, style: TextStyle(fontSize: 16.0)),
+        Text(S.of(context).SETUP_STEP_CREATE_HOME_DESCRIPTION, style: TextStyle(fontSize: 16.0)),
         TextField(
           textInputAction: TextInputAction.go,
           textCapitalization: TextCapitalization.words,
           focusNode: widget.focus,
           decoration: InputDecoration(
-            errorText: _controller.text == "" ? S.of(context).SETUP_HOME_NAME_ERROR : null,
+            errorText: _controller.text == "" ? S.of(context).SETUP_STEP_CREATE_HOME_ERROR : null,
           ),
           controller: _controller,
         ),

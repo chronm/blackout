@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:encrypted_moor/encrypted_moor.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -23,24 +24,22 @@ import 'model_change_table.dart';
 import 'modification_table.dart';
 import 'product_table.dart';
 import 'user_table.dart';
-
 part 'database.g.dart';
 
-Future<File> getDatabasePath() async {
+Future<String> getDatabasePath() async {
   var directory = Directory(Platform.isAndroid ? p.join('/storage/emulated/0/Blackout') : (await getApplicationDocumentsDirectory()).path);
   if (!directory.existsSync()) {
     directory.createSync();
   }
-  return File(p.join(directory.path, 'attachedDatabase.sqlite'));
+  return p.join(directory.path, 'db.sqlite');
 }
 
-LazyDatabase _openConnection() {
+LazyDatabase _openConnection(String password) {
   // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
     // put the database file, called attachedDatabase.sqlite here, into the documents folder
     // for your app.
-
-    return VmDatabase(await getDatabasePath());
+    return EncryptedExecutor(path: await getDatabasePath(), password: password);
   });
 }
 
@@ -49,7 +48,7 @@ LazyDatabase _openConnection() {
   daos: [BatchRepository, ProductRepository, GroupRepository, ChangeRepository, ModelChangeRepository, UserRepository, HomeRepository, ModificationRepository],
 )
 class Database<T> extends _$Database {
-  Database() : super(_openConnection());
+  Database(String password) : super(_openConnection(password));
 
   Database.forTesting() : super(VmDatabase.memory());
 
