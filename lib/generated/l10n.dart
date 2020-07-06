@@ -700,16 +700,6 @@ class S {
     );
   }
 
-  /// `Create`
-  String get SETUP_CREATE_HOME {
-    return Intl.message(
-      'Create',
-      name: 'SETUP_CREATE_HOME',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `What would you like to call your household? Choose wisely, you cannot change it.`
   String get SETUP_CREATE_HOME_CARD_TITLE {
     return Intl.message(
@@ -730,41 +720,61 @@ class S {
     );
   }
 
-  /// `Do you want to join an existing household or start a new one?`
-  String get SETUP_HOME_CARD_TITLE {
+  /// `If you are satisfied, you can complete the setup now.`
+  String get SETUP_FINISH_DESCRIPTION {
     return Intl.message(
-      'Do you want to join an existing household or start a new one?',
-      name: 'SETUP_HOME_CARD_TITLE',
+      'If you are satisfied, you can complete the setup now.',
+      name: 'SETUP_FINISH_DESCRIPTION',
       desc: '',
       args: [],
     );
   }
 
-  /// `Name of your household`
+  /// `Please look again at the previous steps.`
+  String get SETUP_FINISH_DESCRIPTION_ERROR {
+    return Intl.message(
+      'Please look again at the previous steps.',
+      name: 'SETUP_FINISH_DESCRIPTION_ERROR',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Household`
   String get SETUP_HOME_NAME {
     return Intl.message(
-      'Name of your household',
+      'Household',
       name: 'SETUP_HOME_NAME',
       desc: '',
       args: [],
     );
   }
 
-  /// `Join`
-  String get SETUP_JOIN_HOME {
+  /// `Please enter a name.`
+  String get SETUP_HOME_NAME_ERROR {
     return Intl.message(
-      'Join',
-      name: 'SETUP_JOIN_HOME',
+      'Please enter a name.',
+      name: 'SETUP_HOME_NAME_ERROR',
       desc: '',
       args: [],
     );
   }
 
-  /// `Simply scan the QR Code on another device to join the household.`
-  String get SETUP_JOIN_HOME_CARD_TITLE {
+  /// `Introduction`
+  String get SETUP_INTRODUCTION {
     return Intl.message(
-      'Simply scan the QR Code on another device to join the household.',
-      name: 'SETUP_JOIN_HOME_CARD_TITLE',
+      'Introduction',
+      name: 'SETUP_INTRODUCTION',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get SETUP_SEND {
+    return Intl.message(
+      'Send',
+      name: 'SETUP_SEND',
       desc: '',
       args: [],
     );
@@ -775,6 +785,16 @@ class S {
     return Intl.message(
       'Username',
       name: 'SETUP_USERNAME',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a user name.`
+  String get SETUP_USERNAME_ERROR {
+    return Intl.message(
+      'Please enter a user name.',
+      name: 'SETUP_USERNAME_ERROR',
       desc: '',
       args: [],
     );
