@@ -7,6 +7,5 @@ part of 'modification_repository.dart';
 // **************************************************************************
 
 mixin _$ModificationRepositoryMixin on DatabaseAccessor<Database<dynamic>> {
-  $ModificationTableTable get modificationTable =>
-      attachedDatabase.modificationTable;
+  $ModificationTableTable get modificationTable => attachedDatabase.modificationTable;
 }

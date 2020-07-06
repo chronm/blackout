@@ -25,9 +25,7 @@ class _SetupUserState extends State<SetupUser> {
     super.initState();
     _controller = TextEditingController()
       ..addListener(() {
-        setState(() {
-
-        });
+        setState(() {});
         widget.callback(_controller.text);
       });
   }
@@ -36,17 +34,16 @@ class _SetupUserState extends State<SetupUser> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(S.of(context).SETUP_USERNAME_CARD_TITLE, style: TextStyle(fontSize: 16.0)),
+        Text(S.of(context).SETUP_STEP_CREATE_USERNAME_DESCRIPTION, style: TextStyle(fontSize: 16.0)),
         TextField(
           textCapitalization: TextCapitalization.words,
           textInputAction: TextInputAction.go,
           focusNode: widget.focus,
           decoration: InputDecoration(
-            errorText: _controller.text == "" ? S.of(context).SETUP_USERNAME_ERROR : null,
+            errorText: _controller.text == "" ? S.of(context).SETUP_STEP_CREATE_USERNAME_ERROR : null,
           ),
           controller: _controller,
         ),
-
       ],
     );
   }

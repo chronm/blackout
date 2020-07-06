@@ -11,19 +11,15 @@ class BatchEntry extends DataClass implements Insertable<BatchEntry> {
   final String id;
   final String productId;
   final DateTime expirationDate;
-  BatchEntry(
-      {@required this.id, @required this.productId, this.expirationDate});
-  factory BatchEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  BatchEntry({@required this.id, @required this.productId, this.expirationDate});
+  factory BatchEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     final dateTimeType = attachedDatabase.typeSystem.forDartType<DateTime>();
     return BatchEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      productId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
-      expirationDate: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}expiration_date']),
+      productId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
+      expirationDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}expiration_date']),
     );
   }
   @override
@@ -44,17 +40,12 @@ class BatchEntry extends DataClass implements Insertable<BatchEntry> {
   BatchTableCompanion toCompanion(bool nullToAbsent) {
     return BatchTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      productId: productId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(productId),
-      expirationDate: expirationDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(expirationDate),
+      productId: productId == null && nullToAbsent ? const Value.absent() : Value(productId),
+      expirationDate: expirationDate == null && nullToAbsent ? const Value.absent() : Value(expirationDate),
     );
   }
 
-  factory BatchEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory BatchEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return BatchEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -72,32 +63,20 @@ class BatchEntry extends DataClass implements Insertable<BatchEntry> {
     };
   }
 
-  BatchEntry copyWith({String id, String productId, DateTime expirationDate}) =>
-      BatchEntry(
+  BatchEntry copyWith({String id, String productId, DateTime expirationDate}) => BatchEntry(
         id: id ?? this.id,
         productId: productId ?? this.productId,
         expirationDate: expirationDate ?? this.expirationDate,
       );
   @override
   String toString() {
-    return (StringBuffer('BatchEntry(')
-          ..write('id: $id, ')
-          ..write('productId: $productId, ')
-          ..write('expirationDate: $expirationDate')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('BatchEntry(')..write('id: $id, ')..write('productId: $productId, ')..write('expirationDate: $expirationDate')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf(
-      $mrjc(id.hashCode, $mrjc(productId.hashCode, expirationDate.hashCode)));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(productId.hashCode, expirationDate.hashCode)));
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is BatchEntry &&
-          other.id == this.id &&
-          other.productId == this.productId &&
-          other.expirationDate == this.expirationDate);
+  bool operator ==(dynamic other) => identical(this, other) || (other is BatchEntry && other.id == this.id && other.productId == this.productId && other.expirationDate == this.expirationDate);
 }
 
 class BatchTableCompanion extends UpdateCompanion<BatchEntry> {
@@ -127,10 +106,7 @@ class BatchTableCompanion extends UpdateCompanion<BatchEntry> {
     });
   }
 
-  BatchTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> productId,
-      Value<DateTime> expirationDate}) {
+  BatchTableCompanion copyWith({Value<String> id, Value<String> productId, Value<DateTime> expirationDate}) {
     return BatchTableCompanion(
       id: id ?? this.id,
       productId: productId ?? this.productId,
@@ -154,8 +130,7 @@ class BatchTableCompanion extends UpdateCompanion<BatchEntry> {
   }
 }
 
-class $BatchTableTable extends BatchTable
-    with TableInfo<$BatchTableTable, BatchEntry> {
+class $BatchTableTable extends BatchTable with TableInfo<$BatchTableTable, BatchEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $BatchTableTable(this._attachedDatabase, [this._alias]);
@@ -176,16 +151,13 @@ class $BatchTableTable extends BatchTable
   @override
   GeneratedTextColumn get productId => _productId ??= _constructProductId();
   GeneratedTextColumn _constructProductId() {
-    return GeneratedTextColumn('product_id', $tableName, false,
-        $customConstraints: 'references ProductTable(id)');
+    return GeneratedTextColumn('product_id', $tableName, false, $customConstraints: 'references ProductTable(id)');
   }
 
-  final VerificationMeta _expirationDateMeta =
-      const VerificationMeta('expirationDate');
+  final VerificationMeta _expirationDateMeta = const VerificationMeta('expirationDate');
   GeneratedDateTimeColumn _expirationDate;
   @override
-  GeneratedDateTimeColumn get expirationDate =>
-      _expirationDate ??= _constructExpirationDate();
+  GeneratedDateTimeColumn get expirationDate => _expirationDate ??= _constructExpirationDate();
   GeneratedDateTimeColumn _constructExpirationDate() {
     return GeneratedDateTimeColumn(
       'expiration_date',
@@ -203,8 +175,7 @@ class $BatchTableTable extends BatchTable
   @override
   final String actualTableName = 'batch_table';
   @override
-  VerificationContext validateIntegrity(Insertable<BatchEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<BatchEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -213,16 +184,12 @@ class $BatchTableTable extends BatchTable
       context.missing(_idMeta);
     }
     if (data.containsKey('product_id')) {
-      context.handle(_productIdMeta,
-          productId.isAcceptableOrUnknown(data['product_id'], _productIdMeta));
+      context.handle(_productIdMeta, productId.isAcceptableOrUnknown(data['product_id'], _productIdMeta));
     } else if (isInserting) {
       context.missing(_productIdMeta);
     }
     if (data.containsKey('expiration_date')) {
-      context.handle(
-          _expirationDateMeta,
-          expirationDate.isAcceptableOrUnknown(
-              data['expiration_date'], _expirationDateMeta));
+      context.handle(_expirationDateMeta, expirationDate.isAcceptableOrUnknown(data['expiration_date'], _expirationDateMeta));
     }
     return context;
   }
@@ -250,17 +217,8 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
   final String homeId;
   final double refillLimit;
   final int unit;
-  ProductEntry(
-      {@required this.id,
-      this.ean,
-      this.groupId,
-      @required this.description,
-      this.warnInterval,
-      @required this.homeId,
-      this.refillLimit,
-      this.unit});
-  factory ProductEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  ProductEntry({@required this.id, this.ean, this.groupId, @required this.description, this.warnInterval, @required this.homeId, this.refillLimit, this.unit});
+  factory ProductEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     final doubleType = attachedDatabase.typeSystem.forDartType<double>();
@@ -268,16 +226,11 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
     return ProductEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       ean: stringType.mapFromDatabaseResponse(data['${effectivePrefix}ean']),
-      groupId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}group_id']),
-      description: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
-      warnInterval: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}warn_interval']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
-      refillLimit: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
+      groupId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}group_id']),
+      description: stringType.mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      warnInterval: stringType.mapFromDatabaseResponse(data['${effectivePrefix}warn_interval']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      refillLimit: doubleType.mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
       unit: intType.mapFromDatabaseResponse(data['${effectivePrefix}unit']),
     );
   }
@@ -315,26 +268,16 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
     return ProductTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       ean: ean == null && nullToAbsent ? const Value.absent() : Value(ean),
-      groupId: groupId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(groupId),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      warnInterval: warnInterval == null && nullToAbsent
-          ? const Value.absent()
-          : Value(warnInterval),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
-      refillLimit: refillLimit == null && nullToAbsent
-          ? const Value.absent()
-          : Value(refillLimit),
+      groupId: groupId == null && nullToAbsent ? const Value.absent() : Value(groupId),
+      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
+      warnInterval: warnInterval == null && nullToAbsent ? const Value.absent() : Value(warnInterval),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      refillLimit: refillLimit == null && nullToAbsent ? const Value.absent() : Value(refillLimit),
       unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
     );
   }
 
-  factory ProductEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory ProductEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ProductEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -362,16 +305,7 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
     };
   }
 
-  ProductEntry copyWith(
-          {String id,
-          String ean,
-          String groupId,
-          String description,
-          String warnInterval,
-          String homeId,
-          double refillLimit,
-          int unit}) =>
-      ProductEntry(
+  ProductEntry copyWith({String id, String ean, String groupId, String description, String warnInterval, String homeId, double refillLimit, int unit}) => ProductEntry(
         id: id ?? this.id,
         ean: ean ?? this.ean,
         groupId: groupId ?? this.groupId,
@@ -383,44 +317,16 @@ class ProductEntry extends DataClass implements Insertable<ProductEntry> {
       );
   @override
   String toString() {
-    return (StringBuffer('ProductEntry(')
-          ..write('id: $id, ')
-          ..write('ean: $ean, ')
-          ..write('groupId: $groupId, ')
-          ..write('description: $description, ')
-          ..write('warnInterval: $warnInterval, ')
-          ..write('homeId: $homeId, ')
-          ..write('refillLimit: $refillLimit, ')
-          ..write('unit: $unit')
-          ..write(')'))
+    return (StringBuffer('ProductEntry(')..write('id: $id, ')..write('ean: $ean, ')..write('groupId: $groupId, ')..write('description: $description, ')..write('warnInterval: $warnInterval, ')..write('homeId: $homeId, ')..write('refillLimit: $refillLimit, ')..write('unit: $unit')..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          ean.hashCode,
-          $mrjc(
-              groupId.hashCode,
-              $mrjc(
-                  description.hashCode,
-                  $mrjc(
-                      warnInterval.hashCode,
-                      $mrjc(homeId.hashCode,
-                          $mrjc(refillLimit.hashCode, unit.hashCode))))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(ean.hashCode, $mrjc(groupId.hashCode, $mrjc(description.hashCode, $mrjc(warnInterval.hashCode, $mrjc(homeId.hashCode, $mrjc(refillLimit.hashCode, unit.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is ProductEntry &&
-          other.id == this.id &&
-          other.ean == this.ean &&
-          other.groupId == this.groupId &&
-          other.description == this.description &&
-          other.warnInterval == this.warnInterval &&
-          other.homeId == this.homeId &&
-          other.refillLimit == this.refillLimit &&
-          other.unit == this.unit);
+      (other is ProductEntry && other.id == this.id && other.ean == this.ean && other.groupId == this.groupId && other.description == this.description && other.warnInterval == this.warnInterval && other.homeId == this.homeId && other.refillLimit == this.refillLimit && other.unit == this.unit);
 }
 
 class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
@@ -476,15 +382,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
     });
   }
 
-  ProductTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> ean,
-      Value<String> groupId,
-      Value<String> description,
-      Value<String> warnInterval,
-      Value<String> homeId,
-      Value<double> refillLimit,
-      Value<int> unit}) {
+  ProductTableCompanion copyWith({Value<String> id, Value<String> ean, Value<String> groupId, Value<String> description, Value<String> warnInterval, Value<String> homeId, Value<double> refillLimit, Value<int> unit}) {
     return ProductTableCompanion(
       id: id ?? this.id,
       ean: ean ?? this.ean,
@@ -528,8 +426,7 @@ class ProductTableCompanion extends UpdateCompanion<ProductEntry> {
   }
 }
 
-class $ProductTableTable extends ProductTable
-    with TableInfo<$ProductTableTable, ProductEntry> {
+class $ProductTableTable extends ProductTable with TableInfo<$ProductTableTable, ProductEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $ProductTableTable(this._attachedDatabase, [this._alias]);
@@ -550,8 +447,7 @@ class $ProductTableTable extends ProductTable
   @override
   GeneratedTextColumn get ean => _ean ??= _constructEan();
   GeneratedTextColumn _constructEan() {
-    return GeneratedTextColumn('ean', $tableName, true,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('ean', $tableName, true, $customConstraints: 'unique');
   }
 
   final VerificationMeta _groupIdMeta = const VerificationMeta('groupId');
@@ -559,27 +455,21 @@ class $ProductTableTable extends ProductTable
   @override
   GeneratedTextColumn get groupId => _groupId ??= _constructGroupId();
   GeneratedTextColumn _constructGroupId() {
-    return GeneratedTextColumn('group_id', $tableName, true,
-        $customConstraints: 'null references GroupTable(id)');
+    return GeneratedTextColumn('group_id', $tableName, true, $customConstraints: 'null references GroupTable(id)');
   }
 
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+  final VerificationMeta _descriptionMeta = const VerificationMeta('description');
   GeneratedTextColumn _description;
   @override
-  GeneratedTextColumn get description =>
-      _description ??= _constructDescription();
+  GeneratedTextColumn get description => _description ??= _constructDescription();
   GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn('description', $tableName, false,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('description', $tableName, false, $customConstraints: 'unique');
   }
 
-  final VerificationMeta _warnIntervalMeta =
-      const VerificationMeta('warnInterval');
+  final VerificationMeta _warnIntervalMeta = const VerificationMeta('warnInterval');
   GeneratedTextColumn _warnInterval;
   @override
-  GeneratedTextColumn get warnInterval =>
-      _warnInterval ??= _constructWarnInterval();
+  GeneratedTextColumn get warnInterval => _warnInterval ??= _constructWarnInterval();
   GeneratedTextColumn _constructWarnInterval() {
     return GeneratedTextColumn(
       'warn_interval',
@@ -593,16 +483,13 @@ class $ProductTableTable extends ProductTable
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
-  final VerificationMeta _refillLimitMeta =
-      const VerificationMeta('refillLimit');
+  final VerificationMeta _refillLimitMeta = const VerificationMeta('refillLimit');
   GeneratedRealColumn _refillLimit;
   @override
-  GeneratedRealColumn get refillLimit =>
-      _refillLimit ??= _constructRefillLimit();
+  GeneratedRealColumn get refillLimit => _refillLimit ??= _constructRefillLimit();
   GeneratedRealColumn _constructRefillLimit() {
     return GeneratedRealColumn(
       'refill_limit',
@@ -624,8 +511,7 @@ class $ProductTableTable extends ProductTable
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, ean, groupId, description, warnInterval, homeId, refillLimit, unit];
+  List<GeneratedColumn> get $columns => [id, ean, groupId, description, warnInterval, homeId, refillLimit, unit];
   @override
   $ProductTableTable get asDslTable => this;
   @override
@@ -633,8 +519,7 @@ class $ProductTableTable extends ProductTable
   @override
   final String actualTableName = 'product_table';
   @override
-  VerificationContext validateIntegrity(Insertable<ProductEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ProductEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -643,42 +528,29 @@ class $ProductTableTable extends ProductTable
       context.missing(_idMeta);
     }
     if (data.containsKey('ean')) {
-      context.handle(
-          _eanMeta, ean.isAcceptableOrUnknown(data['ean'], _eanMeta));
+      context.handle(_eanMeta, ean.isAcceptableOrUnknown(data['ean'], _eanMeta));
     }
     if (data.containsKey('group_id')) {
-      context.handle(_groupIdMeta,
-          groupId.isAcceptableOrUnknown(data['group_id'], _groupIdMeta));
+      context.handle(_groupIdMeta, groupId.isAcceptableOrUnknown(data['group_id'], _groupIdMeta));
     }
     if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description'], _descriptionMeta));
+      context.handle(_descriptionMeta, description.isAcceptableOrUnknown(data['description'], _descriptionMeta));
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
     if (data.containsKey('warn_interval')) {
-      context.handle(
-          _warnIntervalMeta,
-          warnInterval.isAcceptableOrUnknown(
-              data['warn_interval'], _warnIntervalMeta));
+      context.handle(_warnIntervalMeta, warnInterval.isAcceptableOrUnknown(data['warn_interval'], _warnIntervalMeta));
     }
     if (data.containsKey('home_id')) {
-      context.handle(_homeIdMeta,
-          homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
     if (data.containsKey('refill_limit')) {
-      context.handle(
-          _refillLimitMeta,
-          refillLimit.isAcceptableOrUnknown(
-              data['refill_limit'], _refillLimitMeta));
+      context.handle(_refillLimitMeta, refillLimit.isAcceptableOrUnknown(data['refill_limit'], _refillLimitMeta));
     }
     if (data.containsKey('unit')) {
-      context.handle(
-          _unitMeta, unit.isAcceptableOrUnknown(data['unit'], _unitMeta));
+      context.handle(_unitMeta, unit.isAcceptableOrUnknown(data['unit'], _unitMeta));
     }
     return context;
   }
@@ -705,16 +577,8 @@ class GroupEntry extends DataClass implements Insertable<GroupEntry> {
   final String homeId;
   final double refillLimit;
   final int unit;
-  GroupEntry(
-      {@required this.id,
-      @required this.name,
-      this.pluralName,
-      this.warnInterval,
-      @required this.homeId,
-      this.refillLimit,
-      @required this.unit});
-  factory GroupEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  GroupEntry({@required this.id, @required this.name, this.pluralName, this.warnInterval, @required this.homeId, this.refillLimit, @required this.unit});
+  factory GroupEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     final doubleType = attachedDatabase.typeSystem.forDartType<double>();
@@ -722,14 +586,10 @@ class GroupEntry extends DataClass implements Insertable<GroupEntry> {
     return GroupEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
-      pluralName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}plural_name']),
-      warnInterval: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}warn_interval']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
-      refillLimit: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
+      pluralName: stringType.mapFromDatabaseResponse(data['${effectivePrefix}plural_name']),
+      warnInterval: stringType.mapFromDatabaseResponse(data['${effectivePrefix}warn_interval']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      refillLimit: doubleType.mapFromDatabaseResponse(data['${effectivePrefix}refill_limit']),
       unit: intType.mapFromDatabaseResponse(data['${effectivePrefix}unit']),
     );
   }
@@ -764,23 +624,15 @@ class GroupEntry extends DataClass implements Insertable<GroupEntry> {
     return GroupTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      pluralName: pluralName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(pluralName),
-      warnInterval: warnInterval == null && nullToAbsent
-          ? const Value.absent()
-          : Value(warnInterval),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
-      refillLimit: refillLimit == null && nullToAbsent
-          ? const Value.absent()
-          : Value(refillLimit),
+      pluralName: pluralName == null && nullToAbsent ? const Value.absent() : Value(pluralName),
+      warnInterval: warnInterval == null && nullToAbsent ? const Value.absent() : Value(warnInterval),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      refillLimit: refillLimit == null && nullToAbsent ? const Value.absent() : Value(refillLimit),
       unit: unit == null && nullToAbsent ? const Value.absent() : Value(unit),
     );
   }
 
-  factory GroupEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory GroupEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return GroupEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -806,15 +658,7 @@ class GroupEntry extends DataClass implements Insertable<GroupEntry> {
     };
   }
 
-  GroupEntry copyWith(
-          {String id,
-          String name,
-          String pluralName,
-          String warnInterval,
-          String homeId,
-          double refillLimit,
-          int unit}) =>
-      GroupEntry(
+  GroupEntry copyWith({String id, String name, String pluralName, String warnInterval, String homeId, double refillLimit, int unit}) => GroupEntry(
         id: id ?? this.id,
         name: name ?? this.name,
         pluralName: pluralName ?? this.pluralName,
@@ -825,40 +669,14 @@ class GroupEntry extends DataClass implements Insertable<GroupEntry> {
       );
   @override
   String toString() {
-    return (StringBuffer('GroupEntry(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('pluralName: $pluralName, ')
-          ..write('warnInterval: $warnInterval, ')
-          ..write('homeId: $homeId, ')
-          ..write('refillLimit: $refillLimit, ')
-          ..write('unit: $unit')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('GroupEntry(')..write('id: $id, ')..write('name: $name, ')..write('pluralName: $pluralName, ')..write('warnInterval: $warnInterval, ')..write('homeId: $homeId, ')..write('refillLimit: $refillLimit, ')..write('unit: $unit')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          name.hashCode,
-          $mrjc(
-              pluralName.hashCode,
-              $mrjc(
-                  warnInterval.hashCode,
-                  $mrjc(homeId.hashCode,
-                      $mrjc(refillLimit.hashCode, unit.hashCode)))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, $mrjc(pluralName.hashCode, $mrjc(warnInterval.hashCode, $mrjc(homeId.hashCode, $mrjc(refillLimit.hashCode, unit.hashCode)))))));
   @override
   bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is GroupEntry &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.pluralName == this.pluralName &&
-          other.warnInterval == this.warnInterval &&
-          other.homeId == this.homeId &&
-          other.refillLimit == this.refillLimit &&
-          other.unit == this.unit);
+      identical(this, other) || (other is GroupEntry && other.id == this.id && other.name == this.name && other.pluralName == this.pluralName && other.warnInterval == this.warnInterval && other.homeId == this.homeId && other.refillLimit == this.refillLimit && other.unit == this.unit);
 }
 
 class GroupTableCompanion extends UpdateCompanion<GroupEntry> {
@@ -910,14 +728,7 @@ class GroupTableCompanion extends UpdateCompanion<GroupEntry> {
     });
   }
 
-  GroupTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> name,
-      Value<String> pluralName,
-      Value<String> warnInterval,
-      Value<String> homeId,
-      Value<double> refillLimit,
-      Value<int> unit}) {
+  GroupTableCompanion copyWith({Value<String> id, Value<String> name, Value<String> pluralName, Value<String> warnInterval, Value<String> homeId, Value<double> refillLimit, Value<int> unit}) {
     return GroupTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -957,8 +768,7 @@ class GroupTableCompanion extends UpdateCompanion<GroupEntry> {
   }
 }
 
-class $GroupTableTable extends GroupTable
-    with TableInfo<$GroupTableTable, GroupEntry> {
+class $GroupTableTable extends GroupTable with TableInfo<$GroupTableTable, GroupEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $GroupTableTable(this._attachedDatabase, [this._alias]);
@@ -979,8 +789,7 @@ class $GroupTableTable extends GroupTable
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
   GeneratedTextColumn _constructName() {
-    return GeneratedTextColumn('name', $tableName, false,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('name', $tableName, false, $customConstraints: 'unique');
   }
 
   final VerificationMeta _pluralNameMeta = const VerificationMeta('pluralName');
@@ -988,16 +797,13 @@ class $GroupTableTable extends GroupTable
   @override
   GeneratedTextColumn get pluralName => _pluralName ??= _constructPluralName();
   GeneratedTextColumn _constructPluralName() {
-    return GeneratedTextColumn('plural_name', $tableName, true,
-        $customConstraints: 'unique');
+    return GeneratedTextColumn('plural_name', $tableName, true, $customConstraints: 'unique');
   }
 
-  final VerificationMeta _warnIntervalMeta =
-      const VerificationMeta('warnInterval');
+  final VerificationMeta _warnIntervalMeta = const VerificationMeta('warnInterval');
   GeneratedTextColumn _warnInterval;
   @override
-  GeneratedTextColumn get warnInterval =>
-      _warnInterval ??= _constructWarnInterval();
+  GeneratedTextColumn get warnInterval => _warnInterval ??= _constructWarnInterval();
   GeneratedTextColumn _constructWarnInterval() {
     return GeneratedTextColumn(
       'warn_interval',
@@ -1011,16 +817,13 @@ class $GroupTableTable extends GroupTable
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
-  final VerificationMeta _refillLimitMeta =
-      const VerificationMeta('refillLimit');
+  final VerificationMeta _refillLimitMeta = const VerificationMeta('refillLimit');
   GeneratedRealColumn _refillLimit;
   @override
-  GeneratedRealColumn get refillLimit =>
-      _refillLimit ??= _constructRefillLimit();
+  GeneratedRealColumn get refillLimit => _refillLimit ??= _constructRefillLimit();
   GeneratedRealColumn _constructRefillLimit() {
     return GeneratedRealColumn(
       'refill_limit',
@@ -1042,8 +845,7 @@ class $GroupTableTable extends GroupTable
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, name, pluralName, warnInterval, homeId, refillLimit, unit];
+  List<GeneratedColumn> get $columns => [id, name, pluralName, warnInterval, homeId, refillLimit, unit];
   @override
   $GroupTableTable get asDslTable => this;
   @override
@@ -1051,8 +853,7 @@ class $GroupTableTable extends GroupTable
   @override
   final String actualTableName = 'group_table';
   @override
-  VerificationContext validateIntegrity(Insertable<GroupEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<GroupEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1061,38 +862,26 @@ class $GroupTableTable extends GroupTable
       context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('plural_name')) {
-      context.handle(
-          _pluralNameMeta,
-          pluralName.isAcceptableOrUnknown(
-              data['plural_name'], _pluralNameMeta));
+      context.handle(_pluralNameMeta, pluralName.isAcceptableOrUnknown(data['plural_name'], _pluralNameMeta));
     }
     if (data.containsKey('warn_interval')) {
-      context.handle(
-          _warnIntervalMeta,
-          warnInterval.isAcceptableOrUnknown(
-              data['warn_interval'], _warnIntervalMeta));
+      context.handle(_warnIntervalMeta, warnInterval.isAcceptableOrUnknown(data['warn_interval'], _warnIntervalMeta));
     }
     if (data.containsKey('home_id')) {
-      context.handle(_homeIdMeta,
-          homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
     if (data.containsKey('refill_limit')) {
-      context.handle(
-          _refillLimitMeta,
-          refillLimit.isAcceptableOrUnknown(
-              data['refill_limit'], _refillLimitMeta));
+      context.handle(_refillLimitMeta, refillLimit.isAcceptableOrUnknown(data['refill_limit'], _refillLimitMeta));
     }
     if (data.containsKey('unit')) {
-      context.handle(
-          _unitMeta, unit.isAcceptableOrUnknown(data['unit'], _unitMeta));
+      context.handle(_unitMeta, unit.isAcceptableOrUnknown(data['unit'], _unitMeta));
     } else if (isInserting) {
       context.missing(_unitMeta);
     }
@@ -1120,31 +909,19 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
   final DateTime changeDate;
   final String batchId;
   final String homeId;
-  ChangeEntry(
-      {@required this.id,
-      @required this.userId,
-      @required this.value,
-      @required this.changeDate,
-      @required this.batchId,
-      @required this.homeId});
-  factory ChangeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  ChangeEntry({@required this.id, @required this.userId, @required this.value, @required this.changeDate, @required this.batchId, @required this.homeId});
+  factory ChangeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     final doubleType = attachedDatabase.typeSystem.forDartType<double>();
     final dateTimeType = attachedDatabase.typeSystem.forDartType<DateTime>();
     return ChangeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      userId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      value:
-          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
-      changeDate: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}change_date']),
-      batchId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}batch_id']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      userId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      value: doubleType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
+      changeDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}change_date']),
+      batchId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}batch_id']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
   @override
@@ -1174,23 +951,15 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
   ChangeTableCompanion toCompanion(bool nullToAbsent) {
     return ChangeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      value:
-          value == null && nullToAbsent ? const Value.absent() : Value(value),
-      changeDate: changeDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(changeDate),
-      batchId: batchId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(batchId),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      userId: userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      value: value == null && nullToAbsent ? const Value.absent() : Value(value),
+      changeDate: changeDate == null && nullToAbsent ? const Value.absent() : Value(changeDate),
+      batchId: batchId == null && nullToAbsent ? const Value.absent() : Value(batchId),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
-  factory ChangeEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory ChangeEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ChangeEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -1214,14 +983,7 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
     };
   }
 
-  ChangeEntry copyWith(
-          {String id,
-          String userId,
-          double value,
-          DateTime changeDate,
-          String batchId,
-          String homeId}) =>
-      ChangeEntry(
+  ChangeEntry copyWith({String id, String userId, double value, DateTime changeDate, String batchId, String homeId}) => ChangeEntry(
         id: id ?? this.id,
         userId: userId ?? this.userId,
         value: value ?? this.value,
@@ -1231,36 +993,13 @@ class ChangeEntry extends DataClass implements Insertable<ChangeEntry> {
       );
   @override
   String toString() {
-    return (StringBuffer('ChangeEntry(')
-          ..write('id: $id, ')
-          ..write('userId: $userId, ')
-          ..write('value: $value, ')
-          ..write('changeDate: $changeDate, ')
-          ..write('batchId: $batchId, ')
-          ..write('homeId: $homeId')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('ChangeEntry(')..write('id: $id, ')..write('userId: $userId, ')..write('value: $value, ')..write('changeDate: $changeDate, ')..write('batchId: $batchId, ')..write('homeId: $homeId')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          userId.hashCode,
-          $mrjc(
-              value.hashCode,
-              $mrjc(changeDate.hashCode,
-                  $mrjc(batchId.hashCode, homeId.hashCode))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(userId.hashCode, $mrjc(value.hashCode, $mrjc(changeDate.hashCode, $mrjc(batchId.hashCode, homeId.hashCode))))));
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is ChangeEntry &&
-          other.id == this.id &&
-          other.userId == this.userId &&
-          other.value == this.value &&
-          other.changeDate == this.changeDate &&
-          other.batchId == this.batchId &&
-          other.homeId == this.homeId);
+  bool operator ==(dynamic other) => identical(this, other) || (other is ChangeEntry && other.id == this.id && other.userId == this.userId && other.value == this.value && other.changeDate == this.changeDate && other.batchId == this.batchId && other.homeId == this.homeId);
 }
 
 class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
@@ -1308,13 +1047,7 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
     });
   }
 
-  ChangeTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> userId,
-      Value<double> value,
-      Value<DateTime> changeDate,
-      Value<String> batchId,
-      Value<String> homeId}) {
+  ChangeTableCompanion copyWith({Value<String> id, Value<String> userId, Value<double> value, Value<DateTime> changeDate, Value<String> batchId, Value<String> homeId}) {
     return ChangeTableCompanion(
       id: id ?? this.id,
       userId: userId ?? this.userId,
@@ -1350,8 +1083,7 @@ class ChangeTableCompanion extends UpdateCompanion<ChangeEntry> {
   }
 }
 
-class $ChangeTableTable extends ChangeTable
-    with TableInfo<$ChangeTableTable, ChangeEntry> {
+class $ChangeTableTable extends ChangeTable with TableInfo<$ChangeTableTable, ChangeEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $ChangeTableTable(this._attachedDatabase, [this._alias]);
@@ -1394,8 +1126,7 @@ class $ChangeTableTable extends ChangeTable
   final VerificationMeta _changeDateMeta = const VerificationMeta('changeDate');
   GeneratedDateTimeColumn _changeDate;
   @override
-  GeneratedDateTimeColumn get changeDate =>
-      _changeDate ??= _constructChangeDate();
+  GeneratedDateTimeColumn get changeDate => _changeDate ??= _constructChangeDate();
   GeneratedDateTimeColumn _constructChangeDate() {
     return GeneratedDateTimeColumn(
       'change_date',
@@ -1409,8 +1140,7 @@ class $ChangeTableTable extends ChangeTable
   @override
   GeneratedTextColumn get batchId => _batchId ??= _constructBatchId();
   GeneratedTextColumn _constructBatchId() {
-    return GeneratedTextColumn('batch_id', $tableName, false,
-        $customConstraints: 'references BatchTable(id)');
+    return GeneratedTextColumn('batch_id', $tableName, false, $customConstraints: 'references BatchTable(id)');
   }
 
   final VerificationMeta _homeIdMeta = const VerificationMeta('homeId');
@@ -1418,13 +1148,11 @@ class $ChangeTableTable extends ChangeTable
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, userId, value, changeDate, batchId, homeId];
+  List<GeneratedColumn> get $columns => [id, userId, value, changeDate, batchId, homeId];
   @override
   $ChangeTableTable get asDslTable => this;
   @override
@@ -1432,42 +1160,34 @@ class $ChangeTableTable extends ChangeTable
   @override
   final String actualTableName = 'change_table';
   @override
-  VerificationContext validateIntegrity(Insertable<ChangeEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ChangeEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
     if (data.containsKey('user_id')) {
-      context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+      context.handle(_userIdMeta, userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (data.containsKey('value')) {
-      context.handle(
-          _valueMeta, value.isAcceptableOrUnknown(data['value'], _valueMeta));
+      context.handle(_valueMeta, value.isAcceptableOrUnknown(data['value'], _valueMeta));
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
     if (data.containsKey('change_date')) {
-      context.handle(
-          _changeDateMeta,
-          changeDate.isAcceptableOrUnknown(
-              data['change_date'], _changeDateMeta));
+      context.handle(_changeDateMeta, changeDate.isAcceptableOrUnknown(data['change_date'], _changeDateMeta));
     } else if (isInserting) {
       context.missing(_changeDateMeta);
     }
     if (data.containsKey('batch_id')) {
-      context.handle(_batchIdMeta,
-          batchId.isAcceptableOrUnknown(data['batch_id'], _batchIdMeta));
+      context.handle(_batchIdMeta, batchId.isAcceptableOrUnknown(data['batch_id'], _batchIdMeta));
     } else if (isInserting) {
       context.missing(_batchIdMeta);
     }
     if (data.containsKey('home_id')) {
-      context.handle(_homeIdMeta,
-          homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
@@ -1488,8 +1208,7 @@ class $ChangeTableTable extends ChangeTable
   }
 }
 
-class ModelChangeEntry extends DataClass
-    implements Insertable<ModelChangeEntry> {
+class ModelChangeEntry extends DataClass implements Insertable<ModelChangeEntry> {
   final String id;
   final DateTime modificationDate;
   final String userId;
@@ -1498,38 +1217,21 @@ class ModelChangeEntry extends DataClass
   final String batchId;
   final int direction;
   final String homeId;
-  ModelChangeEntry(
-      {@required this.id,
-      @required this.modificationDate,
-      @required this.userId,
-      this.groupId,
-      this.productId,
-      this.batchId,
-      @required this.direction,
-      @required this.homeId});
-  factory ModelChangeEntry.fromData(
-      Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  ModelChangeEntry({@required this.id, @required this.modificationDate, @required this.userId, this.groupId, this.productId, this.batchId, @required this.direction, @required this.homeId});
+  factory ModelChangeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     final dateTimeType = attachedDatabase.typeSystem.forDartType<DateTime>();
     final intType = attachedDatabase.typeSystem.forDartType<int>();
     return ModelChangeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      modificationDate: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}modification_date']),
-      userId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      groupId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}group_id']),
-      productId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
-      batchId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}batch_id']),
-      direction:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}direction']),
-      homeId:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
+      modificationDate: dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}modification_date']),
+      userId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      groupId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}group_id']),
+      productId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}product_id']),
+      batchId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}batch_id']),
+      direction: intType.mapFromDatabaseResponse(data['${effectivePrefix}direction']),
+      homeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}home_id']),
     );
   }
   @override
@@ -1565,30 +1267,17 @@ class ModelChangeEntry extends DataClass
   ModelChangeTableCompanion toCompanion(bool nullToAbsent) {
     return ModelChangeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      modificationDate: modificationDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(modificationDate),
-      userId:
-          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      groupId: groupId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(groupId),
-      productId: productId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(productId),
-      batchId: batchId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(batchId),
-      direction: direction == null && nullToAbsent
-          ? const Value.absent()
-          : Value(direction),
-      homeId:
-          homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
+      modificationDate: modificationDate == null && nullToAbsent ? const Value.absent() : Value(modificationDate),
+      userId: userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      groupId: groupId == null && nullToAbsent ? const Value.absent() : Value(groupId),
+      productId: productId == null && nullToAbsent ? const Value.absent() : Value(productId),
+      batchId: batchId == null && nullToAbsent ? const Value.absent() : Value(batchId),
+      direction: direction == null && nullToAbsent ? const Value.absent() : Value(direction),
+      homeId: homeId == null && nullToAbsent ? const Value.absent() : Value(homeId),
     );
   }
 
-  factory ModelChangeEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory ModelChangeEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ModelChangeEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -1616,16 +1305,7 @@ class ModelChangeEntry extends DataClass
     };
   }
 
-  ModelChangeEntry copyWith(
-          {String id,
-          DateTime modificationDate,
-          String userId,
-          String groupId,
-          String productId,
-          String batchId,
-          int direction,
-          String homeId}) =>
-      ModelChangeEntry(
+  ModelChangeEntry copyWith({String id, DateTime modificationDate, String userId, String groupId, String productId, String batchId, int direction, String homeId}) => ModelChangeEntry(
         id: id ?? this.id,
         modificationDate: modificationDate ?? this.modificationDate,
         userId: userId ?? this.userId,
@@ -1651,18 +1331,7 @@ class ModelChangeEntry extends DataClass
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          modificationDate.hashCode,
-          $mrjc(
-              userId.hashCode,
-              $mrjc(
-                  groupId.hashCode,
-                  $mrjc(
-                      productId.hashCode,
-                      $mrjc(batchId.hashCode,
-                          $mrjc(direction.hashCode, homeId.hashCode))))))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(modificationDate.hashCode, $mrjc(userId.hashCode, $mrjc(groupId.hashCode, $mrjc(productId.hashCode, $mrjc(batchId.hashCode, $mrjc(direction.hashCode, homeId.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1732,15 +1401,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
     });
   }
 
-  ModelChangeTableCompanion copyWith(
-      {Value<String> id,
-      Value<DateTime> modificationDate,
-      Value<String> userId,
-      Value<String> groupId,
-      Value<String> productId,
-      Value<String> batchId,
-      Value<int> direction,
-      Value<String> homeId}) {
+  ModelChangeTableCompanion copyWith({Value<String> id, Value<DateTime> modificationDate, Value<String> userId, Value<String> groupId, Value<String> productId, Value<String> batchId, Value<int> direction, Value<String> homeId}) {
     return ModelChangeTableCompanion(
       id: id ?? this.id,
       modificationDate: modificationDate ?? this.modificationDate,
@@ -1784,8 +1445,7 @@ class ModelChangeTableCompanion extends UpdateCompanion<ModelChangeEntry> {
   }
 }
 
-class $ModelChangeTableTable extends ModelChangeTable
-    with TableInfo<$ModelChangeTableTable, ModelChangeEntry> {
+class $ModelChangeTableTable extends ModelChangeTable with TableInfo<$ModelChangeTableTable, ModelChangeEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $ModelChangeTableTable(this._attachedDatabase, [this._alias]);
@@ -1801,12 +1461,10 @@ class $ModelChangeTableTable extends ModelChangeTable
     );
   }
 
-  final VerificationMeta _modificationDateMeta =
-      const VerificationMeta('modificationDate');
+  final VerificationMeta _modificationDateMeta = const VerificationMeta('modificationDate');
   GeneratedDateTimeColumn _modificationDate;
   @override
-  GeneratedDateTimeColumn get modificationDate =>
-      _modificationDate ??= _constructModificationDate();
+  GeneratedDateTimeColumn get modificationDate => _modificationDate ??= _constructModificationDate();
   GeneratedDateTimeColumn _constructModificationDate() {
     return GeneratedDateTimeColumn(
       'modification_date',
@@ -1832,8 +1490,7 @@ class $ModelChangeTableTable extends ModelChangeTable
   @override
   GeneratedTextColumn get groupId => _groupId ??= _constructGroupId();
   GeneratedTextColumn _constructGroupId() {
-    return GeneratedTextColumn('group_id', $tableName, true,
-        $customConstraints: 'null references GroupTable(id)');
+    return GeneratedTextColumn('group_id', $tableName, true, $customConstraints: 'null references GroupTable(id)');
   }
 
   final VerificationMeta _productIdMeta = const VerificationMeta('productId');
@@ -1841,8 +1498,7 @@ class $ModelChangeTableTable extends ModelChangeTable
   @override
   GeneratedTextColumn get productId => _productId ??= _constructProductId();
   GeneratedTextColumn _constructProductId() {
-    return GeneratedTextColumn('product_id', $tableName, true,
-        $customConstraints: 'null references ProductTable(id)');
+    return GeneratedTextColumn('product_id', $tableName, true, $customConstraints: 'null references ProductTable(id)');
   }
 
   final VerificationMeta _batchIdMeta = const VerificationMeta('batchId');
@@ -1850,8 +1506,7 @@ class $ModelChangeTableTable extends ModelChangeTable
   @override
   GeneratedTextColumn get batchId => _batchId ??= _constructBatchId();
   GeneratedTextColumn _constructBatchId() {
-    return GeneratedTextColumn('batch_id', $tableName, true,
-        $customConstraints: 'null references BatchTable(id)');
+    return GeneratedTextColumn('batch_id', $tableName, true, $customConstraints: 'null references BatchTable(id)');
   }
 
   final VerificationMeta _directionMeta = const VerificationMeta('direction');
@@ -1871,21 +1526,11 @@ class $ModelChangeTableTable extends ModelChangeTable
   @override
   GeneratedTextColumn get homeId => _homeId ??= _constructHomeId();
   GeneratedTextColumn _constructHomeId() {
-    return GeneratedTextColumn('home_id', $tableName, false,
-        $customConstraints: 'references Home(id)');
+    return GeneratedTextColumn('home_id', $tableName, false, $customConstraints: 'references Home(id)');
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        modificationDate,
-        userId,
-        groupId,
-        productId,
-        batchId,
-        direction,
-        homeId
-      ];
+  List<GeneratedColumn> get $columns => [id, modificationDate, userId, groupId, productId, batchId, direction, homeId];
   @override
   $ModelChangeTableTable get asDslTable => this;
   @override
@@ -1893,8 +1538,7 @@ class $ModelChangeTableTable extends ModelChangeTable
   @override
   final String actualTableName = 'model_change_table';
   @override
-  VerificationContext validateIntegrity(Insertable<ModelChangeEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ModelChangeEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1903,40 +1547,31 @@ class $ModelChangeTableTable extends ModelChangeTable
       context.missing(_idMeta);
     }
     if (data.containsKey('modification_date')) {
-      context.handle(
-          _modificationDateMeta,
-          modificationDate.isAcceptableOrUnknown(
-              data['modification_date'], _modificationDateMeta));
+      context.handle(_modificationDateMeta, modificationDate.isAcceptableOrUnknown(data['modification_date'], _modificationDateMeta));
     } else if (isInserting) {
       context.missing(_modificationDateMeta);
     }
     if (data.containsKey('user_id')) {
-      context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+      context.handle(_userIdMeta, userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
     if (data.containsKey('group_id')) {
-      context.handle(_groupIdMeta,
-          groupId.isAcceptableOrUnknown(data['group_id'], _groupIdMeta));
+      context.handle(_groupIdMeta, groupId.isAcceptableOrUnknown(data['group_id'], _groupIdMeta));
     }
     if (data.containsKey('product_id')) {
-      context.handle(_productIdMeta,
-          productId.isAcceptableOrUnknown(data['product_id'], _productIdMeta));
+      context.handle(_productIdMeta, productId.isAcceptableOrUnknown(data['product_id'], _productIdMeta));
     }
     if (data.containsKey('batch_id')) {
-      context.handle(_batchIdMeta,
-          batchId.isAcceptableOrUnknown(data['batch_id'], _batchIdMeta));
+      context.handle(_batchIdMeta, batchId.isAcceptableOrUnknown(data['batch_id'], _batchIdMeta));
     }
     if (data.containsKey('direction')) {
-      context.handle(_directionMeta,
-          direction.isAcceptableOrUnknown(data['direction'], _directionMeta));
+      context.handle(_directionMeta, direction.isAcceptableOrUnknown(data['direction'], _directionMeta));
     } else if (isInserting) {
       context.missing(_directionMeta);
     }
     if (data.containsKey('home_id')) {
-      context.handle(_homeIdMeta,
-          homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
+      context.handle(_homeIdMeta, homeId.isAcceptableOrUnknown(data['home_id'], _homeIdMeta));
     } else if (isInserting) {
       context.missing(_homeIdMeta);
     }
@@ -1962,16 +1597,14 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
   final String name;
   final bool active;
   UserEntry({@required this.id, @required this.name, @required this.active});
-  factory UserEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  factory UserEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     final boolType = attachedDatabase.typeSystem.forDartType<bool>();
     return UserEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
-      active:
-          boolType.mapFromDatabaseResponse(data['${effectivePrefix}active']),
+      active: boolType.mapFromDatabaseResponse(data['${effectivePrefix}active']),
     );
   }
   @override
@@ -1993,13 +1626,11 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     return UserTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      active:
-          active == null && nullToAbsent ? const Value.absent() : Value(active),
+      active: active == null && nullToAbsent ? const Value.absent() : Value(active),
     );
   }
 
-  factory UserEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory UserEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UserEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -2024,24 +1655,13 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
       );
   @override
   String toString() {
-    return (StringBuffer('UserEntry(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('active: $active')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('UserEntry(')..write('id: $id, ')..write('name: $name, ')..write('active: $active')..write(')')).toString();
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, active.hashCode)));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, active.hashCode)));
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is UserEntry &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.active == this.active);
+  bool operator ==(dynamic other) => identical(this, other) || (other is UserEntry && other.id == this.id && other.name == this.name && other.active == this.active);
 }
 
 class UserTableCompanion extends UpdateCompanion<UserEntry> {
@@ -2072,8 +1692,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntry> {
     });
   }
 
-  UserTableCompanion copyWith(
-      {Value<String> id, Value<String> name, Value<bool> active}) {
+  UserTableCompanion copyWith({Value<String> id, Value<String> name, Value<bool> active}) {
     return UserTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -2097,8 +1716,7 @@ class UserTableCompanion extends UpdateCompanion<UserEntry> {
   }
 }
 
-class $UserTableTable extends UserTable
-    with TableInfo<$UserTableTable, UserEntry> {
+class $UserTableTable extends UserTable with TableInfo<$UserTableTable, UserEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $UserTableTable(this._attachedDatabase, [this._alias]);
@@ -2147,8 +1765,7 @@ class $UserTableTable extends UserTable
   @override
   final String actualTableName = 'user_table';
   @override
-  VerificationContext validateIntegrity(Insertable<UserEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<UserEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -2157,14 +1774,12 @@ class $UserTableTable extends UserTable
       context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('active')) {
-      context.handle(_activeMeta,
-          active.isAcceptableOrUnknown(data['active'], _activeMeta));
+      context.handle(_activeMeta, active.isAcceptableOrUnknown(data['active'], _activeMeta));
     } else if (isInserting) {
       context.missing(_activeMeta);
     }
@@ -2190,16 +1805,14 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
   final String name;
   final bool active;
   HomeEntry({@required this.id, @required this.name, @required this.active});
-  factory HomeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  factory HomeEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     final boolType = attachedDatabase.typeSystem.forDartType<bool>();
     return HomeEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
-      active:
-          boolType.mapFromDatabaseResponse(data['${effectivePrefix}active']),
+      active: boolType.mapFromDatabaseResponse(data['${effectivePrefix}active']),
     );
   }
   @override
@@ -2221,13 +1834,11 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
     return HomeTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      active:
-          active == null && nullToAbsent ? const Value.absent() : Value(active),
+      active: active == null && nullToAbsent ? const Value.absent() : Value(active),
     );
   }
 
-  factory HomeEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory HomeEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return HomeEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -2252,24 +1863,13 @@ class HomeEntry extends DataClass implements Insertable<HomeEntry> {
       );
   @override
   String toString() {
-    return (StringBuffer('HomeEntry(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('active: $active')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('HomeEntry(')..write('id: $id, ')..write('name: $name, ')..write('active: $active')..write(')')).toString();
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, active.hashCode)));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, active.hashCode)));
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is HomeEntry &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.active == this.active);
+  bool operator ==(dynamic other) => identical(this, other) || (other is HomeEntry && other.id == this.id && other.name == this.name && other.active == this.active);
 }
 
 class HomeTableCompanion extends UpdateCompanion<HomeEntry> {
@@ -2300,8 +1900,7 @@ class HomeTableCompanion extends UpdateCompanion<HomeEntry> {
     });
   }
 
-  HomeTableCompanion copyWith(
-      {Value<String> id, Value<String> name, Value<bool> active}) {
+  HomeTableCompanion copyWith({Value<String> id, Value<String> name, Value<bool> active}) {
     return HomeTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -2325,8 +1924,7 @@ class HomeTableCompanion extends UpdateCompanion<HomeEntry> {
   }
 }
 
-class $HomeTableTable extends HomeTable
-    with TableInfo<$HomeTableTable, HomeEntry> {
+class $HomeTableTable extends HomeTable with TableInfo<$HomeTableTable, HomeEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $HomeTableTable(this._attachedDatabase, [this._alias]);
@@ -2375,8 +1973,7 @@ class $HomeTableTable extends HomeTable
   @override
   final String actualTableName = 'home_table';
   @override
-  VerificationContext validateIntegrity(Insertable<HomeEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<HomeEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -2385,14 +1982,12 @@ class $HomeTableTable extends HomeTable
       context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
+      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('active')) {
-      context.handle(_activeMeta,
-          active.isAcceptableOrUnknown(data['active'], _activeMeta));
+      context.handle(_activeMeta, active.isAcceptableOrUnknown(data['active'], _activeMeta));
     } else if (isInserting) {
       context.missing(_activeMeta);
     }
@@ -2413,30 +2008,20 @@ class $HomeTableTable extends HomeTable
   }
 }
 
-class ModificationEntry extends DataClass
-    implements Insertable<ModificationEntry> {
+class ModificationEntry extends DataClass implements Insertable<ModificationEntry> {
   final String id;
   final String modelChangeId;
   final String fieldName;
   final String from;
   final String to;
-  ModificationEntry(
-      {@required this.id,
-      @required this.modelChangeId,
-      @required this.fieldName,
-      this.from,
-      this.to});
-  factory ModificationEntry.fromData(
-      Map<String, dynamic> data, GeneratedDatabase attachedDatabase,
-      {String prefix}) {
+  ModificationEntry({@required this.id, @required this.modelChangeId, @required this.fieldName, this.from, this.to});
+  factory ModificationEntry.fromData(Map<String, dynamic> data, GeneratedDatabase attachedDatabase, {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = attachedDatabase.typeSystem.forDartType<String>();
     return ModificationEntry(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      modelChangeId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}model_change_id']),
-      fieldName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
+      modelChangeId: stringType.mapFromDatabaseResponse(data['${effectivePrefix}model_change_id']),
+      fieldName: stringType.mapFromDatabaseResponse(data['${effectivePrefix}field_name']),
       from: stringType.mapFromDatabaseResponse(data['${effectivePrefix}from']),
       to: stringType.mapFromDatabaseResponse(data['${effectivePrefix}to']),
     );
@@ -2465,19 +2050,14 @@ class ModificationEntry extends DataClass
   ModificationTableCompanion toCompanion(bool nullToAbsent) {
     return ModificationTableCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      modelChangeId: modelChangeId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(modelChangeId),
-      fieldName: fieldName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(fieldName),
+      modelChangeId: modelChangeId == null && nullToAbsent ? const Value.absent() : Value(modelChangeId),
+      fieldName: fieldName == null && nullToAbsent ? const Value.absent() : Value(fieldName),
       from: from == null && nullToAbsent ? const Value.absent() : Value(from),
       to: to == null && nullToAbsent ? const Value.absent() : Value(to),
     );
   }
 
-  factory ModificationEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+  factory ModificationEntry.fromJson(Map<String, dynamic> json, {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ModificationEntry(
       id: serializer.fromJson<String>(json['id']),
@@ -2499,13 +2079,7 @@ class ModificationEntry extends DataClass
     };
   }
 
-  ModificationEntry copyWith(
-          {String id,
-          String modelChangeId,
-          String fieldName,
-          String from,
-          String to}) =>
-      ModificationEntry(
+  ModificationEntry copyWith({String id, String modelChangeId, String fieldName, String from, String to}) => ModificationEntry(
         id: id ?? this.id,
         modelChangeId: modelChangeId ?? this.modelChangeId,
         fieldName: fieldName ?? this.fieldName,
@@ -2514,30 +2088,13 @@ class ModificationEntry extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('ModificationEntry(')
-          ..write('id: $id, ')
-          ..write('modelChangeId: $modelChangeId, ')
-          ..write('fieldName: $fieldName, ')
-          ..write('from: $from, ')
-          ..write('to: $to')
-          ..write(')'))
-        .toString();
+    return (StringBuffer('ModificationEntry(')..write('id: $id, ')..write('modelChangeId: $modelChangeId, ')..write('fieldName: $fieldName, ')..write('from: $from, ')..write('to: $to')..write(')')).toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(modelChangeId.hashCode,
-          $mrjc(fieldName.hashCode, $mrjc(from.hashCode, to.hashCode)))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, $mrjc(modelChangeId.hashCode, $mrjc(fieldName.hashCode, $mrjc(from.hashCode, to.hashCode)))));
   @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is ModificationEntry &&
-          other.id == this.id &&
-          other.modelChangeId == this.modelChangeId &&
-          other.fieldName == this.fieldName &&
-          other.from == this.from &&
-          other.to == this.to);
+  bool operator ==(dynamic other) => identical(this, other) || (other is ModificationEntry && other.id == this.id && other.modelChangeId == this.modelChangeId && other.fieldName == this.fieldName && other.from == this.from && other.to == this.to);
 }
 
 class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
@@ -2578,12 +2135,7 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
     });
   }
 
-  ModificationTableCompanion copyWith(
-      {Value<String> id,
-      Value<String> modelChangeId,
-      Value<String> fieldName,
-      Value<String> from,
-      Value<String> to}) {
+  ModificationTableCompanion copyWith({Value<String> id, Value<String> modelChangeId, Value<String> fieldName, Value<String> from, Value<String> to}) {
     return ModificationTableCompanion(
       id: id ?? this.id,
       modelChangeId: modelChangeId ?? this.modelChangeId,
@@ -2615,8 +2167,7 @@ class ModificationTableCompanion extends UpdateCompanion<ModificationEntry> {
   }
 }
 
-class $ModificationTableTable extends ModificationTable
-    with TableInfo<$ModificationTableTable, ModificationEntry> {
+class $ModificationTableTable extends ModificationTable with TableInfo<$ModificationTableTable, ModificationEntry> {
   final GeneratedDatabase _attachedDatabase;
   final String _alias;
   $ModificationTableTable(this._attachedDatabase, [this._alias]);
@@ -2632,15 +2183,12 @@ class $ModificationTableTable extends ModificationTable
     );
   }
 
-  final VerificationMeta _modelChangeIdMeta =
-      const VerificationMeta('modelChangeId');
+  final VerificationMeta _modelChangeIdMeta = const VerificationMeta('modelChangeId');
   GeneratedTextColumn _modelChangeId;
   @override
-  GeneratedTextColumn get modelChangeId =>
-      _modelChangeId ??= _constructModelChangeId();
+  GeneratedTextColumn get modelChangeId => _modelChangeId ??= _constructModelChangeId();
   GeneratedTextColumn _constructModelChangeId() {
-    return GeneratedTextColumn('model_change_id', $tableName, false,
-        $customConstraints: 'references ModelChangeTable(id)');
+    return GeneratedTextColumn('model_change_id', $tableName, false, $customConstraints: 'references ModelChangeTable(id)');
   }
 
   final VerificationMeta _fieldNameMeta = const VerificationMeta('fieldName');
@@ -2680,8 +2228,7 @@ class $ModificationTableTable extends ModificationTable
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, modelChangeId, fieldName, from, to];
+  List<GeneratedColumn> get $columns => [id, modelChangeId, fieldName, from, to];
   @override
   $ModificationTableTable get asDslTable => this;
   @override
@@ -2689,8 +2236,7 @@ class $ModificationTableTable extends ModificationTable
   @override
   final String actualTableName = 'modification_table';
   @override
-  VerificationContext validateIntegrity(Insertable<ModificationEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ModificationEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -2699,22 +2245,17 @@ class $ModificationTableTable extends ModificationTable
       context.missing(_idMeta);
     }
     if (data.containsKey('model_change_id')) {
-      context.handle(
-          _modelChangeIdMeta,
-          modelChangeId.isAcceptableOrUnknown(
-              data['model_change_id'], _modelChangeIdMeta));
+      context.handle(_modelChangeIdMeta, modelChangeId.isAcceptableOrUnknown(data['model_change_id'], _modelChangeIdMeta));
     } else if (isInserting) {
       context.missing(_modelChangeIdMeta);
     }
     if (data.containsKey('field_name')) {
-      context.handle(_fieldNameMeta,
-          fieldName.isAcceptableOrUnknown(data['field_name'], _fieldNameMeta));
+      context.handle(_fieldNameMeta, fieldName.isAcceptableOrUnknown(data['field_name'], _fieldNameMeta));
     } else if (isInserting) {
       context.missing(_fieldNameMeta);
     }
     if (data.containsKey('from')) {
-      context.handle(
-          _fromMeta, from.isAcceptableOrUnknown(data['from'], _fromMeta));
+      context.handle(_fromMeta, from.isAcceptableOrUnknown(data['from'], _fromMeta));
     }
     if (data.containsKey('to')) {
       context.handle(_toMeta, to.isAcceptableOrUnknown(data['to'], _toMeta));
@@ -2741,57 +2282,37 @@ abstract class _$Database extends GeneratedDatabase {
   $BatchTableTable _batchTable;
   $BatchTableTable get batchTable => _batchTable ??= $BatchTableTable(this);
   $ProductTableTable _productTable;
-  $ProductTableTable get productTable =>
-      _productTable ??= $ProductTableTable(this);
+  $ProductTableTable get productTable => _productTable ??= $ProductTableTable(this);
   $GroupTableTable _groupTable;
   $GroupTableTable get groupTable => _groupTable ??= $GroupTableTable(this);
   $ChangeTableTable _changeTable;
   $ChangeTableTable get changeTable => _changeTable ??= $ChangeTableTable(this);
   $ModelChangeTableTable _modelChangeTable;
-  $ModelChangeTableTable get modelChangeTable =>
-      _modelChangeTable ??= $ModelChangeTableTable(this);
+  $ModelChangeTableTable get modelChangeTable => _modelChangeTable ??= $ModelChangeTableTable(this);
   $UserTableTable _userTable;
   $UserTableTable get userTable => _userTable ??= $UserTableTable(this);
   $HomeTableTable _homeTable;
   $HomeTableTable get homeTable => _homeTable ??= $HomeTableTable(this);
   $ModificationTableTable _modificationTable;
-  $ModificationTableTable get modificationTable =>
-      _modificationTable ??= $ModificationTableTable(this);
+  $ModificationTableTable get modificationTable => _modificationTable ??= $ModificationTableTable(this);
   BatchRepository _batchRepository;
-  BatchRepository get batchRepository =>
-      _batchRepository ??= BatchRepository(this as Database);
+  BatchRepository get batchRepository => _batchRepository ??= BatchRepository(this as Database);
   ProductRepository _productRepository;
-  ProductRepository get productRepository =>
-      _productRepository ??= ProductRepository(this as Database);
+  ProductRepository get productRepository => _productRepository ??= ProductRepository(this as Database);
   GroupRepository _groupRepository;
-  GroupRepository get groupRepository =>
-      _groupRepository ??= GroupRepository(this as Database);
+  GroupRepository get groupRepository => _groupRepository ??= GroupRepository(this as Database);
   ChangeRepository _changeRepository;
-  ChangeRepository get changeRepository =>
-      _changeRepository ??= ChangeRepository(this as Database);
+  ChangeRepository get changeRepository => _changeRepository ??= ChangeRepository(this as Database);
   ModelChangeRepository _modelChangeRepository;
-  ModelChangeRepository get modelChangeRepository =>
-      _modelChangeRepository ??= ModelChangeRepository(this as Database);
+  ModelChangeRepository get modelChangeRepository => _modelChangeRepository ??= ModelChangeRepository(this as Database);
   UserRepository _userRepository;
-  UserRepository get userRepository =>
-      _userRepository ??= UserRepository(this as Database);
+  UserRepository get userRepository => _userRepository ??= UserRepository(this as Database);
   HomeRepository _homeRepository;
-  HomeRepository get homeRepository =>
-      _homeRepository ??= HomeRepository(this as Database);
+  HomeRepository get homeRepository => _homeRepository ??= HomeRepository(this as Database);
   ModificationRepository _modificationRepository;
-  ModificationRepository get modificationRepository =>
-      _modificationRepository ??= ModificationRepository(this as Database);
+  ModificationRepository get modificationRepository => _modificationRepository ??= ModificationRepository(this as Database);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [
-        batchTable,
-        productTable,
-        groupTable,
-        changeTable,
-        modelChangeTable,
-        userTable,
-        homeTable,
-        modificationTable
-      ];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [batchTable, productTable, groupTable, changeTable, modelChangeTable, userTable, homeTable, modificationTable];
 }
