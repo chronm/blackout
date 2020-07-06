@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../typedefs.dart';
-import 'setup_page.dart';
 
 class SetupUser extends StatefulWidget {
   final StringCallback callback;
@@ -26,23 +25,29 @@ class _SetupUserState extends State<SetupUser> {
     super.initState();
     _controller = TextEditingController()
       ..addListener(() {
+        setState(() {
+
+        });
         widget.callback(_controller.text);
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SetupPage(
-      description: S.of(context).SETUP_USERNAME_CARD_TITLE,
-      child: TextField(
-        textCapitalization: TextCapitalization.words,
-        textInputAction: TextInputAction.go,
-        focusNode: widget.focus,
-        decoration: InputDecoration(
-          labelText: S.of(context).SETUP_USERNAME,
+    return Column(
+      children: [
+        Text(S.of(context).SETUP_USERNAME_CARD_TITLE, style: TextStyle(fontSize: 16.0)),
+        TextField(
+          textCapitalization: TextCapitalization.words,
+          textInputAction: TextInputAction.go,
+          focusNode: widget.focus,
+          decoration: InputDecoration(
+            errorText: _controller.text == "" ? S.of(context).SETUP_USERNAME_ERROR : null,
+          ),
+          controller: _controller,
         ),
-        controller: _controller,
-      ),
+
+      ],
     );
   }
 }
