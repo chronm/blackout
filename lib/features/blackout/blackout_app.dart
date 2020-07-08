@@ -94,12 +94,12 @@ class InitialScreen extends StatelessWidget {
             sl<BlackoutBloc>().add(EndApp());
             break;
           case AskForImportDatabase:
-            var import = await showDialog<bool>(
+            var password = await showDialog<String>(
               context: context,
-              builder: (_) => const AskForImportDatabaseDialog(),
+              builder: (_) => AskForImportDatabaseDialog(wrongPassword: (state as AskForImportDatabase).wrongPassword),
             );
-            if (import) {
-              sl<BlackoutBloc>().add(ImportDatabase());
+            if (password != null) {
+              sl<BlackoutBloc>().add(ImportDatabase(password));
             } else {
               sl<BlackoutBloc>().add(DropDatabaseAndSetup());
             }

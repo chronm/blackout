@@ -8,6 +8,7 @@ import '../data/repository/group_repository.dart';
 import '../data/repository/home_repository.dart';
 import '../data/repository/product_repository.dart';
 import '../data/repository/user_repository.dart';
+import '../data/secure/secure_storage.dart';
 import '../features/batch/bloc/batch_bloc.dart';
 import '../features/blackout/bloc/blackout_bloc.dart';
 import '../features/blackout_drawer/bloc/drawer_bloc.dart';
@@ -26,25 +27,26 @@ bool application = true;
 
 void prepareMain() async {
   if (main) {
-    sl.registerSingleton(BlackoutPreferences(await SharedPreferences.getInstance()));
-    sl.registerLazySingleton<BlackoutBloc>(() => BlackoutBloc(sl<BlackoutPreferences>()));
+    sl.registerSingleton<BlackoutPreferences>(BlackoutPreferences(await SharedPreferences.getInstance()));
+    sl.registerLazySingleton<BlackoutBloc>(() => BlackoutBloc(sl<BlackoutPreferences>(), sl<SecureStorage>()));
+    sl.registerSingleton<SecureStorage>(SecureStorage());
     main = false;
   }
 }
 
-void prepareImport() async {
+void prepareImport(String databasePassword) async {
   if (import) {
-    database = Database();
+    database = Database(databasePassword);
     sl.registerLazySingleton<HomeRepository>(() => database.homeRepository);
     sl.registerLazySingleton<UserRepository>(() => database.userRepository);
     import = false;
   }
 }
 
-void prepareApplication() async {
+void prepareApplication(String databasePassword) async {
   if (application) {
     await prepareMain();
-    await prepareImport();
+    await prepareImport(databasePassword);
     await registerDatabase();
     await registerBloc();
     application = true;
@@ -52,7 +54,7 @@ void prepareApplication() async {
 }
 
 void prepareSetup() async {
-  sl.registerLazySingleton<SetupBloc>(() => SetupBloc(sl<BlackoutPreferences>(), sl<HomeBloc>(), sl<HomeRepository>(), sl<UserRepository>(), sl<GroupRepository>(), sl<ProductRepository>(), sl<BatchRepository>(), sl<ChangeRepository>(), sl<DrawerBloc>()));
+  sl.registerLazySingleton<SetupBloc>(() => SetupBloc(sl<BlackoutPreferences>(), sl<SecureStorage>()));
 }
 
 void registerDatabase() async {

@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'
-    show BuildContext, Column, Expanded, Key, Navigator, Scaffold, State, StatefulWidget, Widget;
+import 'package:flutter/material.dart' show BuildContext, Column, Expanded, Key, Navigator, Scaffold, State, StatefulWidget, Widget;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../main.dart';

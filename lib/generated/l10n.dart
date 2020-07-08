@@ -500,11 +500,31 @@ class S {
     );
   }
 
-  /// `I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.`
-  String get MAIN_IMPORT_DATABASE {
+  /// `I found a backup.`
+  String get MAIN_IMPORT_DATABASE_TITLE {
     return Intl.message(
-      'I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.',
-      name: 'MAIN_IMPORT_DATABASE',
+      'I found a backup.',
+      name: 'MAIN_IMPORT_DATABASE_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you want me to import it, please enter the password for the database.\nYou can also ignore the backup, but then it will be permanently deleted.`
+  String get MAIN_IMPORT_DATABASE_DESCRIPTION {
+    return Intl.message(
+      'If you want me to import it, please enter the password for the database.\nYou can also ignore the backup, but then it will be permanently deleted.',
+      name: 'MAIN_IMPORT_DATABASE_DESCRIPTION',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your password was wrong.`
+  String get MAIN_IMPORT_DATABASE_ERROR {
+    return Intl.message(
+      'Your password was wrong.',
+      name: 'MAIN_IMPORT_DATABASE_ERROR',
       desc: '',
       args: [],
     );
@@ -700,121 +720,181 @@ class S {
     );
   }
 
-  /// `What would you like to call your household? Choose wisely, you cannot change it.`
-  String get SETUP_CREATE_HOME_CARD_TITLE {
-    return Intl.message(
-      'What would you like to call your household? Choose wisely, you cannot change it.',
-      name: 'SETUP_CREATE_HOME_CARD_TITLE',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Finish`
-  String get SETUP_FINISH {
-    return Intl.message(
-      'Finish',
-      name: 'SETUP_FINISH',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `If you are satisfied, you can complete the setup now.`
-  String get SETUP_FINISH_DESCRIPTION {
+  String get SETUP_STEP_FINISH_DESCRIPTION {
     return Intl.message(
       'If you are satisfied, you can complete the setup now.',
-      name: 'SETUP_FINISH_DESCRIPTION',
+      name: 'SETUP_STEP_FINISH_DESCRIPTION',
       desc: '',
       args: [],
     );
   }
 
   /// `Please look again at the previous steps.`
-  String get SETUP_FINISH_DESCRIPTION_ERROR {
+  String get SETUP_STEP_FINISH_DESCRIPTION_ERROR {
     return Intl.message(
       'Please look again at the previous steps.',
-      name: 'SETUP_FINISH_DESCRIPTION_ERROR',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Household`
-  String get SETUP_HOME_NAME {
-    return Intl.message(
-      'Household',
-      name: 'SETUP_HOME_NAME',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please enter a name.`
-  String get SETUP_HOME_NAME_ERROR {
-    return Intl.message(
-      'Please enter a name.',
-      name: 'SETUP_HOME_NAME_ERROR',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Introduction`
-  String get SETUP_INTRODUCTION {
-    return Intl.message(
-      'Introduction',
-      name: 'SETUP_INTRODUCTION',
+      name: 'SETUP_STEP_FINISH_DESCRIPTION_ERROR',
       desc: '',
       args: [],
     );
   }
 
   /// `Send`
-  String get SETUP_SEND {
+  String get SETUP_STEP_FINISH_SEND {
     return Intl.message(
       'Send',
-      name: 'SETUP_SEND',
+      name: 'SETUP_STEP_FINISH_SEND',
       desc: '',
       args: [],
     );
   }
 
-  /// `Username`
-  String get SETUP_USERNAME {
+  /// `Finish`
+  String get SETUP_STEP_FINISH_TITLE {
     return Intl.message(
-      'Username',
-      name: 'SETUP_USERNAME',
+      'Finish',
+      name: 'SETUP_STEP_FINISH_TITLE',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter a user name.`
-  String get SETUP_USERNAME_ERROR {
+  /// `Introduction`
+  String get SETUP_STEP_INTRODUCTION_TITLE {
     return Intl.message(
-      'Please enter a user name.',
-      name: 'SETUP_USERNAME_ERROR',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `To track your actions, I need a username from you. If you do not like it later, you can change it.`
-  String get SETUP_USERNAME_CARD_TITLE {
-    return Intl.message(
-      'To track your actions, I need a username from you. If you do not like it later, you can change it.',
-      name: 'SETUP_USERNAME_CARD_TITLE',
+      'Introduction',
+      name: 'SETUP_STEP_INTRODUCTION_TITLE',
       desc: '',
       args: [],
     );
   }
 
   /// `Welcome to Blackout.\nWe'll just set up the app, then you'll be good to go.`
-  String get SETUP_WELCOME_CARD_TITLE {
+  String get SETUP_STEP_INTRODUCTION_DESCRIPTION {
     return Intl.message(
       'Welcome to Blackout.\nWe\'ll just set up the app, then you\'ll be good to go.',
-      name: 'SETUP_WELCOME_CARD_TITLE',
+      name: 'SETUP_STEP_INTRODUCTION_DESCRIPTION',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What would you like to call your household? Choose wisely, you cannot change it.`
+  String get SETUP_STEP_CREATE_HOME_DESCRIPTION {
+    return Intl.message(
+      'What would you like to call your household? Choose wisely, you cannot change it.',
+      name: 'SETUP_STEP_CREATE_HOME_DESCRIPTION',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a name.`
+  String get SETUP_STEP_CREATE_HOME_ERROR {
+    return Intl.message(
+      'Please enter a name.',
+      name: 'SETUP_STEP_CREATE_HOME_ERROR',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Household`
+  String get SETUP_STEP_CREATE_HOME_TITLE {
+    return Intl.message(
+      'Household',
+      name: 'SETUP_STEP_CREATE_HOME_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get SETUP_STEP_CREATE_PASSWORD_TITLE {
+    return Intl.message(
+      'Password',
+      name: 'SETUP_STEP_CREATE_PASSWORD_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must not be empty.`
+  String get SETUP_STEP_CREATE_PASSWORD_ERROR {
+    return Intl.message(
+      'Password must not be empty.',
+      name: 'SETUP_STEP_CREATE_PASSWORD_ERROR',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is insecure.`
+  String get SETUP_STEP_CREATE_PASSWORD_HELP {
+    return Intl.message(
+      'Password is insecure.',
+      name: 'SETUP_STEP_CREATE_PASSWORD_HELP',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password guidelines`
+  String get SETUP_STEP_CREATE_PASSWORD_HINT_TITLE {
+    return Intl.message(
+      'Password guidelines',
+      name: 'SETUP_STEP_CREATE_PASSWORD_HINT_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your password should have at least 16 characters and contain the following characters:\n - upper and lower case letters\n - numbers\n - special characters`
+  String get SETUP_STEP_CREATE_PASSWORD_HINT_DESCRIPTION {
+    return Intl.message(
+      'Your password should have at least 16 characters and contain the following characters:\n - upper and lower case letters\n - numbers\n - special characters',
+      name: 'SETUP_STEP_CREATE_PASSWORD_HINT_DESCRIPTION',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a password that will be used to encrypt your local database.`
+  String get SETUP_STEP_CREATE_PASSWORD_DESCRIPTION {
+    return Intl.message(
+      'Please enter a password that will be used to encrypt your local database.',
+      name: 'SETUP_STEP_CREATE_PASSWORD_DESCRIPTION',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get SETUP_STEP_CREATE_USERNAME_TITLE {
+    return Intl.message(
+      'Username',
+      name: 'SETUP_STEP_CREATE_USERNAME_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a user name.`
+  String get SETUP_STEP_CREATE_USERNAME_ERROR {
+    return Intl.message(
+      'Please enter a user name.',
+      name: 'SETUP_STEP_CREATE_USERNAME_ERROR',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To track your actions, I need a username from you. If you do not like it later, you can change it.`
+  String get SETUP_STEP_CREATE_USERNAME_DESCRIPTION {
+    return Intl.message(
+      'To track your actions, I need a username from you. If you do not like it later, you can change it.',
+      name: 'SETUP_STEP_CREATE_USERNAME_DESCRIPTION',
       desc: '',
       args: [],
     );
@@ -830,10 +910,10 @@ class S {
     );
   }
 
-  /// `Createbatch`
+  /// `Create batch`
   String get SPEEDDIAL_CREATE_BATCH {
     return Intl.message(
-      'Createbatch',
+      'Create batch',
       name: 'SPEEDDIAL_CREATE_BATCH',
       desc: '',
       args: [],

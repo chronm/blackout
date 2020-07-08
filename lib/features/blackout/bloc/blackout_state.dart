@@ -4,7 +4,11 @@ abstract class BlackoutState {}
 
 class InitialMainState extends BlackoutState {}
 
-class AskForImportDatabase extends BlackoutState {}
+class AskForImportDatabase extends BlackoutState {
+  final bool wrongPassword;
+
+  AskForImportDatabase({this.wrongPassword = false});
+}
 
 class AskForStorageRationale extends BlackoutState {}
 
