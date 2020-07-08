@@ -2,7 +2,7 @@ import 'dart:io';
 
 void main(List<String> arguments) async {
   final setExit = arguments.contains("--set-exit-if-changed") ? "--set-exit-if-changed" : "";
-  final files = [...Directory("${Directory.current.path}/lib").listSync(recursive: true), ...Directory("${Directory.current.path}/test").listSync(recursive: true)];
+  final files = [...Directory("${Directory.current.path}${Platform.pathSeparator}lib").listSync(recursive: true), ...Directory("${Directory.current.path}${Platform.pathSeparator}test").listSync(recursive: true)];
   files.removeWhere((element) => element.path.contains("g.dart"));
   files.removeWhere((element) => element.path.contains("generated"));
   print("Checking ${files.length} files");
@@ -22,11 +22,11 @@ void main(List<String> arguments) async {
       filesInBatch.add(filePath);
       currentLength += filePath.length + 1;
     } else {
-      processes.add(Process.run('flutter', ["format", "-l", "300", setExit, ...filesInBatch]).then((value) {
+      processes.add(Process.run('flutter', ["format", "-l", "300", ...filesInBatch], runInShell: true).then((value) {
         if (value.stdout.toString().contains("Formatted")) {
           exitCode = 1;
         }
-      }));
+      }).catchError(print));
 
       filesInBatch.clear();
       currentLength = 0;
@@ -34,7 +34,7 @@ void main(List<String> arguments) async {
   }
 
   if (filesInBatch.isNotEmpty) {
-    processes.add(Process.run('flutter', ["format", "-l", "300", setExit, ...filesInBatch]).then((value) {
+    processes.add(Process.run('flutter', ["format", "-l", "300", setExit, ...filesInBatch], runInShell: true).then((value) {
       if (value.stdout.toString().contains("Formatted")) {
         exitCode = 1;
       }
