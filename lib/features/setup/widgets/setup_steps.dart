@@ -36,6 +36,7 @@ class _SetupStepsState extends State<SetupSteps> {
 
   void goTo(int step) {
     setState(() => _currentStep = step);
+    hideAllKeyboards();
   }
 
   Widget buildControls(BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
@@ -86,9 +87,16 @@ class _SetupStepsState extends State<SetupSteps> {
     );
   }
 
+  void hideAllKeyboards() {
+    _userFocus.unfocus();
+    _homeFocus.unfocus();
+    _passwordFocus.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stepper(
+      physics: ClampingScrollPhysics(),
       currentStep: _currentStep,
       type: StepperType.vertical,
       steps: [
