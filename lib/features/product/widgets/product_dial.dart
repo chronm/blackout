@@ -8,11 +8,10 @@ import '../../../models/batch.dart';
 import '../../../models/group.dart';
 import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
-import '../../batch/bloc/batch_bloc.dart';
+import '../../batch/bloc/batch_bloc.dart' show BatchBloc, SaveBatch;
 import '../../batch/widgets/batch_configuration.dart';
-import '../../group/bloc/group_bloc.dart';
+import '../../group/bloc/group_bloc.dart' show GroupBloc, SaveGroup;
 import '../../group/widgets/group_configuration.dart';
-import '../../home/bloc/home_bloc.dart';
 import '../../speeddial/bloc/speed_dial_bloc.dart';
 import '../../speeddial/speeddial.dart';
 import '../bloc/product_bloc.dart';
@@ -41,7 +40,7 @@ class ProductDial extends StatelessWidget {
               },
             ),
           );
-          sl<HomeBloc>().add(LoadAll());
+          sl<ProductBloc>().add(Redraw());
         }
 
         if (state is ShowCreateBatch) {
@@ -57,7 +56,7 @@ class ProductDial extends StatelessWidget {
               },
             ),
           );
-          sl<ProductBloc>().add(LoadProduct(state.currentProduct));
+          sl<ProductBloc>().add(Redraw());
         }
       },
       child: BlocBuilder<ProductBloc, ProductState>(

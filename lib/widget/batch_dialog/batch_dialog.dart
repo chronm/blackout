@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
+import '../../models/unit/unit.dart';
 import '../../typedefs.dart';
 
-typedef ValidationCallback = bool Function(String value);
+enum BatchMode { take, add }
 
 class BatchDialog extends StatefulWidget {
   final StringCallback callback;
-  final ValidationCallback validation;
   final String initialValue;
   final String title;
+  final BatchMode mode;
+  final UnitEnum unit;
 
   const BatchDialog({
     Key key,
     @required this.callback,
     @required this.title,
-    this.validation,
+    @required this.mode,
+    @required this.unit,
     this.initialValue,
   }) : super(key: key);
 
@@ -37,12 +40,26 @@ class _BatchDialogState extends State<BatchDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var validate = widget.validation != null ? widget.validation(_controller.text) : true;
+    String errorText;
+    try {
+      var siValue = UnitConverter.toSi(Amount.fromInput(_controller.text, widget.unit)).value;
+      if (widget.mode == BatchMode.take) {
+        if (siValue > UnitConverter.toSi(Amount.fromInput(widget.initialValue, widget.unit)).value) {
+          errorText = S.of(context).WARN_BATCH_TOO_MUCH;
+        } else {
+          errorText = null;
+        }
+      }
+      // ignore: avoid_catching_errors
+    } on NoSuchMethodError {
+      errorText = S.of(context).WARN_AMOUNT_COULD_NOT_BE_PARSED(_controller.text);
+    }
     return AlertDialog(
       title: Text(widget.title),
       content: TextField(
         autofocus: true,
         controller: _controller,
+        decoration: InputDecoration(errorText: errorText),
       ),
       actions: [
         FlatButton(
@@ -51,7 +68,7 @@ class _BatchDialogState extends State<BatchDialog> {
         ),
         FlatButton(
           child: Text(S.of(context).DIALOG_ACCEPT_BUTTON),
-          onPressed: validate
+          onPressed: errorText == null
               ? () {
                   widget.callback(_controller.text);
                 }

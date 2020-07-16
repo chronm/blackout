@@ -90,7 +90,7 @@ class _ExpirationDatePickerState extends State<ExpirationDatePicker> {
           ),
           uncheckedCallback: (context) => Expanded(
             child: Text(
-              S.of(context).UNIT_EXPIRATION_DATE,
+              S.of(context).BATCH_EXPIRATION_DATE,
               textAlign: TextAlign.center,
             ),
           ),

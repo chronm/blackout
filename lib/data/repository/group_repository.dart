@@ -15,6 +15,9 @@ part 'group_repository.g.dart';
 class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryMixin {
   GroupRepository(Database attachedDatabase) : super(attachedDatabase);
 
+  String _homeId;
+  var _groups = <Group>[];
+
   Future<Group> createGroup(GroupEntry groupEntry, {bool recurseProducts = true}) async {
     Group group;
     var products = <Product>[];
@@ -37,15 +40,20 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     return group;
   }
 
-  Future<List<Group>> findAllByHomeId(String homeId, {bool recurseProducts = true}) async {
-    var entries = await (select(groupTable)..where((c) => c.homeId.equals(homeId))).get();
-
-    var groups = <Group>[];
-    for (var entry in entries) {
-      groups.add(await createGroup(entry, recurseProducts: recurseProducts));
+  Future<List<Group>> findAllByHomeId(String homeId, {bool recurseProducts = true, bool usedCached = true}) async {
+    if (usedCached && homeId == _homeId) {
+      return _groups;
     }
 
-    return groups;
+    _homeId = homeId;
+    _groups = [];
+    var entries = await (select(groupTable)..where((c) => c.homeId.equals(homeId))).get();
+
+    for (var entry in entries) {
+      _groups.add(await createGroup(entry, recurseProducts: recurseProducts));
+    }
+
+    return _groups;
   }
 
   Future<List<Group>> findAllByPatternAndHomeId(String pattern, String homeId, {bool recurseProducts = true}) async {
@@ -86,6 +94,8 @@ class GroupRepository extends DatabaseAccessor<Database> with _$GroupRepositoryM
     }
 
     await into(groupTable).insert(group.toCompanion(), mode: InsertMode.replace);
+
+    findAllByHomeId(group.home.id, usedCached: false).then((value) => _groups = value);
 
     return await findOneByGroupId(group.id);
   }

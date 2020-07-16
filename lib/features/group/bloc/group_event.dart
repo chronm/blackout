@@ -2,6 +2,14 @@ part of 'group_bloc.dart';
 
 abstract class GroupEvent {}
 
+class Redraw extends GroupEvent {}
+
+class UseGroup extends GroupEvent {
+  final Group group;
+
+  UseGroup(this.group);
+}
+
 class LoadGroup extends GroupEvent {
   final String groupId;
 

@@ -2,6 +2,14 @@ part of 'product_bloc.dart';
 
 abstract class ProductEvent {}
 
+class Redraw extends ProductEvent {}
+
+class UseProduct extends ProductEvent {
+  final Product product;
+
+  UseProduct(this.product);
+}
+
 class LoadProduct extends ProductEvent {
   final String productId;
 

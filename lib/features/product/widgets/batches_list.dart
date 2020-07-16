@@ -34,6 +34,7 @@ class BatchesList extends StatelessWidget {
                 }
 
                 var status = batch.buildStatus(context);
+                var title = batch.expirationDate != null ? S.of(context).BATCH_GOOD_UNTIL(DateFormat.yMd().format(batch.expirationDate.toDateTimeUnspecified())) : S.of(context).BATCH_CREATED_AT(DateFormat.yMd().format(batch.creationDate.toDateTimeUnspecified()));
 
                 return Hero(
                   tag: batch.id,
@@ -45,7 +46,7 @@ class BatchesList extends StatelessWidget {
                   child: Card(
                     child: ListTile(
                       isThreeLine: status != null,
-                      title: Text(S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(batch.creationDate.toDateTimeUnspecified())).capitalize()),
+                      title: Text(title.capitalize()),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

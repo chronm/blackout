@@ -7,7 +7,7 @@ import '../../../main.dart';
 import '../../../models/product.dart';
 import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
-import '../../product/bloc/product_bloc.dart';
+import '../../product/bloc/product_bloc.dart' show ProductBloc, SaveProduct;
 import '../../product/widgets/product_configuration.dart';
 import '../../speeddial/bloc/speed_dial_bloc.dart';
 import '../../speeddial/speeddial.dart';
@@ -38,7 +38,7 @@ class GroupDial extends StatelessWidget {
               },
             ),
           );
-          sl<GroupBloc>().add(LoadGroup(state.currentGroup));
+          sl<GroupBloc>().add(Redraw());
         }
       },
       child: BlocBuilder<GroupBloc, GroupState>(

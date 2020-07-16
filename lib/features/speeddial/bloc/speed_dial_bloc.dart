@@ -10,14 +10,15 @@ import '../../../data/repository/group_repository.dart';
 import '../../../data/repository/product_repository.dart';
 import '../../../main.dart';
 import '../../../models/batch.dart';
-import '../../../models/change.dart';
+import '../../../models/change.dart' show Change;
 import '../../../models/group.dart';
 import '../../../models/home.dart';
 import '../../../models/product.dart';
 import '../../../models/unit/unit.dart';
-import '../../batch/bloc/batch_bloc.dart';
-import '../../home/bloc/home_bloc.dart';
-import '../../product/bloc/product_bloc.dart';
+import '../../batch/bloc/batch_bloc.dart' show BatchBloc, LoadBatch;
+import '../../group/bloc/group_bloc.dart' show GroupBloc, LoadGroup;
+import '../../home/bloc/home_bloc.dart' show HomeBloc, Redraw, LoadAll;
+import '../../product/bloc/product_bloc.dart' show LoadProduct, ProductBloc;
 
 part 'speed_dial_event.dart';
 part 'speed_dial_state.dart';
@@ -78,7 +79,7 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       yield ShowCreateGroupForProduct(home);
     }
     if (event is TapOnGotoHome) {
-      sl<HomeBloc>().add(LoadAll());
+      sl<HomeBloc>().add(Redraw());
       yield GoToHome();
     }
     if (event is AddToBatch) {
@@ -95,6 +96,11 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       );
       await changeRepository.save(change);
       sl<BatchBloc>().add(LoadBatch(batch.id));
+      sl<ProductBloc>().add(LoadProduct(batch.product.id));
+      if (batch.product.group != null) {
+        sl<GroupBloc>().add(LoadGroup(batch.product.group.id));
+      }
+      sl<HomeBloc>().add(LoadAll());
     }
     if (event is TakeFromBatch) {
       var batch = event.batch;
@@ -110,6 +116,12 @@ class SpeedDialBloc extends Bloc<SpeedDialEvent, SpeedDialState> {
       );
       await changeRepository.save(change);
       sl<BatchBloc>().add(LoadBatch(batch.id));
+      sl<BatchBloc>().add(LoadBatch(batch.id));
+      sl<ProductBloc>().add(LoadProduct(batch.product.id));
+      if (batch.product.group != null) {
+        sl<GroupBloc>().add(LoadGroup(batch.product.group.id));
+      }
+      sl<HomeBloc>().add(LoadAll());
     }
   }
 }

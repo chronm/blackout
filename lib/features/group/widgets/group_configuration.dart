@@ -135,7 +135,6 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                                           sl<GroupBloc>().add(TapOnDeleteGroup(widget.group));
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                                          Navigator.pop(context);
                                         },
                                       ),
                                     ],

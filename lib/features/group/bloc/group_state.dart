@@ -16,10 +16,6 @@ class ShowGroups extends GroupState {
   ShowGroups(this.groups);
 }
 
-class GoToProduct extends GroupState {
-  final String currentGroup;
+class GoToProduct extends GroupState {}
 
-  GoToProduct(this.currentGroup);
-}
-
-class Loading extends GroupState {}
+class GoBack extends GroupState {}

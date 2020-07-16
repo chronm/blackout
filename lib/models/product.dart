@@ -55,13 +55,32 @@ class Product implements HomeListable {
     return refillLimit != null ? amount <= refillLimit : false;
   }
 
+  Batch get soonestExpiringBatch {
+    return batches.length != 0
+        ? (batches
+              ..sort((a, b) {
+                if (a.expirationDate == null && b.expirationDate == null) {
+                  return 0;
+                }
+                if (a.expirationDate == null && b.expirationDate != null) {
+                  return 1;
+                }
+                if (a.expirationDate != null && b.expirationDate == null) {
+                  return -1;
+                }
+                return a.expirationDate.compareTo(b.expirationDate);
+              }))
+            .first
+        : null;
+  }
+
   @override
   String buildStatus(BuildContext context) {
-    return batches.length != 0 ? (batches..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.buildStatus(context) : null;
+    return batches.length != 0 ? soonestExpiringBatch.buildStatus(context) : null;
   }
 
   LocalDate get expirationDate {
-    return batches.length != 0 ? (batches..sort((a, b) => a.expirationDate.compareTo(b.expirationDate))).first.expirationDate : null;
+    return batches.length != 0 ? soonestExpiringBatch.expirationDate : null;
   }
 
   @override
@@ -119,18 +138,21 @@ class Product implements HomeListable {
     }
     if (warnInterval != other.warnInterval) {
       var from = warnInterval != null ? warnInterval.toString() : null;
-      modifications.add(Modification(fieldName: "warnInterval", from: from, to: other.warnInterval.toString()));
+      var to = other.warnInterval != null ? other.warnInterval.toString() : null;
+      modifications.add(Modification(fieldName: "warnInterval", from: from, to: to));
     }
     if (description != other.description) {
       modifications.add(Modification(fieldName: "description", from: description, to: other.description));
     }
     if (refillLimit != other.refillLimit) {
       var from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, _unit)).toString() : null;
-      modifications.add(Modification(fieldName: "refillLimit", from: from, to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
+      var to = other.refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(other.refillLimit, _unit)).toString() : null;
+      modifications.add(Modification(fieldName: "refillLimit", from: from, to: to));
     }
     if (unit != other.unit) {
       var from = unit != null ? describeEnum(_unit) : null;
-      modifications.add(Modification(fieldName: "unit", from: from, to: describeEnum(group.unit)));
+      var to = other.unit != null ? describeEnum(other.unit) : null;
+      modifications.add(Modification(fieldName: "unit", from: from, to: to));
     }
 
     return modifications;

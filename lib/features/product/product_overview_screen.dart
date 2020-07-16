@@ -29,7 +29,10 @@ class _ProductScreenState extends State<ProductScreen> {
       listener: (context, state) async {
         if (state is GoToBatch) {
           await Navigator.pushNamed(context, Routes.batch);
-          sl<ProductBloc>().add(LoadProduct(state.currentProduct));
+          sl<ProductBloc>().add(Redraw());
+        }
+        if (state is GoBack) {
+          Navigator.pop(context);
         }
       },
       child: Scaffold(

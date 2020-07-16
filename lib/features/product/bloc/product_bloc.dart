@@ -8,6 +8,8 @@ import '../../../models/batch.dart';
 import '../../../models/group.dart';
 import '../../../models/product.dart';
 import '../../batch/bloc/batch_bloc.dart';
+import '../../group/bloc/group_bloc.dart';
+import '../../home/bloc/home_bloc.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
@@ -22,27 +24,48 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   @override
   ProductState get initialState => ProductInitialState();
 
+  Product _product;
+
   @override
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
     if (event is SaveProduct) {
       var user = await blackoutPreferences.getUser();
-      var product = await productRepository.save(event.product, user);
-      var groups = await groupRepository.findAllByHomeId(product.home.id);
-      yield ShowProduct(product, groups);
+      var home = await blackoutPreferences.getHome();
+      var groups = await groupRepository.findAllByHomeId(home.id);
+      _product = await productRepository.save(event.product, user);
+      if (_product.group != null) {
+        sl<GroupBloc>().add(LoadGroup(_product.group.id));
+        sl<HomeBloc>().add(LoadAll());
+      }
+      yield ShowProduct(_product, groups);
+    }
+    if (event is UseProduct) {
+      _product = event.product;
+      var home = await blackoutPreferences.getHome();
+      var groups = await groupRepository.findAllByHomeId(home.id);
+      yield ShowProduct(event.product, groups);
     }
     if (event is LoadProduct) {
-      var home = await blackoutPreferences.getHome();
-      var product = await productRepository.findOneByProductId(event.productId);
-      var groups = await groupRepository.findAllByHomeId(home.id);
-      yield ShowProduct(product, groups);
+      _product = await productRepository.findOneByProductId(event.productId);
     }
     if (event is TapOnBatch) {
-      sl<BatchBloc>().add(LoadBatch(event.batch.id));
+      sl<BatchBloc>().add(UseBatch(event.batch));
       yield GoToBatch(event.batch.product.id);
     }
     if (event is TapOnDeleteProduct) {
       var user = await blackoutPreferences.getUser();
+      _product = null;
       productRepository.drop(event.product, user);
+      if (event.product.group != null) {
+        sl<GroupBloc>().add(LoadGroup(event.product.group.id));
+      }
+      sl<HomeBloc>().add(LoadAll());
+      yield GoBack();
+    }
+    if (event is Redraw) {
+      var home = await blackoutPreferences.getHome();
+      var groups = await groupRepository.findAllByHomeId(home.id);
+      yield ShowProduct(_product, groups);
     }
   }
 }

@@ -26,7 +26,7 @@ extension BatchExtension on Batch {
   double get amount => changes.length != 0 ? changes.map((c) => c.value).reduce((a, b) => a + b) : 0;
 
   bool get expired {
-    return expirationDate != null ? expirationDate <= LocalDate.today() : false;
+    return expirationDate != null ? expirationDate < LocalDate.today() : false;
   }
 
   bool get warn {

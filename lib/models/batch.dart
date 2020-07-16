@@ -3,6 +3,7 @@ import 'package:moor/moor.dart';
 import 'package:time_machine/time_machine.dart';
 
 import '../data/database/database.dart';
+import '../util/batch_extension.dart';
 import '../util/time_machine_extension.dart';
 import 'change.dart';
 import 'model_change.dart';
@@ -20,6 +21,10 @@ class Batch {
 
   Batch clone() {
     return Batch(id: id, expirationDate: expirationDate, product: product, changes: changes, modelChanges: modelChanges);
+  }
+
+  LocalDate get creationOrExpirationDate {
+    return expirationDate ?? creationDate;
   }
 
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
@@ -45,11 +50,12 @@ class Batch {
     );
   }
 
-  List<Modification> getModifications(Batch batch) {
+  List<Modification> getModifications(Batch other) {
     var modifications = <Modification>[];
-    if (expirationDate != batch.expirationDate) {
+    if (expirationDate != other.expirationDate) {
       var from = expirationDate != null ? expirationDate.toString() : null;
-      modifications.add(Modification(fieldName: "expirationDate", from: from, to: batch.expirationDate.toString()));
+      var to = other.expirationDate != null ? other.expirationDate.toString() : null;
+      modifications.add(Modification(fieldName: "expirationDate", from: from, to: to));
     }
     return modifications;
   }
