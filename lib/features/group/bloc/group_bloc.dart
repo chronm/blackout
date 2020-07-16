@@ -5,6 +5,7 @@ import '../../../data/repository/group_repository.dart';
 import '../../../main.dart';
 import '../../../models/group.dart';
 import '../../../models/product.dart';
+import '../../home/bloc/home_bloc.dart';
 import '../../product/bloc/product_bloc.dart';
 
 part 'group_event.dart';
@@ -19,29 +20,42 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   @override
   GroupState get initialState => InitialGroupState();
 
+  Group _group;
+
   @override
   Stream<GroupState> mapEventToState(GroupEvent event) async* {
     if (event is SaveGroup) {
       var user = await blackoutPreferences.getUser();
-      var group = await groupRepository.save(event.group, user);
-      yield ShowGroup(group);
+      _group = await groupRepository.save(event.group, user);
+      sl<HomeBloc>().add(LoadAll());
+      yield ShowGroup(_group);
+    }
+    if (event is UseGroup) {
+      _group = event.group;
+      yield ShowGroup(_group);
     }
     if (event is LoadGroup) {
-      var group = await groupRepository.findOneByGroupId(event.groupId);
-      yield ShowGroup(group);
+      _group = await groupRepository.findOneByGroupId(event.groupId);
     }
     if (event is TapOnProduct) {
-      sl<ProductBloc>().add(LoadProduct(event.product.id));
-      yield GoToProduct(event.group.id);
+      sl<ProductBloc>().add(UseProduct(event.product));
+      yield GoToProduct();
     }
     if (event is LoadGroups) {
       var home = await blackoutPreferences.getHome();
       var groups = await groupRepository.findAllByHomeId(home.id);
       yield ShowGroups(groups);
+      yield ShowGroup(_group);
     }
     if (event is TapOnDeleteGroup) {
       var user = await blackoutPreferences.getUser();
+      _group = null;
       groupRepository.drop(event.group, user);
+      sl<HomeBloc>().add(LoadAll());
+      yield GoBack();
+    }
+    if (event is Redraw) {
+      yield ShowGroup(_group);
     }
   }
 }

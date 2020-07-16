@@ -4,7 +4,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
-import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
 import '../../../util/batch_extension.dart';
 import '../../../widget/batch_dialog/batch_dialog.dart';
@@ -57,6 +56,8 @@ class BatchDial extends StatelessWidget {
                         context: context,
                         builder: (context) => BatchDialog(
                           title: S.of(context).DIALOG_ADD_TO_BATCH,
+                          unit: batch.unit,
+                          mode: BatchMode.add,
                           callback: (value) async {
                             sl<SpeedDialBloc>().add(AddToBatch(batch, value));
                             Navigator.pop(context);
@@ -79,12 +80,10 @@ class BatchDial extends StatelessWidget {
                         builder: (context) => BatchDialog(
                           title: S.of(context).DIALOG_TAKE_FROM_BATCH,
                           initialValue: batch.scientificAmount,
-                          validation: (value) {
-                            var siValue = UnitConverter.toSi(Amount.fromInput(value, batch.product.unit)).value;
-                            return siValue <= batch.amount && siValue > 0;
-                          },
+                          unit: batch.unit,
+                          mode: BatchMode.take,
                           callback: (value) async {
-                            sl<SpeedDialBloc>().add(TakeFromBatch(batch, value));
+                            sl<SpeedDialBloc>().add(TakeFromBatch(batch, value.startsWith("-") ? value : "-$value"));
                             Navigator.pop(context);
                           },
                         ),

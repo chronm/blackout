@@ -23,26 +23,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @override
   HomeState get initialState => HomeInitialState();
 
+  var _cards = <HomeListable>[];
+
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is TapOnGroup) {
-      sl<GroupBloc>().add(LoadGroup(event.group.id));
+      sl<GroupBloc>().add(UseGroup(event.group));
       yield GoToGroup();
     }
     if (event is TapOnProduct) {
-      sl<ProductBloc>().add(LoadProduct(event.product.id));
+      sl<ProductBloc>().add(UseProduct(event.product));
       yield GoToProduct();
     }
     if (event is LoadAll) {
       yield Loading();
       var home = await blackoutPreferences.getHome();
-      var groups = await groupRepository.findAllByHomeId(home.id);
+      var groups = await groupRepository.findAllByHomeId(home.id, usedCached: false);
       var products = await productRepository.findAllByHomeIdAndGroupIsNull(home.id);
       var cards = <HomeListable>[]
         ..addAll(products)
         ..addAll(groups)
         ..sort((a, b) => a.title.compareTo(b.title));
-      yield LoadedAll(cards);
+      _cards = cards;
+    }
+    if (event is UseCards) {
+      _cards = event.cards;
+      yield LoadedAll(_cards);
+    }
+    if (event is Redraw) {
+      yield LoadedAll(_cards);
     }
   }
 }

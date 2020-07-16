@@ -38,7 +38,7 @@ void main(List<String> arguments) async {
       if (value.stdout.toString().contains("Formatted")) {
         exitCode = 1;
       }
-    }));
+    }).catchError(print));
   }
 
   await Future.wait(processes);

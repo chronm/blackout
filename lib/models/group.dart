@@ -55,7 +55,23 @@ class Group implements HomeListable {
 
   @override
   String buildStatus(BuildContext context) {
-    return products.length != 0 ? (products..sort((a, b) => (a.expirationDate ?? LocalDate.today().addYears(100)).compareTo((b.expirationDate ?? LocalDate.today().addYears(100))))).first.buildStatus(context) : null;
+    return products.length != 0
+        ? (products
+              ..sort((a, b) {
+                if (a.expirationDate == null && b.expirationDate == null) {
+                  return 0;
+                }
+                if (a.expirationDate == null && b.expirationDate != null) {
+                  return 1;
+                }
+                if (a.expirationDate != null && b.expirationDate == null) {
+                  return -1;
+                }
+                return a.expirationDate.compareTo(b.expirationDate);
+              }))
+            .first
+            .buildStatus(context)
+        : null;
   }
 
   @override
@@ -108,7 +124,8 @@ class Group implements HomeListable {
     var modifications = <Modification>[];
     if (unit != other.unit) {
       var from = unit != null ? describeEnum(unit) : null;
-      modifications.add(Modification(fieldName: "unit", from: from, to: describeEnum(other.unit)));
+      var to = other.unit != null ? describeEnum(other.unit) : null;
+      modifications.add(Modification(fieldName: "unit", from: from, to: to));
     }
     if (name != other.name) {
       modifications.add(Modification(fieldName: "name", from: name, to: other.name));
@@ -118,11 +135,13 @@ class Group implements HomeListable {
     }
     if (warnInterval != other.warnInterval) {
       var from = warnInterval != null ? warnInterval.toString() : null;
-      modifications.add(Modification(fieldName: "warnInterval", from: from, to: other.warnInterval.toString()));
+      var to = other.warnInterval != null ? other.warnInterval.toString() : null;
+      modifications.add(Modification(fieldName: "warnInterval", from: from, to: to));
     }
     if (refillLimit != other.refillLimit) {
       var from = refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(refillLimit, unit)).toString() : null;
-      modifications.add(Modification(fieldName: "refillLimit", from: from, to: UnitConverter.toScientific(Amount.fromSi(other.refillLimit, other.unit)).toString()));
+      var to = other.refillLimit != null ? UnitConverter.toScientific(Amount.fromSi(other.refillLimit, unit)).toString() : null;
+      modifications.add(Modification(fieldName: "refillLimit", from: from, to: to));
     }
     return modifications;
   }

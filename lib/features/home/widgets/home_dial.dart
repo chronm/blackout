@@ -10,11 +10,11 @@ import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
 import '../../group/bloc/group_bloc.dart' show GroupBloc, SaveGroup;
 import '../../group/widgets/group_configuration.dart';
-import '../../product/bloc/product_bloc.dart';
+import '../../product/bloc/product_bloc.dart' show ProductBloc, SaveProduct;
 import '../../product/widgets/product_configuration.dart';
 import '../../speeddial/bloc/speed_dial_bloc.dart' show GoToProduct, ShowCreateGroup, ShowCreateProduct, SpeedDialBloc, SpeedDialState, TapOnCreateGroup, TapOnCreateProduct, TapOnScanEan;
 import '../../speeddial/speeddial.dart';
-import '../bloc/home_bloc.dart' show HomeBloc, HomeInitialState, HomeState, LoadAll;
+import '../bloc/home_bloc.dart' show HomeBloc, HomeInitialState, HomeState, Redraw;
 
 class HomeDial extends StatelessWidget {
   const HomeDial({Key key}) : super(key: key);
@@ -40,7 +40,7 @@ class HomeDial extends StatelessWidget {
               },
             ),
           );
-          sl<HomeBloc>().add(LoadAll());
+          sl<HomeBloc>().add(Redraw());
         }
         if (state is ShowCreateProduct) {
           await showDialog(
@@ -56,7 +56,7 @@ class HomeDial extends StatelessWidget {
               },
             ),
           );
-          sl<HomeBloc>().add(LoadAll());
+          sl<HomeBloc>().add(Redraw());
         }
       },
       child: BlocBuilder<HomeBloc, HomeState>(

@@ -1,7 +1,7 @@
 import 'unit.dart';
 
 abstract class Weight extends Unit {
-  static RegExp get regExp => RegExp(r"^(\d*([.,]*\d*))\s*(t|kg|g|mg)$");
+  static RegExp get regExp => RegExp(r"^(-?\d*([.,]*\d*))\s*(t|kg|g|mg)$");
   static List<Unit> get _units => [T(), Kg(), G(), Mg()];
   List<Unit> get units => _units;
   UnitEnum get unitEnum => UnitEnum.weight;

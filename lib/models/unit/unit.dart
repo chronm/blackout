@@ -15,9 +15,8 @@ class Amount {
 
   Amount(this.value, this.unit);
 
-  Amount.fromSi(double value, UnitEnum unitEnum) {
+  Amount.fromSi(this.value, UnitEnum unitEnum) {
     unit = Unit.fromSi(unitEnum);
-    value = value;
   }
 
   Amount.fromInput(String input, UnitEnum unitEnum) {
@@ -98,11 +97,13 @@ class UnitConverter {
     if (units.length == 1) {
       return amount;
     }
-    var value = _convert(amount.value, units[0]);
-    var i = 0;
-    while (i < amount.unit.units.length - 1 && _convert(toSi(Amount(value, units[i])).value, units[i + 1]) < 1000) {
-      value = _convert(toSi(Amount(value, units[i])).value, units[i + 1]);
-      i++;
+    var value = _convert(amount.value, units.last);
+    var i = units.length - 1;
+    var tmp = _convert(toSi(Amount(value, units[i])).value, units[i - 1]);
+    while (i > 0 && tmp >= 1) {
+      value = tmp;
+      tmp = _convert(toSi(Amount(value, units[i])).value, units[i - 1]);
+      i--;
     }
 
     return Amount(value, units[i]);

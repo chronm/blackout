@@ -23,9 +23,10 @@ class BatchTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var title = batch.expirationDate != null ? S.of(context).BATCH_GOOD_UNTIL(DateFormat.yMd().format(batch.expirationDate.toDateTimeUnspecified())) : S.of(context).BATCH_CREATED_AT(DateFormat.yMd().format(batch.creationDate.toDateTimeUnspecified()));
     return TitleCard(
       scaffold: scaffold,
-      title: S.of(context).UNIT_CREATED_AT(DateFormat.yMd().format(batch.creationDate.toDateTimeUnspecified())).capitalize(),
+      title: title.capitalize(),
       tag: batch.id,
       available: S.of(context).GENERAL_AMOUNT_AVAILABLE(batch.scientificAmount),
       event: batch.buildStatus(context),

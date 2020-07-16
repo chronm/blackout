@@ -155,7 +155,6 @@ class _ProductConfigurationState extends State<ProductConfiguration> {
                                           sl<ProductBloc>().add(TapOnDeleteProduct(widget.product));
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                                          Navigator.pop(context);
                                         },
                                       ),
                                     ],

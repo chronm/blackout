@@ -30,7 +30,10 @@ class _GroupScreenState extends State<GroupScreen> {
       listener: (context, state) async {
         if (state is GoToProduct) {
           await Navigator.pushNamed(context, Routes.product);
-          sl<GroupBloc>().add(LoadGroup(state.currentGroup));
+          sl<GroupBloc>().add(Redraw());
+        }
+        if (state is GoBack) {
+          Navigator.pop(context);
         }
       },
       child: Scaffold(

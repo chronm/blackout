@@ -75,7 +75,16 @@ class BatchRepository extends DatabaseAccessor<Database> with _$BatchRepositoryM
       product.batches = batches;
     }
 
-    return batches;
+    return batches
+      ..sort((a, b) {
+        if (a.expirationDate == null && b.expirationDate != null) {
+          return -1;
+        }
+        if (a.expirationDate != null && b.expirationDate == null) {
+          return 1;
+        }
+        return a.creationOrExpirationDate.compareTo(b.creationOrExpirationDate);
+      });
   }
 
   Future<Batch> save(Batch batch, User user) async {

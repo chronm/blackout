@@ -30,11 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
       listener: (context, state) async {
         if (state is GoToProduct) {
           await Navigator.pushNamed(context, Routes.product);
-          sl<HomeBloc>().add(LoadAll());
+          sl<HomeBloc>().add(Redraw());
         }
         if (state is GoToGroup) {
           await Navigator.pushNamed(context, Routes.group);
-          sl<HomeBloc>().add(LoadAll());
+          sl<HomeBloc>().add(Redraw());
         }
       },
       child: Scaffold(

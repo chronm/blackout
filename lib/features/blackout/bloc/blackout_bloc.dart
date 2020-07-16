@@ -4,22 +4,24 @@ import 'package:bloc/bloc.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:super_enum/super_enum.dart';
 // ignore: implementation_imports
 import 'package:sqflite_common/src/exception.dart';
+import 'package:super_enum/super_enum.dart';
 
 import '../../../data/database/database.dart';
 import '../../../data/preferences/blackout_preferences.dart';
+import '../../../data/repository/group_repository.dart';
 import '../../../data/repository/home_repository.dart';
+import '../../../data/repository/product_repository.dart';
 import '../../../data/repository/user_repository.dart';
 import '../../../data/secure/secure_storage.dart';
 import '../../../di/di.dart';
 import '../../../main.dart';
+import '../../../models/home_listable.dart';
 import '../../blackout_drawer/bloc/drawer_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 
 part 'blackout_event.dart';
-
 part 'blackout_state.dart';
 
 class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
@@ -40,7 +42,14 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
   Stream<BlackoutState> goToHome() async* {
     var password = await secureStorage.getDatabasePassword();
     await prepareApplication(password);
-    sl<HomeBloc>().add(LoadAll());
+    var home = await blackoutPreferences.getHome();
+    var groups = await sl<GroupRepository>().findAllByHomeId(home.id);
+    var products = await sl<ProductRepository>().findAllByHomeIdAndGroupIsNull(home.id);
+    var cards = <HomeListable>[]
+      ..addAll(products)
+      ..addAll(groups)
+      ..sort((a, b) => a.title.compareTo(b.title));
+    sl<HomeBloc>().add(UseCards(cards));
     sl<DrawerBloc>().add(InitializeDrawer());
     yield GoToHome();
   }

@@ -8,6 +8,12 @@ class CreateBatch extends BatchEvent {
   CreateBatch(this.product);
 }
 
+class UseBatch extends BatchEvent {
+  final Batch batch;
+
+  UseBatch(this.batch);
+}
+
 class LoadBatch extends BatchEvent {
   final String batchId;
 

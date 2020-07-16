@@ -16,3 +16,5 @@ class GoToBatch extends ProductState {
 
   GoToBatch(this.currentProduct);
 }
+
+class GoBack extends ProductState {}
