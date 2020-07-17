@@ -8,13 +8,13 @@ import '../util/batch_extension.dart';
 import '../util/group_extension.dart';
 import '../util/time_machine_extension.dart';
 import 'home.dart';
-import 'home_listable.dart';
+import 'home_card.dart';
 import 'model_change.dart';
 import 'modification.dart';
 import 'product.dart' show Product;
 import 'unit/unit.dart';
 
-class Group implements HomeListable {
+class Group implements HomeCard {
   String id;
   String name;
   String pluralName;
@@ -34,9 +34,6 @@ class Group implements HomeListable {
   String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(unit))).toString();
 
   String get scientificRefillLimit => UnitConverter.toScientific(Amount(refillLimit, Unit.fromSi(unit))).toString();
-
-  @override
-  String get subtitleBestBeforeNotification => "";
 
   @override
   bool get expired {

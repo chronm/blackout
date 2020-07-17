@@ -17,7 +17,7 @@ import '../../../data/repository/user_repository.dart';
 import '../../../data/secure/secure_storage.dart';
 import '../../../di/di.dart';
 import '../../../main.dart';
-import '../../../models/home_listable.dart';
+import '../../../models/home_card.dart';
 import '../../blackout_drawer/bloc/drawer_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 
@@ -45,7 +45,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
     var home = await blackoutPreferences.getHome();
     var groups = await sl<GroupRepository>().findAllByHomeId(home.id);
     var products = await sl<ProductRepository>().findAllByHomeIdAndGroupIsNull(home.id);
-    var cards = <HomeListable>[]
+    var cards = <HomeCard>[]
       ..addAll(products)
       ..addAll(groups)
       ..sort((a, b) => a.title.compareTo(b.title));

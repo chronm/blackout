@@ -5,7 +5,7 @@ abstract class HomeEvent {}
 class Redraw extends HomeEvent {}
 
 class UseCards extends HomeEvent {
-  final List<HomeListable> cards;
+  final List<HomeCard> cards;
 
   UseCards(this.cards);
 }

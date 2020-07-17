@@ -5,7 +5,7 @@ import '../../../data/repository/group_repository.dart';
 import '../../../data/repository/product_repository.dart';
 import '../../../main.dart';
 import '../../../models/group.dart';
-import '../../../models/home_listable.dart';
+import '../../../models/home_card.dart';
 import '../../../models/product.dart';
 import '../../group/bloc/group_bloc.dart';
 import '../../product/bloc/product_bloc.dart';
@@ -23,7 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @override
   HomeState get initialState => HomeInitialState();
 
-  var _cards = <HomeListable>[];
+  var _cards = <HomeCard>[];
 
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
@@ -40,7 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       var home = await blackoutPreferences.getHome();
       var groups = await groupRepository.findAllByHomeId(home.id, usedCached: false);
       var products = await productRepository.findAllByHomeIdAndGroupIsNull(home.id);
-      var cards = <HomeListable>[]
+      var cards = <HomeCard>[]
         ..addAll(products)
         ..addAll(groups)
         ..sort((a, b) => a.title.compareTo(b.title));
