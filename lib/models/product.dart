@@ -10,12 +10,12 @@ import '../util/time_machine_extension.dart';
 import 'batch.dart' show Batch;
 import 'group.dart' show Group;
 import 'home.dart';
-import 'home_listable.dart';
+import 'home_card.dart';
 import 'model_change.dart';
 import 'modification.dart';
 import 'unit/unit.dart';
 
-class Product implements HomeListable {
+class Product implements HomeCard {
   String id;
   String ean;
   Group group;
@@ -40,9 +40,6 @@ class Product implements HomeListable {
   String get scientificAmount => UnitConverter.toScientific(Amount(amount, Unit.fromSi(group != null ? group.unit : unit))).toString();
 
   String get scientificRefillLimit => UnitConverter.toScientific(Amount(refillLimit, Unit.fromSi(unit))).toString();
-
-  @override
-  String get subtitleBestBeforeNotification => "";
 
   @override
   bool get expired => batches.any((element) => element.expired);

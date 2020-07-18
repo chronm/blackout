@@ -17,7 +17,7 @@ import '../../../models/batch.dart';
 import '../../../models/change.dart';
 import '../../../models/group.dart';
 import '../../../models/home.dart';
-import '../../../models/home_listable.dart';
+import '../../../models/home_card.dart';
 import '../../../models/product.dart';
 import '../../../models/unit/unit.dart';
 import '../../../models/user.dart';
@@ -25,6 +25,7 @@ import '../../blackout_drawer/bloc/drawer_bloc.dart';
 import '../../home/bloc/home_bloc.dart';
 
 part 'setup_event.dart';
+
 part 'setup_state.dart';
 
 class SetupBloc extends Bloc<SetupEvent, SetupState> {
@@ -48,16 +49,17 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
       await blackoutPreferences.setUser(user);
       await blackoutPreferences.setHome(home);
       await secureStorage.setDatabasePassword(event.password);
+      var cards = <HomeCard>[];
       if (kDebugMode) {
         await createGroup(home);
         await createProduct(home);
+        var groups = await sl<GroupRepository>().findAllByHomeId(home.id, usedCached: false);
+        var products = await sl<ProductRepository>().findAllByHomeIdAndGroupIsNull(home.id);
+        cards
+          ..addAll(products)
+          ..addAll(groups)
+          ..sort((a, b) => a.title.compareTo(b.title));
       }
-      var groups = await sl<GroupRepository>().findAllByHomeId(home.id);
-      var products = await sl<ProductRepository>().findAllByHomeIdAndGroupIsNull(home.id);
-      var cards = <HomeListable>[]
-        ..addAll(products)
-        ..addAll(groups)
-        ..sort((a, b) => a.title.compareTo(b.title));
       sl<HomeBloc>().add(UseCards(cards));
       sl<DrawerBloc>().add(InitializeDrawer());
       sl.unregister<SetupBloc>();

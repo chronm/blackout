@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
 import '../../../models/group.dart';
-import '../../../models/home_listable.dart';
+import '../../../models/home_card.dart';
 import '../../../models/product.dart';
 import '../../../util/batch_extension.dart';
 import '../bloc/home_bloc.dart';
 
 class HomeList extends StatelessWidget {
-  final List<HomeListable> cards;
+  final List<HomeCard> cards;
 
   const HomeList({
     Key key,

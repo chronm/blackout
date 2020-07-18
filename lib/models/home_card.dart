@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../util/batch_extension.dart';
 
-abstract class HomeListable {
+abstract class HomeCard {
   String get title;
 
   String get scientificAmount;
-
-  String get subtitleBestBeforeNotification;
 
   bool get expired;
 

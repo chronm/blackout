@@ -7,7 +7,7 @@ class HomeInitialState extends HomeState {}
 class Loading extends HomeState {}
 
 class LoadedAll extends HomeState {
-  final List<HomeListable> cards;
+  final List<HomeCard> cards;
 
   LoadedAll(this.cards);
 }
