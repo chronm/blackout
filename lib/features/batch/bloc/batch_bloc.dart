@@ -39,8 +39,8 @@ class BatchBloc extends Bloc<BatchEvent, BatchState> {
       sl<ProductBloc>().add(LoadProduct(_batch.product.id));
       if (_batch.product.group != null) {
         sl<GroupBloc>().add(LoadGroup(_batch.product.group.id));
-        sl<HomeBloc>().add(LoadAll());
       }
+      sl<HomeBloc>().add(LoadAll());
       yield ShowBatch(_batch);
     }
     if (event is UseBatch) {
