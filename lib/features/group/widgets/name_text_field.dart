@@ -44,6 +44,7 @@ class _NameTextFieldState extends State<NameTextField> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: _controller,
+          keyboardType: TextInputType.name,
           decoration: InputDecoration(
             labelText: S.of(context).GROUP_NAME,
             errorText: _errorText,

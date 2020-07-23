@@ -57,6 +57,7 @@ class _PluralNameWidgetState extends State<PluralNameWidget> {
             child: TextField(
               focusNode: _focusNode,
               controller: _controller,
+              keyboardType: TextInputType.name,
               decoration: InputDecoration(
                   labelText: S.of(context).GROUP_PLURAL_NAME,
                   errorText: _errorText,

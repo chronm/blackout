@@ -50,6 +50,7 @@ class _DescriptionTextFieldState extends State<DescriptionTextField> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          keyboardType: TextInputType.name,
           controller: _controller,
           decoration: InputDecoration(
             labelText: S.of(context).PRODUCT_DESCRIPTION,
