@@ -35,8 +35,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       _product = await productRepository.save(event.product, user);
       if (_product.group != null) {
         sl<GroupBloc>().add(LoadGroup(_product.group.id));
-        sl<HomeBloc>().add(LoadAll());
       }
+      sl<HomeBloc>().add(LoadAll());
       yield ShowProduct(_product, groups);
     }
     if (event is UseProduct) {
