@@ -110,9 +110,6 @@ class InitialScreen extends StatelessWidget {
           case GoToHome:
             Navigator.pushReplacementNamed(context, Routes.home);
             break;
-          case ShowChangelog:
-            Navigator.pushNamed(context, Routes.changelog);
-            break;
         }
       },
       child: Container(),

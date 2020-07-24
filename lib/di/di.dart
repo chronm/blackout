@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
 
+import '../data/api/github/github_client.dart';
 import '../data/database/database.dart';
 import '../data/preferences/blackout_preferences.dart';
 import '../data/repository/batch_repository.dart';
@@ -30,6 +32,7 @@ void prepareMain() async {
     sl.registerSingleton<BlackoutPreferences>(BlackoutPreferences(await SharedPreferences.getInstance()));
     sl.registerLazySingleton<BlackoutBloc>(() => BlackoutBloc(sl<BlackoutPreferences>(), sl<SecureStorage>()));
     sl.registerSingleton<SecureStorage>(SecureStorage());
+    await registerDio();
     main = false;
   }
 }
@@ -51,6 +54,11 @@ void prepareApplication(String databasePassword) async {
     await registerBloc();
     application = true;
   }
+}
+
+void registerDio() async {
+  var dio = Dio();
+  sl.registerLazySingleton<GithubClient>(() => GithubClient(dio));
 }
 
 void prepareSetup() async {

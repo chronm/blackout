@@ -15,3 +15,7 @@ class LoadedAll extends HomeState {
 class GoToProduct extends HomeState {}
 
 class GoToGroup extends HomeState {}
+
+class ShowChangelog extends HomeState {}
+
+class AskForUpdate extends HomeState {}
