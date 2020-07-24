@@ -5,14 +5,14 @@ void main(List<String> arguments) async {
   final files = [...Directory("${Directory.current.path}${Platform.pathSeparator}lib").listSync(recursive: true), ...Directory("${Directory.current.path}${Platform.pathSeparator}test").listSync(recursive: true)];
   files.removeWhere((element) => element.path.contains("g.dart"));
   files.removeWhere((element) => element.path.contains("generated"));
+  files.removeWhere((element) => element.path.contains("json"));
+  files.removeWhere((element) => element.path.contains("arb"));
   print("Checking ${files.length} files");
   const maxLength = 3072;
   final filesInBatch = <String>[];
   var currentLength = 0;
 
   var exitCode = 0;
-
-  var processes = <Future>[];
 
   var i = 0;
   for (i; i < files.length; ++i) {
@@ -22,11 +22,15 @@ void main(List<String> arguments) async {
       filesInBatch.add(filePath);
       currentLength += filePath.length + 1;
     } else {
-      processes.add(Process.run('flutter', ["format", "-l", "300", ...filesInBatch], runInShell: true).then((value) {
+      await Process.run('/home/kevin/flutter/bin/flutter', ["format", "-l", "300", ...filesInBatch], runInShell: true).then((value) {
         if (value.stdout.toString().contains("Formatted")) {
+          var formatted = value.stdout.toString().split("\n").where((element) => element.contains("Formatted")).toList();
+          print(formatted.join("\n"));
           exitCode = 1;
         }
-      }).catchError(print));
+      }).catchError((value) {
+        print(value);
+      });
 
       filesInBatch.clear();
       currentLength = 0;
@@ -34,14 +38,16 @@ void main(List<String> arguments) async {
   }
 
   if (filesInBatch.isNotEmpty) {
-    processes.add(Process.run('flutter', ["format", "-l", "300", setExit, ...filesInBatch], runInShell: true).then((value) {
+    Process.run('/home/kevin/flutter/bin/flutter', ["format", "-l", "300", setExit, ...filesInBatch], runInShell: true).then((value) {
       if (value.stdout.toString().contains("Formatted")) {
+        var formatted = value.stdout.toString().split("\n").where((element) => element.contains("Formatted")).toList();
+        print(formatted.join("\n"));
         exitCode = 1;
       }
-    }).catchError(print));
+    }).catchError((value) {
+      print(value);
+    });
   }
-
-  await Future.wait(processes);
 
   if (exitCode == 1) {
     print("Go and look for formatting errors");
