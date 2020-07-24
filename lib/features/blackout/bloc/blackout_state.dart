@@ -17,5 +17,3 @@ class AskForRedirectToSettings extends BlackoutState {}
 class GoToSetup extends BlackoutState {}
 
 class GoToHome extends BlackoutState {}
-
-class ShowChangelog extends BlackoutState {}

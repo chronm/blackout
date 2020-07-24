@@ -550,6 +550,46 @@ class S {
     );
   }
 
+  /// `Update available`
+  String get HOME_ASK_FOR_UPDATES_TITLE {
+    return Intl.message(
+      'Update available',
+      name: 'HOME_ASK_FOR_UPDATES_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is an update available, do you want to install it?`
+  String get HOME_ASK_FOR_UPDATES_BODY {
+    return Intl.message(
+      'There is an update available, do you want to install it?',
+      name: 'HOME_ASK_FOR_UPDATES_BODY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get HOME_ASK_FOR_UPDATES_OKAY {
+    return Intl.message(
+      'Yes',
+      name: 'HOME_ASK_FOR_UPDATES_OKAY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get HOME_ASK_FOR_UPDATES_DENY {
+    return Intl.message(
+      'No',
+      name: 'HOME_ASK_FOR_UPDATES_DENY',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.`
   String get MAIN_IMPORT_DATABASE {
     return Intl.message(

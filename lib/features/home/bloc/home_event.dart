@@ -2,6 +2,10 @@ part of 'home_bloc.dart';
 
 abstract class HomeEvent {}
 
+class RoutineCheck extends HomeEvent {}
+
+class DoUpdate extends HomeEvent {}
+
 class Redraw extends HomeEvent {}
 
 class UseCards extends HomeEvent {

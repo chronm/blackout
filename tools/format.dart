@@ -28,9 +28,7 @@ void main(List<String> arguments) async {
           print(formatted.join("\n"));
           exitCode = 1;
         }
-      }).catchError((value) {
-        print(value);
-      });
+      }).catchError(print);
 
       filesInBatch.clear();
       currentLength = 0;
@@ -44,9 +42,7 @@ void main(List<String> arguments) async {
         print(formatted.join("\n"));
         exitCode = 1;
       }
-    }).catchError((value) {
-      print(value);
-    });
+    }).catchError(print);
   }
 
   if (exitCode == 1) {

@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pub_semver/pub_semver.dart';
 // ignore: implementation_imports
 import 'package:sqflite_common/src/exception.dart';
 import 'package:super_enum/super_enum.dart';
@@ -54,21 +52,6 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
     yield GoToHome();
   }
 
-  Stream<BlackoutState> maybeShowChangelog() async* {
-    var currentVersion = Version.parse((await PackageInfo.fromPlatform()).version);
-    Version latestVersion;
-    try {
-      latestVersion = Version.parse(await blackoutPreferences.getVersion());
-      // ignore: avoid_catching_errors
-    } on ArgumentError {
-      latestVersion = Version.none;
-    }
-    if (latestVersion != Version.none && latestVersion < currentVersion) {
-      yield ShowChangelog();
-      await blackoutPreferences.setVersion(currentVersion.toString());
-    }
-  }
-
   Future<bool> hasStoragePermission() async {
     return Permission.storage.isGranted;
   }
@@ -89,7 +72,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
       if (await hasStoragePermission()) {
         if (await appIsInitialized()) {
           yield* goToHome();
-          yield* maybeShowChangelog();
+          sl<HomeBloc>().add(RoutineCheck());
         } else {
           yield* importDatabaseOrGoToSetup();
         }
@@ -118,6 +101,7 @@ class BlackoutBloc extends Bloc<BlackoutEvent, BlackoutState> {
         sl<HomeBloc>().add(LoadAll());
         sl<DrawerBloc>().add(InitializeDrawer());
         yield GoToHome();
+        sl<HomeBloc>().add(RoutineCheck());
       } on SqfliteDatabaseException {
         yield AskForImportDatabase(wrongPassword: true);
       }
