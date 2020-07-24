@@ -10,27 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      # Setup the flutter environment.
-      - uses: subosito/flutter-action@v1
+      - name: Install flutter
+        uses: subosito/flutter-action@v1
         with:
           channel: 'dev'
 
-      # latest flutter dev version
-      - run: flutter upgrade
+      - name: Update to latest flutter version
+        run: flutter upgrade
 
-      # Install missing sqlite dependency
-      - run: sudo apt-get install -y libsqlite3-dev
+      - name: Install missing sqlite dependency
+        run: sudo apt-get install -y libsqlite3-dev
 
-      # Get flutter dependencies.
-      - run: flutter pub get
+      - name: Get flutter dependencies
+        run: flutter pub get
 
-      # Check for any formatting issues in the code.
-      - run: dart tools/format.dart --set-exit-if-changed
+      - name: Check formatting issues
+        run: dart tools/format.dart --set-exit-if-changed
 
-      # Statically analyze the Dart code for any errors.
-      - run: flutter analyze .
+      - name: Analyze dart code
+        run: flutter analyze .
 
-      # Run widget tests for our flutter project.
-      - run: flutter test
+      - name: Tests
+        run: flutter test
