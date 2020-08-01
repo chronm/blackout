@@ -8,41 +8,42 @@ import '../../../models/group.dart';
 import '../../../models/product.dart';
 import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
-import '../../group/bloc/group_bloc.dart' show GroupBloc, SaveGroup;
+import '../../group/cubit/group_cubit.dart' show GroupCubit;
 import '../../group/widgets/group_configuration.dart';
-import '../../product/bloc/product_bloc.dart' show ProductBloc, SaveProduct;
+import '../../product/cubit/product_cubit.dart';
+import '../../product/cubit/product_cubit.dart' show ProductCubit;
 import '../../product/widgets/product_configuration.dart';
-import '../../speeddial/bloc/speed_dial_bloc.dart' show GoToProduct, ShowCreateGroup, ShowCreateProduct, SpeedDialBloc, SpeedDialState, TapOnCreateGroup, TapOnCreateProduct, TapOnScanEan;
+import '../../speeddial/cubit/speed_dial_cubit.dart' show GoToProduct, GoToCreateGroup, GoToCreateProduct, SpeedDialCubit, SpeedDialState;
 import '../../speeddial/speeddial.dart';
-import '../bloc/home_bloc.dart' show HomeBloc, HomeInitialState, HomeState, Redraw;
+import '../cubit/home_cubit.dart' show HomeCubit, HomeInitialState, HomeState;
 
 class HomeDial extends StatelessWidget {
   const HomeDial({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SpeedDialBloc, SpeedDialState>(
-      bloc: sl<SpeedDialBloc>(),
+    return BlocListener<SpeedDialCubit, SpeedDialState>(
+      cubit: sl<SpeedDialCubit>(),
       listener: (context, state) async {
         if (state is GoToProduct) {
           Navigator.pushNamed(context, Routes.product);
         }
-        if (state is ShowCreateGroup) {
+        if (state is GoToCreateGroup) {
           await showDialog(
             context: context,
             builder: (context) => GroupConfiguration(
               group: Group(home: state.home, name: "", unit: UnitEnum.unitless),
               newGroup: true,
               action: (group) async {
-                sl<GroupBloc>().add(SaveGroup(group));
+                sl<GroupCubit>().saveGroup(group);
                 await Navigator.pushNamed(context, Routes.group);
                 Navigator.pop(context);
               },
             ),
           );
-          sl<HomeBloc>().add(Redraw());
+          sl<HomeCubit>().redraw();
         }
-        if (state is ShowCreateProduct) {
+        if (state is GoToCreateProduct) {
           await showDialog(
             context: context,
             builder: (context) => ProductConfiguration(
@@ -50,17 +51,17 @@ class HomeDial extends StatelessWidget {
               newProduct: true,
               groups: state.groups,
               action: (product) async {
-                sl<ProductBloc>().add(SaveProduct(product));
+                sl<ProductCubit>().saveProduct(product);
                 await Navigator.pushNamed(context, Routes.product);
                 Navigator.pop(context);
               },
             ),
           );
-          sl<HomeBloc>().add(Redraw());
+          sl<HomeCubit>().redraw();
         }
       },
-      child: BlocBuilder<HomeBloc, HomeState>(
-        bloc: sl<HomeBloc>(),
+      child: BlocBuilder<HomeCubit, HomeState>(
+        cubit: sl<HomeCubit>(),
         builder: (context, state) {
           return BlackoutDial(
             builder: (context) {
@@ -76,7 +77,7 @@ class HomeDial extends StatelessWidget {
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
-                  onTap: () => sl<SpeedDialBloc>().add(TapOnScanEan()),
+                  onTap: () => sl<SpeedDialCubit>().tapOnScanEan(),
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.insert_drive_file),
@@ -86,7 +87,7 @@ class HomeDial extends StatelessWidget {
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
-                  onTap: () => sl<SpeedDialBloc>().add(TapOnCreateProduct()),
+                  onTap: () => sl<SpeedDialCubit>().tapOnCreateProduct(),
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.create_new_folder),
@@ -96,7 +97,7 @@ class HomeDial extends StatelessWidget {
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
-                  onTap: () => sl<SpeedDialBloc>().add(TapOnCreateGroup()),
+                  onTap: () => sl<SpeedDialCubit>().tapOnCreateGroup(),
                 ),
               ];
             },

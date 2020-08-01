@@ -8,59 +8,59 @@ import '../../../models/batch.dart';
 import '../../../models/group.dart';
 import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
-import '../../batch/bloc/batch_bloc.dart' show BatchBloc, SaveBatch;
+import '../../batch/cubit/batch_cubit.dart' show BatchCubit;
 import '../../batch/widgets/batch_configuration.dart';
-import '../../group/bloc/group_bloc.dart' show GroupBloc, SaveGroup;
+import '../../group/cubit/group_cubit.dart' show GroupCubit;
 import '../../group/widgets/group_configuration.dart';
-import '../../speeddial/bloc/speed_dial_bloc.dart';
+import '../../speeddial/cubit/speed_dial_cubit.dart';
 import '../../speeddial/speeddial.dart';
-import '../bloc/product_bloc.dart';
+import '../cubit/product_cubit.dart';
 
 class ProductDial extends StatelessWidget {
   const ProductDial({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SpeedDialBloc, SpeedDialState>(
-      bloc: sl<SpeedDialBloc>(),
+    return BlocListener<SpeedDialCubit, SpeedDialState>(
+      cubit: sl<SpeedDialCubit>(),
       listener: (context, state) async {
         if (state is GoToHome) {
           Navigator.pushNamed(context, Routes.home);
         }
-        if (state is ShowCreateGroupForProduct) {
+        if (state is GoToCreateGroupForProduct) {
           await showDialog(
             context: context,
             builder: (context) => GroupConfiguration(
               group: Group(home: state.home, name: "", unit: UnitEnum.unitless),
               newGroup: true,
               action: (group) async {
-                sl<GroupBloc>().add(SaveGroup(group));
+                sl<GroupCubit>().saveGroup(group);
                 await Navigator.pushNamed(context, Routes.group);
                 Navigator.pop(context);
               },
             ),
           );
-          sl<ProductBloc>().add(Redraw());
+          sl<ProductCubit>().redraw();
         }
 
-        if (state is ShowCreateBatch) {
+        if (state is GoToCreateBatch) {
           await showDialog(
             context: context,
             builder: (context) => BatchConfiguration(
               batch: Batch(product: state.product),
               newBatch: true,
               action: (batch) async {
-                sl<BatchBloc>().add(SaveBatch(batch));
+                sl<BatchCubit>().saveBatch(batch);
                 await Navigator.pushNamed(context, Routes.batch);
                 Navigator.pop(context);
               },
             ),
           );
-          sl<ProductBloc>().add(Redraw());
+          sl<ProductCubit>().redraw();
         }
       },
-      child: BlocBuilder<ProductBloc, ProductState>(
-        bloc: sl<ProductBloc>(),
+      child: BlocBuilder<ProductCubit, ProductState>(
+        cubit: sl<ProductCubit>(),
         builder: (context, state) {
           return BlackoutDial(
             builder: (context) {
@@ -73,7 +73,7 @@ class ProductDial extends StatelessWidget {
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
-                  onTap: () => sl<SpeedDialBloc>().add(TapOnGotoHome()),
+                  onTap: () => sl<SpeedDialCubit>().tapOnGoToHome(),
                 ),
               ];
               if (state is ShowProduct) {
@@ -86,7 +86,7 @@ class ProductDial extends StatelessWidget {
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
-                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateBatch(state.product)),
+                    onTap: () => sl<SpeedDialCubit>().tapOnCreateBatch(state.product),
                   ),
                   SpeedDialChild(
                     child: const Icon(Icons.create_new_folder),
@@ -96,7 +96,7 @@ class ProductDial extends StatelessWidget {
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
-                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateGroupForProduct()),
+                    onTap: () => sl<SpeedDialCubit>().tapOnCreateGroupForProduct(),
                   ),
                 ]);
               }

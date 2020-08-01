@@ -7,24 +7,24 @@ import '../../../main.dart';
 import '../../../models/product.dart';
 import '../../../models/unit/unit.dart';
 import '../../../routes.dart';
-import '../../product/bloc/product_bloc.dart' show ProductBloc, SaveProduct;
+import '../../product/cubit/product_cubit.dart' show ProductCubit;
 import '../../product/widgets/product_configuration.dart';
-import '../../speeddial/bloc/speed_dial_bloc.dart';
+import '../../speeddial/cubit/speed_dial_cubit.dart';
 import '../../speeddial/speeddial.dart';
-import '../bloc/group_bloc.dart';
+import '../cubit/group_cubit.dart';
 
 class GroupDial extends StatelessWidget {
   const GroupDial({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SpeedDialBloc, SpeedDialState>(
-      bloc: sl<SpeedDialBloc>(),
+    return BlocListener<SpeedDialCubit, SpeedDialState>(
+      cubit: sl<SpeedDialCubit>(),
       listener: (context, state) async {
         if (state is GoToHome) {
           Navigator.pushNamed(context, Routes.home);
         }
-        if (state is ShowCreateProductInGroup) {
+        if (state is GoToCreateProductInGroup) {
           await showDialog(
             context: context,
             builder: (context) => ProductConfiguration(
@@ -32,17 +32,17 @@ class GroupDial extends StatelessWidget {
               newProduct: true,
               groups: state.groups,
               action: (product) async {
-                sl<ProductBloc>().add(SaveProduct(product));
+                sl<ProductCubit>().saveProduct(product);
                 await Navigator.pushNamed(context, Routes.product);
                 Navigator.pop(context);
               },
             ),
           );
-          sl<GroupBloc>().add(Redraw());
+          sl<GroupCubit>().redraw();
         }
       },
-      child: BlocBuilder<GroupBloc, GroupState>(
-        bloc: sl<GroupBloc>(),
+      child: BlocBuilder<GroupCubit, GroupState>(
+        cubit: sl<GroupCubit>(),
         builder: (context, state) {
           return BlackoutDial(
             builder: (context) {
@@ -55,7 +55,7 @@ class GroupDial extends StatelessWidget {
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
-                  onTap: () => sl<SpeedDialBloc>().add(TapOnGotoHome()),
+                  onTap: () => sl<SpeedDialCubit>().tapOnGoToHome(),
                 ),
               ];
               if (state is ShowGroup) {
@@ -68,7 +68,7 @@ class GroupDial extends StatelessWidget {
                       fontSize: 18.0,
                       color: Colors.black,
                     ),
-                    onTap: () => sl<SpeedDialBloc>().add(TapOnCreateProductInGroup(state.group)),
+                    onTap: () => sl<SpeedDialCubit>().tapOnCreateProductInGroup(state.group),
                   ),
                 ]);
               }

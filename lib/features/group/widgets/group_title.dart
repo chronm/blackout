@@ -6,7 +6,7 @@ import '../../../models/group.dart';
 import '../../../typedefs.dart';
 import '../../../widget/model_changes_widget/model_changes_widget.dart';
 import '../../../widget/title_card/title_card.dart';
-import '../bloc/group_bloc.dart';
+import '../cubit/group_cubit.dart';
 import 'group_configuration.dart';
 
 class GroupTitle extends StatelessWidget {
@@ -36,7 +36,7 @@ class GroupTitle extends StatelessWidget {
           group: group,
           action: (group) {
             Navigator.pop(context);
-            sl<GroupBloc>().add(SaveGroup(group));
+            sl<GroupCubit>().saveGroup(group);
           },
         ),
       ),

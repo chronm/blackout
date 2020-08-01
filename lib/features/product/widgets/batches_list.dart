@@ -6,7 +6,7 @@ import '../../../main.dart';
 import '../../../models/product.dart';
 import '../../../util/batch_extension.dart';
 import '../../../util/string_extension.dart';
-import '../bloc/product_bloc.dart';
+import '../cubit/product_cubit.dart';
 
 class BatchesList extends StatelessWidget {
   final Product product;
@@ -58,7 +58,7 @@ class BatchesList extends StatelessWidget {
                         children: trailing,
                         mainAxisSize: MainAxisSize.min,
                       ),
-                      onTap: () => sl<ProductBloc>().add(TapOnBatch(batch)),
+                      onTap: () => sl<ProductCubit>().tapOnBatch(batch),
                     ),
                   ),
                 );

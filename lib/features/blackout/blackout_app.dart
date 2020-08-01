@@ -15,7 +15,7 @@ import '../home/home_screen.dart';
 import '../product/product_overview_screen.dart';
 import '../settings/settings_screen.dart';
 import '../setup/setup_screen.dart';
-import 'bloc/blackout_bloc.dart';
+import 'cubit/blackout_cubit.dart';
 import 'widgets/ask_for_import_database.dart';
 import 'widgets/ask_for_redirect_to_settings.dart';
 import 'widgets/ask_for_storage_rationale.dart';
@@ -32,7 +32,7 @@ class _BlackoutAppState extends State<BlackoutApp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      sl<BlackoutBloc>().add(InitializeApp());
+      sl<BlackoutCubit>().initializeApp();
     });
   }
 
@@ -74,8 +74,8 @@ class _BlackoutAppState extends State<BlackoutApp> {
 class InitialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BlackoutBloc, BlackoutState>(
-      bloc: sl<BlackoutBloc>(),
+    return BlocListener<BlackoutCubit, BlackoutState>(
+      cubit: sl<BlackoutCubit>(),
       listener: (context, state) async {
         switch (state.runtimeType) {
           case AskForStorageRationale:
@@ -83,7 +83,6 @@ class InitialScreen extends StatelessWidget {
               context: context,
               builder: (_) => const AskForStorageRationaleDialog(),
             );
-            sl<BlackoutBloc>().add(CheckPermissions());
             break;
           case AskForRedirectToSettings:
             var forward = await showDialog<bool>(
@@ -91,7 +90,7 @@ class InitialScreen extends StatelessWidget {
               builder: (_) => const AskForRedirectToSettingsDialog(),
             );
             if (forward) await openAppSettings();
-            sl<BlackoutBloc>().add(EndApp());
+            sl<BlackoutCubit>().endApp();
             break;
           case AskForImportDatabase:
             var password = await showDialog<String>(
@@ -99,9 +98,9 @@ class InitialScreen extends StatelessWidget {
               builder: (_) => AskForImportDatabaseDialog(wrongPassword: (state as AskForImportDatabase).wrongPassword),
             );
             if (password != null) {
-              sl<BlackoutBloc>().add(ImportDatabase(password));
+              sl<BlackoutCubit>().importDatabase(password);
             } else {
-              sl<BlackoutBloc>().add(DropDatabaseAndSetup());
+              sl<BlackoutCubit>().dropDatabaseAndSetup();
             }
             break;
           case GoToSetup:

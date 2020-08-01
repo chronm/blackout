@@ -5,7 +5,7 @@ import '../../../main.dart';
 import '../../../models/group.dart';
 import '../../../models/product.dart';
 import '../../../util/batch_extension.dart';
-import '../bloc/group_bloc.dart';
+import '../cubit/group_cubit.dart';
 
 class ProductsList extends StatelessWidget {
   final Group group;
@@ -61,7 +61,7 @@ class ProductsList extends StatelessWidget {
                         children: trailing,
                         mainAxisSize: MainAxisSize.min,
                       ),
-                      onTap: () => sl<GroupBloc>().add(TapOnProduct(product, group)),
+                      onTap: () => sl<GroupCubit>().tapOnProduct(product),
                     ),
                   ),
                 );

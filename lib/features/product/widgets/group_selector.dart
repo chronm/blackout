@@ -4,7 +4,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../../main.dart';
 import '../../../models/group.dart';
 import '../../../widget/checkable/checkable.dart';
-import '../../group/bloc/group_bloc.dart';
+import '../../group/cubit/group_cubit.dart';
 
 typedef GroupCallback = void Function(Group group);
 
@@ -55,8 +55,8 @@ class _GroupSelectorState extends State<GroupSelector> {
                 controller: _controller,
               ),
               suggestionsCallback: (pattern) async {
-                var home = await sl<GroupBloc>().blackoutPreferences.getHome();
-                return await sl<GroupBloc>().groupRepository.findAllByPatternAndHomeId(pattern, home.id);
+                var home = await sl<GroupCubit>().blackoutPreferences.getHome();
+                return await sl<GroupCubit>().groupRepository.findAllByPatternAndHomeId(pattern, home.id);
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(

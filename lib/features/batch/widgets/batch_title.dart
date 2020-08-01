@@ -8,7 +8,7 @@ import '../../../util/batch_extension.dart';
 import '../../../util/string_extension.dart';
 import '../../../widget/model_changes_widget/model_changes_widget.dart';
 import '../../../widget/title_card/title_card.dart';
-import '../bloc/batch_bloc.dart';
+import '../cubit/batch_cubit.dart';
 import 'batch_configuration.dart';
 
 class BatchTitle extends StatelessWidget {
@@ -38,7 +38,7 @@ class BatchTitle extends StatelessWidget {
           batch: batch,
           action: (batch) {
             Navigator.pop(context);
-            sl<BatchBloc>().add(SaveBatch(batch));
+            sl<BatchCubit>().saveBatch(batch);
           },
         ),
       ),

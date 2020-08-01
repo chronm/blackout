@@ -5,7 +5,7 @@ import '../../main.dart';
 import '../../routes.dart';
 import '../../widget/relative_height_container/relative_height_container.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
-import 'bloc/setup_bloc.dart';
+import 'cubit/setup_cubit.dart';
 import 'widgets/blackout_header.dart';
 import 'widgets/setup_steps.dart';
 
@@ -22,8 +22,8 @@ class _SetupScreenState extends State<SetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<SetupBloc, SetupState>(
-        bloc: sl<SetupBloc>(),
+      body: BlocListener<SetupCubit, SetupState>(
+        cubit: sl<SetupCubit>(),
         listener: (context, state) {
           if (state is GoToHome) {
             Navigator.pushReplacementNamed(context, Routes.home);

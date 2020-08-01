@@ -7,7 +7,7 @@ import '../../routes.dart';
 import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
 import '../blackout_drawer/blackout_drawer.dart';
-import 'bloc/product_bloc.dart';
+import 'cubit/product_cubit.dart';
 import 'widgets/batches_list.dart';
 import 'widgets/product_dial.dart';
 import 'widgets/product_title.dart';
@@ -24,12 +24,12 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ProductBloc, ProductState>(
-      bloc: sl<ProductBloc>(),
+    return BlocListener<ProductCubit, ProductState>(
+      cubit: sl<ProductCubit>(),
       listener: (context, state) async {
         if (state is GoToBatch) {
           await Navigator.pushNamed(context, Routes.batch);
-          sl<ProductBloc>().add(Redraw());
+          sl<ProductCubit>().redraw();
         }
         if (state is GoBack) {
           Navigator.pop(context);
@@ -40,8 +40,8 @@ class _ProductScreenState extends State<ProductScreen> {
         drawer: BlackoutDrawer(),
         body: ScrollableContainer(
           fullscreen: true,
-          child: BlocBuilder<ProductBloc, ProductState>(
-            bloc: sl<ProductBloc>(),
+          child: BlocBuilder<ProductCubit, ProductState>(
+            cubit: sl<ProductCubit>(),
             builder: (context, state) {
               if (state is ShowProduct) {
                 var product = state.product;

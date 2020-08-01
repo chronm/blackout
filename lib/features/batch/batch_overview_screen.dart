@@ -6,7 +6,7 @@ import '../../main.dart';
 import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
 import '../blackout_drawer/blackout_drawer.dart';
-import 'bloc/batch_bloc.dart';
+import 'cubit/batch_cubit.dart';
 import 'widgets/batch_dial.dart';
 import 'widgets/batch_title.dart';
 import 'widgets/changes_list.dart';
@@ -23,16 +23,16 @@ class _BatchScreenState extends State<BatchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BatchBloc, BatchState>(
-      bloc: sl<BatchBloc>(),
+    return BlocListener<BatchCubit, BatchState>(
+      cubit: sl<BatchCubit>(),
       listener: (context, state) {},
       child: Scaffold(
         key: _scaffold,
         drawer: BlackoutDrawer(),
         body: ScrollableContainer(
           fullscreen: true,
-          child: BlocBuilder<BatchBloc, BatchState>(
-            bloc: sl<BatchBloc>(),
+          child: BlocBuilder<BatchCubit, BatchState>(
+            cubit: sl<BatchCubit>(),
             builder: (context, state) {
               if (state is ShowBatch) {
                 var batch = state.batch;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
-import '../bloc/setup_bloc.dart';
+import '../cubit/setup_cubit.dart';
 import 'setup_database_password.dart';
 import 'setup_home.dart';
 import 'setup_user.dart';
@@ -56,7 +56,7 @@ class _SetupStepsState extends State<SetupSteps> {
     Function finishAction;
     if (_currentStep == 4) {
       if (_username != "" && _homeName != "") {
-        finishAction = () => sl<SetupBloc>().add(CreateHomeAndFinish(_username, _homeName, _password));
+        finishAction = () => sl<SetupCubit>().createHomeAndFinish(_homeName, _username, _password);
       } else {
         finishAction = null;
       }

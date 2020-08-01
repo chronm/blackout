@@ -7,24 +7,24 @@ import '../../../main.dart';
 import '../../../routes.dart';
 import '../../../util/batch_extension.dart';
 import '../../../widget/batch_dialog/batch_dialog.dart';
-import '../../speeddial/bloc/speed_dial_bloc.dart';
+import '../../speeddial/cubit/speed_dial_cubit.dart';
 import '../../speeddial/speeddial.dart';
-import '../bloc/batch_bloc.dart';
+import '../cubit/batch_cubit.dart';
 
 class BatchDial extends StatelessWidget {
   const BatchDial({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SpeedDialBloc, SpeedDialState>(
-      bloc: sl<SpeedDialBloc>(),
+    return BlocListener<SpeedDialCubit, SpeedDialState>(
+      cubit: sl<SpeedDialCubit>(),
       listener: (context, state) {
         if (state is GoToHome) {
           Navigator.pushNamed(context, Routes.home);
         }
       },
-      child: BlocBuilder<BatchBloc, BatchState>(
-        bloc: sl<BatchBloc>(),
+      child: BlocBuilder<BatchCubit, BatchState>(
+        cubit: sl<BatchCubit>(),
         builder: (context, state) {
           return BlackoutDial(
             builder: (context) {
@@ -37,7 +37,7 @@ class BatchDial extends StatelessWidget {
                     fontSize: 18.0,
                     color: Colors.black,
                   ),
-                  onTap: () => sl<SpeedDialBloc>().add(TapOnGotoHome()),
+                  onTap: () => sl<SpeedDialCubit>().tapOnGoToHome(),
                 ),
               ];
               if (state is ShowBatch) {
@@ -59,7 +59,7 @@ class BatchDial extends StatelessWidget {
                           unit: batch.unit,
                           mode: BatchMode.add,
                           callback: (value) async {
-                            sl<SpeedDialBloc>().add(AddToBatch(batch, value));
+                            sl<SpeedDialCubit>().addToBatch(batch, value);
                             Navigator.pop(context);
                           },
                         ),
@@ -83,7 +83,7 @@ class BatchDial extends StatelessWidget {
                           unit: batch.unit,
                           mode: BatchMode.take,
                           callback: (value) async {
-                            sl<SpeedDialBloc>().add(TakeFromBatch(batch, value.startsWith("-") ? value : "-$value"));
+                            sl<SpeedDialCubit>().takeFromBatch(batch, value.startsWith("-") ? value : "-$value");
                             Navigator.pop(context);
                           },
                         ),

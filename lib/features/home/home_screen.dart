@@ -7,7 +7,7 @@ import '../../routes.dart';
 import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
 import '../blackout_drawer/blackout_drawer.dart';
-import 'bloc/home_bloc.dart';
+import 'cubit/home_cubit.dart';
 import 'widgets/ask_for_update.dart';
 import 'widgets/home_dial.dart';
 import 'widgets/home_list.dart';
@@ -26,26 +26,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeBloc, HomeState>(
-      bloc: sl<HomeBloc>(),
+    return BlocListener<HomeCubit, HomeState>(
+      cubit: sl<HomeCubit>(),
       listener: (context, state) async {
         if (state is AskForUpdate) {
           var doUpdate = await showDialog<bool>(
             context: context,
             builder: (_) => const AskForUpdateDialog(),
           );
-          if (doUpdate) sl<HomeBloc>().add(DoUpdate());
+          if (doUpdate) sl<HomeCubit>().doUpdate();
         }
         if (state is ShowChangelog) {
           Navigator.pushNamed(context, Routes.changelog);
         }
         if (state is GoToProduct) {
           await Navigator.pushNamed(context, Routes.product);
-          sl<HomeBloc>().add(Redraw());
+          sl<HomeCubit>().redraw();
         }
         if (state is GoToGroup) {
           await Navigator.pushNamed(context, Routes.group);
-          sl<HomeBloc>().add(Redraw());
+          sl<HomeCubit>().redraw();
         }
       },
       child: Scaffold(
@@ -67,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
               HorizontalTextDivider(
                 text: S.of(context).HOME_PRODUCTS_AND_GROUPS,
               ),
-              BlocBuilder<HomeBloc, HomeState>(
-                bloc: sl<HomeBloc>(),
+              BlocBuilder<HomeCubit, HomeState>(
+                cubit: sl<HomeCubit>(),
                 builder: (context, state) {
                   if (state is LoadedAll) {
                     return HomeList(

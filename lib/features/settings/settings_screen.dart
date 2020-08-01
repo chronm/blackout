@@ -5,7 +5,7 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../models/user.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
-import 'bloc/settings_bloc.dart';
+import 'cubit/settings_cubit.dart';
 import 'widgets/username_field.dart';
 
 @immutable
@@ -42,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    sl<SettingsBloc>().first.then((state) {
+    sl<SettingsCubit>().first.then((state) {
       if (state is LoadedSettings) {
         setState(() {
           _settings = Settings(state.user.clone());
@@ -54,8 +54,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SettingsBloc, SettingsState>(
-      bloc: sl<SettingsBloc>(),
+    return BlocListener<SettingsCubit, SettingsState>(
+      cubit: sl<SettingsCubit>(),
       listener: (context, state) {
         if (state is GoBack) {
           Navigator.pop(context);
@@ -68,13 +68,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: [
             IconButton(
               icon: const Icon(Icons.save),
-              onPressed: _settings != _oldSettings && !_errorInUsername ? () => sl<SettingsBloc>().add(SaveSettings(_settings)) : null,
+              onPressed: _settings != _oldSettings && !_errorInUsername ? () => sl<SettingsCubit>().saveSettings(_settings) : null,
             )
           ],
         ),
         body: ScrollableContainer(
-          child: BlocBuilder<SettingsBloc, SettingsState>(
-            bloc: sl<SettingsBloc>(),
+          child: BlocBuilder<SettingsCubit, SettingsState>(
+            cubit: sl<SettingsCubit>(),
             builder: (context, state) {
               if (state is LoadedSettings) {
                 return Column(

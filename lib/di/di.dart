@@ -11,15 +11,15 @@ import '../data/repository/home_repository.dart';
 import '../data/repository/product_repository.dart';
 import '../data/repository/user_repository.dart';
 import '../data/secure/secure_storage.dart';
-import '../features/batch/bloc/batch_bloc.dart';
-import '../features/blackout/bloc/blackout_bloc.dart';
-import '../features/blackout_drawer/bloc/drawer_bloc.dart';
-import '../features/group/bloc/group_bloc.dart';
-import '../features/home/bloc/home_bloc.dart';
-import '../features/product/bloc/product_bloc.dart';
-import '../features/settings/bloc/settings_bloc.dart';
-import '../features/setup/bloc/setup_bloc.dart';
-import '../features/speeddial/bloc/speed_dial_bloc.dart';
+import '../features/batch/cubit/batch_cubit.dart';
+import '../features/blackout/cubit/blackout_cubit.dart';
+import '../features/blackout_drawer/cubit/drawer_cubit.dart';
+import '../features/group/cubit/group_cubit.dart';
+import '../features/home/cubit/home_cubit.dart';
+import '../features/product/cubit/product_cubit.dart';
+import '../features/settings/cubit/settings_cubit.dart';
+import '../features/setup/cubit/setup_cubit.dart';
+import '../features/speeddial/cubit/speed_dial_cubit.dart';
 import '../main.dart';
 
 Database database;
@@ -30,7 +30,7 @@ bool application = true;
 void prepareMain() async {
   if (main) {
     sl.registerSingleton<BlackoutPreferences>(BlackoutPreferences(await SharedPreferences.getInstance()));
-    sl.registerLazySingleton<BlackoutBloc>(() => BlackoutBloc(sl<BlackoutPreferences>(), sl<SecureStorage>()));
+    sl.registerLazySingleton<BlackoutCubit>(() => BlackoutCubit(sl<BlackoutPreferences>(), sl<SecureStorage>()));
     sl.registerSingleton<SecureStorage>(SecureStorage());
     await registerDio();
     main = false;
@@ -51,7 +51,7 @@ void prepareApplication(String databasePassword) async {
     await prepareMain();
     await prepareImport(databasePassword);
     await registerDatabase();
-    await registerBloc();
+    await registerCubit();
     application = true;
   }
 }
@@ -62,7 +62,7 @@ void registerDio() async {
 }
 
 void prepareSetup() async {
-  sl.registerLazySingleton<SetupBloc>(() => SetupBloc(sl<BlackoutPreferences>(), sl<SecureStorage>()));
+  sl.registerLazySingleton<SetupCubit>(() => SetupCubit(sl<BlackoutPreferences>(), sl<SecureStorage>()));
 }
 
 void registerDatabase() async {
@@ -72,14 +72,14 @@ void registerDatabase() async {
   sl.registerLazySingleton<ProductRepository>(() => database.productRepository);
 }
 
-void registerBloc() async {
-  sl.registerLazySingleton<SettingsBloc>(() => SettingsBloc(sl<BlackoutPreferences>(), sl<UserRepository>()));
+void registerCubit() async {
+  sl.registerLazySingleton<SettingsCubit>(() => SettingsCubit(sl<BlackoutPreferences>(), sl<UserRepository>()));
 
-  sl.registerLazySingleton<DrawerBloc>(() => DrawerBloc(sl<BlackoutPreferences>(), sl<HomeRepository>()));
+  sl.registerLazySingleton<DrawerCubit>(() => DrawerCubit(sl<BlackoutPreferences>(), sl<HomeRepository>()));
 
-  sl.registerLazySingleton<BatchBloc>(() => BatchBloc(sl<ChangeRepository>(), sl<BatchRepository>(), sl<BlackoutPreferences>()));
-  sl.registerLazySingleton<ProductBloc>(() => ProductBloc(sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
-  sl.registerLazySingleton<GroupBloc>(() => GroupBloc(sl<GroupRepository>(), sl<BlackoutPreferences>()));
-  sl.registerLazySingleton<HomeBloc>(() => HomeBloc(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>()));
-  sl.registerLazySingleton<SpeedDialBloc>(() => SpeedDialBloc(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ChangeRepository>(), sl<GroupRepository>()));
+  sl.registerLazySingleton<BatchCubit>(() => BatchCubit(sl<ChangeRepository>(), sl<BatchRepository>(), sl<BlackoutPreferences>()));
+  sl.registerLazySingleton<ProductCubit>(() => ProductCubit(sl<GroupRepository>(), sl<BlackoutPreferences>(), sl<ProductRepository>()));
+  sl.registerLazySingleton<GroupCubit>(() => GroupCubit(sl<GroupRepository>(), sl<BlackoutPreferences>()));
+  sl.registerLazySingleton<HomeCubit>(() => HomeCubit(sl<BlackoutPreferences>(), sl<GroupRepository>(), sl<ProductRepository>()));
+  sl.registerLazySingleton<SpeedDialCubit>(() => SpeedDialCubit(sl<ProductRepository>(), sl<BlackoutPreferences>(), sl<ChangeRepository>(), sl<GroupRepository>()));
 }

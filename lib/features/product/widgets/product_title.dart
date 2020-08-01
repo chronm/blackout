@@ -6,7 +6,7 @@ import '../../../models/group.dart';
 import '../../../models/product.dart';
 import '../../../widget/model_changes_widget/model_changes_widget.dart';
 import '../../../widget/title_card/title_card.dart';
-import '../bloc/product_bloc.dart';
+import '../cubit/product_cubit.dart';
 import 'product_configuration.dart';
 
 class ProductTitle extends StatelessWidget {
@@ -38,7 +38,7 @@ class ProductTitle extends StatelessWidget {
           groups: groups,
           action: (product) {
             Navigator.pop(context);
-            sl<ProductBloc>().add(SaveProduct(product));
+            sl<ProductCubit>().saveProduct(product);
           },
         ),
       ),

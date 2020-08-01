@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../routes.dart';
-import 'bloc/drawer_bloc.dart';
+import 'cubit/drawer_cubit.dart';
 import 'widgets/header.dart';
 
 class BlackoutDrawer extends StatelessWidget {
@@ -12,17 +12,17 @@ class BlackoutDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DrawerBloc, DrawerState>(
-      bloc: sl<DrawerBloc>(),
+    return BlocListener<DrawerCubit, DrawerState>(
+      cubit: sl<DrawerCubit>(),
       listener: (context, state) async {
         if (state is GoToSettings) {
           await Navigator.pushNamed(context, Routes.settings);
-          sl<DrawerBloc>().add(InitializeDrawer());
+          sl<DrawerCubit>().initializeDrawer();
         }
       },
       child: Drawer(
-        child: BlocBuilder<DrawerBloc, DrawerState>(
-          bloc: sl<DrawerBloc>(),
+        child: BlocBuilder<DrawerCubit, DrawerState>(
+          cubit: sl<DrawerCubit>(),
           builder: (context, state) {
             if (state is LoadedDrawer) {
               return Column(
@@ -53,7 +53,7 @@ class BlackoutDrawer extends StatelessWidget {
                     child: ListTile(
                       title: Text(S.of(context).SETTINGS_TITLE),
                       leading: Icon(Icons.settings),
-                      onTap: () => sl<DrawerBloc>().add(TapOnSettings()),
+                      onTap: () => sl<DrawerCubit>().tapOnSettings(),
                     ),
                   )
                 ],

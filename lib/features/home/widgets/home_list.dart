@@ -6,7 +6,7 @@ import '../../../models/group.dart';
 import '../../../models/home_card.dart';
 import '../../../models/product.dart';
 import '../../../util/batch_extension.dart';
-import '../bloc/home_bloc.dart';
+import '../cubit/home_cubit.dart';
 
 class HomeList extends StatelessWidget {
   final List<HomeCard> cards;
@@ -24,20 +24,20 @@ class HomeList extends StatelessWidget {
           : ListView.builder(
               itemCount: cards.length,
               itemBuilder: (context, index) {
-                var listable = cards[index];
+                var card = cards[index];
 
                 var trailing = <Widget>[];
-                if (listable.tooFewAvailable) {
+                if (card.tooFewAvailable) {
                   trailing.add(const Icon(Icons.trending_down));
                 }
-                if (listable.expired || listable.warn) {
-                  trailing.add(Icon(Icons.event, color: listable.status == BatchStatus.expired ? Theme.of(context).accentColor : null));
+                if (card.expired || card.warn) {
+                  trailing.add(Icon(Icons.event, color: card.status == BatchStatus.expired ? Theme.of(context).accentColor : null));
                 }
 
-                var status = listable.buildStatus(context);
+                var status = card.buildStatus(context);
 
                 return Hero(
-                  tag: listable.id,
+                  tag: card.id,
                   flightShuttleBuilder: (context, animation, flightDirection, fromHeroContext, toHeroContext) => Material(
                     child: SingleChildScrollView(
                       child: toHeroContext.widget,
@@ -46,20 +46,20 @@ class HomeList extends StatelessWidget {
                   child: Card(
                     child: ListTile(
                       isThreeLine: status != null,
-                      title: Text(listable.title),
+                      title: Text(card.title),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(listable.scientificAmount)), status != null ? Text(status) : null].where((element) => element != null).toList(),
+                        children: [Text(S.of(context).GENERAL_AMOUNT_AVAILABLE(card.scientificAmount)), status != null ? Text(status) : null].where((element) => element != null).toList(),
                       ),
                       trailing: Row(
                         children: trailing,
                         mainAxisSize: MainAxisSize.min,
                       ),
                       onTap: () async {
-                        if (listable is Group) {
-                          sl<HomeBloc>().add(TapOnGroup(listable));
-                        } else if (listable is Product) {
-                          sl<HomeBloc>().add(TapOnProduct(listable));
+                        if (card is Group) {
+                          sl<HomeCubit>().tapOnGroup(card);
+                        } else if (card is Product) {
+                          sl<HomeCubit>().tapOnProduct(card);
                         }
                       },
                     ),

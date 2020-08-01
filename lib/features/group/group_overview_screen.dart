@@ -7,7 +7,7 @@ import '../../routes.dart';
 import '../../widget/horizontal_text_divider/horizontal_text_divider.dart';
 import '../../widget/scrollable_container/scrollable_container.dart';
 import '../blackout_drawer/blackout_drawer.dart';
-import 'bloc/group_bloc.dart';
+import 'cubit/group_cubit.dart';
 import 'widgets/group_dial.dart';
 import 'widgets/group_title.dart';
 import 'widgets/products_list.dart';
@@ -25,12 +25,12 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GroupBloc, GroupState>(
-      bloc: sl<GroupBloc>(),
+    return BlocListener<GroupCubit, GroupState>(
+      cubit: sl<GroupCubit>(),
       listener: (context, state) async {
         if (state is GoToProduct) {
           await Navigator.pushNamed(context, Routes.product);
-          sl<GroupBloc>().add(Redraw());
+          sl<GroupCubit>().redraw();
         }
         if (state is GoBack) {
           Navigator.pop(context);
@@ -41,8 +41,8 @@ class _GroupScreenState extends State<GroupScreen> {
         drawer: BlackoutDrawer(),
         body: ScrollableContainer(
           fullscreen: true,
-          child: BlocBuilder<GroupBloc, GroupState>(
-            bloc: sl<GroupBloc>(),
+          child: BlocBuilder<GroupCubit, GroupState>(
+            cubit: sl<GroupCubit>(),
             builder: (context, state) {
               if (state is ShowGroup) {
                 var group = state.group;

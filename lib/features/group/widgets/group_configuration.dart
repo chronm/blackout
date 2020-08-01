@@ -7,7 +7,7 @@ import '../../../widget/period_widget/period_widget.dart';
 import '../../../widget/refill_limit_widget/refill_limit_widget.dart';
 import '../../../widget/scrollable_container/scrollable_container.dart';
 import '../../../widget/unit_widget/unit_widget.dart';
-import '../bloc/group_bloc.dart';
+import '../cubit/group_cubit.dart';
 import 'name_text_field.dart';
 import 'plural_name_widget.dart';
 
@@ -132,7 +132,7 @@ class _GroupConfigurationState extends State<GroupConfiguration> {
                                       FlatButton(
                                         child: Text(S.of(context).GENERAL_DELETE_CONFIRMATION_YES),
                                         onPressed: () {
-                                          sl<GroupBloc>().add(TapOnDeleteGroup(widget.group));
+                                          sl<GroupCubit>().tapOnDeleteGroup(widget.group);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
                                         },
