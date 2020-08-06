@@ -72,6 +72,7 @@ flutter:
   assets:
     - packages/time_machine/data/cultures/cultures.bin
     - packages/time_machine/data/tzdb/tzdb.bin
+    - assets/distribution_store
 #    - documentation/changelog_en.md
 #    - documentation/changelog_de.md
 

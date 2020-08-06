@@ -1,3 +1,4 @@
+import 'package:Blackout/features/home/widgets/update_available.dart';
 import 'package:flutter/material.dart' show BuildContext, Column, Container, GlobalKey, Key, MainAxisSize, Navigator, Scaffold, ScaffoldState, State, StatefulWidget, Widget, showDialog;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,6 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (_) => const AskForUpdateDialog(),
           );
           if (doUpdate) sl<HomeCubit>().doUpdate();
+        }
+        if (state is UpdateAvailable) {
+          var goToStore = await showDialog<bool>(
+            context: context,
+            builder: (_) => const UpdateAvailableDialog(),
+          );
+          if (goToStore) sl<HomeCubit>().goToStore();
         }
         if (state is ShowChangelog) {
           Navigator.pushNamed(context, Routes.changelog);

@@ -590,6 +590,46 @@ class S {
     );
   }
 
+  /// `Update available`
+  String get HOME_UPDATE_AVAILABLE_TITLE {
+    return Intl.message(
+      'Update available',
+      name: 'HOME_UPDATE_AVAILABLE_TITLE',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can download a new version from the store.`
+  String get HOME_UPDATE_AVAILABLE_BODY {
+    return Intl.message(
+      'You can download a new version from the store.',
+      name: 'HOME_UPDATE_AVAILABLE_BODY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get HOME_UPDATE_AVAILABLE_OKAY {
+    return Intl.message(
+      'Yes',
+      name: 'HOME_UPDATE_AVAILABLE_OKAY',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get HOME_UPDATE_AVAILABLE_DENY {
+    return Intl.message(
+      'No',
+      name: 'HOME_UPDATE_AVAILABLE_DENY',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `I found a backup. Should I import it or do you want to ignore it? If you ignore it, it will be deleted.`
   String get MAIN_IMPORT_DATABASE {
     return Intl.message(

@@ -19,3 +19,9 @@ class GoToGroup extends HomeState {}
 class ShowChangelog extends HomeState {}
 
 class AskForUpdate extends HomeState {}
+
+class UpdateAvailable extends HomeState {
+  final DistributionStore store;
+
+  UpdateAvailable(this.store);
+}

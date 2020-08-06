@@ -30,7 +30,11 @@ class HomeCubit extends Cubit<HomeState> {
     var remoteVersion = await sl<GithubClient>().getVersion();
     var currentVersion = Version.parse((await PackageInfo.fromPlatform()).version);
     if (currentVersion < remoteVersion) {
-      emit(AskForUpdate());
+      if (store == DistributionStore.none) {
+        emit(AskForUpdate());
+      } else if (store == DistributionStore.amazon || store == DistributionStore.fdroid) {
+        emit(UpdateAvailable(store));
+      }
     }
   }
 
@@ -88,5 +92,9 @@ class HomeCubit extends Cubit<HomeState> {
 
   void redraw() {
     emit(LoadedAll(_cards));
+  }
+
+  void goToStore() {
+
   }
 }
